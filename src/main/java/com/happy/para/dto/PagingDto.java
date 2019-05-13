@@ -108,7 +108,4 @@ public class PagingDto implements Serializable{
 				+ ", total=" + total + "]";
 	}
 	
-	
-	
-	
 }
