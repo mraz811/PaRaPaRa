@@ -8,6 +8,6 @@
 </head>
 <body>
 parapara메인
-<jsp:forward page="./test.do"/>
+<%-- <jsp:forward page="./test.do"/> --%>
 </body>
 </html>

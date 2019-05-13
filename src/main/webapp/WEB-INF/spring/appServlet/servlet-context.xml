@@ -12,6 +12,8 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 <context:component-scan base-package="com.happy.para"/>
 <mvc:annotation-driven/>
+	<!-- 추가 기능 : Resolver 설정-->
+	<!-- DispatcherServlet에 의해 반환된 값을 화면 이동처리를 해줌 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/view/"/>
 		<property name="suffix" value=".jsp"/>
@@ -23,9 +25,35 @@
 	<websocket:handlers>
 		<websocket:mapping handler="wsChat.do" path="/wsChat.do"/>
 	</websocket:handlers>
+
+	<!-- 추가 기능: Interceptor 인터셉터 설정 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/test.do"/>
+			<bean class="com.happy.para.interceptor.Interceptor"/>
+		</mvc:interceptor>
+	
+		<!-- 브라우저의 back 이동 페이지의 작동을 하지 못하도록 브라우저 캐쉬를 삭제 (뒤로가기 막기) -->
+		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+		<!-- 실수로 뒤로 눌렀다가 다시 돌아가고 싶을 때를 위해 5초 정도 캐시 유지 후 삭제. -->
+			<property name="cacheSeconds" value="5"></property>
+			<property name="useExpiresHeader" value="true"></property>
+			<property name="useCacheControlHeader" value="true"></property>
+			<property name="useCacheControlNoStore" value="true"></property>
+			
+			<!-- 캐시 삭제와 별개로  캐시를 삭제하지 않고 유지시킴 ex) 이미지, 동영상 -->
+			<property name="cacheMappings">
+				<props>
+					<!-- 캐시를 제어할 webapp의 위치 , 시간 60초, 60분 24시 = 86400 하루동안 유지 -->
+					<prop key="/image/**">86400</prop>
+				</props>
+			</property>
+		</bean>
+	</mvc:interceptors>
+
+
+
 </beans>
-
-
 
 
 

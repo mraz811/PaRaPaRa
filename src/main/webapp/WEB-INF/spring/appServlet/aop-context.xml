@@ -7,10 +7,8 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-<!-- 19^^번 -->
 	<bean name="logAop" class="com.happy.para.aop.LogExute"/>
 	
-	<!-- 20^^번 -->
 	<!-- 로그 정보 전, 반환후, 예외 -->
 	<aop:config>
 		<aop:pointcut  id="servicelogPoint" 
@@ -22,7 +20,6 @@
 		</aop:aspect>
 	</aop:config>
 	
-	<!-- 22^^번 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>
