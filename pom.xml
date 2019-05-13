@@ -182,7 +182,7 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>4.0.1.RELEASE</version>
 		</dependency>
-		
+
 		<!-- 메일을 전송하기 위한 라이브러리. javax.mail -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -190,16 +190,16 @@
 			<version>1.5.6</version>
 		</dependency>
 		<dependency>
-         	<groupId>com.sun.mail</groupId>
-         	<artifactId>javax.mail</artifactId>
-         	<version>1.6.0</version>
-      	</dependency>
-		<dependency>
-    		<groupId>org.springframework</groupId>
-    		<artifactId>spring-context-support</artifactId>
-		    <version>${org.springframework-version}</version>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.0</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
 		<!-- Spring Quartz -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -211,7 +211,7 @@
 			<artifactId>quartz</artifactId>
 			<version>2.3.0</version>
 		</dependency>
-		
+
 		<!-- Spring batch -->
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
@@ -223,7 +223,7 @@
 			<artifactId>spring-batch-infrastructure</artifactId>
 			<version>3.0.0.RELEASE</version>
 		</dependency>
-		
+
 		<!-- Spring Core -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -249,6 +249,11 @@
 			<classifier>jdk15</classifier>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 		<!-- Web Socket -->
 		<dependency>
 			<groupId>javax.websocket</groupId>
