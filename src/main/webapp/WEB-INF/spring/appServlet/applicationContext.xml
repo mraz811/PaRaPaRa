@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="locations">
+		<list>
+			<value>classpath:properties/db.properties</value>
+		</list>
+	</property>
+</bean>
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driver}"/>
+		<property name="url" value="${url}"/>
+		<property name="username" value="${user}"/>
+		<property name="password" value="${pw}"/>
+		<property name="defaultAutoCommit" value="true"/>
+		<property name="maxWait" value="20000"/>
+		<property name="maxIdle" value="5"/>
+	</bean>
+
+<!-- 12^^번 -->
+	<!-- MyBatis 객체를 연결 정보를 spring 등록 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="/WEB-INF/spring/sqls/mybatis-configuration.xml"/>
+	</bean>
+	
+	<!-- 14^^번 -->
+	<!-- mybatis-spring 사용해서 DI로 사용함 -->
+	<!-- 생성된 Mybatis객체를 Spring 사용할 수 있는 Bean(Template) 등록 -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSession"/>
+	</bean>
+	
+	<!-- 15^^번 -->
+	<!-- Transaction 처리 spring에 등록 -->
+	<!-- @Service에 설정 메소드 @Transactional 선언해주면 자동으로 예외 발생시 Rollback -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 16번 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 17번  -->
+	<aop:config>
+		<aop:advisor advice-ref="txAdvice" 
+			pointcut="execution(public * com.happy.para.model.*Service*.*(..))"/>
+	</aop:config>
+
+</beans>
