@@ -35,7 +35,7 @@
 </update>
 
 <!-- 업주 비밀번호 찾기: 아이디와 이메일을 입력받아 존재하는 경우, 임시 비밀번호를 생성해서 이메일로 보냄 -->
-<update id="findOwnerPw" parameterType="">
+<update id="findOwnerPw" parameterType="java.util.Map">
 	UPDATE OWNER 
 	SET OWNER_PW = #{temp_pw} 
 	WHERE OWNER_EMAIL = #{owner_email} AND OWNER_ID = #{owner_id}
