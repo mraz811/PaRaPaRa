@@ -104,8 +104,9 @@ public class PagingDto implements Serializable{
 
 	@Override
 	public String toString() {
-		return "RowNum_DTO [pageList=" + pageList + ", index=" + index + ", pageNum=" + pageNum + ", listNum=" + listNum
+		return "PagingDto [pageList=" + pageList + ", index=" + index + ", pageNum=" + pageNum + ", listNum=" + listNum
 				+ ", total=" + total + "]";
 	}
+
 	
 }
