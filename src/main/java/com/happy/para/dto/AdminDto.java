@@ -21,6 +21,12 @@ public class AdminDto implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
+	public AdminDto(int admin_id, String admin_pw) {
+		super();
+		this.admin_id = admin_id;
+		this.admin_pw = admin_pw;
+	}
+
 	@Override
 	public String toString() {
 		return "AdminDto [admin_id=" + admin_id + ", admin_pw=" + admin_pw + ", admin_name=" + admin_name
