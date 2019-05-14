@@ -12,7 +12,6 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/spring/appServlet/applicationContext.xml
-			/WEB-INF/spring/appServlet/spring-quartz.xml
 		</param-value>
 	</context-param>
 
