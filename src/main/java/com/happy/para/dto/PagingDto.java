@@ -40,7 +40,7 @@ public class PagingDto implements Serializable{
 		return index*listNum +1;
 	}
 	
-	public int getLast() {
+	public int getEnd() {
 		return (index*listNum)+listNum;
 	}
 	
