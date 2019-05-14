@@ -23,6 +23,11 @@ public class OwnerDto implements Serializable {
 	public OwnerDto() {
 	}
 
+	public OwnerDto(String owner_id, String owner_pw) {
+		super();
+		this.owner_id = owner_id;
+		this.owner_pw = owner_pw;
+	}
 
 	@Override
 	public String toString() {
