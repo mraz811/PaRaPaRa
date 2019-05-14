@@ -52,22 +52,7 @@
 	</mvc:interceptors>
 	
 	
-	 <!-- 파일 업로드 : MultipartResolver 설정 -->
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- 최대 업로드 가능한 바이트 크기, -1은 제한이 없음을 의미 , Defalut : -1 -->
-		<property name="maxUploadSize" value="100000000"/>
-		<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할 수 있는 최대 바이트 크기, Defalut : 10240바이트 -->
-		<property name="maxInMemorySize" value="100000000"/>
-	</bean>
-	
-	<bean id="uploadPath" class="java.lang.String">
-		<!-- 생성자를 통해 빈을 주입받음, uploadPath를 부르면 value를 반환 -->
-		<constructor-arg value="C:\\Users\\PC\\Desktop\\upload"/>
-	</bean>
-	
-	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
-		<property name="order" value="0"/>
-	</bean>
+
 </beans>
 
 
