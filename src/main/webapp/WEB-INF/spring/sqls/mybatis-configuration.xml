@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
-	
+
+<!-- 사용할 typeAlias 설정 가능 -->
+	<typeAliases>
+		<typeAlias type="com.happy.para.dto.AdminDto" alias="AdminDto" />
+		<typeAlias type="com.happy.para.dto.OwnerDto" alias="OwnerDto" />
+		
+	</typeAliases>
+
+<!-- Mapper 연결 -->
+	<mappers>
+		<mapper resource="/sqls/Member.xml" />
+		
+	</mappers>
 </configuration>

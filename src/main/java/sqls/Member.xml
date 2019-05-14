@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="para.member">
+
+
+<!-- 담당자(관리자) 로그인 -->
+<select id="adminLogin" parameterType="AdminDto" resultType="AdminDto">
+	SELECT ADMIN_ID, ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG
+	FROM ADMIN
+	WHERE ADMIN_ID = #{admin_id} AND ADMIN_PW = #{admin_pw} AND ADMIN_DELFLAG='N'
+</select>
+
+<!-- 업주 로그인 -->
+<select id="ownerLogin" parameterType="OwnerDto" resultType="OwnerDto">
+	SELECT OWNER_SEQ, OWNER_ID, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, OWNER_START 
+	FROM OWNER
+	WHERE OWNER_ID= #{owner_id} AND OWNER_PW= #{owner_pw}
+</select>
+
+<!-- 로그인 시 Spring security의 match 사용을 위한 담당자 비밀번호 가져오기  -->
+<select id="selAdminPw" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT ADMIN_PW FROM ADMIN WHERE ADMIN_ID = #{admin_id}
+</select>
+
+<!-- 로그인 시 Spring security의 match 사용을 위한 업주 비밀번호 가져오기  -->
+<select id="selOwnerPw" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT OWNER_PW FROM OWNER WHERE OWNER_ID = #{owner_id}
+</select>
+
+<!-- 담당자 비밀번호 찾기: 아이디와 이메일을 입력받아 존재하는 경우, 임시 비밀번호를 생성해서 이메일로 보냄 -->
+<update id="findAdminPw" parameterType="java.util.Map">
+	UPDATE ADMIN 
+	SET ADMIN_PW = #{temp_pw} 
+	WHERE ADMIN_EMAIL = #{admin_email} AND ADMIN_ID = #{admin_id}
+</update>
+
+<!-- 업주 비밀번호 찾기: 아이디와 이메일을 입력받아 존재하는 경우, 임시 비밀번호를 생성해서 이메일로 보냄 -->
+<update id="findOwnerPw" parameterType="">
+	UPDATE OWNER 
+	SET OWNER_PW = #{temp_pw} 
+	WHERE OWNER_EMAIL = #{owner_email} AND OWNER_ID = #{owner_id}
+</update>
+
+<!-- 담당자 회원등록 -->
+<insert id="adminRegister" parameterType="AdminDto">
+	INSERT INTO ADMIN
+	(ADMIN_ID, ADMIN_PW, ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG)
+	VALUES(#{admin_id}, #{admin_pw}, #{admin_name}, #{admin_phone}, #{admin_email}, #{loc_code}, 'A', 'N')
+</insert>
+
+<!-- 업주 회원등록 -->
+<insert id="ownerRegister" parameterType="OwnerDto">
+	INSERT INTO OWNER
+	(OWNER_SEQ, OWNER_ID, OWNER_PW, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, OWNER_START)
+	VALUES(OWNER_SEQ.NEXTVAL, #{owner_id}, #{owner_pw}, #{owner_name}, #{owner_phone}, #{owner_email}, 'U', #{store_code}, #{owner_start})
+</insert>
+
+<!-- 담당자 정보 수정: 새비밀번호, 이름, 전화번호, 이메일 수정 가능 (구분:admin_id) -->
+<update id="adminModify" parameterType="AdminDto">
+	UPDATE ADMIN 
+	<trim prefix="SET" suffixOverrides=",">
+		<if test="admin_pw != null">ADMIN_PW = #{admin_pw},</if>
+		<if test="admin_name != null">ADMIN_NAME = #{admin_name},</if>
+		<if test="admin_phone != null">ADMIN_PHONE = #{admin_phone},</if>
+		<if test="admin_email != null">ADMIN_EMAIL = #{admin_email},</if>
+	</trim>
+	WHERE ADMIN_ID = #{admin_id}
+</update>
+
+<!-- 업주 정보 수정: 새비밀번호, 이름, 전화번호, 이메일 수정 가능 (구분:owner_seq) -->
+<update id="ownerModify" parameterType="OwnerDto">
+	UPDATE OWNER
+	<trim prefix="SET" suffixOverrides=",">
+		<if test="owner_pw != null">OWNER_PW = #{owner_pw},</if>
+		<if test="owner_name != null">OWNER_NAME = #{owner_name},</if>
+		<if test="owner_phone != null">OWNER_PHONE = #{owner_phone},</if>
+		<if test="owner_email != null">OWNER_EMAIL = #{owner_email},</if>
+	</trim>
+	WHERE OWNER_SEQ = #{owner_seq}
+</update>
+
+<!-- 담당자 전체 조회 - 페이징 -->
+<select id="adminList" parameterType="java.util.Map" resultType="AdminDto">
+	SELECT ADMIN_ID, ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG
+	FROM (SELECT ROW_NUMBER() OVER(ORDER BY ADMIN_DELFLAG, ADMIN_ID) RNUM, ADMIN_ID, ADMIN_PW, 
+			ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG
+		  FROM ADMIN 
+		  WHERE AUTH='A')
+	WHERE RNUM BETWEEN #{start} AND #{end} 
+</select>
+
+<!-- 페이징 처리를 위한 전체 담당자 수 -->
+<select id="adminListRow" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM ADMIN WHERE AUTH='A'
+</select>
+
+<!-- 담당자 지역별 조회 - 페이징 -->
+<select id="adminLocList" parameterType="java.util.Map" resultType="AdminDto">
+	SELECT ADMIN_ID, ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG
+	FROM (SELECT ROW_NUMBER() OVER(ORDER BY ADMIN_DELFLAG, ADMIN_ID) RNUM, ADMIN_ID, ADMIN_PW, 
+			ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG
+  	  	  FROM ADMIN 
+  	      WHERE AUTH='A' AND LOC_CODE LIKE #{loc_code}||'%')
+	WHERE RNUM BETWEEN #{start} AND #{end}
+</select>
+
+<!-- 페이징 처리를 위한 지역별 담당자 수 -->
+<select id="adminLocListRow" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM ADMIN WHERE AUTH='A' AND LOC_CODE LIKE #{loc_code}||'%'
+</select>
+
+<!-- 업주 전체 조회 - 페이징 -->
+<select id="ownerList" parameterType="java.util.Map" resultType="OwnerDto">
+	SELECT OWNER_SEQ, OWNER_ID, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, STORE_CODE, OWNER_START, OWNER_END
+	FROM (SELECT ROW_NUMBER() OVER(ORDER BY OWNER_SEQ) RNUM, OWNER_SEQ, OWNER_ID, OWNER_PW, 
+			OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, OWNER_START, OWNER_END
+	 	  FROM OWNER 
+	 	  WHERE STORE_CODE IN (SELECT STORE_CODE FROM STORE WHERE LOC_CODE = #{loc_code}))
+	WHERE RNUM BETWEEN #{start} AND #{end}
+</select>
+
+<!-- 페이징 처리를 위한 전체 업주 수 -->
+<select id="ownerListRow" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM OWNER 
+	WHERE STORE_CODE IN (SELECT STORE_CODE FROM STORE WHERE LOC_CODE = #{loc_code})
+</select>
+
+<!-- 담당자 삭제 (진짜 삭제 아닌 DELFLAG Y로 업데이트) -->
+<update id="adminDelete" parameterType="java.lang.String">
+	UPDATE ADMIN SET ADMIN_DELFLAG='Y' WHERE ADMIN_ID = #{admin_id}
+</update>
+
+<!-- 업주 삭제 (진짜 삭제 아닌, 계약 종료일 업데이트) -->
+<update id="ownerDelete" parameterType="java.util.Map">
+	UPDATE OWNER SET OWNER_END= #{owner_end} WHERE OWNER_SEQ = #{owner_seq}
+</update>
+
+
+</mapper>
