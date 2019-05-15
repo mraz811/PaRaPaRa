@@ -35,6 +35,7 @@ public class Member_DaoImpl implements Member_IDao {
 			System.out.println("담당자 로그인 시도: 비밀번호 일치");
 			return sqlSession.selectOne(MNS+"adminLogin", aDto);
 		}
+		// 로그인 실패 시 
 		return null;
 	}
 
