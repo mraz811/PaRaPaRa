@@ -8,6 +8,7 @@
 		<typeAlias type="com.happy.para.dto.OwnerDto" alias="OwnerDto" />
 		<typeAlias type="com.happy.para.dto.MenuDto" alias="MenuDto" />
 		<typeAlias type="com.happy.para.dto.RequestDto" alias="RequestDto" />
+		<typeAlias type="com.happy.para.dto.FileDto" alias="FileDto"/>
 	</typeAliases>
 
 <!-- Mapper 연결 -->
