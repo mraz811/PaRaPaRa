@@ -87,17 +87,26 @@ public class MemberCtrl {
 			return "/member/adminRegiForm";
 		}
 		
-		// 담당자 회원 등록 테스트 중  
+		// **********수정 중 ********* 담당자 회원 등록 테스트 중  
 		@RequestMapping(value="/adminRegi.do", method=RequestMethod.GET)
 		public String adminRegi(AdminDto aDto) {
-			int n = memService.adminRegister(aDto);
-			// 담당자 회원 등록에 성공한 경우
-			if(n>0) {
-				
-			}
-			
-			return "";
+			memService.adminRegister(aDto);
+			return "redirect:/selAdminList.do";
 		}
+		
+		// 엄주 회원 등록 페이지로 보내주는 메소드
+		@RequestMapping(value="ownerRegiForm.do", method=RequestMethod.GET)
+		public String ownerRegiForm() {
+			return "/member/ownerRegiForm";
+		}
+		
+		//  **********수정 중 ********* 업주 회원 등록
+		@RequestMapping(value="/ownerRegi.do", method=RequestMethod.GET)
+		public String ownerRegi(OwnerDto oDto) {
+			memService.ownerRegister(oDto);
+			return "redirect:/selOwnerList.do";
+		}
+		
 		
 		
 }
