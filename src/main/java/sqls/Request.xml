@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="para.request">
+	
+	<!-- 주문 상태 업데이트 -->
+	<update id="updateOscode" parameterType="RequestDto">
+		UPDATE REQUEST SET OS_CODE=#{os_code}
+		WHERE STORE_CODE=#{store_code} AND REQUEST_SEQ=#{request_seq}
+	</update>
+
+	<!-- 주문 완료,환불 내역 전체 조회 -->
+	<select id="requestList" parameterType="java.util.Map" resultType="RequestDto">
+		SELECT REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
+		REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
+		FROM REQUEST 
+		WHERE STORE_CODE=#{store_code} AND (OS_CODE=3 OR OS_CODE=0) 
+		AND (REQUEST_TIME BETWEEN #{start} AND #{end})
+		ORDER BY REQUEST_TIME DESC
+	</select>
+
+	<!-- 주문상태가 대기 중인 주문 조회 -->
+	<select id="requestListWait" parameterType="RequestDto" resultType="RequestDto">
+	SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+	FROM REQUEST 
+	WHERE STORE_CODE =#{store_code}
+	AND OS_CODE=1 AND REQUEST_SEQ=#{request_seq}
+	ORDER BY REQUEST_TIME DESC
+	</select>
+
+	<!-- 주문상태가 대기 중인 주문 상세 조회 -->
+	<select id="requestDetailWait" parameterType="RequestDto" resultType="RequestDto">
+	SELECT REQUEST_MENU,REQUSET_TIME,OS_CODE 
+	FROM REQUEST 
+	WHERE STORE_CODE = #{store_code} AND OS_CODE=1 AND REQUEST_SEQ=#{request_seq}
+	</select>
+	
+	<!-- 주문상태가 제조 중인 주문 조회 -->
+	<select id="requestListMake" parameterType="RequestDto" resultType="RequestDto">
+	SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+	FROM REQUEST 
+	WHERE STORE_CODE = #{store_code}  
+	AND OS_CODE=2 AND REQUEST_SEQ=#{request_seq}
+	ORDER BY REQUEST_TIME DESC
+	</select>
+	
+	<!-- 주문상태가 제조 중인 주문 상세 조회 -->
+	<select id="requestDetailMake" parameterType="RequestDto" resultType="RequestDto">
+	SELECT REQUEST_MENU,REQUSET_TIME,OS_CODE 
+	FROM REQUEST
+	WHERE STORE_CODE = #{store_code} AND OS_CODE=1 AND REQUEST_SEQ=#{request_seq}	
+	</select>
+	
+	<!-- 고객 주문 시 주문 등록 -->
+	<insert id="customOrder" parameterType="RequestDto">
+	INSERT INTO REQUEST (REQUEST_SEQ, REQUEST_TIME, REQUEST_MENU, REQUEST_PRICE, OS_CODE, STORE_CODE, REQUEST_BANK, REQUEST_ACCOUNT) 
+	VALUES(REQUEST_SEQ.NEXTVAL, SYSDATE, #{request_menu}, #{request_price}, 1, #{store_code}, #{request_bank}, #{request_account})
+	</insert>
+</mapper>

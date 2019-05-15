@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="para.stats">
+	
+	<!-- 업주 : 수익 통계 -->
+	<select id="ownerStatsIncome" parameterType="java.util.Map" resultType="RequestDto">
+	SELECT REQUEST_PRICE
+	FROM REQUEST
+ 	WHERE STORE_CODE=#{store_code}
+ 	AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3
+	</select>
+	
+	<!-- 업주 : 지출 통계 -->
+	<select id="ownerStatsOutcome" parameterType="java.util.Map" resultType="java.lang.Integer">
+	SELECT ITEM_NAME, ITEM_PRICE 
+	FROM (PAO JOIN PAO_ITEM ON PAO.PAO_SEQ=PAO_ITEM.PAO_SEQ) 
+		JOIN ITEM ON PAO_ITEM.ITEM_SEQ=ITEM.ITEM_SEQ
+	WHERE PAO.STORE_CODE=#{store_code} 
+	AND (PAO_DATE BETWEEN #{start} AND #{end}) AND PS_CODE=3
+	</select>
+	
+	<!-- 업주 : 상위판매메뉴 통계 -->
+	<select id="ownerStatsMenu" parameterType="java.util.Map" resultType="RequestDto">
+	SELECT REQUEST_MENU
+ 	FROM REQUEST
+ 	WHERE STORE_CODE=#{store_code} 
+ 	AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3
+	</select>
+	
+	<select id="findMenuName" parameterType="java.lang.String" resultType="MenuDto">
+	SELECT MENU_NAME FROM MENU WHERE MENU_SEQ=#{menu_seq}
+	</select>
+	
+	<!-- 관리자,담당자 : 수익통계 -->
+	<select id="adminStatsIncome" parameterType="java.util.Map" resultType="RequestDto">
+	SELECT REQUEST_PRICE
+ 	FROM REQUEST
+ 	WHERE STORE_CODE IN 
+ 	<foreach item="store_code" collection="store_code_"
+      open="(" separator="," close=")">
+        #{store_code}
+ 	</foreach>
+ 	AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3
+	</select>
+	
+	<!-- 관리자,담당자 : 상위판매메뉴 통계 -->
+	<select id="adminStatsMenu" parameterType="java.util.Map" resultType="RequestDto">
+	SELECT REQUEST_MENU 
+	FROM REQUEST 
+	WHERE STORE_CODE IN 
+	<foreach item="store_code" collection="store_code_"
+      open="(" separator="," close=")">
+        #{store_code}
+ 	</foreach>
+	AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3
+	</select>
+	 
+</mapper>

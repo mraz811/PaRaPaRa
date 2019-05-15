@@ -6,12 +6,14 @@
 	<typeAliases>
 		<typeAlias type="com.happy.para.dto.AdminDto" alias="AdminDto" />
 		<typeAlias type="com.happy.para.dto.OwnerDto" alias="OwnerDto" />
-		
+		<typeAlias type="com.happy.para.dto.MenuDto" alias="MenuDto" />
+		<typeAlias type="com.happy.para.dto.RequestDto" alias="RequestDto" />
 	</typeAliases>
 
 <!-- Mapper 연결 -->
 	<mappers>
 		<mapper resource="/sqls/Member.xml" />
-		
+		<mapper resource="/sqls/Request.xml" />
+		<mapper resource="/sqls/Stats.xml" />
 	</mappers>
 </configuration>
