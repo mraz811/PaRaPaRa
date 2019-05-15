@@ -3,63 +3,63 @@
 <mapper namespace="para.menu">
 	
 	<!-- 업주 선택 메뉴 조회 -->
-	<select id="ownerMenuList" parameterType="java.lang.String" resultType="MenuDto">
+	<select id="ownerMenuList" parameterType="java.util.Map" resultType="MenuDto">
 	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, 
 	MENU_SEQ,MENU_NAME,MENU_PRICE,MENU_CATEGORY
-    FROM MENU JOIN FILE_LIST ON MENU.MENU_SEQ = FILE_LIST.MENU_SEQ 
-    WHERE MENU_SEQ IN (1,3,5)
+    FROM MENU JOIN FILE_LIST USING (MENU_SEQ)
+    WHERE MENU_SEQ IN 
+    <foreach item="menu_seq" collection="menu_seq_"
+      open="(" separator="," close=")">
+        #{menu_seq}
+ 	</foreach>
     ORDER BY MENU_PRICE DESC
 	</select>
 	
 	<!-- 업주 메뉴 선택 -->
 	<update id="ownerMenuChoice" parameterType="java.util.Map">
-	UPDATE OWNER SET OWNER_MENU='1,3,5' 
-	WHERE OWNER_SEQ='1'
+	UPDATE OWNER SET OWNER_MENU=#{owner_menu} 
+	WHERE OWNER_SEQ=#{owner_seq}
 	</update>
 	
 	<!-- 전체 메뉴 조회 -->
 	<select id="allMenu" resultType="MenuDto">
 	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, 
 	MENU_SEQ,MENU_NAME,MENU_PRICE,MENU_CATEGORY
- 	FROM MENU JOIN FILE_LIST ON MENU.MENU_SEQ = FILE_LIST.MENU_SEQ 
+ 	FROM MENU JOIN FILE_LIST USING (MENU_SEQ)
  	ORDER BY MENU_PRICE DESC
 	</select>
 	
 	<!-- 담당자 메뉴 등록 -->
 	<insert id="insertMenu" parameterType="MenuDto">
 	INSERT INTO MENU (MENU_SEQ, MENU_NAME, MENU_PRICE, MENU_CATEGORY,MENU_DELFLAG)
- 	VALUES(MENU_SEQ.NEXTVAL, '후라이드치킨', 18000, '주메뉴','N')
+ 	VALUES(MENU_SEQ.NEXTVAL, #{menu_name}, #{menu_price}, #{menu_category},'N')
 	</insert>
 	
 	<!-- 담당자 메뉴 이미지(파일) 등록 -->
 	<insert id="insertMenuFile" parameterType="FileDto">
 	INSERT INTO FILE_LIST (FILE_SEQ, FILE_TNAME, FILE_RNAME, FILE_REGDATE, FILE_SIZE, MENU_SEQ)
- 	VALUES('','','','','','')
+ 	VALUES(FILE_SEQ.NEXTVAL,#{file_tname},#{file_rname},SYSDATE,#{file_size},#{menu_seq})
 	</insert>
 	
 	<!-- 담당자 메뉴 수정 -->
 	<update id="modifyMenu" parameterType="MenuDto">
-	UPDATE MENU SET MENU_NAME='사이다', MENU_PRICE=2000 
-	WHERE MENU_SEQ=8
+	UPDATE MENU SET MENU_NAME=#{menu_name}, MENU_PRICE=#{menu_price}
+	WHERE MENU_SEQ=#{menu_seq}
 	</update>
 	
 	<!-- 담당자 메뉴 이미지(파일) 수정 -->
 	<update id="modifyMenuFile" parameterType="FileDto">
-	UPDATE FILE_LIST SET FILE_TNAME ='', FILE_RNAME='', FILE_REGDATE='', FILE_SIZE='' 
-	WHERE MENU_SEQ=8
+	UPDATE FILE_LIST SET FILE_TNAME =#{file_tname}, FILE_RNAME=#{file_rname}, FILE_REGDATE=#{file_regdate}, FILE_SIZE=#{file_size}
+	WHERE MENU_SEQ=#{menu_seq}
 	</update>
 	
 	<!-- 담당자 메뉴 삭제 -->
-	<delete id="deleteMenu" parameterType="java.lang.String">
-	DELETE FROM MENU 
-	WHERE MENU_SEQ=5
-	</delete>
+	<update id="deleteMenu" parameterType="java.lang.String">
+	UPDATE MENU SET MENU_DELFLAG='Y' 
+	WHERE MENU_SEQ=#{menu_seq}
+	</update>
 	
-	<!-- 담당자 메뉴 이미지(파일) 삭제 -->
-	<delete id="deleteMenuFile" parameterType="java.lang.String">
-	DELETE FROM FILE_LIST 
-	WHERE MENU_SEQ=5
-	</delete>
+	
 	
 
 </mapper>

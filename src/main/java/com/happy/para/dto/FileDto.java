@@ -73,4 +73,14 @@ public class FileDto implements Serializable {
 		this.chat_seq = chat_seq;
 	}
 	
+	private int menu_seq;
+
+	public int getMenu_seq() {
+		return menu_seq;
+	}
+
+	public void setMenu_seq(int menu_seq) {
+		this.menu_seq = menu_seq;
+	}
+	
 }

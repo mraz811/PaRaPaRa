@@ -13,35 +13,35 @@ import com.happy.para.dto.RequestDto;
 public class Request_DaoImpl {
 	
 	@Autowired 
-	private SqlSessionTemplate session;
+	private SqlSessionTemplate sqlSession;
 	
 	private final String NS = "para.request.";
 	
 	public boolean updateOscode(RequestDto dto) {
-		return session.update(NS+"updateOscode", dto) >0 ? true:false;
+		return sqlSession.update(NS+"updateOscode", dto) >0 ? true:false;
 	}
 	
 	public List<RequestDto> requestList(Map<String, String> map){
-		return session.selectList(NS+"requestList", map);
+		return sqlSession.selectList(NS+"requestList", map);
 	}
 	
 	public List<RequestDto> requestListWait(RequestDto dto){
-		return session.selectList(NS+"requestListWait", dto);
+		return sqlSession.selectList(NS+"requestListWait", dto);
 	}
 	
 	public RequestDto requestDetailWait(RequestDto dto){
-		return session.selectOne(NS+"requestDetailWait", dto);
+		return sqlSession.selectOne(NS+"requestDetailWait", dto);
 	} 
 	
 	public List<RequestDto> requestListMake(RequestDto dto){
-		return session.selectList(NS+"requestListMake", dto);
+		return sqlSession.selectList(NS+"requestListMake", dto);
 	}
 	
 	public RequestDto requestDetailMake(RequestDto dto){
-		return session.selectOne(NS+"requestDetailMake", dto);
+		return sqlSession.selectOne(NS+"requestDetailMake", dto);
 	} 
 	
 	public boolean customOrder(RequestDto dto) {
-		return session.insert(NS+"customOrder", dto) > 0?true:false;
+		return sqlSession.insert(NS+"customOrder", dto) > 0?true:false;
 	}
 }
