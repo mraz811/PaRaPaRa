@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.happy.para.dto.FileDto;
 import com.happy.para.dto.MenuDto;
 import com.happy.para.dto.OwnerDto;
+import com.happy.para.dto.RequestDto;
 import com.happy.para.model.Menu_DaoImpl;
+import com.happy.para.model.Request_DaoImpl;
 
 @Controller
 public class MansolTest_Ctrl {
 	
+	//메뉴
 	@Autowired
 	private Menu_DaoImpl mDao;
 	
@@ -73,4 +76,67 @@ public class MansolTest_Ctrl {
 		System.out.println("담당자 메뉴 삭제 성공? : "+isc);
 	}
 	
+	//주문
+	@Autowired
+	private Request_DaoImpl rDao;
+	
+	@RequestMapping(value="/updateOrderState.do",method=RequestMethod.GET)
+	public void updateOscode(RequestDto dto) {
+		boolean isc = rDao.updateOscode(dto);
+		System.out.println("주문 상태 코드 업데이트 성공 ? : "+isc);
+	}
+	
+	@RequestMapping(value="/selRequestList.do",method=RequestMethod.GET)
+	public void requestList(String store_code,String start,String end) {
+		Map<String, String> map = new HashMap<String,String>();
+		map.put("store_code", store_code);
+		map.put("start", start);
+		map.put("end", end);
+		List<RequestDto> lists = rDao.requestList(map);
+		System.out.println("주문 완료,환불 : "+lists);
+	}
+	
+	@RequestMapping(value="/selWaitRequest.do",method=RequestMethod.GET)
+	public void requestListWait(String store_code) {
+		List<RequestDto> lists = rDao.requestListWait(store_code);
+		Map<String, String[]> map = new HashMap<String,String[]>();
+		for (int i = 0; i < lists.size(); i++) {
+			String[] menu_seq = lists.get(i).getRequest_menu().split(",");
+			map.put("menu_seq_", menu_seq);
+			String menuName = rDao.requestMenuName(map);
+			System.out.println("주문 대기중 : "+lists.get(i));
+			System.out.println("주문 대기중인 메뉴명 : "+menuName);
+		}
+	}
+	
+	@RequestMapping(value="/selWaitReqDetail.do",method=RequestMethod.GET)
+	public void requestDetailWait(RequestDto dto) {
+		RequestDto rDto = rDao.requestDetailWait(dto);
+		System.out.println("주문 대기중 상세 : "+rDto);
+	}
+	
+	@RequestMapping(value="/selMakeRequest.do",method=RequestMethod.GET)
+	public void requestListMake(String store_code) {
+		List<RequestDto> lists = rDao.requestListMake(store_code);
+		Map<String, String[]> map = new HashMap<String,String[]>();
+		for (int i = 0; i < lists.size(); i++) {
+			String[] menu_seq = lists.get(i).getRequest_menu().split(",");
+			map.put("menu_seq_", menu_seq);
+			String menuName = rDao.requestMenuName(map);
+			System.out.println("주문 제조중 : "+lists.get(i));
+			System.out.println("주문 제조중인 메뉴명 : "+menuName);
+		}
+	}
+	
+	@RequestMapping(value="/selMakeReqDetail.do",method=RequestMethod.GET)
+	public void requestDetailMake(RequestDto dto) {
+		RequestDto rDto = rDao.requestDetailMake(dto);
+		System.out.println("주문 제조중 상세 : "+rDto);
+	}
+	
+	@RequestMapping(value="/regiCustomOrder.do",method=RequestMethod.GET)
+	public void customOrder(RequestDto dto) {
+		boolean isc = rDao.customOrder(dto);
+		System.out.println("주문 등록 성공 ? : "+isc);
+	}
 }

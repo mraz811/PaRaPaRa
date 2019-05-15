@@ -19,35 +19,35 @@
 	</select>
 
 	<!-- 주문상태가 대기 중인 주문 조회 -->
-	<select id="requestListWait" parameterType="RequestDto" resultType="RequestDto">
+	<select id="requestListWait" parameterType="java.lang.String" resultType="RequestDto">
 	SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
 	FROM REQUEST 
 	WHERE STORE_CODE =#{store_code}
-	AND OS_CODE=1 AND REQUEST_SEQ=#{request_seq}
+	AND OS_CODE=1
 	ORDER BY REQUEST_TIME DESC
 	</select>
-
+	
 	<!-- 주문상태가 대기 중인 주문 상세 조회 -->
 	<select id="requestDetailWait" parameterType="RequestDto" resultType="RequestDto">
-	SELECT REQUEST_MENU,REQUSET_TIME,OS_CODE 
+	SELECT REQUEST_MENU,REQUEST_TIME,OS_CODE 
 	FROM REQUEST 
 	WHERE STORE_CODE = #{store_code} AND OS_CODE=1 AND REQUEST_SEQ=#{request_seq}
 	</select>
 	
 	<!-- 주문상태가 제조 중인 주문 조회 -->
-	<select id="requestListMake" parameterType="RequestDto" resultType="RequestDto">
+	<select id="requestListMake" parameterType="java.lang.String" resultType="RequestDto">
 	SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
 	FROM REQUEST 
 	WHERE STORE_CODE = #{store_code}  
-	AND OS_CODE=2 AND REQUEST_SEQ=#{request_seq}
+	AND OS_CODE=2 
 	ORDER BY REQUEST_TIME DESC
 	</select>
 	
 	<!-- 주문상태가 제조 중인 주문 상세 조회 -->
 	<select id="requestDetailMake" parameterType="RequestDto" resultType="RequestDto">
-	SELECT REQUEST_MENU,REQUSET_TIME,OS_CODE 
+	SELECT REQUEST_MENU,REQUEST_TIME,OS_CODE 
 	FROM REQUEST
-	WHERE STORE_CODE = #{store_code} AND OS_CODE=1 AND REQUEST_SEQ=#{request_seq}	
+	WHERE STORE_CODE = #{store_code} AND OS_CODE=2 AND REQUEST_SEQ=#{request_seq}	
 	</select>
 	
 	<!-- 고객 주문 시 주문 등록 -->
@@ -55,4 +55,13 @@
 	INSERT INTO REQUEST (REQUEST_SEQ, REQUEST_TIME, REQUEST_MENU, REQUEST_PRICE, OS_CODE, STORE_CODE, REQUEST_BANK, REQUEST_ACCOUNT) 
 	VALUES(REQUEST_SEQ.NEXTVAL, SYSDATE, #{request_menu}, #{request_price}, 1, #{store_code}, #{request_bank}, #{request_account})
 	</insert>
+	
+	<!-- 메뉴 번호에 따른 메뉴이름을 찾을려고 만듬 -->
+	<select id="requestMenuName" parameterType="java.util.Map" resultType="MenuDto">
+	SELECT MENU_NAME FROM MENU WHERE MENU_SEQ IN 
+	<foreach item="menu_seq" collection="menu_seq_"
+		open="(" separator="," close=")">
+		#{menu_seq}
+	</foreach>
+	</select>
 </mapper>
