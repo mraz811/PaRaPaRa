@@ -14,13 +14,13 @@ import com.happy.para.dto.RequestDto;
 public class Stats_DaoImpl {
 
 	@Autowired 
-	private SqlSessionTemplate session;
+	private SqlSessionTemplate sqlSession;
 	
 	private final String NS = "para.stats.";
 	
 	public int ownerStatsIncome(Map<String, String> map) {
 		int n = 0;
-		List<RequestDto> lists = session.selectList(NS+"ownerStatsIncome", map);
+		List<RequestDto> lists = sqlSession.selectList(NS+"ownerStatsIncome", map);
 		for (int i = 0; i < lists.size(); i++) {
 			n += Integer.parseInt(lists.get(i).toString()); 
 		}
@@ -34,13 +34,13 @@ public class Stats_DaoImpl {
 	
 	public Map<String, Integer> ownerStatsMenu(Map<String, String> map){
 		Map<String, Integer> resultMap = new HashMap<String, Integer>();
-		List<RequestDto> lists = session.selectList(NS+"ownerStatsMenu", map);
+		List<RequestDto> lists = sqlSession.selectList(NS+"ownerStatsMenu", map);
 		String menu_name = "";
 		int count = 1;
 		for (int i = 0; i < lists.size(); i++) {
 			String[] reMenu = lists.get(i).getRequest_menu().split(",");
 			for (int j = 0; j < reMenu.length; j++) {
-				menu_name = session.selectOne(NS+"findMenuName", reMenu[j]); 
+				menu_name = sqlSession.selectOne(NS+"findMenuName", reMenu[j]); 
 				if(resultMap.containsKey(menu_name)) {
 					resultMap.put(menu_name, count++);
 				}else {

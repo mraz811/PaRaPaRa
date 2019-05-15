@@ -16,5 +16,6 @@
 		<mapper resource="/sqls/Member.xml" />
 		<mapper resource="/sqls/Request.xml" />
 		<mapper resource="/sqls/Stats.xml" />
+		<mapper resource="/sqls/Menu.xml" />
 	</mappers>
 </configuration>
