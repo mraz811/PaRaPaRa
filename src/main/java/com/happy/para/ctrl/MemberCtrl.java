@@ -18,6 +18,12 @@ public class MemberCtrl {
 		@Autowired
 		private Member_IService memService;
 		
+		// main 페이지로 보내주는 메소드
+		@RequestMapping(value="/main.do",method=RequestMethod.GET)
+		public String toMain() {
+			return "main";
+		}
+		
 		// 로그인 페이지로 보내주는 메소드
 		@RequestMapping(value="/loginForm.do", method=RequestMethod.GET)
 		public String loginForm() {
@@ -37,7 +43,7 @@ public class MemberCtrl {
 				if(ownerDto!=null) {
 					session.setAttribute("loginDto", ownerDto);
 					// *************나중에 메인 페이지 어떻게 할건지 보고 수정***************
-					return "main";
+					return "redirect:/main.do";
 				}
 				
 			} else if(auth.equalsIgnoreCase("A")) { 
@@ -48,7 +54,7 @@ public class MemberCtrl {
 				
 				if(adminDto!=null) {
 					session.setAttribute("loginDto", adminDto);
-					return "main";
+					return "redirect:/main.do";
 				} 
 			}
 			
