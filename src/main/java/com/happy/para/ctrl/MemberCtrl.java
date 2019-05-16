@@ -122,6 +122,20 @@ public class MemberCtrl {
 			return "redirect:/selOwnerList.do";
 		}
 		
+		// 마이페이지 로그인 페이지로
+		@RequestMapping(value="/pwCheckForm.do", method=RequestMethod.GET)
+		public String pwCheckForm() {
+			return "/member/myPageLogin";
+		}
+		
+		// 마이페이지 비밀번호 확인 후 수정 페이지로
+		@RequestMapping(value="/toMypage.do", method=RequestMethod.POST)
+		public String toMypage(String id, String pw, String auth) {
+			
+			
+			
+			return "redirect:/adminModi.do";
+		}
 		
 		
 }
