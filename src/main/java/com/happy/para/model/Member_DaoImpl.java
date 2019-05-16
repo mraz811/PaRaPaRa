@@ -129,5 +129,15 @@ public class Member_DaoImpl implements Member_IDao {
 	public int ownerDelete(Map<String, String> map) {
 		return sqlSession.update(MNS+"ownerDelete", map);
 	}
+
+	@Override
+	public List<String> selStoreCodeList() {
+		return sqlSession.selectList(MNS+"selStoreCodeList");
+	}
+
+	@Override
+	public int storeOwnerRegi(Map<String, String> map) {
+		return sqlSession.update(MNS+"storeOwnerRegi", map);
+	}
 	
 }

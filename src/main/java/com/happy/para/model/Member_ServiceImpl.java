@@ -1,5 +1,6 @@
 package com.happy.para.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,9 +56,14 @@ public class Member_ServiceImpl implements Member_IService {
 	}
 
 	@Override
-	public int ownerRegister(OwnerDto oDto) {
+	public int ownerRegister(OwnerDto oDto) { 
 		logger.info("ownerRegister Service : {} ", oDto);
-		return member_IDao.ownerRegister(oDto);
+		int n = member_IDao.ownerRegister(oDto);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("owner_reg", "1");
+		map.put("store_code", oDto.getStore_code());
+		n += member_IDao.storeOwnerRegi(map);
+		return n;
 	}
 
 	@Override
@@ -113,7 +119,16 @@ public class Member_ServiceImpl implements Member_IService {
 
 	@Override
 	public int ownerDelete(Map<String, String> map) {
+		// 업주 삭제(계약종료일) 시 필요값 owner_seq, owner_end
 		return member_IDao.ownerDelete(map);
+		
+		// 업주 삭제 후 매장 업주등록코드 업데이트 시 필요값 owner_reg, store_code
+		
+	}
+
+	@Override
+	public List<String> selStoreCodeList() {
+		return member_IDao.selStoreCodeList();
 	}
 	
 }

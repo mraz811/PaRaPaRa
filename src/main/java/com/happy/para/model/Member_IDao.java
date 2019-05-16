@@ -55,5 +55,12 @@ public interface Member_IDao {
 	
 	// 업주 삭제 (진짜 삭제 아닌, 계약 종료일 업데이트)
 	public int ownerDelete(Map<String, String> map);
+	
+	// 업주 등록 화면에서 매장코드 옵션 주기 위한 쿼리
+	public List<String> selStoreCodeList();
+	
+	// 업주 등록 시 매장 업주등록여부 업데이트 (owner_reg, store_code) 필요
+	public int storeOwnerRegi(Map<String, String> map);
+	
 
 }

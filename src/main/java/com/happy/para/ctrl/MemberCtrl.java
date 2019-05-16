@@ -1,9 +1,12 @@
 package com.happy.para.ctrl;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -42,7 +45,6 @@ public class MemberCtrl {
 				// 로그인 성공 시 OwnerDto 반환, 실패시 null 반환하므로
 				if(ownerDto!=null) {
 					session.setAttribute("loginDto", ownerDto);
-					// *************나중에 메인 페이지 어떻게 할건지 보고 수정***************
 					return "redirect:/main.do";
 				}
 				
@@ -87,22 +89,35 @@ public class MemberCtrl {
 			return "/member/adminRegiForm";
 		}
 		
-		// **********수정 중 ********* 담당자 회원 등록 테스트 중  
-		@RequestMapping(value="/adminRegi.do", method=RequestMethod.GET)
-		public String adminRegi(AdminDto aDto) {
-			memService.adminRegister(aDto);
-			return "redirect:/selAdminList.do";
+		// 담당자 회원 등록 메소드
+		@RequestMapping(value="/adminRegi.do", method=RequestMethod.POST)
+		public String adminRegi(AdminDto aDto, String loc_sido, String loc_sigungu) {
+			
+			String loc_code = loc_sido + loc_sigungu;
+			aDto.setLoc_code(loc_code);
+			
+			System.out.println(aDto);
+			int n = memService.adminRegister(aDto);
+			// 담당자 회원 등록 성공시
+			if(n>0) {
+				return "redirect:/selAdminList.do";
+			}
+			// 실패 시 회원 등록 폼으로
+			return "redirect:/adminRegiForm.do";
 		}
 		
-		// 엄주 회원 등록 페이지로 보내주는 메소드
+		// 엄주 회원 등록 페이지로 보내주는 메소드 (업주 등록 여부 0인 매장코드 리스트 전송)
 		@RequestMapping(value="ownerRegiForm.do", method=RequestMethod.GET)
-		public String ownerRegiForm() {
+		public String ownerRegiForm(Model model) {
+			List<String> store_code = memService.selStoreCodeList();
+			model.addAttribute("store_code", store_code);
 			return "/member/ownerRegiForm";
 		}
 		
-		//  **********수정 중 ********* 업주 회원 등록
-		@RequestMapping(value="/ownerRegi.do", method=RequestMethod.GET)
+		// 업주 회원 등록 메소드 (실행 시 업주 등록, 해당 매장 코드의 매장 업주등록여부 1로 업데이트)
+		@RequestMapping(value="/ownerRegi.do", method=RequestMethod.POST)
 		public String ownerRegi(OwnerDto oDto) {
+			System.out.println(oDto);
 			memService.ownerRegister(oDto);
 			return "redirect:/selOwnerList.do";
 		}
