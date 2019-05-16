@@ -56,7 +56,7 @@
 	VALUES(REQUEST_SEQ.NEXTVAL, SYSDATE, #{request_menu}, #{request_price}, 1, #{store_code}, #{request_bank}, #{request_account})
 	</insert>
 	
-	<!-- 메뉴 번호에 따른 메뉴이름을 찾을려고 만듬 -->
+	<!-- 메뉴 번호에 따른 메뉴이름 찾기 -->
 	<select id="requestMenuName" parameterType="java.util.Map" resultType="MenuDto">
 	SELECT MENU_NAME FROM MENU WHERE MENU_SEQ IN 
 	<foreach item="menu_seq" collection="menu_seq_"

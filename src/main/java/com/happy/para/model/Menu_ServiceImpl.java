@@ -3,67 +3,76 @@ package com.happy.para.model;
 import java.util.List;
 import java.util.Map;
 
-import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.happy.para.dto.FileDto;
 import com.happy.para.dto.MenuDto;
 
-@Repository
-public class Menu_DaoImpl implements Menu_IDao{
+@Service
+public class Menu_ServiceImpl implements Menu_IService{
 
-	@Autowired 
-	private SqlSessionTemplate sqlSession;
+	private Logger logger = LoggerFactory.getLogger(Menu_ServiceImpl.class);
 	
-	private final String NS = "para.menu.";
+	@Autowired
+	private Menu_IDao menu_IDao;
 	
 	//업주 선택 메뉴 조회
 	@Override
 	public List<MenuDto> ownerMenuList(Map<String, String[]> map){
-		return sqlSession.selectList(NS+"ownerMenuList", map);
+		logger.info("ownerMenuList Service : {} ", map);
+		return menu_IDao.ownerMenuList(map);
 	}
 	
 	//업주 메뉴 선택
 	@Override
 	public boolean ownerMenuChoice(Map<String, String> map) {
-		return sqlSession.update(NS+"ownerMenuChoice", map) > 0 ? true:false;
+		logger.info("ownerMenuChoice Service : {} ", map);
+		return menu_IDao.ownerMenuChoice(map);
 	}
 	
 	//전체 메뉴 조회
 	@Override
 	public List<MenuDto> allMenu(){
-		return sqlSession.selectList(NS+"allMenu");
+		logger.info("allMenu Service : {} ");
+		return menu_IDao.allMenu();
 	}
 	
 	//담당자 메뉴 등록
 	@Override
 	public boolean insertMenu(MenuDto dto) {
-		return sqlSession.insert(NS+"insertMenu", dto)>0?true:false;
+		logger.info("insertMenu Service : {} ", dto);
+		return menu_IDao.insertMenu(dto);
 	}
 	
 	//담당자 메뉴 이미지(파일) 등록
 	@Override
 	public boolean insertMenuFile(FileDto dto) {
-		return sqlSession.insert(NS+"insertMenuFile", dto)>0?true:false;
+		logger.info("insertMenuFile Service : {} ", dto);
+		return menu_IDao.insertMenuFile(dto);
 	}
 	
 	//담당자 메뉴 수정
 	@Override
 	public boolean modifyMenu(MenuDto dto) {
-		return sqlSession.update(NS+"modifyMenu", dto)>0?true:false;
+		logger.info("modifyMenu Service : {} ", dto);
+		return menu_IDao.modifyMenu(dto);
 	}
 	
 	//담당자 메뉴 이미지(파일) 수정
 	@Override
 	public boolean modifyMenuFile(FileDto dto) {
-		return sqlSession.update(NS+"modifyMenuFile", dto)>0?true:false;
+		logger.info("modifyMenuFile Service : {} ", dto);
+		return menu_IDao.modifyMenuFile(dto);
 	}
 	
 	//담당자 메뉴 삭제
 	@Override
 	public boolean deleteMenu(String menu_seq) {
-		return sqlSession.update(NS+"deleteMenu", menu_seq)>0?true:false;
+		logger.info("deleteMenu Service : {} ", menu_seq);
+		return menu_IDao.deleteMenu(menu_seq);
 	}
 	
 	
