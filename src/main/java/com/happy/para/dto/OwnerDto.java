@@ -19,6 +19,7 @@ public class OwnerDto implements Serializable {
 	private String owner_start;
 	private String owner_end;
 	private String owner_menu;
+	private int admin_id;
 	
 	public OwnerDto() {
 	}
@@ -34,7 +35,7 @@ public class OwnerDto implements Serializable {
 		return "OwnerDto [owner_seq=" + owner_seq + ", owner_id=" + owner_id + ", owner_pw=" + owner_pw
 				+ ", owner_name=" + owner_name + ", owner_phone=" + owner_phone + ", owner_email=" + owner_email
 				+ ", auth=" + auth + ", store_code=" + store_code + ", owner_start=" + owner_start + ", owner_end="
-				+ owner_end + ", owner_menu=" + owner_menu + "]";
+				+ owner_end + ", owner_menu=" + owner_menu + ", admin_id=" + admin_id + "]";
 	}
 
 	public int getOwner_seq() {
@@ -144,6 +145,14 @@ public class OwnerDto implements Serializable {
 
 	public void setOwner_menu(String owner_menu) {
 		this.owner_menu = owner_menu;
+	}
+
+	public int getAdmin_id() {
+		return admin_id;
+	}
+
+	public void setAdmin_id(int admin_id) {
+		this.admin_id = admin_id;
 	}
 	
 }

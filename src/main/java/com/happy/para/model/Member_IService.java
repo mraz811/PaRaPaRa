@@ -56,4 +56,7 @@ public interface Member_IService {
 	// 업주 삭제 (진짜 삭제 아닌, 계약 종료일 업데이트)
 	public int ownerDelete(Map<String, String> map);
 
+	// 업주 등록 화면에서 매장코드 옵션 주기 위한 쿼리
+	public List<String> selStoreCodeList();
+	
 }

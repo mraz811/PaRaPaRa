@@ -51,8 +51,8 @@
 <!-- 업주 회원등록 -->
 <insert id="ownerRegister" parameterType="OwnerDto">
 	INSERT INTO OWNER
-	(OWNER_SEQ, OWNER_ID, OWNER_PW, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, OWNER_START)
-	VALUES(OWNER_SEQ.NEXTVAL, #{owner_id}, #{owner_pw}, #{owner_name}, #{owner_phone}, #{owner_email}, 'U', #{store_code}, #{owner_start})
+	(OWNER_SEQ, OWNER_ID, OWNER_PW, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, OWNER_START, ADMIN_ID)
+	VALUES(OWNER_SEQ.NEXTVAL, #{owner_id}, #{owner_pw}, #{owner_name}, #{owner_phone}, #{owner_email}, 'U', #{store_code}, #{owner_start}, #{admin_id})
 </insert>
 
 <!-- 담당자 정보 수정: 새비밀번호, 이름, 전화번호, 이메일 수정 가능 (구분:admin_id) -->
@@ -135,5 +135,15 @@
 	UPDATE OWNER SET OWNER_END= #{owner_end} WHERE OWNER_SEQ = #{owner_seq}
 </update>
 
+<!-- 업주 등록을 위한 연결되지 않은 매장 가져오기 -->
+<select id="selStoreCodeList" resultType="java.lang.String">
+	SELECT STORE_CODE FROM STORE WHERE OWNER_REG='0'
+</select>
+
+<!-- 업주 등록시 OWNER_REG 1로, 업주 삭제시 OWNER_REG 0으로 값 전달 -->
+<update id="storeOwnerRegi" parameterType="java.util.Map">
+	UPDATE STORE SET OWNER_REG = #{owner_reg} 
+	WHERE STORE_CODE =#{store_code}
+</update>
 
 </mapper>
