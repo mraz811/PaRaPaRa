@@ -15,6 +15,7 @@ public class StoreDto implements Serializable {
 	private String store_address;
 	private int admin_id;
 	private String store_delflag;
+	private String owner_reg;
 	
 	public StoreDto() {
 		// TODO Auto-generated constructor stub
@@ -24,7 +25,7 @@ public class StoreDto implements Serializable {
 	public String toString() {
 		return "StoreDto [store_code=" + store_code + ", loc_code=" + loc_code + ", store_phone=" + store_phone
 				+ ", store_name=" + store_name + ", store_address=" + store_address + ", admin_id=" + admin_id
-				+ ", store_delflag=" + store_delflag + "]";
+				+ ", store_delflag=" + store_delflag + ", owner_reg=" + owner_reg + "]";
 	}
 
 	public String getStore_code() {
@@ -81,6 +82,14 @@ public class StoreDto implements Serializable {
 
 	public void setStore_delflag(String store_delflag) {
 		this.store_delflag = store_delflag;
+	}
+
+	public String getOwner_reg() {
+		return owner_reg;
+	}
+
+	public void setOwner_reg(String owner_reg) {
+		this.owner_reg = owner_reg;
 	}
 	
 }
