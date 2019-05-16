@@ -29,7 +29,7 @@
 	<!-- 추가 기능: Interceptor 인터셉터 설정 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/test.do"/>
+			<mvc:mapping path="/main.do"/>
 			<bean class="com.happy.para.interceptor.Interceptor"/>
 		</mvc:interceptor>
 	

@@ -18,6 +18,12 @@ public class MemberCtrl {
 		@Autowired
 		private Member_IService memService;
 		
+		// main 페이지로 보내주는 메소드
+		@RequestMapping(value="/main.do",method=RequestMethod.GET)
+		public String toMain() {
+			return "main";
+		}
+		
 		// 로그인 페이지로 보내주는 메소드
 		@RequestMapping(value="/loginForm.do", method=RequestMethod.GET)
 		public String loginForm() {
@@ -37,7 +43,7 @@ public class MemberCtrl {
 				if(ownerDto!=null) {
 					session.setAttribute("loginDto", ownerDto);
 					// *************나중에 메인 페이지 어떻게 할건지 보고 수정***************
-					return "main";
+					return "redirect:/main.do";
 				}
 				
 			} else if(auth.equalsIgnoreCase("A")) { 
@@ -48,7 +54,7 @@ public class MemberCtrl {
 				
 				if(adminDto!=null) {
 					session.setAttribute("loginDto", adminDto);
-					return "main";
+					return "redirect:/main.do";
 				} 
 			}
 			
@@ -81,17 +87,26 @@ public class MemberCtrl {
 			return "/member/adminRegiForm";
 		}
 		
-		// 담당자 회원 등록 테스트 중  
+		// **********수정 중 ********* 담당자 회원 등록 테스트 중  
 		@RequestMapping(value="/adminRegi.do", method=RequestMethod.GET)
 		public String adminRegi(AdminDto aDto) {
-			int n = memService.adminRegister(aDto);
-			// 담당자 회원 등록에 성공한 경우
-			if(n>0) {
-				
-			}
-			
-			return "";
+			memService.adminRegister(aDto);
+			return "redirect:/selAdminList.do";
 		}
+		
+		// 엄주 회원 등록 페이지로 보내주는 메소드
+		@RequestMapping(value="ownerRegiForm.do", method=RequestMethod.GET)
+		public String ownerRegiForm() {
+			return "/member/ownerRegiForm";
+		}
+		
+		//  **********수정 중 ********* 업주 회원 등록
+		@RequestMapping(value="/ownerRegi.do", method=RequestMethod.GET)
+		public String ownerRegi(OwnerDto oDto) {
+			memService.ownerRegister(oDto);
+			return "redirect:/selOwnerList.do";
+		}
+		
 		
 		
 }
