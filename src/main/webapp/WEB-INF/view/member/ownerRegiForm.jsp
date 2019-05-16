@@ -42,8 +42,13 @@ ${store_code}
 			<br><span>매장코드</span><br>
 			<select name="store_code" required="required">
 					<option value="">선택하기</option>
-				<c:forEach var="i" begin="0" end="${fn:length(store_code)-1}">
+				<c:forEach var="i" begin="0" end="${fn:length(store_code)}" step="1">
+				<c:if test="${store_code[i] ne null}">
 					<option value="${store_code[i]}">${store_code[i]}</option>
+				</c:if>
+				<c:if test="${store_code[0] eq null}">
+					<option value="">선택가능한 매장이 없습니다.</option>
+				</c:if>
 				</c:forEach>
 			</select>
 	
