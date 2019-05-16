@@ -128,13 +128,28 @@ public class MemberCtrl {
 			return "/member/myPageLogin";
 		}
 		
-		// 마이페이지 비밀번호 확인 후 수정 페이지로
+		// 마이페이지 비밀번호 확인 후 마이 페이지로
 		@RequestMapping(value="/toMypage.do", method=RequestMethod.POST)
 		public String toMypage(String id, String pw, String auth) {
+	System.out.println(id+":"+pw+":"+auth);
 			
+			if(auth.equalsIgnoreCase("A")) {
+				AdminDto aMyDto = new AdminDto(Integer.parseInt(id), pw);
+				AdminDto aDto = memService.adminLogin(aMyDto);
+				if(aDto!=null) {
+					System.out.println("비밀번호 일치");
+					return "/member/myPage";
+				}
+			} else if(auth.equalsIgnoreCase("U")) {
+				OwnerDto oMyDto = new OwnerDto(id, pw);
+				OwnerDto oDto = memService.ownerLogin(oMyDto);
+				if(oDto != null) {
+					return "/member/myPage";
+				}
+			} 
 			
-			
-			return "redirect:/adminModi.do";
+			System.out.println("비밀번호 불일치");
+			return "redirect:/pwCheckForm.do";
 		}
 		
 		

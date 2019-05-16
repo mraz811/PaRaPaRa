@@ -41,7 +41,8 @@ public class Member_DaoImpl implements Member_IDao {
 
 	@Override
 	public OwnerDto ownerLogin(OwnerDto oDto) {
-		String securePw = sqlSession.selectOne(MNS+"selOwnerPw", oDto.getOwner_pw());
+		// 입력받은 업주의 사업자 번호를 이용하여 DB에 저장된 암호화 된 비밀번호를 가져온다.
+		String securePw = sqlSession.selectOne(MNS+"selOwnerPw", oDto.getOwner_id());
 
 		if(pwEncoder.matches(oDto.getOwner_pw(), securePw)) {
 			oDto.setOwner_pw(securePw);
