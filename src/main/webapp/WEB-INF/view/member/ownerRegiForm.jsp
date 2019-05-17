@@ -12,26 +12,29 @@
 세션 : ${loginDto}
 ${store_code}
 
-<!-- 업주 등록 form -->
+	<input type="hidden" value="0" id="idchkVal">
+	<input type="hidden" value="0" id="pwchkVal">
+	
+	<!-- 업주 등록 form -->
 	<form id="owRegiForm" action="./ownerRegi.do" method="post">
 		<div>
-			<span>사업자 등록번호</span><br>
-			<input type="text" name="owner_id" placeholder="ex)111-11-11111" required="required" maxlength="12">
+			<span>사업자 등록번호</span><span id="idRst"></span><br>
+			<input type="text" id="id" name="owner_id" placeholder="ex)111-11-11111" required="required" maxlength="12">
 			
-			<br><span>비밀번호</span><br>	
-			<input type="password" name="owner_pw" placeholder="비밀번호" required="required" maxlength="12">
+			<br><span>비밀번호</span><span id="pwRst"></span><br>	
+			<input type="password" id="pw" name="owner_pw" placeholder="비밀번호" required="required" maxlength="12">
 		
-			<br><span>비밀번호 확인</span><br>	
-			<input type="password" name="pwChk" placeholder="비밀번호 확인" required="required" maxlength="12">
+			<br><span>비밀번호 확인</span><span id="pwChkRst"></span><br>	
+			<input type="password" id="pwChk" name="pwChk" placeholder="비밀번호 확인" required="required" maxlength="12">
 		
 			<br><span>업주명</span><br>	
-			<input type="text" name="owner_name" placeholder="이름" required="required" maxlength="20">
+			<input type="text" id="name" name="owner_name" placeholder="이름" required="required" maxlength="20">
 			
 			<br><span>전화번호</span><br>	
-			<input type="text" name="owner_phone" placeholder="연락처" required="required" maxlength="20">
+			<input type="text" id="phone" name="owner_phone" placeholder="연락처" required="required" maxlength="20">
 		
 			<br><span>이메일</span><br>	
-			<input type="text" name="owner_email" placeholder="이메일" required="required" maxlength="80">
+			<input type="text" id="email" name="owner_email" placeholder="이메일" required="required" maxlength="80">
 			
 			<br><span>매장코드</span><br>
 			<select name="store_code" required="required">
@@ -66,6 +69,94 @@ ${store_code}
 
 </body>
 <script type="text/javascript">
+
+$(function(){
+	
+	// 회원등록 폼 작성시 아이디 유효값 확인 필요(공백포함여부, 중복여부)
+	$("#id").keyup(function(){
+		var inputLen = $(this).val().length;
+		var id = $(this).val();
+		// 업주 로그인 시 사업자 번호 숫자 3자리-2자리-5자리
+		var ownRegex = /^\d{3}-\d{2}-\d{5}$/;
+		
+		// 공백여부 검사
+		if(id.indexOf(" ") != -1){
+			$("#idRst").css({'color':'red', 'font-size':'10px'});
+			$("#idRst").html("  사용 불가능한 아이디");
+			$("#idchkVal").val("0");
+		} else if(inputLen>11 && id.match(ownRegex)!=null){
+			// ajax를 통한 아이디 중복검사 
+			$.ajax({
+				url : "./ownIdChk.do",
+				type : "post",
+				data : "owner_id="+id,
+				async : true,
+				success : function(msg){
+					alert(msg.substr(0,5)); // 사용 가능 / 사용 불가
+					if(msg.substr(0,5)=="사용 가능"){
+						$("#idRst").css({'color':'forestgreen', 'font-size':'10px'});
+						$("#idRst").html("  사용 가능한 아이디");
+						$("#idchkVal").val("1");						
+					} else{
+						$("#idRst").css({'color':'red', 'font-size':'10px'});
+						$("#idchkVal").val("0");
+					}
+				}
+			});
+		} else{
+			$("#idRst").css({'color':'red', 'font-size':'10px'});
+			$("#idRst").html("  사용 불가능한 아이디");
+			$("#idchkVal").val("0");
+		}
+	});  // 아이디 유효성 검사 종료
+	
+	
+	//비밀번호 유효성 검사(공백검사, 4자리 이상)
+	$("#pw").keyup(function(){
+		var inputLen = $(this).val().length;
+		var pw = $(this).val();
+		var pwChk = $("#pwChk").val();
+		
+		if(pw!=pwChk){
+			$("#pwChkRst").css({'color':'red', 'font-size':'10px'});
+			$("#pwChkRst").html(" ");
+			$("#pwchkVal").val("0");
+		}
+		
+		if(pw.indexOf(" ") != -1){
+			$("#pwRst").css({'color':'red', 'font-size':'10px'});
+			$("#pwRst").html("  공백 사용 불가");
+			$("#pwchkVal").val("0");
+		} else if(inputLen>=4 && inputLen <=12){
+			$("#pwRst").css({'color':'forestgreen', 'font-size':'10px'});
+			$("#pwRst").html("  사용 가능한 비밀번호");
+			$("#pwchkVal").val("1");
+		} else {
+			$("#pwRst").css({'color':'red', 'font-size':'10px'});
+			$("#pwRst").html(" ");
+			$("#pwchkVal").val("0");
+		}
+	}); // 비밀번호 유효성 검사 종료
+	
+	// 비밀번호 확인 유효성 검사
+	$("#pwChk").keyup(function(){
+		var pwChk = $(this).val();
+		var pw = $("#pw").val();
+		
+		if(pwChk==pw){
+			$("#pwChkRst").css({'color':'forestgreen', 'font-size':'10px'});
+			$("#pwChkRst").html("  비밀번호 일치");
+			$("#pwchkVal").val("1");
+		} else {
+			$("#pwChkRst").css({'color':'red', 'font-size':'10px'});
+			$("#pwChkRst").html(" ");
+			$("#pwchkVal").val("0");
+		}
+	}); // 비밀번호 확인 유효성 검사 종료
+	
+});
+
+
 
 // 업주 등록 완료 시 유효값 검사
 var adRegiChk = function(){

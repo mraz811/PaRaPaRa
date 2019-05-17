@@ -110,6 +110,13 @@ $(function(){
 	$("#pw").keyup(function(){
 		var inputLen = $(this).val().length;
 		var pw = $(this).val();
+		var pwChk = $("#pwChk").val();
+		
+		if(pw!=pwChk){
+			$("#pwChkRst").css({'color':'red', 'font-size':'10px'});
+			$("#pwChkRst").html(" ");
+			$("#pwchkVal").val("0");
+		}
 		
 		if(pw.indexOf(" ") != -1){
 			$("#pwRst").css({'color':'red', 'font-size':'10px'});
@@ -141,6 +148,9 @@ $(function(){
 			$("#pwchkVal").val("0");
 		}
 	}); // 비밀번호 확인 유효성 검사 종료
+	
+	// 이메일 유효성 검사
+	
 	
 	
 });
