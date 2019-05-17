@@ -31,5 +31,7 @@ parapara메인<br>
 <a href="./ownerStatsMenu.do?store_code=스토어코드1&start=20190514&end=20190516">업주 상위판매메뉴 통계</a><br>
 <a href="./adminStatsIn.do?store_code=스토어코드1,스토어코드2&start=20190514&end=20190516">담당자,관리자 수익 통계</a><br>
 <a href="./adminStatsMenu.do?store_code=스토어코드1,스토어코드2&start=20190514&end=20190516">담당자,관리자 상위판매메뉴 통계</a><br>
+<hr>
+<a href="./selPaoList.do?store_code=스토어코드1">업주 발주 리스트</a><br>
 </body>
 </html>
