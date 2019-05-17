@@ -8,7 +8,7 @@
 </head>
 <body>
 <%@include file="./header.jsp" %>
-
+	<a href="./chatList.do?auth=${loginDto.auth}"></a>
 
 <%@include file="./footer.jsp" %>
 </body>
