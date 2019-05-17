@@ -6,5 +6,21 @@
 		SELECT ITEM_SEQ, ITEM_NAME, ITEM_PRICE
 		FROM ITEM ORDER BY ITEM_SEQ
 	</select>
-
+	
+	<insert id="itemInsert" parameterType="ItemDto">
+		INSERT INTO ITEM(ITEM_SEQ, ITEM_NAME, ITEM_PRICE)
+		VALUES(ITEM_SEQ.NEXTVAL, #{item_name}, #{item_price})
+	</insert>
+	
+	<update id="itemModify" parameterType="ItemDto">
+		UPDATE ITEM
+		SET ITEM_NAME=#{item_name}, ITEM_PRICE=#{item_price}
+		WHERE ITEM_SEQ=#{item_seq}
+	</update>
+	
+	<delete id="itemDelete" parameterType="java.lang.String">
+		DELETE FROM ITEM
+		WHERE ITEM_SEQ=#{item_seq}
+	</delete>
+	
 </mapper>
