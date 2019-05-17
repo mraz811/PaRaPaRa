@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -40,13 +41,17 @@ public class MansolTest_Ctrl {
 		System.out.println("업주의 메뉴 선택 성공? : "+isc);
 	}
 	
-	@RequestMapping(value="/selAllMenuList.do",method=RequestMethod.GET)
-	public void allMenu() {
-		List<MenuDto> lists = menu_IService.allMenu();
+	@RequestMapping(value="/selAllMenuList.do",method=RequestMethod.POST)
+	public String allMenu(Model model,String menu_category) {
+		MenuDto dto = new MenuDto();
+		dto.setMenu_category(menu_category);
+		List<MenuDto> lists = menu_IService.allMenu(dto);
 		System.out.println("전체 메뉴 조회 : "+lists);
+		model.addAttribute("menuList", lists);
+		return "/menu/menu_list";
 	}
 	
-	@RequestMapping(value="/regiNewMenu.do",method=RequestMethod.GET)
+	@RequestMapping(value="/regiNewMenu.do",method=RequestMethod.POST)
 	public void insertMenu(MenuDto dto) {
 		boolean isc = menu_IService.insertMenu(dto);
 		System.out.println("담당자 메뉴 등록 성공? : "+isc);
@@ -70,10 +75,11 @@ public class MansolTest_Ctrl {
 		System.out.println("담당자 메뉴 이미지 수정 성공? : "+isc);
 	}
 	
-	@RequestMapping(value="/delMenu.do",method=RequestMethod.GET)
-	public void deleteMenu(String menu_seq) {
+	@RequestMapping(value="/delMenu.do",method=RequestMethod.POST)
+	public String deleteMenu(String menu_seq) {
 		boolean isc = menu_IService.deleteMenu(menu_seq);
 		System.out.println("담당자 메뉴 삭제 성공? : "+isc);
+		return "/menu/menu_list";
 	}
 	
 	//주문
@@ -193,5 +199,10 @@ public class MansolTest_Ctrl {
 		map.put("end", end);
 		Map<String, Integer> resultMap = stats_IService.adminStatsMenu(map);
 		System.out.println("업주 메뉴 통계에 쓸 값 : "+resultMap);
+	}
+	//////////////////////////////////////////////////////////////////////////
+	@RequestMapping(value="/menuList.do",method=RequestMethod.GET)
+	public String menuList() {
+		return "/menu/menu_regiForm";
 	}
 }

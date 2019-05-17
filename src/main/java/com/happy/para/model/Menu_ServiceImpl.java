@@ -35,9 +35,9 @@ public class Menu_ServiceImpl implements Menu_IService{
 	
 	//전체 메뉴 조회
 	@Override
-	public List<MenuDto> allMenu(){
+	public List<MenuDto> allMenu(MenuDto dto){
 		logger.info("allMenu Service : {} ");
-		return menu_IDao.allMenu();
+		return menu_IDao.allMenu(dto);
 	}
 	
 	//담당자 메뉴 등록
