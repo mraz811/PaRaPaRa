@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.common.TempKey;
 import com.happy.para.dto.AdminDto;
@@ -220,6 +221,32 @@ public class MemberCtrl {
 			
 			return "redirect:/loginForm.do";
 		}
+		
+		// 담당자 회원 등록시 ajax를 통한 아이디 중복 검사
+		@RequestMapping(value="/admIdChk.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
+		public String admIdChk(String admin_id) {
+			int n = memService.adminIdDupleChk(admin_id);
+			return (n==0)? "사용 가능한 아이디":"사용 불가능한 아이디";
+		}
+		
+		// 업주 회원 등록시 ajax를 통한 아이디 중복 검사
+		@RequestMapping(value="/ownIdChk.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
+		public String ownIdChk(String owner_id) {
+			int n = memService.ownerIdDupleChk(owner_id);
+			return (n==0)? "사용 가능":"사용 불가능";
+		}
+		
+		// --------------- 조회, 삭제 추가 필요 -------------- //
+		
+		// 관리자 전체 조회 (페이징 사용)
+		
+		
+		
+		
+		// 업주 전체 조회 (페이징 사용)
+		
 		
 		
 }

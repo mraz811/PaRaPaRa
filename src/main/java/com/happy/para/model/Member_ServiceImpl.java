@@ -180,5 +180,15 @@ public class Member_ServiceImpl implements Member_IService {
 	public List<String> selStoreCodeList() {
 		return member_IDao.selStoreCodeList();
 	}
+
+	@Override
+	public int adminIdDupleChk(String admin_id) {
+		return member_IDao.adminIdDupleChk(admin_id);
+	}
+
+	@Override
+	public int ownerIdDupleChk(String owner_id) {
+		return member_IDao.ownerIdDupleChk(owner_id);
+	}
 	
 }
