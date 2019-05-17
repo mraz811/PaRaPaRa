@@ -2,14 +2,20 @@ package com.happy.para.ctrl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.ItemDto;
+import com.happy.para.dto.OwnerDto;
+import com.happy.para.model.Chat_IService;
 import com.happy.para.model.Item_IService;
 
 @Controller
@@ -19,6 +25,9 @@ public class TaeHyunTest_Ctrl {
 	
 	@Autowired
 	private Item_IService itemService;
+	
+	@Autowired
+	private Chat_IService chatService;
 	
 	@RequestMapping(value="/selItemList.do", method=RequestMethod.GET)
 	public String selectItemList() {
@@ -80,6 +89,14 @@ public class TaeHyunTest_Ctrl {
 		return "";
 	}
 	
+	@RequestMapping(value="/chatList.do", method=RequestMethod.GET)
+	public String selectChatList(String auth, Model model, HttpSession session) {
+		if(auth.equalsIgnoreCase("A")) {
+			AdminDto aDto = (AdminDto) session.getAttribute("loginDto");
+			List<OwnerDto> lists = chatService.selectOwner(aDto.getAdmin_id()+"");
+		}
+		return "common/chattingList";
+	}
 	
 	
 }
