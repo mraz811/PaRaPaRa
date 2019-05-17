@@ -54,12 +54,21 @@ public class Member_DaoImpl implements Member_IDao {
 
 	@Override
 	public int findAdminPw(Map<String, String> map) {
-		return sqlSession.selectOne(MNS+"findAdminPw", map);
+		// 만들어진 임시비밀번호를 암호화 
+		String tempPw = pwEncoder.encode(map.get("temp_pw"));
+		map.put("temp_pw", tempPw);
+		System.out.println("db에 들어갈 암호화 비밀번호:" +map.get("temp_pw"));
+		
+		return sqlSession.update(MNS+"findAdminPw", map);
 	}
 
 	@Override
 	public int findOwnerPw(Map<String, String> map) {
-		return sqlSession.selectOne(MNS+"findOwnerPw", map);
+		String tempPw = pwEncoder.encode(map.get("temp_pw"));
+		map.put("temp_pw", tempPw);
+		System.out.println("db에 들어갈 암호화 비밀번호:" +map.get("temp_pw"));
+		
+		return sqlSession.update(MNS+"findOwnerPw", map);
 	}
 
 	@Override
@@ -82,11 +91,21 @@ public class Member_DaoImpl implements Member_IDao {
 
 	@Override
 	public int adminModify(AdminDto aDto) {
+		// 새 비밀번호가 입력된 경우 암호화 처리
+		if(aDto.getAdmin_pw()!=null) {
+			String encodePw = pwEncoder.encode(aDto.getAdmin_pw());
+			aDto.setAdmin_pw(encodePw);
+		} 
 		return sqlSession.update(MNS+"adminModify",	aDto);
 	}
 
 	@Override
 	public int ownerModify(OwnerDto oDto) {
+		// 새 비밀번호가 입력된 경우 암호화 처리
+		if(oDto.getOwner_pw()!=null) {
+			String encodePw = pwEncoder.encode(oDto.getOwner_pw());
+			oDto.setOwner_pw(encodePw);
+		}
 		return sqlSession.update(MNS+"ownerModify", oDto);
 	}
 

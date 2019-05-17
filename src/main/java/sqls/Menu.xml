@@ -2,6 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="para.menu">
 	
+	<resultMap type="MenuDto" id="MenuResultMap">
+		<result property="menu_seq" column="MENU_SEQ"/>
+		<result property="menu_name" column="MENU_NAME"/>
+		<result property="menu_price" column="MENU_PRICE"/>
+		<result property="menu_category" column="MENU_CATEGORY"/>
+		<result property="menu_delflag" column="MENU_DELFLAG"/>
+		<collection property="fileDto" resultMap="FileResultMap"></collection>
+	</resultMap>
+	
+	<resultMap type="FileDto" id="FileResultMap">
+		<result property="file_seq" column="FILE_SEQ"/>
+		<result property="file_tname" column="FILE_TNAME"/>
+		<result property="file_rname" column="FILE_RNAME"/>
+		<result property="file_regdate" column="FILE_REGDATE"/>
+		<result property="file_size" column="FILE_SIZE"/>
+		<result property="chat_seq" column="CHAT_SEQ"/>
+	
+	</resultMap>
+	
 	<!-- 업주 선택 메뉴 조회 -->
 	<select id="ownerMenuList" parameterType="java.util.Map" resultType="MenuDto">
 	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, 
@@ -12,6 +31,9 @@
       open="(" separator="," close=")">
         #{menu_seq}
  	</foreach>
+ 	<if test="menu_category != null">
+ 		AND MENU_CATEGORY = #{menu_category}
+ 	</if>
     ORDER BY MENU_PRICE DESC
 	</select>
 	
@@ -22,10 +44,13 @@
 	</update>
 	
 	<!-- 전체 메뉴 조회 -->
-	<select id="allMenu" resultType="MenuDto">
+	<select id="allMenu" parameterType="MenuDto" resultMap="MenuResultMap">
 	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, 
 	MENU_SEQ,MENU_NAME,MENU_PRICE,MENU_CATEGORY
  	FROM MENU JOIN FILE_LIST USING (MENU_SEQ)
+ 	<if test="menu_category != null">
+ 		WHERE MENU_CATEGORY = #{menu_category}
+ 	</if>
  	ORDER BY MENU_PRICE DESC
 	</select>
 	

@@ -13,8 +13,10 @@ public class MenuDto implements Serializable {
 	private int menu_price;
 	private String menu_category;
 	private String menu_delflag;
+	private FileDto fileDto;
 	
 	public MenuDto() {
+		
 	}
 
 	@Override
@@ -62,5 +64,15 @@ public class MenuDto implements Serializable {
 	public void setMenu_delflag(String menu_delflag) {
 		this.menu_delflag = menu_delflag;
 	}
+
+	public FileDto getFileDto() {
+		return fileDto;
+	}
+
+	public void setFileDto(FileDto fileDto) {
+		this.fileDto = fileDto;
+	}
+	
+	
 
 }

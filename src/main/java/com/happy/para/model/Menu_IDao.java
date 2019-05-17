@@ -15,7 +15,7 @@ public interface Menu_IDao {
 	public boolean ownerMenuChoice(Map<String, String> map);
 	
 	//전체 메뉴 조회
-	public List<MenuDto> allMenu();
+	public List<MenuDto> allMenu(MenuDto dto);
 	
 	//담당자 메뉴 등록
 	public boolean insertMenu(MenuDto dto);

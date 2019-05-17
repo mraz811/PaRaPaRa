@@ -32,8 +32,8 @@ public class Menu_DaoImpl implements Menu_IDao{
 	
 	//전체 메뉴 조회
 	@Override
-	public List<MenuDto> allMenu(){
-		return sqlSession.selectList(NS+"allMenu");
+	public List<MenuDto> allMenu(MenuDto dto){
+		return sqlSession.selectList(NS+"allMenu",dto);
 	}
 	
 	//담당자 메뉴 등록
