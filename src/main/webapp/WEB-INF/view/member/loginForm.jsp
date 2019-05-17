@@ -5,9 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 페이지</title>
+<link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
+
+<script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="./js/sweetalert.min.js"></script>
 </head>
 <body>
-<%@include file="../header.jsp" %>
+<%-- <%@include file="../header.jsp" %> --%>
 
 
 <div id="container">
@@ -26,6 +30,7 @@
 		<input type="button" value="로그인" onclick="loginCheck()">
 		
 		<!-- 비밀번호 찾기 버튼 추가 예정 --> 
+		<a href="./findPwForm.do">비밀번호 찾기</a>
 	</form>
 
 

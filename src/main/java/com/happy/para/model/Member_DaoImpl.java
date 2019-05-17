@@ -54,12 +54,21 @@ public class Member_DaoImpl implements Member_IDao {
 
 	@Override
 	public int findAdminPw(Map<String, String> map) {
-		return sqlSession.selectOne(MNS+"findAdminPw", map);
+		// 만들어진 임시비밀번호를 암호화 
+		String tempPw = pwEncoder.encode(map.get("temp_pw"));
+		map.put("temp_pw", tempPw);
+		System.out.println("db에 들어갈 암호화 비밀번호:" +map.get("temp_pw"));
+		
+		return sqlSession.update(MNS+"findAdminPw", map);
 	}
 
 	@Override
 	public int findOwnerPw(Map<String, String> map) {
-		return sqlSession.selectOne(MNS+"findOwnerPw", map);
+		String tempPw = pwEncoder.encode(map.get("temp_pw"));
+		map.put("temp_pw", tempPw);
+		System.out.println("db에 들어갈 암호화 비밀번호:" +map.get("temp_pw"));
+		
+		return sqlSession.update(MNS+"findOwnerPw", map);
 	}
 
 	@Override
