@@ -1,19 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>업주 등록 페이지</title>
-<link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
-<script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="./js/sweetalert.min.js"></script>
 </head>
 <body>
-
+<%@include file="../header.jsp" %>
 <div id="container">
 세션 : ${loginDto}
 ${store_code}
@@ -25,10 +19,10 @@ ${store_code}
 			<input type="text" name="owner_id" placeholder="ex)111-11-11111" required="required" maxlength="12">
 			
 			<br><span>비밀번호</span><br>	
-			<input type="password" name="owner_pw" placeholder="비밀번호" required="required" maxlength="20">
+			<input type="password" name="owner_pw" placeholder="비밀번호" required="required" maxlength="12">
 		
 			<br><span>비밀번호 확인</span><br>	
-			<input type="password" name="pwChk" placeholder="비밀번호 확인" required="required" maxlength="20">
+			<input type="password" name="pwChk" placeholder="비밀번호 확인" required="required" maxlength="12">
 		
 			<br><span>업주명</span><br>	
 			<input type="text" name="owner_name" placeholder="이름" required="required" maxlength="20">
@@ -67,6 +61,8 @@ ${store_code}
 
 
 </div>
+
+<%@include file="../footer.jsp" %>
 
 </body>
 <script type="text/javascript">
