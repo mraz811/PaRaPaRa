@@ -14,9 +14,11 @@ ${store_code}
 
 	<input type="hidden" value="0" id="idchkVal">
 	<input type="hidden" value="0" id="pwchkVal">
+	<input type="hidden" value="0" id="phnchkVal">
+	<input type="hidden" value="0" id="emailchkVal">
 	
 	<!-- 업주 등록 form -->
-	<form id="owRegiForm" action="./ownerRegi.do" method="post">
+	<form id="owRegiForm" action="./ownerRegi.do" method="post"  onsubmit="return RegiChk()">
 		<div>
 			<span>사업자 등록번호</span><span id="idRst"></span><br>
 			<input type="text" id="id" name="owner_id" placeholder="ex)111-11-11111" required="required" maxlength="12">
@@ -30,10 +32,10 @@ ${store_code}
 			<br><span>업주명</span><br>	
 			<input type="text" id="name" name="owner_name" placeholder="이름" required="required" maxlength="20">
 			
-			<br><span>전화번호</span><br>	
+			<br><span>전화번호</span><span id="phnRst"></span><br>	
 			<input type="text" id="phone" name="owner_phone" placeholder="연락처" required="required" maxlength="20">
 		
-			<br><span>이메일</span><br>	
+			<br><span>이메일</span><span id="emailRst"></span><br>	
 			<input type="text" id="email" name="owner_email" placeholder="이메일" required="required" maxlength="80">
 			
 			<br><span>매장코드</span><br>
@@ -57,7 +59,7 @@ ${store_code}
 		</div>
 		
 		<div>	
-			<input type="submit" value="등록 완료" onsubmit="return adRegiChk()">
+			<input type="submit" value="등록 완료" >
 			<input type="button" value="취소" onclick="regiCancel()">
 		</div>
 	</form>
@@ -92,7 +94,7 @@ $(function(){
 				data : "owner_id="+id,
 				async : true,
 				success : function(msg){
-					alert(msg.substr(0,5)); // 사용 가능 / 사용 불가
+// 					alert(msg.substr(0,5)); // 사용 가능 / 사용 불가
 					if(msg.substr(0,5)=="사용 가능"){
 						$("#idRst").css({'color':'forestgreen', 'font-size':'10px'});
 						$("#idRst").html("  사용 가능한 아이디");
@@ -153,26 +155,75 @@ $(function(){
 			$("#pwchkVal").val("0");
 		}
 	}); // 비밀번호 확인 유효성 검사 종료
+
+	// 전화번호 정규화 표현식
+	$("#phone").keyup(function(){
+		var phn = $(this).val();
+		
+		var phnRegExp = /^\d{2,3}-\d{3,4}-\d{4}$/;
+		
+		if(phn.indexOf(" ") != -1){
+			$("#phnRst").css({'color':'red', 'font-size':'10px'});
+			$("#phnRst").html("  공백 사용 불가");
+			$("#phnchkVal").val("0");
+		} else if(phn.match(phnRegExp) != null){
+			$("#phnRst").css({'color':'forestgreen', 'font-size':'10px'});
+			$("#phnRst").html("  사용 가능한 전화번호");
+			$("#phnchkVal").val("1");
+		} else {
+			$("#phnRst").css({'color':'red', 'font-size':'10px'});
+			$("#phnRst").html(" -포함해서 입력해주세요");
+			$("#phnchkVal").val("0");
+		}
+	}); // 전화번호 유효성 검사 종료
+	
+	// 이메일 유효성 검사
+	$("#email").keyup(function(){
+		var email = $(this).val();
+		
+		var emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	
+		if(email.indexOf(" ") != -1){
+			$("#emailRst").css({'color':'red', 'font-size':'10px'});
+			$("#emailRst").html("  공백 사용 불가");
+			$("#emailchkVal").val("0");
+		}else if(email.match(emailRegExp)!=null){
+			$("#emailRst").css({'color':'forestgreen', 'font-size':'10px'});
+			$("#emailRst").html("  사용 가능한 이메일");
+			$("#emailchkVal").val("1");
+		}else{
+			$("#emailRst").css({'color':'red', 'font-size':'10px'});
+			$("#emailRst").html("  유효한 이메일을 입력해 주세요");
+			$("#emailchkVal").val("0");
+		}
+	}); // 이메일 유효성 검사 완료
 	
 });
 
 
-
-// 업주 등록 완료 시 유효값 검사
-var adRegiChk = function(){
-	
-	
-	
-	return true;
-}
-
-// 등록 취소 시
+//등록 취소 버튼클릭 시 실행할 함수
 var regiCancel = function(){
-	
-	
+
+
 }
-
-
+	
+	
+//회원 등록 버튼 클릭 시 실행할 함수
+var RegiChk = function(){
+	var idVal = document.getElementById("idchkVal").value;
+	var pwVal = document.getElementById("pwchkVal").value;
+	var phnVal = document.getElementById("phnchkVal").value;
+	var emailVal = document.getElementById("emailchkVal").value;
+	
+// 	alert(idVal +":" + pwVal +":"+phnVal +":" +emailVal);
+	if(idVal=='1' && pwVal=='1' && phnVal=='1' && emailVal=='1'){
+		return true;
+	} else {
+		swal("회원등록 실패", "유효값을 확인해주세요");
+		return false;
+	}
+	return false;
+}
 
 
 
