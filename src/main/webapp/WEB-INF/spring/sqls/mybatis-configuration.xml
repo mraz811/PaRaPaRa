@@ -10,6 +10,7 @@
 		<typeAlias type="com.happy.para.dto.RequestDto" alias="RequestDto" />
 		<typeAlias type="com.happy.para.dto.FileDto" alias="FileDto"/>
 		<typeAlias type="com.happy.para.dto.ItemDto" alias="ItemDto"/>
+		<typeAlias type="com.happy.para.dto.ChatDto" alias="ChatDto"/>
 	</typeAliases>
 
 <!-- Mapper 연결 -->
@@ -19,5 +20,6 @@
 		<mapper resource="/sqls/Stats.xml" />
 		<mapper resource="/sqls/Menu.xml" />
 		<mapper resource="/sqls/Item.xml"/>
+		<mapper resource="/sqls/Chat.xml"/>
 	</mappers>
 </configuration>
