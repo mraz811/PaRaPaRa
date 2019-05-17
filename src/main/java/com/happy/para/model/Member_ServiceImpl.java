@@ -1,14 +1,19 @@
 package com.happy.para.model;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.happy.para.common.MailUtils;
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.OwnerDto;
 
@@ -21,6 +26,9 @@ public class Member_ServiceImpl implements Member_IService {
 	@Autowired
 	private Member_IDao member_IDao;
 
+	@Autowired
+	private JavaMailSender mailSender;
+	
 	@Override
 	public AdminDto adminLogin(AdminDto aDto) {
 		logger.info("adminLogin Service : {} ", aDto);
@@ -36,16 +44,58 @@ public class Member_ServiceImpl implements Member_IService {
 	@Override
 	public int findAdminPw(Map<String, String> map) {
 		logger.info("findAdminPw Service : {} ", map);
-		// 여기에서 임시 비밀번호를 설정해서 이메일로 보내주어야 함
-
+		// 임시 비밀번호를 이메일로 보내주어야 함
+		
+		// 메일 내용
+		String mailContent = new StringBuffer().append("<h1>임시 비밀번호 안내</h1>")
+				.append("<p>아래 비밀번호로 로그인 후 비밀번호 변경해주세요</p>")
+				.append("임시 비밀번호: " + map.get("temp_pw")).toString();
+		
+		try {
+			MailUtils sendMail = new MailUtils(mailSender);
+			// 메일 제목
+			sendMail.setSubject("[PaRaPaRa 비밀번호 찾기]");
+			// 메일 내용(html)
+			sendMail.setText(mailContent);
+			// 메일 보내는 계정
+			sendMail.setFrom("happyproject8811@gmail.com", "파라파라");
+			// 메일 받는 사람
+			sendMail.setTo(map.get("admin_email"));
+			
+			sendMail.send();
+			
+		} catch (MessagingException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 		return member_IDao.findAdminPw(map);
 	}
 
 	@Override
 	public int findOwnerPw(Map<String, String> map) {
 		logger.info("findOwnerPw Service : {} ", map);
-		// 여기에서 임시 비밀번호를 설정해서 이메일로 보내주어야 함
-
+		// 여기에서 임시 비밀번호를 이메일로 보내주어야 함
+		String mailContent = new StringBuffer().append("<h1>임시 비밀번호 안내</h1>")
+				.append("<p>아래 비밀번호로 로그인 후 비밀번호 변경해주세요</p>")
+				.append("임시 비밀번호: " + map.get("temp_pw")).toString();
+		
+		try {
+			MailUtils sendMail = new MailUtils(mailSender);
+			// 메일 제목
+			sendMail.setSubject("[PaRaPaRa 비밀번호 찾기]");
+			// 메일 내용(html)
+			sendMail.setText(mailContent);
+			// 메일 보내는 계정
+			sendMail.setFrom("happyproject8811@gmail.com", "파라파라");
+			// 메일 받는 사람
+			sendMail.setTo(map.get("owner_email"));
+			
+			sendMail.send();
+			
+		} catch (MessagingException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 		return member_IDao.findOwnerPw(map);
 	}
 

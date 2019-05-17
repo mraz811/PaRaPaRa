@@ -1,6 +1,8 @@
 package com.happy.para.ctrl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.happy.para.common.TempKey;
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.model.Member_IService;
@@ -20,6 +23,9 @@ public class MemberCtrl {
 
 		@Autowired
 		private Member_IService memService;
+		
+		@Autowired
+		private TempKey tempKey;
 		
 		// main 페이지로 보내주는 메소드
 		@RequestMapping(value="/main.do",method=RequestMethod.GET)
@@ -179,8 +185,41 @@ public class MemberCtrl {
 			return "redirect:/logout.do?auth=U";
 		}
 		
+		// 비밀번호 찾기 (아이디, 이메일 입력) 페이지로 보냄
+		@RequestMapping(value="/findPwForm.do", method=RequestMethod.GET)
+		public String findPwForm() {
+			return "/member/findPwForm";
+		}
 		
-		
+		// 아이디, 이메일을 받아서 비밀번호 임시 생성 후 이메일로 보내주는 메서드
+		@RequestMapping(value="/findPw.do", method=RequestMethod.POST)
+		public String findPw(String auth, String id, String email) {
+			System.out.printf("입력받은 값: auth %s, id %s, email %s",auth, id, email);
+
+			if(auth.equalsIgnoreCase("A")) {
+				Map<String, String> admap = new HashMap<String, String>();
+				admap.put("admin_id", id);
+				admap.put("admin_email", email);
+				// temp 키로 8자리 랜덤 비밀번호 생성
+				String tempPw = tempKey.getKey(8, false);
+				admap.put("temp_pw", tempPw);
+				
+				memService.findAdminPw(admap);
+				
+			} else if(auth.equalsIgnoreCase("U")) {
+				Map<String, String> owmap = new HashMap<String, String>();
+				owmap.put("owner_id", id);
+				owmap.put("owner_email", email);
+				// temp 키로 8자리 랜덤 비밀번호 생성
+				String tempPw = tempKey.getKey(8, false);
+				owmap.put("temp_pw", tempPw);
+				System.out.println("업데이트 전 map : " + owmap);
+				int n = memService.findOwnerPw(owmap);
+				System.out.println("업데이트 된 후 값 : " + n);
+			}
+			
+			return "redirect:/loginForm.do";
+		}
 		
 		
 }
