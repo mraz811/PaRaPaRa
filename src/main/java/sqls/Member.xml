@@ -12,7 +12,7 @@
 
 <!-- 업주 로그인 -->
 <select id="ownerLogin" parameterType="OwnerDto" resultType="OwnerDto">
-	SELECT OWNER_SEQ, OWNER_ID, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, OWNER_START 
+	SELECT OWNER_SEQ, OWNER_ID, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, OWNER_START, ADMIN_ID 
 	FROM OWNER
 	WHERE OWNER_ID= #{owner_id} AND OWNER_PW= #{owner_pw}
 </select>
@@ -62,7 +62,7 @@
 		<if test="admin_pw != null">ADMIN_PW = #{admin_pw},</if>
 		<if test="admin_name != null">ADMIN_NAME = #{admin_name},</if>
 		<if test="admin_phone != null">ADMIN_PHONE = #{admin_phone},</if>
-		<if test="admin_email != null">ADMIN_EMAIL = #{admin_email},</if>
+		<if test="admin_email != null">ADMIN_EMAIL = #{admin_email}</if>
 	</trim>
 	WHERE ADMIN_ID = #{admin_id}
 </update>
@@ -74,7 +74,7 @@
 		<if test="owner_pw != null">OWNER_PW = #{owner_pw},</if>
 		<if test="owner_name != null">OWNER_NAME = #{owner_name},</if>
 		<if test="owner_phone != null">OWNER_PHONE = #{owner_phone},</if>
-		<if test="owner_email != null">OWNER_EMAIL = #{owner_email},</if>
+		<if test="owner_email != null">OWNER_EMAIL = #{owner_email}</if>
 	</trim>
 	WHERE OWNER_SEQ = #{owner_seq}
 </update>

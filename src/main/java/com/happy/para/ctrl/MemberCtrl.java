@@ -59,7 +59,6 @@ public class MemberCtrl {
 					return "redirect:/main.do";
 				} 
 			}
-			
 			return "redirect:/loginForm.do";
 		}
 		
@@ -106,7 +105,7 @@ public class MemberCtrl {
 			return "redirect:/adminRegiForm.do";
 		}
 		
-		// 엄주 회원 등록 페이지로 보내주는 메소드 (업주 등록 여부 0인 매장코드 리스트 전송)
+		// 업주 회원 등록 페이지로 보내주는 메소드 (업주 등록 여부 0인 매장코드 리스트 전송)
 		@RequestMapping(value="ownerRegiForm.do", method=RequestMethod.GET)
 		public String ownerRegiForm(Model model) {
 			List<String> store_code = memService.selStoreCodeList();
@@ -128,22 +127,24 @@ public class MemberCtrl {
 			return "/member/myPageLogin";
 		}
 		
-		// 마이페이지 비밀번호 확인 후 마이 페이지로
+		// 담당자/업주의 마이페이지 비밀번호 확인 후 마이 페이지로
 		@RequestMapping(value="/toMypage.do", method=RequestMethod.POST)
-		public String toMypage(String id, String pw, String auth) {
-	System.out.println(id+":"+pw+":"+auth);
+		public String toMypage(String id, String pw, String auth, Model model) {
+			System.out.println(id+":"+pw+":"+auth);
 			
 			if(auth.equalsIgnoreCase("A")) {
 				AdminDto aMyDto = new AdminDto(Integer.parseInt(id), pw);
 				AdminDto aDto = memService.adminLogin(aMyDto);
 				if(aDto!=null) {
 					System.out.println("비밀번호 일치");
+					model.addAttribute("aDto", aDto);
 					return "/member/myPage";
 				}
 			} else if(auth.equalsIgnoreCase("U")) {
 				OwnerDto oMyDto = new OwnerDto(id, pw);
 				OwnerDto oDto = memService.ownerLogin(oMyDto);
 				if(oDto != null) {
+					model.addAttribute("oDto", oDto);
 					return "/member/myPage";
 				}
 			} 
@@ -151,6 +152,35 @@ public class MemberCtrl {
 			System.out.println("비밀번호 불일치");
 			return "redirect:/pwCheckForm.do";
 		}
+		
+		// 마이페이지에서 수정된 정보만 수정해 줍니다		
+		@RequestMapping(value="/adminModi.do", method=RequestMethod.POST)
+		public String adminModi(AdminDto aDto) {
+			System.out.println("입력 받은 값 : "+aDto);
+			// 비밀번호를 입력받지 않은 경우 비밀번호를 null 처리 해준다. 
+			if(aDto.getAdmin_pw()==""){
+				aDto.setAdmin_pw(null);
+			}
+			memService.adminModify(aDto);
+			// 수정 후에 세션 값이 변경이 되지 않기 때문에 로그아웃 후 재로그인 합니다.
+			return "redirect:/logout.do?auth=A";
+		}
+		
+		// 마이페이지에서 수정된 정보만 수정해 줍니다		
+		@RequestMapping(value="/ownerModi.do", method=RequestMethod.POST)
+		public String ownerModi(OwnerDto oDto) {
+			System.out.println("입력 받은 값: "+oDto);
+			
+			if(oDto.getOwner_pw()=="") {
+				oDto.setOwner_pw(null);
+			}
+			memService.ownerModify(oDto);
+			
+			return "redirect:/logout.do?auth=U";
+		}
+		
+		
+		
 		
 		
 }

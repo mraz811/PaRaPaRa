@@ -82,11 +82,21 @@ public class Member_DaoImpl implements Member_IDao {
 
 	@Override
 	public int adminModify(AdminDto aDto) {
+		// 새 비밀번호가 입력된 경우 암호화 처리
+		if(aDto.getAdmin_pw()!=null) {
+			String encodePw = pwEncoder.encode(aDto.getAdmin_pw());
+			aDto.setAdmin_pw(encodePw);
+		} 
 		return sqlSession.update(MNS+"adminModify",	aDto);
 	}
 
 	@Override
 	public int ownerModify(OwnerDto oDto) {
+		// 새 비밀번호가 입력된 경우 암호화 처리
+		if(oDto.getOwner_pw()!=null) {
+			String encodePw = pwEncoder.encode(oDto.getOwner_pw());
+			oDto.setOwner_pw(encodePw);
+		}
 		return sqlSession.update(MNS+"ownerModify", oDto);
 	}
 
