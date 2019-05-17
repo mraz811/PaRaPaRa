@@ -17,14 +17,14 @@
 	</update>
 	
 	<select id="selectChatRoom" parameterType="java.lang.String" resultType="ChatDto">
-		SELECT CHAT_SEQ, CHAT_TITLE, CHAT_CONTENT, CHAT_SCOUNT, CHAR_RCOUNT, CHAT_REGDATE
+		SELECT CHAT_SEQ, CHAT_TITLE, CHAT_CONTENT, CHAT_SCOUNT, CHAT_RCOUNT, CHAT_REGDATE
 		FROM CHAT WHERE CHAT_TITLE = #{chat_title}
 	</select>
 	
 	<insert id="createChatRoom" parameterType="java.lang.String">
 		INSERT INTO CHAT
 		(CHAT_SEQ, CHAT_TITLE, CHAT_CONTENT, CHAT_SCOUNT, CHAT_RCOUNT, CHAT_REGDATE)
-		VALUES(CHAT_SEQ.NEXTVAL, #{chat_title}, '', 0, 0, SYSDATE)
+		VALUES(CHAT_SEQ.NEXTVAL, #{chat_title}, ' ', 0, 0, SYSDATE)
 	</insert>
 	
 </mapper>
