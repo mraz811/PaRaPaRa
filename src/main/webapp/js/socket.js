@@ -30,6 +30,7 @@ function sendText() {
 $(document)
 .ready(
 		function() {
+			
 //			var curAuth = $('#auth').val();
 			
 			var chatTitle = $('#storeCode').val();
@@ -53,7 +54,7 @@ $(document)
 			// 웹소켓 객체를 만들기 위해 매개변수로 url을 넣어 접속할 서버를 지정해준다.
 			// 파라미터로 내 아이디를 보내준다.
 			ws = new WebSocket(
-					"ws://192.168.8.20:8091/PaRaPaRa/wsChat.do?id="
+					"ws://192.168.4.19:8091/PaRaPaRa/wsChat.do?id="
 							+ mySessionId + "&target=" + targetId);
 			ws.binaryType = "arraybuffer";
 			
@@ -98,7 +99,7 @@ $(document)
 					success : function(msg) {
 						var isc = msg;
 						if(isc=="성공"){
-							
+							alert("gpgp");
 						}else{
 							//location.href="./error.do";
 						}
@@ -139,6 +140,32 @@ $(document)
 			function beforeUnloadHandler() {
 				return 'message';
 			}
+			var objDragDrop = $(".dragDropDiv");
+			// div 영역으로 드래그 이벤트호출
+			$(".dragDropDiv").on("dragover",
+					function(e) {
+				e.stopPropagation();
+				e.preventDefault();
+				$(this).css('border', '2px solid red');
+			});
+			// 해당 파일 드랍시 호출 이벤트
+			$(".dragDropDiv").on("drop", function(e) {
+				$(this).css('border', '2px solid green');
+				//브라우저로 이동되는 이벤트를 방지하고 드랍 이벤트를 우선시 한다.
+				e.preventDefault();
+				//DROP 되는 위치에 들어온 파일 정보를 배열 형태로 받아온다.
+				var files = e.originalEvent.dataTransfer.files;
+				alert(files);
+				//DIV에 DROP 이벤트가 발생 했을 때 다음을 호출한다.
+				handleFileUpload(files);
+//				sendFileToServer();
+			});
+			// div 영역빼고 나머지 영역에 드래그 원래색변경
+			$(document).on('dragover', function(e) {
+				e.stopPropagation();
+				e.preventDefault();
+				objDragDrop.css('border', '2px solid green');
+			});
 
 		});
 

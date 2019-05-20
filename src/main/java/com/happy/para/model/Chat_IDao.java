@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.ChatDto;
+import com.happy.para.dto.FileDto;
 import com.happy.para.dto.OwnerDto;
 
 public interface Chat_IDao {
@@ -23,4 +24,9 @@ public interface Chat_IDao {
 	// 채팅방 생성
 	public boolean createChatRoom(String chat_title);
 	
+	// 파일 업로드
+	public boolean uploadFile(FileDto dto);
+	
+	// 파일 조회
+	public List<FileDto> selectFileList(String chat_seq);
 }

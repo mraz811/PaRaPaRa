@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.ChatDto;
+import com.happy.para.dto.FileDto;
 import com.happy.para.dto.OwnerDto;
 
 @Service
@@ -47,6 +48,18 @@ public class Chat_ServiceImpl implements Chat_IService {
 	public boolean createChatRoom(String chat_title) {
 		logger.info("selectOwner Service : {}", chat_title);
 		return chat_IDao.createChatRoom(chat_title);
+	}
+
+	@Override
+	public boolean uploadFile(FileDto dto) {
+		logger.info("insert File Service : {}", dto);
+		return chat_IDao.uploadFile(dto);
+	}
+
+	@Override
+	public List<FileDto> selectFileList(String chat_seq) {
+		logger.info("select Upload File List Service : {}", chat_seq);
+		return chat_IDao.selectFileList(chat_seq);
 	}
 	
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.ChatDto;
+import com.happy.para.dto.FileDto;
 import com.happy.para.dto.OwnerDto;
 
 @Repository
@@ -41,6 +42,16 @@ public class Chat_DaoImpl implements Chat_IDao {
 	@Override
 	public boolean createChatRoom(String chat_title) {
 		return sqlSession.insert(NS+"createChatRoom", chat_title) > 0 ? true : false;
+	}
+
+	@Override
+	public boolean uploadFile(FileDto dto) {
+		return sqlSession.insert(NS+"uploadFile", dto) > 0 ? true:false;
+	}
+
+	@Override
+	public List<FileDto> selectFileList(String chat_seq) {
+		return sqlSession.selectList(NS+"selectFileList", chat_seq);
 	}
 
 }

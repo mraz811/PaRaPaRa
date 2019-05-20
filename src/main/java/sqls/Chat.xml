@@ -27,4 +27,15 @@
 		VALUES(CHAT_SEQ.NEXTVAL, #{chat_title}, ' ', 0, 0, SYSDATE)
 	</insert>
 	
+	<insert id="uploadFile" parameterType="FileDto">
+		INSERT INTO FILE_LIST
+		(FILE_SEQ, FILE_TNAME, FILE_RNAME, FILE_REGDATE, CHAT_SEQ)
+		VALUES(FILE_SEQ.NEXTVAL, #{file_tname}, #{file_rname}, SYSDATE, #{chat_seq})
+	</insert>
+	
+	<select id="selectFileList" parameterType="java.lang.String" resultType="FileDto">
+		SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, FILE_REGDATE, FILE_SIZE, CHAT_SEQ 
+		FROM FILE_LIST
+		WHERE CHAT_SEQ=#{chat_seq}
+	</select>
 </mapper>

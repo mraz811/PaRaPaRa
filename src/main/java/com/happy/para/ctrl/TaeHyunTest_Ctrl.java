@@ -1,7 +1,12 @@
 package com.happy.para.ctrl;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -9,11 +14,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.ChatDto;
+import com.happy.para.dto.FileDto;
 import com.happy.para.dto.ItemDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.model.Chat_IService;
@@ -29,6 +39,11 @@ public class TaeHyunTest_Ctrl {
 	
 	@Autowired
 	private Chat_IService chatService;
+	
+	
+	@Resource(name="uploadPath")
+	String uploadPath;
+	
 	
 	@RequestMapping(value="/selItemList.do", method=RequestMethod.GET)
 	public String selectItemList() {
@@ -143,13 +158,63 @@ public class TaeHyunTest_Ctrl {
 				chatDto = chatService.selectChatRoom(store_codeTwo);
 			}
 		}		
-		chatDto.setChat_content("하위");
 		System.out.println("if문 밖에서 찍어본 Store_code : " + store_codeTwo);
+		System.out.println("if문 밖에서 찍어본 chatDto : " + chatDto);
+		System.out.println("if문 밖에서 찍어본 targer : " + id);
 		model.addAttribute("store_code", store_codeTwo);
 		model.addAttribute("chatDto", chatDto);
 		model.addAttribute("target", id);
 		return "common/socket";
 	}
 	
+	@RequestMapping(value="/chatContentUpdate.do", method=RequestMethod.POST, produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String updateChat(String chatTitle, String content) {
+		ChatDto dto = new ChatDto();
+		// 받은 chatmember 값을 정렬하기 위해 배열로 만듦
+		dto.setChat_title(chatTitle);
+		dto.setChat_content(content);
+
+		System.out.println(content);
+
+		boolean isc = chatService.updateChatContent(dto);
+		System.out.println(isc);
+		return isc == true ? "성공" : "실패";
+	}
+	
+	@RequestMapping(value="/regiFile.do", method=RequestMethod.POST, produces="application/text; charset-utf-8;")
+	@ResponseBody
+	public String fileUpload(FileDto dto,  MultipartHttpServletRequest mtsRequest, String chat_seq) throws IOException {
+		logger.info("file Upload Controller");
+		boolean isc = false;
+		Iterator<String> itr = mtsRequest.getFileNames();
+		System.out.println("파일이름 : " + itr);
+		String originalName = null;
+		while(itr.hasNext()) {
+			MultipartFile file = mtsRequest.getFile(itr.next());
+			originalName = file.getOriginalFilename();
+			String savedName = "";
+			System.out.println("Orginal Name : " + originalName);
+			// 이름이 겹치지 않기위해 랜덤 생성
+			UUID uuid = UUID.randomUUID();
+			savedName = uuid.toString()+"_"+originalName;
+			File dir = new File(uploadPath);
+			File target = new File(uploadPath, savedName);
+			// 폴더가 없다면 폴더를 생성
+			if(!dir.exists()) {
+				dir.mkdirs();
+			}
+			
+			// 파일을 서버에 저장
+			FileCopyUtils.copy(file.getBytes(), target);
+			
+			// argument로 받아온 dto에 파일 이름이 들어가 있지 않아서 직접 set
+			dto.setFile_rname(originalName);
+			dto.setFile_tname(savedName);
+			isc = chatService.uploadFile(dto);
+			System.out.println("파일업로드 성공 : " + isc);
+		}
+		return uploadPath + "\\" + originalName;
+	}
 	
 }
