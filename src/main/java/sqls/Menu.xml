@@ -54,6 +54,14 @@
  	ORDER BY MENU_PRICE DESC
 	</select>
 	
+	<!-- 메뉴 상세 조회(수정시 사용) -->
+	<select id="detailMenu" parameterType="java.lang.String" resultType="MenuDto">
+	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, 
+	MENU_SEQ,MENU_NAME,MENU_PRICE,MENU_CATEGORY
+ 	FROM MENU JOIN FILE_LIST USING (MENU_SEQ)
+ 	WHERE MENU_SEQ=#{menu_seq}
+	</select>
+	
 	<!-- 담당자 메뉴 등록 -->
 	<insert id="insertMenu" parameterType="MenuDto">
 	INSERT INTO MENU (MENU_SEQ, MENU_NAME, MENU_PRICE, MENU_CATEGORY,MENU_DELFLAG)
