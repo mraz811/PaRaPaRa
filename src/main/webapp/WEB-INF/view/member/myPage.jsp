@@ -25,6 +25,10 @@
 			
 				<br><span>비밀번호 확인</span><br>	
 				<input type="password" name="pwChk" placeholder="비밀번호 확인"  maxlength="20">
+				<input type="password" id="pw" name="admin_pw" placeholder="변경할 비밀번호"  maxlength="12">
+			
+				<br><span>비밀번호 확인</span><br>	
+				<input type="password" name="pwChk" placeholder="비밀번호 확인"  maxlength="12">
 			
 				<br><span>담당자명</span><br>	
 				<input type="text" id="name" name="admin_name" placeholder="이름" required="required" maxlength="20" value="${aDto.admin_name}">

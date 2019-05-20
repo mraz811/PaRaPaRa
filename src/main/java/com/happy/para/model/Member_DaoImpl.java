@@ -159,5 +159,15 @@ public class Member_DaoImpl implements Member_IDao {
 	public int storeOwnerRegi(Map<String, String> map) {
 		return sqlSession.update(MNS+"storeOwnerRegi", map);
 	}
+
+	@Override
+	public int adminIdDupleChk(String admin_id) {
+		return sqlSession.selectOne(MNS+"adminIdDupleChk", admin_id);
+	}
+
+	@Override
+	public int ownerIdDupleChk(String owner_id) {
+		return sqlSession.selectOne(MNS+"ownerIdDupleChk", owner_id);
+	}
 	
 }
