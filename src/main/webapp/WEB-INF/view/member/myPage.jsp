@@ -97,7 +97,7 @@ var confirmModi = function(){
 
 var backToMain = function(){
 	location.href="./main.do" ;
-
+}
 
 </script>
 
