@@ -64,7 +64,7 @@ public class MySocketHandler extends TextWebSocketHandler{
 				rstJson.put("view", "<font color='green' size='4px'>" + initMsg + "님이 입장하였습니다. </font>");
 				if(map.get(dto.getReciver())== null) {
 					System.out.println("행");
-	//				session.sendMessage(new TextMessage(rstJson.toJSONString()));
+					session.sendMessage(new TextMessage(rstJson.toJSONString()));
 				}else {
 					System.out.println("헤");
 					WebSocketDto rDto = map.get(dto.getReciver());
@@ -131,12 +131,18 @@ public class MySocketHandler extends TextWebSocketHandler{
 					System.out.println("보낸 사람이 담당자일 때 받는 사람은 업주 : " + target);
 					
 					rstJson.put("view", sendMessage);
-					WebSocketDto rDto = map.get(target);
-					System.out.println(rDto);
-					WebSocketSession rSession = rDto.getMySession();
+					if(map.get(target) == null) {
+						System.out.println("상대방이 접속하지 않음");
+						sendSession.sendMessage(new TextMessage(rstJson.toString()));
+					}else {
+						WebSocketDto rDto = map.get(target);
+						System.out.println(rDto);
+						WebSocketSession rSession = rDto.getMySession();
+						sendSession.sendMessage(new TextMessage(rstJson.toString()));
+						rSession.sendMessage(new TextMessage(rstJson.toString()));
+						
+					}
 					
-					sendSession.sendMessage(new TextMessage(rstJson.toString()));
-					rSession.sendMessage(new TextMessage(rstJson.toString()));
 				}
 				
 			}
