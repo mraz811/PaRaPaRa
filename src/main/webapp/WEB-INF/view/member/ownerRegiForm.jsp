@@ -120,9 +120,8 @@ $(function(){
 
 //등록 취소 버튼클릭 시 실행할 함수
 var regiCancel = function(){
-
-
-}
+	location.href="./selOwnerList.do";
+};
 	
 	
 //회원 등록 버튼 클릭 시 실행할 함수
@@ -140,7 +139,7 @@ var RegiChk = function(){
 		return false;
 	}
 	return false;
-}
+};
 
 
 

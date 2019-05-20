@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>업주 조회 페이지</title>
 </head>
-<script type="text/javascript" src="js/paging.js"></script>
+<script type="text/javascript" src="./js/paging.js"></script>
 
 <body>
 <%@include file="../header.jsp" %>
@@ -49,6 +49,10 @@
 		</table>
 	</div>
 
+	<div>
+		<input type="button" value="등록" onclick="toOwnerRegi()">
+	</div>
+
 
 <!-- 페이징 처리 기능은 화면 템플릿 추가 후 추가할 예정 -->
 	<input type="hidden" name="index" id="index" value="${row.index}">
@@ -76,10 +80,15 @@
 </body>
 <script type="text/javascript">
 
+// 업주 등록
+var toOwnerRegi = function(){
+	location.href="./ownerRegiForm.do";
+};
+
 // 업주 계약 종료 시 
 var finContract = function(){
 	
-}
+};
 
 </script>
 

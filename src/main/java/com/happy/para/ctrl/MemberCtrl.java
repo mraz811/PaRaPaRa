@@ -304,7 +304,6 @@ public class MemberCtrl {
 			}
 		}
 		
-		
 		// 업주 전체 조회 (페이징 사용)
 		@RequestMapping(value="/selOwnerList.do", method=RequestMethod.GET)
 		public String selOwnerList(Model model, String loc_code) {
@@ -324,7 +323,11 @@ public class MemberCtrl {
 			return "/member/ownerList";
 		}
 		
-		
-		
+		// 담당자 삭제 메소드 delflag->Y
+		@RequestMapping(value="/delAdmin.do", method=RequestMethod.POST)
+		public String delAdmin(String admin_id) {
+			memService.adminDelete(admin_id);
+			return "redirect:/selAdminList.do";
+		}
 		
 }
