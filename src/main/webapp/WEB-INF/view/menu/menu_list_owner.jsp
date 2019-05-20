@@ -80,7 +80,7 @@ function choiceMenu(){
 </script>
 <body>
 <div id="container">
-	<form action="./selAllMenuList.do" method="post">
+	<form action="./OselAllMenuList.do" method="post">
 		<div id="category">
 			<input id="mainMenu" name="menu_category" type="submit" value="주메뉴"/>
 			<input id="sideMenu" name="menu_category" type="submit" value="사이드메뉴"/>
@@ -92,7 +92,6 @@ function choiceMenu(){
 				<input id="choiceMenu" type="button" value="판매 메뉴 등록" onclick="choiceMenu()"/>
 		</div>
 	<form id="frm" action="./menuChoice.do" method="post" onsubmit="return choiceMenu()">
-	<input type="hidden" name="owner_seq" value="44"/> <!-- 세션에서 받아올꺼임 -->
 		<div id="menuList">
 			<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
 					
