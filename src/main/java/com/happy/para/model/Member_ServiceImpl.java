@@ -129,7 +129,7 @@ public class Member_ServiceImpl implements Member_IService {
 	}
 
 	@Override
-	public List<AdminDto> adminList(Map<String, Integer> map) {
+	public List<AdminDto> adminList(Map<String, String> map) {
 		logger.info("adminList Service : {}", map);
 		return member_IDao.adminList(map);
 	}
@@ -141,19 +141,19 @@ public class Member_ServiceImpl implements Member_IService {
 	}
 
 	@Override
-	public List<OwnerDto> ownerList(Map<String, Integer> map) {
+	public List<OwnerDto> ownerList(Map<String, String> map) {
 		logger.info("ownerList Service : {}", map);
 		return member_IDao.ownerList(map);
 	}
 	
 	@Override
-	public int adminListRow() {
-		return member_IDao.adminListRow();
+	public int adminListRow(String admin_delflag) {
+		return member_IDao.adminListRow(admin_delflag);
 	}
 	
 	@Override
-	public int adminLocListRow(String loc_code) {
-		return member_IDao.adminLocListRow(loc_code);
+	public int adminLocListRow(String loc_sido) {
+		return member_IDao.adminLocListRow(loc_sido);
 	}
 	
 	@Override

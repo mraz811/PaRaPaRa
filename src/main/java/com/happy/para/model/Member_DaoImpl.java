@@ -110,7 +110,7 @@ public class Member_DaoImpl implements Member_IDao {
 	}
 
 	@Override
-	public List<AdminDto> adminList(Map<String, Integer> map) {
+	public List<AdminDto> adminList(Map<String, String> map) {
 		return sqlSession.selectList(MNS+"adminList", map);
 	}
 
@@ -121,18 +121,18 @@ public class Member_DaoImpl implements Member_IDao {
 	}
 
 	@Override
-	public List<OwnerDto> ownerList(Map<String, Integer> map) {
+	public List<OwnerDto> ownerList(Map<String, String> map) {
 		return sqlSession.selectList(MNS+"ownerList", map);
 	}
 
 	@Override
-	public int adminListRow() {
-		return sqlSession.selectOne(MNS+"adminListRow");
+	public int adminListRow(String admin_delflag) {
+		return sqlSession.selectOne(MNS+"adminListRow", admin_delflag);
 	}
 
 	@Override
-	public int adminLocListRow(String loc_code) {
-		return sqlSession.selectOne(MNS+"adminLocListRow", loc_code);
+	public int adminLocListRow(String loc_sido) {
+		return sqlSession.selectOne(MNS+"adminLocListRow", loc_sido);
 	}
 
 	@Override
