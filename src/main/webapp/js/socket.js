@@ -1,4 +1,5 @@
 var allContent = "";
+
 function sendText() {
 	// Construct a msg object containing the data the server needs to process
 	// the message from the chat client.
@@ -54,6 +55,8 @@ $(document)
 			ws = new WebSocket(
 					"ws://192.168.8.20:8091/PaRaPaRa/wsChat.do?id="
 							+ mySessionId + "&target=" + targetId);
+			ws.binaryType = "arraybuffer";
+			
 //			ws = new WebSocket("ws://192.168.4.19:8091/BaBo/wsChat.do");
 			// 연결을 맺는것은 비동기 작업이고 실패하기 쉬운 작업이기 때문에, WebSocket 오브젝트를
 			// 생성하자마자
@@ -114,6 +117,7 @@ $(document)
 //				}
 				// console.log(msg.view + " / " + msg.session);
 			}
+			
 			// 예외가 발생했을 때 수행된다.
 			ws.onclose = function(event) {
 				alert("서버와의 연결이 종료되었습니다.");
