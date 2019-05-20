@@ -80,7 +80,7 @@ function cancelMenu(){
 </script>
 <body>
 <div id="container">
-	<form action="./selAllMenuList.do" method="post">
+	<form action="./choiceMenuList.do" method="post">
 		<div id="category">
 			<input id="mainMenu" name="menu_category" type="submit" value="주메뉴"/>
 			<input id="sideMenu" name="menu_category" type="submit" value="사이드메뉴"/>
