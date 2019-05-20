@@ -14,9 +14,23 @@
  
 로그인 세션: ${loginDto}
 
+<c:if test="${loginDto.auth eq 'S'}">
+<input type="button" value="마이페이지(담)" onclick="chkMyPage()" >
+<input type="button" value="로그아웃" onclick="logout('${loginDto.auth}')">
+<hr>
+<a href="./adminRegiForm.do">담당자 등록 페이지</a><br>
+<a href="./selAdminList.do">담당자 조회페이지</a><br>
+<a href="./selAdminList.do?loc_sido=SEOUL">담당자 지역별 조회페이지(test:서울)</a><br>
+<a href="./selAdminList.do?delflag='Y'">퇴사자 조회</a><br>
+<hr>
+</c:if>
+
 <c:if test="${loginDto.auth eq 'A'}">
 <input type="button" value="마이페이지(담)" onclick="chkMyPage()" >
 <input type="button" value="로그아웃" onclick="logout('${loginDto.auth}')">
+<hr>
+<a href="./ownerRegiForm.do">업주 등록 페이지</a><br>
+<a href="./selOwnerList.do?loc_code=${loginDto.loc_code}">업주 조회 페이지</a>
 </c:if>
 
 <c:if test="${loginDto.auth eq 'U'}">

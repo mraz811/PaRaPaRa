@@ -55,6 +55,7 @@ ${store_code}
 			<input type="date" name="owner_start" required="required">
 			
 			<input type="hidden" name="admin_id" value="${loginDto.admin_id}">
+			<input type="hidden" name="loc_code" value="${loginDto.loc_code}">
 			
 		</div>
 		

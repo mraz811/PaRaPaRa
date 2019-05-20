@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.happy.para.common.TempKey;
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.OwnerDto;
+import com.happy.para.dto.PagingDto;
 import com.happy.para.model.Member_IService;
 
 @Controller
@@ -122,9 +123,11 @@ public class MemberCtrl {
 		
 		// 업주 회원 등록 메소드 (실행 시 업주 등록, 해당 매장 코드의 매장 업주등록여부 1로 업데이트)
 		@RequestMapping(value="/ownerRegi.do", method=RequestMethod.POST)
-		public String ownerRegi(OwnerDto oDto) {
+		public String ownerRegi(Model model, OwnerDto oDto, String loc_code) {
 			System.out.println(oDto);
 			memService.ownerRegister(oDto);
+			
+			model.addAttribute("loc_code", loc_code);
 			return "redirect:/selOwnerList.do";
 		}
 		
@@ -240,12 +243,87 @@ public class MemberCtrl {
 		
 		// --------------- 조회, 삭제 추가 필요 -------------- //
 		
-		// 관리자 전체 조회 (페이징 사용)
+		// 페이징 ajax처리 추후 화면작업 시 필요 ******************************수정 필요
+		@RequestMapping(value="/memPaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
+		public String paging(Model model, HttpSession session, PagingDto pageDto) {
+			return "";
+		}
 		
-		
+		// 담당자 전체 조회 (페이징 사용)
+		@RequestMapping(value="/selAdminList.do", method=RequestMethod.GET)
+		public String selAdminList(Model model, String loc_sido, String delflag) {
+			
+			System.out.println("loc_sido : "+loc_sido +"\n delflag: "+delflag);
+			
+			// 담당자 전체 조회 
+			if(loc_sido==null && (delflag==null || delflag.equalsIgnoreCase("N"))) {
+				PagingDto pagingDto = new PagingDto();
+				pagingDto.setTotal(memService.adminListRow("N"));
+				pagingDto.setListNum(10); // 한 페이지당 10개 정보 보여줄 예정
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("start", pagingDto.getStart()+"");
+				map.put("end", pagingDto.getEnd()+"");
+				map.put("admin_delflag", "N");
+				List<AdminDto> adminList = memService.adminList(map);
+			
+				model.addAttribute("adminList", adminList);
+				model.addAttribute("row", pagingDto);
+			
+				return "/member/adminList";
+			
+			// 지역별 담당자 전체 조회
+			} else if(loc_sido!=null){
+				PagingDto pagingDto = new PagingDto();
+				pagingDto.setTotal(memService.adminLocListRow(loc_sido));
+				pagingDto.setListNum(10);
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("start", pagingDto.getStart()+"");
+				map.put("end", pagingDto.getEnd()+"");
+				map.put("loc_sido", loc_sido);
+				List<AdminDto> adminLocList = memService.adminLocList(map);
+				model.addAttribute("adminLocList", adminLocList);
+				model.addAttribute("row", pagingDto);
+				return "/member/adminList";
+				
+			// 퇴사자 delflag='Y'조회
+			} else {
+				PagingDto pagingDto = new PagingDto();
+				pagingDto.setTotal(memService.adminListRow("Y"));
+				pagingDto.setListNum(10);
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("start", pagingDto.getStart()+"");
+				map.put("end", pagingDto.getEnd()+"");
+				map.put("admin_delflag", "Y");
+				List<AdminDto> delAdminList = memService.adminList(map);
+				
+				model.addAttribute("delAdminList", delAdminList);
+				model.addAttribute("row", pagingDto); 
+				
+				return "/member/adminList";
+			}
+		}
 		
 		
 		// 업주 전체 조회 (페이징 사용)
+		@RequestMapping(value="/selOwnerList.do", method=RequestMethod.GET)
+		public String selOwnerList(Model model, String loc_code) {
+			
+			PagingDto pagingDto = new PagingDto();
+			pagingDto.setTotal(memService.ownerListRow(loc_code));
+			pagingDto.setListNum(10);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("start", pagingDto.getStart()+"");
+			map.put("end", pagingDto.getEnd()+"");
+			map.put("loc_code", loc_code);
+			List<OwnerDto> ownerlist = memService.ownerList(map);
+			
+			model.addAttribute("ownerlist", ownerlist);
+			model.addAttribute("row", pagingDto);
+			
+			return "/member/ownerList";
+		}
+		
 		
 		
 		

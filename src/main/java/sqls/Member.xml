@@ -85,13 +85,13 @@
 	FROM (SELECT ROW_NUMBER() OVER(ORDER BY ADMIN_DELFLAG, ADMIN_ID) RNUM, ADMIN_ID, ADMIN_PW, 
 			ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG
 		  FROM ADMIN 
-		  WHERE AUTH='A')
+		  WHERE AUTH='A' AND ADMIN_DELFLAG=#{admin_delflag})
 	WHERE RNUM BETWEEN #{start} AND #{end} 
 </select>
 
 <!-- 페이징 처리를 위한 전체 담당자 수 -->
-<select id="adminListRow" resultType="java.lang.Integer">
-	SELECT COUNT(*) FROM ADMIN WHERE AUTH='A'
+<select id="adminListRow" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM ADMIN WHERE AUTH='A' AND ADMIN_DELFLAG=#{admin_delflag}
 </select>
 
 <!-- 담당자 지역별 조회 - 페이징 -->
@@ -100,13 +100,13 @@
 	FROM (SELECT ROW_NUMBER() OVER(ORDER BY ADMIN_DELFLAG, ADMIN_ID) RNUM, ADMIN_ID, ADMIN_PW, 
 			ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG
   	  	  FROM ADMIN 
-  	      WHERE AUTH='A' AND LOC_CODE LIKE #{loc_code}||'%')
+  	      WHERE AUTH='A' AND ADMIN_DELFLAG='N' AND LOC_CODE LIKE #{loc_sido}||'%')
 	WHERE RNUM BETWEEN #{start} AND #{end}
 </select>
 
 <!-- 페이징 처리를 위한 지역별 담당자 수 -->
 <select id="adminLocListRow" parameterType="java.lang.String" resultType="java.lang.Integer">
-	SELECT COUNT(*) FROM ADMIN WHERE AUTH='A' AND LOC_CODE LIKE #{loc_code}||'%'
+	SELECT COUNT(*) FROM ADMIN WHERE AUTH='A' AND ADMIN_DELFLAG='N' AND LOC_CODE LIKE #{loc_sido}||'%'
 </select>
 
 <!-- 업주 전체 조회 - 페이징 -->
