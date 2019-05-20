@@ -146,4 +146,18 @@
 	WHERE STORE_CODE =#{store_code}
 </update>
 
+<!-- 담당자 등록 시 ID 중복검사 -->
+<select id="adminIdDupleChk" parameterType="java.lang.String" resultType="java.lang.Integer" >
+	 SELECT COUNT(ADMIN_ID) 
+	 FROM ADMIN 
+	 WHERE ADMIN_ID = #{admin_id}
+</select>
+
+<!-- 업주 등록 시 ID 중복검사 -->
+<select id="ownerIdDupleChk" parameterType="java.lang.String" resultType="java.lang.Integer">
+	 SELECT COUNT(OWNER_ID) 
+	 FROM OWNER 
+	 WHERE OWNER_ID = #{owner_id}
+</select>
+
 </mapper>

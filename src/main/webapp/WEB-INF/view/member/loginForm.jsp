@@ -70,36 +70,41 @@
 $(function(){
 		
 	// 업주 및 담당자 선택 후 아이디 입력창 작성 시 유효값 확인하기 위함
-		$("#inputId").keyup(function(){
-			var inputLen = $(this).val().length;
-// 			alert(inputLen);
+	$("#inputId").keyup(function(){
+		var inputLen = $(this).val().length;
+// 		alert(inputLen);
 			
-			var id = $(this).val();
-			var auth = $("input[name=auth]");
-// 			alert(auth[0].checked); //업주 선택
-// 			alert(auth[1].checked); //담당자 선택
+		var id = $(this).val();
+		var auth = $("input[name=auth]");
+// 		alert(auth[0].checked); //업주 선택
+// 		alert(auth[1].checked); //담당자 선택
 			
-			// 담당자 로그인 시 정규화 표현식. id는 숫자만 입력가능
-			var admRegex = /^[0-9]*$/;
-			// 업주 로그인 시 사업자 번호 숫자 3자리-2자리-5자리
-			var ownRegex = /^\d{3}-\d{2}-\d{5}$/;
+		// 담당자 로그인 시 정규화 표현식. id는 숫자만 입력가능
+		var admRegex = /^[0-9]*$/;
+		// 업주 로그인 시 사업자 번호 숫자 3자리-2자리-5자리
+		var ownRegex = /^\d{3}-\d{2}-\d{5}$/;
 
-			// 공백여부 검사 및 업주(정규표현식), 담당자(정규표현식) 검사
-			if(id.indexOf(" ") != -1){
-				$("#idresult").html("아이디를 확인해 주세요");
-				$("#chkVal").val("0");
-			} else if(auth[0].checked && id.match(ownRegex)!=null){
-				$("#idresult").html("업주 유효값 확인");
-				$("#chkVal").val("1");
-			} else if(auth[1].checked && id.match(admRegex)!=null){
-				$("#idresult").html("담당자 유효값 확인");
-				$("#chkVal").val("1");
-			} else {
-				$("#idresult").html("아이디를 확인해 주세요");
-				$("#chkVal").val("0");
-			}
-		})
-		
+		// 공백여부 검사 및 업주(정규표현식), 담당자(정규표현식) 검사
+		if(id.indexOf(" ") != -1){
+			$("#idresult").html("아이디를 확인해 주세요");
+			$("#chkVal").val("0");
+		} else if(auth[0].checked && id.match(ownRegex)!=null){
+			$("#idresult").html("업주 유효값 확인");
+			$("#chkVal").val("1");
+		} else if(auth[1].checked && id.match(admRegex)!=null){
+			$("#idresult").html("담당자 유효값 확인");
+			$("#chkVal").val("1");
+		} else {
+			$("#idresult").html("아이디를 확인해 주세요");
+			$("#chkVal").val("0");
+		}
+	});
+	
+	// 담당자/업주 선택 변경 시 값 초기화
+	$("input:radio[name=auth]").click(function(){
+		$("#inputId").val("");
+		$("#inputPw").val("");
+	});
 		
 });
 
