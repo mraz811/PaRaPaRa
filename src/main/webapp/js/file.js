@@ -1,8 +1,8 @@
 // 폼에 데이터를 추가 (파일을 전송하기 전 정보 유지)
 var fd = new FormData();
 // 파일 중복 업로드 방지용 맵을 선언
-var map = new Map();
-
+//var map = new Map();
+var filename = null;
 // 파일 전송 함수
 var sendFileToServer = function() {
 	alert("sendFileToServer");
@@ -15,7 +15,11 @@ var sendFileToServer = function() {
 		cache : false,
 		success : function(data) {
 			if(data) {
-				alert(data);
+//				alert("성공이여");
+//				alert(data);
+				filename = data;
+				alert(filename);
+//				return filename;
 //				location.href='./boardList.do';
 			}else {
 				alert('실패');
@@ -31,11 +35,12 @@ function handleFileUpload(files) {
 	for (var i = 0; i < files.length; i++) {
 		alert("what??");
 		alert(files[i].name);
-		if(map.containsValue(files[i].name) == false && (files[i].size/megaByte) <= 10 ){
+		if((files[i].size/megaByte) <= 10 ){
+//		if(map.containsValue(files[i].name) == false && (files[i].size/megaByte) <= 10 ){
 			alert("for문실행");
 			fd.append(files[i].name, files[i]);
 			//파일 중복 업로드를 방지하기 위한 설정
-			map.put(files[i].name, files[i].name);
+//			map.put(files[i].name, files[i].name);
 			// 파일 이름과 정보를 추가해준다.
 //			var tag = createFile(files[i].name, files[i].size);
 //			$('#fileTable').append(tag);
