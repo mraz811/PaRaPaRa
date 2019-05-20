@@ -10,79 +10,43 @@
 	</resultMap>
 
 	  -->
-	<!-- 매장 재고 조회 -->
-	<!-- 
-	<select id="stockList" parameterType="java.lang.String" resultType="java.util.List">
-	SELECT STOCK_SEQ, STORE_CODE, STOCK_NAME, STOCK_QTY
-	FROM STOCK
+	
+	<!-- 업주 : 매장 발주 내역 조회 -->
+	<select id="paoList" parameterType="java.lang.String" resultType="PaoInfoDto">
+	SELECT PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
+	FROM PAOINFO
 	WHERE STORE_CODE = #{store_code}
-	ORDER BY STOCK_SEQ
+	</select>
+	
+	<!-- 업주 : 매장 발주 상태 선택 조회 -->
+	<select id="paoSelectStatus" parameterType="java.util.Map" resultType="PaoInfoDto">
+	SELECT PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
+	FROM PAOINFO
+	WHERE STORE_CODE = #{store_code} AND
+		PS_CODE IN
+		<foreach collection="status_list" item="status" separator="," open="(" close=")">
+			#{status}
+		</foreach>
+	</select>
+	
+	<!-- 업주 : 매장 발주 날짜 선택 조회 -->
+	<select id="paoSelectDate" parameterType="java.util.Map" resultType="paoInfoDto">
+	SELECT PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
+	FROM PAOINFO
+	WHERE STORE_CODE = #{store_code} AND
+		<![CDATA[
+        	PAO_DATE >= #{startDate} AND PAO_DATE <= #{endDate}
+    	]]>
+	</select>
+	
+	<!-- 업주 : 발주 신청 시 재고 목록 조회 -->
+	<!-- 
+	<select id="paoStockList" parameterType="java.lang.String" resultType="StockDto">
+	SELECT STOCK_SEQ, STORE_CODE, STOCK_NAME, NVL(STOCK_QTY, 0), ITEM_PRICE
+	FROM STOCK JOIN ITEM ON STOCK.STOCK_NAME = ITEM.ITEM_NAME
+	WHERE STORE_CODE = #{store_code}
+	ORDER BY STOCK_NAME
 	</select>
 	 -->
 	
-	<!-- 업주 : 매장 발주 내역 조회 --> 
-	<select id="paoList" parameterType="java.lang.String" resultType="PaoDto">
-	SELECT PAO_SEQ, STORE_CODE, PS_CODE, PAO_DATE
-	FROM PAO
-	WHERE STORE_CODE = #{store_code}
-	ORDER BY PAO_SEQ DESC
-	</select>
-	<!-- 
-	<select id="paoList" parameterType="java.lang.String" resultType="PaoDto">
-	SELECT PAO_SEQ, PAO_DATE, PAO_STATUS.PS_NAME AS 'PS_NAME', STORE.STORE_NAME AS 'STORE_NAME'
-	FROM PAO JOIN STORE ON PAO.STORE_CODE=STORE.STORE_CODE
-			JOIN PAO_STATUS ON PAO.PS_CODE=PAO_STATUS.PS_CODE
-	WHERE PAO.STORE_CODE = #{store_code}
-	ORDER BY PAO_SEQ DESC
-	</select>
-	 -->
-	 
-<!-- 	
-	업주 : 지출 통계
-	<select id="ownerStatsOutcome" parameterType="java.util.Map" resultType="java.lang.Integer">
-	SELECT SUM(ITEM_PRICE*PI_QTY) 
-			FROM (PAO JOIN PAO_ITEM ON PAO.PAO_SEQ=PAO_ITEM.PAO_SEQ) 
-			JOIN ITEM ON PAO_ITEM.ITEM_SEQ=ITEM.ITEM_SEQ
-			WHERE PAO.STORE_CODE=#{store_code} 
-			AND (PAO_DATE BETWEEN #{start} AND #{end}) AND PS_CODE=3
-	</select>
-	
-	업주 : 상위판매메뉴 통계
-	<select id="ownerStatsMenu" parameterType="java.util.Map" resultType="RequestDto">
-	SELECT REQUEST_MENU
- 	FROM REQUEST
- 	WHERE STORE_CODE=#{store_code} 
- 	AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3
-	</select>
-	
-	메뉴이름 찾기
-	<select id="findMenuName" parameterType="java.lang.String" resultType="java.lang.String">
-	SELECT MENU_NAME FROM MENU WHERE MENU_SEQ=#{menu_seq} AND (MENU_CATEGORY='주메뉴' OR MENU_CATEGORY='사이드메뉴')
-	</select>
-	
-	관리자,담당자 : 수익통계
-	<select id="adminStatsIncome" parameterType="java.util.Map" resultType="java.lang.Integer">
-	SELECT SUM(REQUEST_PRICE)
-	FROM (SELECT REQUEST_PRICE
- 			FROM REQUEST
- 			WHERE STORE_CODE IN 
- 			<foreach item="store_code" collection="store_code_"
-      		open="(" separator="," close=")">
-        		#{store_code}
- 			</foreach>
- 			AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3)
-	</select>
-	
-	관리자,담당자 : 상위판매메뉴 통계
-	<select id="adminStatsMenu" parameterType="java.util.Map" resultType="RequestDto">
-	SELECT REQUEST_MENU 
-	FROM REQUEST 
-	WHERE STORE_CODE IN 
-	<foreach item="store_code" collection="store_code_"
-      open="(" separator="," close=")">
-        	#{store_code}
- 	</foreach>
-	AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3
-	</select>
- -->	 
 </mapper>
