@@ -39,19 +39,16 @@
 			<input type="text" id="email" name="admin_email" placeholder="이메일" required="required" maxlength="80">
 			
 			<br/><span>지역코드</span><br/>
-			<select name="loc_sido" onchange="selSigungu()">
+			<select name="loc_sido" onchange="chgSigungu(this)">
+				<option>시/도</option>
 				<option value="SEOUL">서울시</option>
 				<option value="INCHEON">인천시</option>
 			</select>	
 			
-			<select name="loc_sigungu">
-				<option value="01">강남구</option>
-				<option value="02">강동구</option>
-				<option value="03">강북구</option>
-				<option value="04">강서구</option>
-				<option value="05">관악구</option>
-				<option value="06">광진구</option>
-				<!-- for문으로...위 옵션에 따라 선택해야함 25개... -->
+			<select id="sigungu" name="loc_sigungu">
+				<option>시/군/구</option>
+<!-- 				<option value="01">강남구</option> -->
+<!-- 				<option value="02">강동구</option> -->
 			</select>
 		</div>
 		<div>	
@@ -199,11 +196,34 @@ $(function(){
 	
 });
 
-// select 박스로 시/도 선택시 시/군/구 바꾸어주어야 함. (ajax)
-var selSigungu = function(){
+// select 박스로 시/도 선택시 시/군/구 바꾸어주기
+var chgSigungu = function(sido){
+	var seoul = ["강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구",
+		"동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구",
+		"용산구","은평구","종로구","중구","중랑구"];
+	var incheon = ["강화군","계양구","남동구","동구","미추홀구","부평구","서구","연수구","옹진군","중구"];
 	
+	var target = document.getElementById("sigungu");
+	alert(sido.value);
+	if(sido.value == "SEOUL"){
+		var sigungu = seoul;
+	} else if(sido.value == "INCHEON"){
+		var sigungu = incheon;
+	}
 	
-	
+	target.options.length = 0;
+	for(x in sigungu){
+		var opt = document.createElement("option");
+		opt.innerHTML = sigungu[x];
+		opt.value = change(new Number(x)+1);
+		target.appendChild(opt);
+		
+	}
+}
+
+var change = function(val){
+	// 1자리 숫자 앞에 0 붙여주기
+	return (val/10<1)? "0"+val : val;
 }
 
 // 등록 취소 버튼클릭 시 실행할 함수
