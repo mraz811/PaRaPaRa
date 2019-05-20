@@ -50,8 +50,15 @@
 </head>
 <script type="text/javascript">
 function regiMenu(){
-	window.open('./menuList.do', 'window팝업', 'width=310, height=380, scrollbars=no');
-// }
+	window.open('./menuRegiForm.do', 'window팝업', 'width=310, height=380, scrollbars=no');
+}
+function menuDel(menu_seq){
+	confirm("정말 삭제하시겠습니까?");
+	location.href = "./delMenu.do?menu_seq="+menu_seq;
+}
+function menuModiForm(menu_seq){
+	window.open('./modifyMenuForm.do?menu_seq='+menu_seq,'window팝업','width=310, height=380, scrollbars=no');
+}
 
 </script>
 <body>
@@ -66,14 +73,15 @@ function regiMenu(){
 	<div id="insert">
 			<input id="regiMenu" type="button" value="메뉴 등록" onclick="regiMenu()"/>
 	</div>
-	<div id="menuList">
-		<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
-				<div class="menu"><img class="menuImg" src="./masolimg/img.png" alt=""/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
-				<c:if test="${vs.count mod 4 eq 0}">
-					<br>
-				</c:if>
-		</c:forEach>
-	</div>
+		<div id="menuList">
+			<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
+					
+					<div class="menu"><input type="button" value="수정" onclick="menuModiForm(${vs.current.menu_seq})"/><img class="menuImg" src="./masolimg/img.png" alt=""/><input type="button" value="삭제" onclick="menuDel(${vs.current.menu_seq})"/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
+					<c:if test="${vs.count mod 4 eq 0}">
+						<br>
+					</c:if>
+			</c:forEach>
+		</div>
 	<div id="paging">
 	
 	</div>

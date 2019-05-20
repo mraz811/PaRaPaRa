@@ -1,5 +1,6 @@
 package com.happy.para.ctrl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.dto.FileDto;
 import com.happy.para.dto.MenuDto;
@@ -25,22 +27,86 @@ public class MansolTest_Ctrl {
 	private Menu_IService menu_IService;
 	
 	@RequestMapping(value="/choiceMenuList.do",method=RequestMethod.GET)
-	public void ownerMenuList(String[] menu_seq) {
-		Map<String, String[]> map = new HashMap<String,String[]>();
+	public String ownerMenuList(String owner_menu,Model model,String menu_category) {
+		System.out.println("-----------------"+menu_category);
+		String[] menu_seq = new String[owner_menu.split(",").length];
+		for (int i = 0; i < owner_menu.split(",").length; i++) {
+			menu_seq[i] = owner_menu.split(",")[i];
+			System.out.print(owner_menu.split(",")[i]);
+		} 
+		System.out.println("길이"+owner_menu.split(",").length);
+		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("menu_seq_", menu_seq);
+		map.put("menu_category", menu_category);
 		List<MenuDto> lists = menu_IService.ownerMenuList(map);
 		System.out.println("업주가 선택한 메뉴 : "+lists.toString());
+		model.addAttribute("menuList",lists);
+		return "/menu/menu_list_sell";
 	}
 	
-	@RequestMapping(value="/menuChoice.do",method=RequestMethod.GET)
-	public void ownerMenuChoice(String owner_menu,String owner_seq) {
+	@RequestMapping(value="/menuChoice.do",method=RequestMethod.POST)
+	public String ownerMenuChoice(String[] menu_seq,String owner_seq) {
+		String owner_menu = "";
+		System.out.println(menu_seq[0]);
+		for (int i = 0; i < menu_seq.length; i++) {
+			owner_menu += menu_seq[i]+",";
+		}
 		Map<String, String> map = new HashMap<String,String>();
 		map.put("owner_menu",owner_menu);
-		map.put("owner_seq",owner_seq);
+		map.put("owner_seq",owner_seq); //세션에서 받아올꺼
 		boolean isc = menu_IService.ownerMenuChoice(map);
 		System.out.println("업주의 메뉴 선택 성공? : "+isc);
+		return "/menu/menu_list_owner";
 	}
 	
+	@RequestMapping(value="/menuCancel.do",method=RequestMethod.POST)
+	public String ownerMenuCancel(String[] cancel_menu_seq,String owner_menu,String owner_seq) {
+		owner_menu = "1,2,3,8,9,"; //세션에서 받아옴
+		System.out.println("지울 메뉴 번호 : "+cancel_menu_seq.toString());
+		String[] menu_seq = new String[owner_menu.split(",").length];
+		for (int i = 0; i < owner_menu.split(",").length; i++) {
+			menu_seq[i] = owner_menu.split(",")[i];
+		} 
+		Map<String, Object> map1 = new HashMap<String,Object>();
+		map1.put("menu_seq_", menu_seq);
+		List<MenuDto> lists = menu_IService.ownerMenuList(map1);
+		
+		System.out.println("조회해올 현재 업주 선택메뉴 리스트 : "+lists.toString());
+		
+		List<MenuDto> detailLists = new ArrayList<>();
+		for (int i = 0; i < cancel_menu_seq.length; i++) {
+			detailLists.add(menu_IService.detailMenu(cancel_menu_seq[i]));
+		}
+		
+		System.out.println("삭제할 메뉴 : "+detailLists.toString());
+		System.out.println("업주 선택 메뉴 리스트 크기 : "+lists.size());
+		System.out.println("삭제할 메뉴 번호 리스트 크기 : "+detailLists.size());
+		for (int i = 0; i < lists.size(); i++) {
+			for (int j = 0; j < detailLists.size(); j++) {
+				if(lists.get(i).getMenu_seq()==detailLists.get(j).getMenu_seq()) {
+					System.out.println("성공!!!!!!!!!!!!!!");
+					lists.remove(lists.get(i));
+					System.out.println("삭제된후 리스트 : "+lists.toString());
+				}else {
+					System.out.println("실패.............");
+				}
+			}
+		}
+		String newOwner_menu = "";
+		for (int i = 0; i < lists.size(); i++) {
+			newOwner_menu += lists.get(i).getMenu_seq();
+		}
+		System.out.println("바뀔 업주 선택 메뉴 번호들 : "+newOwner_menu);
+		System.out.println("-=-=-==-=-=-=-=-=-=-=-"+newOwner_menu);
+		Map<String, String> map2 = new HashMap<String,String>();
+		map2.put("owner_menu",newOwner_menu);
+		map2.put("owner_seq",owner_seq); //세션에서 받아올꺼
+		boolean isc = menu_IService.ownerMenuChoice(map2);
+		System.out.println("업주의 메뉴 선택 성공? : "+isc);
+		return "redirect:/choiceMenuList.do";
+	}
+	
+	//세션에서 담당자인지 업주인지 확인하고 페이지 이동 분기시킬꺼임
 	@RequestMapping(value="/selAllMenuList.do",method=RequestMethod.POST)
 	public String allMenu(Model model,String menu_category) {
 		MenuDto dto = new MenuDto();
@@ -48,13 +114,20 @@ public class MansolTest_Ctrl {
 		List<MenuDto> lists = menu_IService.allMenu(dto);
 		System.out.println("전체 메뉴 조회 : "+lists);
 		model.addAttribute("menuList", lists);
-		return "/menu/menu_list";
+		return "/menu/menu_list_admin";
 	}
 	
-	@RequestMapping(value="/regiNewMenu.do",method=RequestMethod.POST)
-	public void insertMenu(MenuDto dto) {
+	@RequestMapping(value="/menuRegiForm.do",method=RequestMethod.GET)
+	public String menuList() {
+		return "/menu/menu_regiForm";
+	}
+	
+	@RequestMapping(value="/regiNewMenu.do",method=RequestMethod.POST, produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String insertMenu(MenuDto dto) {
 		boolean isc = menu_IService.insertMenu(dto);
 		System.out.println("담당자 메뉴 등록 성공? : "+isc);
+		return "/menu/menu_regiForm";
 	}
 	
 	@RequestMapping(value="/regiNewMenu2.do",method=RequestMethod.GET)
@@ -63,10 +136,21 @@ public class MansolTest_Ctrl {
 		System.out.println("담당자 메뉴 이미지 등록 성공? : "+isc);
 	}
 	
-	@RequestMapping(value="/menuModi.do",method=RequestMethod.GET)
-	public void modifyMenu(MenuDto dto) {
+	@RequestMapping(value="/modifyMenuForm.do",method=RequestMethod.GET)
+	public String detailMenu(Model model,String menu_seq) {
+		MenuDto dto = menu_IService.detailMenu(menu_seq);
+		model.addAttribute("menuDto", dto);
+		return "/menu/menu_modiForm";
+	}
+	
+	@RequestMapping(value="/menuModi.do",method=RequestMethod.POST, produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String modifyMenu(MenuDto dto,Model model) {
 		boolean isc = menu_IService.modifyMenu(dto);
 		System.out.println("담당자 메뉴 수정 성공? : "+isc);
+		MenuDto mDto = menu_IService.detailMenu(Integer.toString(dto.getMenu_seq()));
+		model.addAttribute("menuDto", mDto);
+		return "/menu/menu_modiForm";
 	}
 	
 	@RequestMapping(value="/menuModi2.do",method=RequestMethod.GET)
@@ -75,11 +159,18 @@ public class MansolTest_Ctrl {
 		System.out.println("담당자 메뉴 이미지 수정 성공? : "+isc);
 	}
 	
-	@RequestMapping(value="/delMenu.do",method=RequestMethod.POST)
-	public String deleteMenu(String menu_seq) {
+	@RequestMapping(value="/delMenu.do",method=RequestMethod.GET)
+	public String deleteMenu(String menu_seq,Model model) {
+		System.out.println("넘겨받은 menu_seq : "+menu_seq);
 		boolean isc = menu_IService.deleteMenu(menu_seq);
 		System.out.println("담당자 메뉴 삭제 성공? : "+isc);
-		return "/menu/menu_list";
+		String menu_category = "주메뉴";
+		MenuDto dto = new MenuDto();
+		dto.setMenu_category(menu_category);
+		List<MenuDto> lists = menu_IService.allMenu(dto);
+		System.out.println("전체 메뉴 조회 : "+lists);
+		model.addAttribute("menuList", lists);
+		return "/menu/menu_list_admin";
 	}
 	
 	//주문
@@ -202,7 +293,15 @@ public class MansolTest_Ctrl {
 	}
 	//////////////////////////////////////////////////////////////////////////
 	@RequestMapping(value="/menuList.do",method=RequestMethod.GET)
-	public String menuList() {
-		return "/menu/menu_regiForm";
+	public String menuList(Model model) {
+		String menu_category = "주메뉴";
+		MenuDto dto = new MenuDto();
+		dto.setMenu_category(menu_category);
+		List<MenuDto> lists = menu_IService.allMenu(dto);
+		System.out.println("전체 메뉴 조회 : "+lists);
+		model.addAttribute("menuList", lists);
+		return "/menu/menu_list_owner";
 	}
+	
+	
 }
