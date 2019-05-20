@@ -3,12 +3,10 @@ package com.happy.para.common;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.ServletConfigAware;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -145,6 +143,8 @@ public class MySocketHandler extends TextWebSocketHandler{
 		} 
 		
 	}
+	
+	
 
 
 	@Override

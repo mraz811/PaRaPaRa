@@ -9,13 +9,16 @@ import com.happy.para.dto.MenuDto;
 public interface Menu_IDao {
 	
 	//업주 선택 메뉴 조회
-	public List<MenuDto> ownerMenuList(Map<String, String[]> map);
+	public List<MenuDto> ownerMenuList(Map<String, Object> map);
 	
 	//업주 메뉴 선택
 	public boolean ownerMenuChoice(Map<String, String> map);
 	
 	//전체 메뉴 조회
 	public List<MenuDto> allMenu(MenuDto dto);
+	
+	//메뉴 상세 조회
+	public MenuDto detailMenu(String menu_seq);
 	
 	//담당자 메뉴 등록
 	public boolean insertMenu(MenuDto dto);

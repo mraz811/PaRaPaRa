@@ -20,7 +20,7 @@ public class Menu_DaoImpl implements Menu_IDao{
 	
 	//업주 선택 메뉴 조회
 	@Override
-	public List<MenuDto> ownerMenuList(Map<String, String[]> map){
+	public List<MenuDto> ownerMenuList(Map<String, Object> map){
 		return sqlSession.selectList(NS+"ownerMenuList", map);
 	}
 	
@@ -34,6 +34,12 @@ public class Menu_DaoImpl implements Menu_IDao{
 	@Override
 	public List<MenuDto> allMenu(MenuDto dto){
 		return sqlSession.selectList(NS+"allMenu",dto);
+	}
+	
+	//메뉴 상세 조회
+	@Override
+	public MenuDto detailMenu(String menu_seq) {
+		return sqlSession.selectOne(NS+"detailMenu", menu_seq);
 	}
 	
 	//담당자 메뉴 등록

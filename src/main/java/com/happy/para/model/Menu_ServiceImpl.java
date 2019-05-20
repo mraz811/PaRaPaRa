@@ -21,7 +21,7 @@ public class Menu_ServiceImpl implements Menu_IService{
 	
 	//업주 선택 메뉴 조회
 	@Override
-	public List<MenuDto> ownerMenuList(Map<String, String[]> map){
+	public List<MenuDto> ownerMenuList(Map<String, Object> map){
 		logger.info("ownerMenuList Service : {} ", map);
 		return menu_IDao.ownerMenuList(map);
 	}
@@ -38,6 +38,13 @@ public class Menu_ServiceImpl implements Menu_IService{
 	public List<MenuDto> allMenu(MenuDto dto){
 		logger.info("allMenu Service : {} ");
 		return menu_IDao.allMenu(dto);
+	}
+	
+	//메뉴 상세조회
+	@Override
+	public MenuDto detailMenu(String menu_seq) {
+		logger.info("allMenu Service : {} ");
+		return menu_IDao.detailMenu(menu_seq);
 	}
 	
 	//담당자 메뉴 등록
