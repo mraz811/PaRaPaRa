@@ -33,19 +33,19 @@ public interface Member_IDao {
 	public int ownerModify(OwnerDto oDto);
 	
 	// 담당자 전체 조회 - 페이징
-	public List<AdminDto> adminList(Map<String, Integer> map);
+	public List<AdminDto> adminList(Map<String, String> map);
 	
 	// 담당자 지역별 조회 - 페이징
 	public List<AdminDto> adminLocList(Map<String, String> map);
 	
 	// 업주 전체 조회 - 페이징
-	public List<OwnerDto> ownerList(Map<String, Integer> map);
+	public List<OwnerDto> ownerList(Map<String, String> map);
 	
 	// 페이징을 위한 전체 담당자 수 조회
-	public int adminListRow();
+	public int adminListRow(String admin_delflag);
 
 	// 페이징을 위한 지역별 담당자 수 조회
-	public int adminLocListRow(String loc_code);
+	public int adminLocListRow(String loc_sido);
 	
 	// 페이징을 위한 전체 업주 조회
 	public int ownerListRow(String loc_code);
