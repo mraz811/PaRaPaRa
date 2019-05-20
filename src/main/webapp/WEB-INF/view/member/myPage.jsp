@@ -21,6 +21,10 @@
 				<input type="hidden" name="admin_id" placeholder="사번(아이디)" readonly="readonly" value="${loginDto.admin_id}">
 				
 				<br><span>변경할 새 비밀번호</span><br>	
+				<input type="password" id="pw" name="admin_pw" placeholder="변경할 비밀번호"  maxlength="20">
+			
+				<br><span>비밀번호 확인</span><br>	
+				<input type="password" name="pwChk" placeholder="비밀번호 확인"  maxlength="20">
 				<input type="password" id="pw" name="admin_pw" placeholder="변경할 비밀번호"  maxlength="12">
 			
 				<br><span>비밀번호 확인</span><br>	
