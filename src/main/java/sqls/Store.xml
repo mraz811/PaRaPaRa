@@ -1,4 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="para.store">
+	
+	<!-- 매장 정보 조회 -->
+	<select id="storeList" parameterType="StoreDto" resultType="StoreDto">
+		SELECT STORE_CODE, LOC_CODE, STORE_PHONE, STORE_NAME, STORE_ADDRESS, ADMIN_ID, STORE_DELFLAG
+		FROM STORE
+		<where>
+			<if test="loc_code != null">
+			LOC_CODE = #{loc_code}
+			</if>
+		</where>
+		ORDER BY STORE_CODE
+	</select>
+	
+	<!-- 매장 등록 -->
+	<insert id="storeInsert" parameterType="StoreDto">
+		INSERT INTO STORE(STORE_CODE, LOC_CODE, STORE_PHONE, STORE_NAME, STORE_ADDRESS, ADMIN_ID, STORE_DELFLAG)
+		VALUES(#{store_code}, #{loc_code}, #{store_phone}, #{store_name}, #{store_address}, #{admin_id}, 'N')
+	</insert>
+	
+	<!-- 매장 수정 -->
+	<update id="storeModify" parameterType="StoreDto">
+		UPDATE STORE
+		SET STORE_PHONE=#{store_phone}, STORE_NAME=#{store_name}, STORE_ADDRESS=#{store_address}, ADMIN_ID=#{admin_id}
+		WHERE STORE_CODE=#{store_code}
+	</update>
+	
+	<!-- 매장 삭제 -->
+	<update id="storeDelete" parameterType="java.lang.String">
+		UPDATE STORE
+		SET STORE_DELFLAG='Y'
+		WHERE STORE_CODE=#{store_code}
+	</update>
+	
+	<select id="storeListPaging" parameterType="java.util.Map" resultType="StoreDto">
+		SELECT STORE_CODE, LOC_CODE, STORE_PHONE, STORE_NAME, STORE_ADDRESS, ADMIN_ID, STORE_DELFLAG
+		FROM(
+			SELECT ROWNUM RNUM, STORE_CODE, LOC_CODE, STORE_PHONE, STORE_NAME, STORE_ADDRESS, ADMIN_ID, STORE_DELFLAG
+				FROM
+				(SELECT STORE_CODE, LOC_CODE, STORE_PHONE, STORE_NAME, STORE_ADDRESS, ADMIN_ID, STORE_DELFLAG 
+					FROM STORE 
+						WHERE STORE_DELFLAG='N' AND ADMIN_ID = #{admin_id}
+					ORDER BY STORE_CODE)
+			)
+		WHERE RNUM BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="storeListRow" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM STORE WHERE STORE_DELFLAG = 'N' AND ADMIN_ID=#{admin_id}
+	</select>
+	
+	<select id="storeRow" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM STORE WHERE ADMIN_ID=#{admin_id}
+	</select>
+	
 </mapper>

@@ -79,7 +79,7 @@
 	</bean>
 	
 	<bean class="java.lang.String" name="uploadPath">
-		<constructor-arg value="C:\\parapara\\upload" />
+		<constructor-arg value="C:\HappyClipse\workspace_para\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\PaRaPaRa\resources" />
 	</bean>
 	
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
