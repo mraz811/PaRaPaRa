@@ -1,5 +1,33 @@
 var allContent = "";
 
+function handleFileUpload(files) {
+	//파일의 길이만큼 반복하며 formData에 셋팅해준다.
+	alert(files.length);
+	var megaByte = 1024*1024;
+	for (var i = 0; i < files.length; i++) {
+		alert("what??");
+		alert(files[i].name);
+		if((files[i].size/megaByte) <= 10 ){
+//		if(map.containsValue(files[i].name) == false && (files[i].size/megaByte) <= 10 ){
+			alert("for문실행");
+			fd.append(files[i].name, files[i]);
+			//파일 중복 업로드를 방지하기 위한 설정
+//			map.put(files[i].name, files[i].name);
+			// 파일 이름과 정보를 추가해준다.
+//			var tag = createFile(files[i].name, files[i].size);
+//			$('#fileTable').append(tag);
+		}else{
+			alert("뭐지");
+			//중복되는 정보 확인 위해 콘솔에 찍음
+			if((files[i].size/megaByte) > 10){
+				alert(files[i].name+"은(는) \n 10메가 보다 커서 업로드가 할 수 없습니다.");
+			}else{
+				alert('파일 중복 : ' + files[i].name);
+			}
+		}
+	}
+}
+
 function sendText() {
 	// Construct a msg object containing the data the server needs to process
 	// the message from the chat client.
@@ -14,7 +42,7 @@ function sendText() {
 		id : nick,
 		to : reciver,
 //		cnt : key,
-		auth : curAuth,
+		auth : curAuth
 //		date : currentDate()
 	};
 	alert(msg.text);
@@ -54,7 +82,7 @@ $(document)
 			// 웹소켓 객체를 만들기 위해 매개변수로 url을 넣어 접속할 서버를 지정해준다.
 			// 파라미터로 내 아이디를 보내준다.
 			ws = new WebSocket(
-					"ws://192.168.4.19:8091/PaRaPaRa/wsChat.do?id="
+					"ws://192.168.7.33:8091/PaRaPaRa/wsChat.do?id="
 							+ mySessionId + "&target=" + targetId);
 			ws.binaryType = "arraybuffer";
 			
@@ -89,7 +117,7 @@ $(document)
 					$("#chatMsgBox").append(viewMsg);
 					allContent = $("#chatMsgBox").html();
 					alert(allContent);
-				} 
+				}
 				alert("if문 다음에 : " + allContent);
 				$.ajax({
 					url : "./chatContentUpdate.do",
@@ -99,7 +127,7 @@ $(document)
 					success : function(msg) {
 						var isc = msg;
 						if(isc=="성공"){
-							alert("gpgp");
+//							alert("gpgp");
 						}else{
 							//location.href="./error.do";
 						}
@@ -132,7 +160,7 @@ $(document)
 					return;
 					// 값이 제대로 있으면 websocket 을 전송하고 채팅창을 초기화 해준다.
 				} else {
-					alert("하희");
+//					alert("하희");
 					sendText();
 				}
 			});
@@ -158,7 +186,28 @@ $(document)
 				alert(files);
 				//DIV에 DROP 이벤트가 발생 했을 때 다음을 호출한다.
 				handleFileUpload(files);
-//				sendFileToServer();
+				$.ajax({
+					type : "POST",
+					url : "./regiFile.do", //Upload URL
+					data : fd,
+					contentType : false,
+					processData : false,
+					cache : false,
+					success : function(data) {
+						if(data) {
+//							alert("성공이여");
+//							alert(data);
+							filename = data;
+							alert(filename);
+							ws.send("%^filename_"+filename);
+//							return filename;
+//							location.href='./boardList.do';
+						}else {
+							alert('실패');
+						}
+					}
+				});
+				
 			});
 			// div 영역빼고 나머지 영역에 드래그 원래색변경
 			$(document).on('dragover', function(e) {

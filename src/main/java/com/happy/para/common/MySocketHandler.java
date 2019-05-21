@@ -79,6 +79,8 @@ public class MySocketHandler extends TextWebSocketHandler{
 	//			WebSocketDto rDto = map.get(dto.getReciver());
 	//			System.out.println(rDto);
 	//			WebSocketSession tSession = rDto.getMySession();
+			}else if(msg.indexOf("%^filename_") > -1) {
+			
 			}else {	
 				JSONObject obj = new JSONObject();
 				JSONParser json = new JSONParser();

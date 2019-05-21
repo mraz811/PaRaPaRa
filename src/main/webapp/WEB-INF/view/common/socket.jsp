@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="./js/file.js"></script>
+<!-- <script type="text/javascript" src="./js/file.js"></script> -->
 <script type="text/javascript" src="./js/socket.js"></script>
 <body>
 	<div class="dragDropDiv">
