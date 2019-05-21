@@ -94,7 +94,6 @@ function choiceMenu(){
 	<form id="frm" action="./menuChoice.do" method="post" onsubmit="return choiceMenu()">
 		<div id="menuList">
 			<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
-					
 					<div class="menu"><input name="menu_seq" type="checkbox" value="${menu.menu_seq}"/><img class="menuImg" src="./masolimg/img.png" alt=""/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
 					<c:if test="${vs.count mod 4 eq 0}">
 						<br>

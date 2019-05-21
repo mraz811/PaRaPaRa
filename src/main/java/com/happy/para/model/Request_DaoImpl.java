@@ -66,7 +66,7 @@ public class Request_DaoImpl implements Request_IDao{
 		String menuName = "";
 		List<MenuDto> lists = sqlSession.selectList(NS+"requestMenuName", map);
 		for (int i = 0; i < lists.size(); i++) {
-			menuName += lists.get(i).getMenu_name();
+			menuName += lists.get(i).getMenu_name()+" ";
 		}
 		return menuName;
 	}
