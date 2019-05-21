@@ -92,12 +92,12 @@ var confirmModi = function(){
 		return true;
 	}
 	return false;
-}
+};
 
 
 var backToMain = function(){
 	location.href="./main.do" ;
-}
+};
 
 </script>
 

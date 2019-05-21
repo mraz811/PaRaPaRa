@@ -135,18 +135,17 @@ var chgSigungu = function(sido){
 		target.appendChild(opt);
 		
 	}
-}
+};
 
 var change = function(val){
 	// 1자리 숫자 앞에 0 붙여주기
 	return (val/10<1)? "0"+val : val;
-}
+};
 
 // 등록 취소 버튼클릭 시 실행할 함수
 var regiCancel = function(){
-	
-	
-}
+	location.href="./selAdminList.do";
+};
 
 
 // 회원 등록 버튼 클릭 시 실행할 함수
@@ -164,7 +163,7 @@ var RegiChk = function(){
 		return false;
 	}
 	return false;
-}
+};
 
 </script>
 </html>
