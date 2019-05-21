@@ -32,8 +32,8 @@ public class Request_DaoImpl implements Request_IDao{
 	
 	//주문상태가 대기 중인 주문 조회
 	@Override
-	public List<RequestDto> requestListWait(String store_code){
-		return sqlSession.selectList(NS+"requestListWait", store_code);
+	public List<RequestDto> requestListWait(Map<String, String> map){
+		return sqlSession.selectList(NS+"requestListWait", map);
 	}
 	
 	//주문상태가 대기 중인 주문 상세 조회
@@ -44,8 +44,8 @@ public class Request_DaoImpl implements Request_IDao{
 	
 	//주문상태가 제조 중인 주문 조회
 	@Override
-	public List<RequestDto> requestListMake(String store_code){
-		return sqlSession.selectList(NS+"requestListMake", store_code);
+	public List<RequestDto> requestListMake(Map<String, String> map){
+		return sqlSession.selectList(NS+"requestListMake", map);
 	}
 	
 	//주문상태가 제조 중인 주문 상세 조회
@@ -62,7 +62,7 @@ public class Request_DaoImpl implements Request_IDao{
 	
 	//메뉴 번호에 따른 메뉴이름 찾기
 	@Override
-	public String requestMenuName(Map<String, String[]> map) {
+	public String requestMenuName(Map<String, Object> map) {
 		String menuName = "";
 		List<MenuDto> lists = sqlSession.selectList(NS+"requestMenuName", map);
 		for (int i = 0; i < lists.size(); i++) {

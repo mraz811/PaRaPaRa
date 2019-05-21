@@ -9,23 +9,64 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	#container{
+		width: 1020px;
+		height: 435px;
+	}
+	table{
+		border-collapse: collapse;
+		margin: 10px 100px auto 50px;
+	}
+	tr,td{
+		border: 1px solid black;
+	}
+	#day{
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	#startDay{
+		width: 180px;
+		height: 40px;
+		margin-left: 600px;
+	}
+	#endDay{
+		width: 180px;
+		height: 40px;
+	}
+</style>
 </head>
 <body>
 	<div id="container">
+		<div id="day">
+			<input id="startDay" name="start" type="date" value="시작일"/>~<input id="endDay" name="end" type="date" value="종료일"/>
+		</div>
 		<table>
+			<tr>
+				<td>번호</td>
+				<td>주문메뉴명</td>
+				<td>총가격</td>
+				<td>주문시간</td>
+				<td>은행명</td>
+				<td>계좌번호</td>
+				<td>환불</td>
+			</tr>
 			<c:forEach begin="0" end="${fn:length(requestList)}" items="${requestList}" var="request" varStatus="vs">
 				<tr>
-					<td>${fn:length(requestList)-vs.count+1}</td>
-					<td>${request.menu_name}</td>
-					<td>${request.request_menu}</td>
-					<td>${request.request_price}</td>
-					<td>${request.request_time}</td>
-					<td>${request.request_bank}</td>
-					<td>${request.request_account}</td>
-					<td><input type="button" value="환불"/></td>
+					<td style="width: 50px;height: 31px">${fn:length(requestList)-vs.count+1}</td>
+					<td style="width: 420px;height: 31px">${request.menu_name}</td>
+					<td style="width: 100px;height: 31px">${request.request_price}</td>
+					<td style="width: 100px;height: 31px">${fn:substring(request.request_time,0,10)}</td>
+					<td style="width: 100px;height: 31px">${request.request_bank}</td>
+					<td style="width: 100px;height: 31px">${request.request_account}</td>
+					<td style="width: 45px;height: 31px"><input type="button" value="환불"/></td>
 				</tr>
 			</c:forEach>
-		</table>	
+		</table>
+		<div id="paging">
+		
+		</div>	
 	</div>
+	
 </body>
 </html>

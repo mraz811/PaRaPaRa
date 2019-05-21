@@ -14,13 +14,13 @@ public interface Request_IDao {
 	public List<RequestDto> requestList(Map<String, String> map);
 
 	// 주문상태가 대기 중인 주문 조회
-	public List<RequestDto> requestListWait(String store_code);
+	public List<RequestDto> requestListWait(Map<String, String> map);
 
 	// 주문상태가 대기 중인 주문 상세 조회
 	public RequestDto requestDetailWait(RequestDto dto);
 
 	// 주문상태가 제조 중인 주문 조회
-	public List<RequestDto> requestListMake(String store_code);
+	public List<RequestDto> requestListMake(Map<String, String> map);
 
 	// 주문상태가 제조 중인 주문 상세 조회
 	public RequestDto requestDetailMake(RequestDto dto);
@@ -29,6 +29,6 @@ public interface Request_IDao {
 	public boolean customOrder(RequestDto dto);
 
 	// 메뉴 번호에 따른 메뉴이름 찾기
-	public String requestMenuName(Map<String, String[]> map);
+	public String requestMenuName(Map<String, Object> map);
 	
 }
