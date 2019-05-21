@@ -24,86 +24,20 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.ChatDto;
 import com.happy.para.dto.FileDto;
-import com.happy.para.dto.ItemDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.model.Chat_IService;
-import com.happy.para.model.Item_IService;
 
-//@Controller
-public class TaeHyunTest_Ctrl {
+@Controller
+public class CommonCtrl {
 	
-	private Logger logger = LoggerFactory.getLogger(TaeHyunTest_Ctrl.class);
-	
-	@Autowired
-	private Item_IService itemService;
+	private Logger logger = LoggerFactory.getLogger(CommonCtrl.class);
 	
 	@Autowired
 	private Chat_IService chatService;
 	
 	
 	@Resource(name="uploadPath")
-	String uploadPath;
-	
-	
-	@RequestMapping(value="/selItemList.do", method=RequestMethod.GET)
-	public String selectItemList() {
-		List<ItemDto> lists = itemService.itemList();
-		logger.info("Select ItemList Controller : {}",lists);
-		return "";
-	}
-	
-	@RequestMapping(value="/addItem.do", method=RequestMethod.GET)
-	public String addToItem(String item_name, String item_price) {
-		
-		logger.info("Add Item Controller : {}, {}",item_name,item_price);
-		
-		ItemDto dto = new ItemDto();
-		
-		dto.setItem_name(item_name);
-		dto.setItem_price(Integer.parseInt(item_price));
-		logger.info("Add Item Controller setDto : {}",dto);
-		boolean isc = itemService.itemInsert(dto);
-		if (isc) {
-			System.out.println("insert 완료");
-		}else {
-			System.out.println("insert 실패");
-		}
-		
-		return "";
-	}
-	
-	@RequestMapping(value="/itemModi.do", method=RequestMethod.GET)
-	public String modItem(String item_seq, String item_price, String item_name) {
-		ItemDto dto = new ItemDto();
-		dto.setItem_seq(Integer.parseInt(item_seq));
-		dto.setItem_price(Integer.parseInt(item_price));
-		dto.setItem_name(item_name);
-		logger.info("Add Item Controller setDto : {}", dto);
-		
-		boolean isc = itemService.itemModify(dto);
-		if (isc) {
-			System.out.println("modify 완료");
-		}else {
-			System.out.println("modify 실패");
-		}
-		
-		
-		return "";
-	}
-	
-	@RequestMapping(value="/delItem.do", method=RequestMethod.GET)
-	public String deleteItem(String item_seq) {
-		logger.info("delete Item Controller : {}",item_seq);
-		
-		boolean isc = itemService.itemDelete(item_seq);
-		if(isc) {
-			System.out.println("delete 완료");
-		}else {
-			System.out.println("delete 완료");
-		}
-		
-		return "";
-	}
+	private String uploadPath;
 	
 	@RequestMapping(value="/chatList.do", method=RequestMethod.GET)
 	public String selectChatList(String auth, Model model, HttpSession session) {

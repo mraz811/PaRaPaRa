@@ -24,7 +24,6 @@
 		<input type="text" id="targetId" value="${target}"><br>
 		<input type="text" id="auth" value="${loginDto.auth}"><br>
 		<input type="text" id="storeCode" value="${store_code}"><br>
-		${chatDto}
 		<div id="chatMsgBox" style="border: 1px solid black; width: 490px; height: 490px;" >
 			${chatDto.chat_content}
 		</div>
