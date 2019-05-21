@@ -306,7 +306,12 @@ public class MemberCtrl {
 		
 		// 업주 전체 조회 (페이징 사용)
 		@RequestMapping(value="/selOwnerList.do", method=RequestMethod.GET)
-		public String selOwnerList(Model model, String loc_code) {
+		public String selOwnerList(HttpSession session, Model model, String loc_code) {
+			
+			if(loc_code==null) {
+				AdminDto ad = (AdminDto) session.getAttribute("loginDto");
+				loc_code = ad.getLoc_code();
+			}
 			
 			PagingDto pagingDto = new PagingDto();
 			pagingDto.setTotal(memService.ownerListRow(loc_code));
@@ -328,6 +333,19 @@ public class MemberCtrl {
 		public String delAdmin(String admin_id) {
 			memService.adminDelete(admin_id);
 			return "redirect:/selAdminList.do";
+		}
+		
+		// 업주 삭제 메소드 (계약종료일 업데이트)
+		@RequestMapping(value="/delOwner.do", method=RequestMethod.POST)
+		public String delOwner(HttpSession session, String owner_end, String owner_seq) {
+//			session에서 loc_code받아오기
+			AdminDto ad = (AdminDto) session.getAttribute("loginDto");
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("owner_end", owner_end);
+			map.put("owner_seq", owner_seq);
+			
+			memService.ownerDelete(map);
+			return "redirect:/selOwnerList.do?loc_code="+ad.getLoc_code();
 		}
 		
 }

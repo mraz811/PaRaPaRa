@@ -16,7 +16,7 @@
 	<div>
 		<table id="ownerList">
 			<tr>
-				<th>사업자번호</th>
+				<th style="width: 150px">사업자번호</th>
 				<th>업주명</th>
 				<th>전화번호</th>
 				<th>이메일</th>
@@ -25,10 +25,15 @@
 				<th>계약종료</th>
 				<th></th>
 			</tr>	
-	
-			<c:forEach var="ow" items="${ownerlist}" varStatus="vs">
+		</table>
+						
+		<c:forEach var="ow" items="${ownerlist}" varStatus="vs">
+
+		<form action="#" method="post" >
+		<input type="hidden" name="owner_seq" value="${ow.owner_seq}">
+		<table>
 			<tr>
-				<td>${ow.owner_id}</td>		
+				<td style="width: 150px">${ow.owner_id}</td>		
 				<td>${ow.owner_name}</td>		
 				<td>${ow.owner_phone}</td>		
 				<td>${ow.owner_email}</td>
@@ -36,17 +41,20 @@
 				<td>${ow.store_code}</td>
 				<td>${fn:substring(ow.owner_start,0,10)}</td>
 				<c:if test="${ow.owner_end eq null}">
-					<td> - </td>
-					<td><input type="button" value="계약종료" onclick="finContract()"></td>	
+					<td><input id="owner_end${vs.index}" name="owner_end" type="date"></td>
+					<td><input type="button" value="계약종료" onclick="finContract('${vs.index}','${ow.owner_start}')"></td>	
 				</c:if>
 				<c:if test="${ow.owner_end ne null}">
 					<td>${fn:substring(ow.owner_end,0,10)}</td>
 					<td></td>	
 				</c:if>
 			</tr>
+		</table>
+		</form>
+
+
 			</c:forEach>
 	
-		</table>
 	</div>
 
 	<div>
@@ -86,9 +94,47 @@ var toOwnerRegi = function(){
 };
 
 // 업주 계약 종료 시 
-var finContract = function(){
+var finContract = function(frmNo, start){
+	var owner_end = document.getElementById("owner_end"+frmNo).value;
 	
+// 	alert(frmNo);
+// 	alert(owner_end);
+	
+	if(owner_end==""){
+		swal("계약 종료 실패", "계약종료일을 입력하면 종료됩니다.");
+// 		alert("빈칸");
+	} else if(!compareDate(start, owner_end)){
+		swal("계약 종료 실패", "종료일은 계약일이전일 수 없습니다..");
+	} else {
+		// 계약종료일 등록 완료 시
+		var isc = confirm("계약 종료 시 되돌릴 수 없습니다.");
+		if(isc){
+			var frm = document.forms[frmNo];
+			frm.action = "./delOwner.do";
+			frm.methd = "post";
+			frm.submit();
+		}
+	}
 };
+
+// 날짜 비교 메서드
+function compareDate(start, end){
+	var startY = start.split("-")[0];
+	var startM = start.split("-")[1];
+	var startD = start.split("-")[2];
+	
+	var endY = end.split("-")[0];
+	var endM = end.split("-")[1];
+	var endD = end.split("-")[2];
+
+	var owner_start = new Date(startY, startM-1, startD);
+	var owner_end = new Date(endY, endM-1, endD);
+	
+	// true
+// 	alert(owner_end - owner_start > 0);
+	
+	return owner_end - owner_start > 0;
+}
 
 </script>
 

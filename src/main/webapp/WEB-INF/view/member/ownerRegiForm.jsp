@@ -61,7 +61,7 @@ ${store_code}
 		
 		<div>	
 			<input type="submit" value="등록 완료" >
-			<input type="button" value="취소" onclick="regiCancel()">
+			<input type="button" value="취소" onclick="regiCancel('${loginDto.loc_code}')">
 		</div>
 	</form>
 
@@ -119,8 +119,8 @@ $(function(){
 
 
 //등록 취소 버튼클릭 시 실행할 함수
-var regiCancel = function(){
-	location.href="./selOwnerList.do";
+var regiCancel = function(loc_code){
+	location.href="./selOwnerList.do?loc_code="+loc_code;
 };
 	
 	
