@@ -119,7 +119,7 @@
 	function paoRequest() {
 		//alert("dd");
 		var store_code = document.getElementById("store_code").value;
-		window.open("./paoRequest.do?store_code="+store_code, "발주신청", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+		window.open("./paoRequest.do?store_code="+store_code, "발주신청", "width=880, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 		//location.href = "./paoRequest.do?store_code="+store_code;
 	}
 	

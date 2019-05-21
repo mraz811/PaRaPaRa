@@ -12,7 +12,7 @@
 		<result property="store_code" column="STORE_CODE" />
 		<result property="stock_name" column="STOCK_NAME" />
 		<result property="stock_qty" column="STOCK_QTY" />
-		<association property="itemDto" resultMap="itemDto"/>
+		<association property="itemDto" resultMap="ItemDto"/>
 	</resultMap>
 
 	
@@ -44,16 +44,12 @@
     	]]>
 	</select>
 	
-	
-	
 	<!-- 업주 : 발주 신청 시 재고 목록 조회 -->
-	<!-- 
-	<select id="paoStockList" parameterType="java.lang.String" resultType="StockDto">
-	SELECT STOCK_SEQ, STORE_CODE, STOCK_NAME, NVL(STOCK_QTY, 0), ITEM_PRICE
+	<select id="paoStockList" parameterType="java.lang.String" resultMap="StockDto">
+	SELECT STOCK_SEQ, STORE_CODE, STOCK_NAME, STOCK_QTY, ITEM.ITEM_PRICE
 	FROM STOCK JOIN ITEM ON STOCK.STOCK_NAME = ITEM.ITEM_NAME
 	WHERE STORE_CODE = #{store_code}
 	ORDER BY STOCK_NAME
 	</select>
-	 -->
 	
 </mapper>
