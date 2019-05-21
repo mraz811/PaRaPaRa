@@ -5,25 +5,38 @@
 <!-- 사용할 typeAlias 설정 가능 -->
 	<typeAliases>
 		<typeAlias type="com.happy.para.dto.AdminDto" alias="AdminDto" />
-		<typeAlias type="com.happy.para.dto.OwnerDto" alias="OwnerDto" />
-		<typeAlias type="com.happy.para.dto.MenuDto" alias="MenuDto" />
-		<typeAlias type="com.happy.para.dto.RequestDto" alias="RequestDto" />
-		<typeAlias type="com.happy.para.dto.FileDto" alias="FileDto"/>
-		<typeAlias type="com.happy.para.dto.PaoDto" alias="PaoDto"/>
-		<typeAlias type="com.happy.para.dto.PaoInfoDto" alias="PaoInfoDto"/>
-		<typeAlias type="com.happy.para.dto.StockDto" alias="StockDto"/>
-		<typeAlias type="com.happy.para.dto.ItemDto" alias="ItemDto"/>
+		<typeAlias type="com.happy.para.dto.AlbaDto" alias="AlbaDto" />
+		<typeAlias type="com.happy.para.dto.CalDto" alias="CalDto" />
 		<typeAlias type="com.happy.para.dto.ChatDto" alias="ChatDto"/>
+		<typeAlias type="com.happy.para.dto.FileDto" alias="FileDto"/>
+		<typeAlias type="com.happy.para.dto.ItemDto" alias="ItemDto"/>
+		<typeAlias type="com.happy.para.dto.MenuDto" alias="MenuDto" />
+		<typeAlias type="com.happy.para.dto.NoticeDto" alias="NoticeDto" />
+		<typeAlias type="com.happy.para.dto.OwnerDto" alias="OwnerDto" />
+		<typeAlias type="com.happy.para.dto.PagingDto" alias="PagingDto" />
+		<typeAlias type="com.happy.para.dto.PaoDto" alias="PaoDto"/>
+		<typeAlias type="com.happy.para.dto.ReplyDto" alias="ReplyDto"/>
+		<typeAlias type="com.happy.para.dto.RequestDto" alias="RequestDto" />
+		<typeAlias type="com.happy.para.dto.StockDto" alias="StockDto"/>
+		<typeAlias type="com.happy.para.dto.StoreDto" alias="StoreDto"/>
+		<typeAlias type="com.happy.para.dto.TimeDto" alias="TimeDto"/>
 	</typeAliases>
 
 <!-- Mapper 연결 -->
 	<mappers>
+		<mapper resource="/sqls/Alba.xml"/>
+		<mapper resource="/sqls/Calendar.xml"/>
+		<mapper resource="/sqls/Chat.xml"/>
+		<mapper resource="/sqls/Item.xml"/>
 		<mapper resource="/sqls/Member.xml" />
+		<mapper resource="/sqls/Menu.xml" />
+		<mapper resource="/sqls/Notice.xml" />
+		<mapper resource="/sqls/Pao.xml" />
+		<mapper resource="/sqls/Reply.xml" />
 		<mapper resource="/sqls/Request.xml" />
 		<mapper resource="/sqls/Stats.xml" />
-		<mapper resource="/sqls/Menu.xml" />
-		<mapper resource="/sqls/Pao.xml" />
-		<mapper resource="/sqls/Item.xml"/>
-		<mapper resource="/sqls/Chat.xml"/>
+		<mapper resource="/sqls/Stock.xml" />
+		<mapper resource="/sqls/Store.xml" />
+		<mapper resource="/sqls/Timesheet.xml" />
 	</mappers>
 </configuration>

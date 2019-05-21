@@ -8,39 +8,51 @@ public class CalDto implements Serializable {
 	 * 매장일정 DTO
 	 */
 	private static final long serialVersionUID = -6220919999289380973L;
-	private int cal_seq;
-	private String cal_id;
+	private String cal_seq;
+	private char cal_id;
 	private String cal_title;
 	private String cal_content;
 	private String cal_start;
 	private String cal_end;
 	private String store_code;
-	private String cal_regdate;
 	
 	public CalDto() {
-		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "CalDto [cal_seq=" + cal_seq + ", cal_id=" + cal_id + ", cal_title=" + cal_title + ", cal_content="
-				+ cal_content + ", cal_start=" + cal_start + ", cal_end=" + cal_end + ", store_code=" + store_code
-				+ ", cal_regdate=" + cal_regdate + "]";
+	public CalDto(String cal_seq, String cal_title, String cal_content, String cal_start, String cal_end) {
+		super();
+		this.cal_seq = cal_seq;
+		this.cal_title = cal_title;
+		this.cal_content = cal_content;
+		this.cal_start = cal_start;
+		this.cal_end = cal_end;
 	}
 
-	public int getCal_seq() {
+	public CalDto(String cal_seq, char cal_id, String cal_title, String cal_content, String cal_start, String cal_end,
+			String store_code) {
+		super();
+		this.cal_seq = cal_seq;
+		this.cal_id = cal_id;
+		this.cal_title = cal_title;
+		this.cal_content = cal_content;
+		this.cal_start = cal_start;
+		this.cal_end = cal_end;
+		this.store_code = store_code;
+	}
+
+	public String getCal_seq() {
 		return cal_seq;
 	}
 
-	public void setCal_seq(int cal_seq) {
+	public void setCal_seq(String cal_seq) {
 		this.cal_seq = cal_seq;
 	}
 
-	public String getCal_id() {
+	public char getCal_id() {
 		return cal_id;
 	}
 
-	public void setCal_id(String cal_id) {
+	public void setCal_id(char cal_id) {
 		this.cal_id = cal_id;
 	}
 
@@ -84,12 +96,17 @@ public class CalDto implements Serializable {
 		this.store_code = store_code;
 	}
 
-	public String getCal_regdate() {
-		return cal_regdate;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setCal_regdate(String cal_regdate) {
-		this.cal_regdate = cal_regdate;
+	@Override
+	public String toString() {
+		return "CalDto [cal_seq=" + cal_seq + ", cal_id=" + cal_id + ", cal_title=" + cal_title + ", cal_content="
+				+ cal_content + ", cal_start=" + cal_start + ", cal_end=" + cal_end + ", store_code=" + store_code
+				+ "]";
 	}
+
+	
 	
 }

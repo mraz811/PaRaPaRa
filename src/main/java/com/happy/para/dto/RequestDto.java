@@ -13,6 +13,7 @@ public class RequestDto implements Serializable {
 	private String request_menu;
 	private int request_price;
 	private int os_code;
+	private String os_name;
 	private String store_code;
 	private String request_bank;
 	private String request_account;
@@ -22,15 +23,6 @@ public class RequestDto implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "RequestDto [request_seq=" + request_seq + ", request_time=" + request_time + ", request_menu="
-				+ request_menu + ", request_price=" + request_price + ", os_code=" + os_code + ", store_code="
-				+ store_code + ", request_bank=" + request_bank + ", request_account=" + request_account + "]";
-	}
-
-	
-	
 	public String getMenu_name() {
 		return menu_name;
 	}
@@ -103,4 +95,21 @@ public class RequestDto implements Serializable {
 		this.request_account = request_account;
 	}
 
+	public String getOs_name() {
+		return os_name;
+	}
+
+	public void setOs_name(String os_name) {
+		this.os_name = os_name;
+	}
+
+	@Override
+	public String toString() {
+		return "RequestDto [request_seq=" + request_seq + ", request_time=" + request_time + ", request_menu="
+				+ request_menu + ", request_price=" + request_price + ", os_code=" + os_code + ", os_name=" + os_name
+				+ ", store_code=" + store_code + ", request_bank=" + request_bank + ", request_account="
+				+ request_account + ", menu_name=" + menu_name + "]";
+	}
+	
+	
 }

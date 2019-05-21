@@ -8,8 +8,8 @@ public class ReplyDto implements Serializable {
 	 * 댓글 DTO
 	 */
 	private static final long serialVersionUID = 3755316305532385454L;
-	private int reply_seq;
-	private int notice_seq;
+	private String reply_seq;
+	private String notice_seq;
 	private String reply_id;
 	private String reply_regdate;
 	private String reply_content;
@@ -17,25 +17,28 @@ public class ReplyDto implements Serializable {
 	public ReplyDto() {
 	}
 
-	@Override
-	public String toString() {
-		return "ReplyDto [reply_seq=" + reply_seq + ", notice_seq=" + notice_seq + ", reply_id=" + reply_id
-				+ ", reply_regdate=" + reply_regdate + ", reply_content=" + reply_content + "]";
+	public ReplyDto(String reply_seq, String notice_seq, String reply_id, String reply_regdate, String reply_content) {
+		super();
+		this.reply_seq = reply_seq;
+		this.notice_seq = notice_seq;
+		this.reply_id = reply_id;
+		this.reply_regdate = reply_regdate;
+		this.reply_content = reply_content;
 	}
 
-	public int getReply_seq() {
+	public String getReply_seq() {
 		return reply_seq;
 	}
 
-	public void setReply_seq(int reply_seq) {
+	public void setReply_seq(String reply_seq) {
 		this.reply_seq = reply_seq;
 	}
 
-	public int getNotice_seq() {
+	public String getNotice_seq() {
 		return notice_seq;
 	}
 
-	public void setNotice_seq(int notice_seq) {
+	public void setNotice_seq(String notice_seq) {
 		this.notice_seq = notice_seq;
 	}
 
@@ -62,5 +65,16 @@ public class ReplyDto implements Serializable {
 	public void setReply_content(String reply_content) {
 		this.reply_content = reply_content;
 	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public String toString() {
+		return "ReplyDto [reply_seq=" + reply_seq + ", notice_seq=" + notice_seq + ", reply_id=" + reply_id
+				+ ", reply_regdate=" + reply_regdate + ", reply_content=" + reply_content + "]";
+	}
+
 	
 }

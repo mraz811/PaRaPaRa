@@ -8,28 +8,29 @@ public class TimeDto implements Serializable {
 	 * TIMESHEET DTO
 	 */
 	private static final long serialVersionUID = -1234655790357755382L;
-	private int ts_seq;
-	private int alba_seq;
-	private String ts_date;
-	private String ts_start;
-	private String ts_end;
-	private int ts_workhour;
+	private String ts_seq             ;
+	private int alba_seq           ;
+	private String ts_date            ;
+	private String ts_datetime        ;
+	private String ts_workhour        ;
 	
 	public TimeDto() {
-		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "TimeDto [ts_seq=" + ts_seq + ", alba_seq=" + alba_seq + ", ts_date=" + ts_date + ", ts_start="
-				+ ts_start + ", ts_end=" + ts_end + ", ts_workhour=" + ts_workhour + "]";
+	public TimeDto(String ts_seq, int alba_seq, String ts_date, String ts_datetime, String ts_workhour) {
+		super();
+		this.ts_seq = ts_seq;
+		this.alba_seq = alba_seq;
+		this.ts_date = ts_date;
+		this.ts_datetime = ts_datetime;
+		this.ts_workhour = ts_workhour;
 	}
 
-	public int getTs_seq() {
+	public String getTs_seq() {
 		return ts_seq;
 	}
 
-	public void setTs_seq(int ts_seq) {
+	public void setTs_seq(String ts_seq) {
 		this.ts_seq = ts_seq;
 	}
 
@@ -49,28 +50,33 @@ public class TimeDto implements Serializable {
 		this.ts_date = ts_date;
 	}
 
-	public String getTs_start() {
-		return ts_start;
+	public String getTs_datetime() {
+		return ts_datetime;
 	}
 
-	public void setTs_start(String ts_start) {
-		this.ts_start = ts_start;
+	public void setTs_datetime(String ts_datetime) {
+		this.ts_datetime = ts_datetime;
 	}
 
-	public String getTs_end() {
-		return ts_end;
-	}
-
-	public void setTs_end(String ts_end) {
-		this.ts_end = ts_end;
-	}
-
-	public int getTs_workhour() {
+	public String getTs_workhour() {
 		return ts_workhour;
 	}
 
-	public void setTs_workhour(int ts_workhour) {
+	public void setTs_workhour(String ts_workhour) {
 		this.ts_workhour = ts_workhour;
 	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public String toString() {
+		return "TimeDto [ts_seq=" + ts_seq + ", alba_seq=" + alba_seq + ", ts_date=" + ts_date + ", ts_datetime="
+				+ ts_datetime + ", ts_workhour=" + ts_workhour + "]";
+	}
+
+	
+	
 	
 }

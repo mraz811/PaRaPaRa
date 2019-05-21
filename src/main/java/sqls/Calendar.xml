@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="para.calendar">
+
+	<!-- 일정 등록 -->
+	<insert id="calRgister" parameterType="CalDto">
+		INSERT INTO CALENDAR (CAL_SEQ, CAL_ID, CAL_TITLE, CAL_CONTENT, CAL_START, CAL_END, STORE_CODE)
+			VALUES(CAL_SEQ.NEXTVAL, #{cal_id}, #{cal_title}, #{cal_content}, 
+				TO_DATE(#{cal_start},'YYYY-MM-DD HH24:MI:SS'), 
+				TO_DATE(#{cal_end},'YYYY-MM-DD HH24:MI:SS'), #{store_code})	
+	</insert>
+	
+	<!-- 일정 수정 -->
+	<update id="calModify" parameterType="CalDto">
+		UPDATE CALENDAR
+			SET CAL_TITLE=#{cal_title}, 
+				CAL_CONTENT=#{cal_content},
+				CAL_START=TO_DATE(#{cal_start},'YYYY-MM-DD HH24:MI:SS'),
+				CAL_END=TO_DATE(#{cal_end},'YYYY-MM-DD HH24:MI:SS')
+					WHERE CAL_SEQ=#{cal_seq}		
+	</update>
+
+	<!-- 일정 삭제 -->
+	<delete id="calDelete" parameterType="java.lang.String">
+		DELETE FROM CALENDAR
+			WHERE CAL_SEQ=#{cal_seq}
+	</delete>
+	
+	<!-- 일정 조회 -->
+	<select id="calList" parameterType="java.lang.String" resultType="CalDto">
+		SELECT CAL_SEQ, CAL_ID, CAL_TITLE, CAL_CONTENT, CAL_START, CAL_END, STORE_CODE
+			FROM CALENDAR
+				WHERE STORE_CODE=#{store_code}
+					ORDER BY CAL_SEQ DESC
+	</select>
+	
+	<!-- 일정 상세 조회 -->
+	<select id="calDetail" parameterType="CalDto" resultType="CalDto">
+		SELECT CAL_SEQ, CAL_TITLE, CAL_START, CAL_END, STORE_CODE
+			FROM CALENDAR
+				WHERE STORE_CODE={store_code}
+					AND CAL_SEQ=#{cal_seq}
+	</select>
+
+</mapper>

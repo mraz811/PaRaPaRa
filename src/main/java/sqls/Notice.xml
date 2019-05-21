@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="para.notice">
+
+	<!-- 공지사항 등록 -->
+		<insert id="noticeWrite" parameterType="NoticeDto">
+			INSERT INTO NOTICE(NOTICE_SEQ, NOTICE_TITLE, NOTICE_ID, NOTICE_REGDATE, NOTICE_CONTENT, NOTICE_DELFLAG)
+				VALUES(NOTICE_SEQ.NEXTVAL, #{notice_title}, #{notice_id}, SYSDATE, #{notice_content}, 'N')
+		</insert>
+	
+	<!-- 공지사항 수정 -->
+		<update id="noticeModify" parameterType="NoticeDto">
+			UPDATE NOTICE
+				SET NOTICE_TITLE=#{notice_title}, NOTICE_CONTENT=#{notice_content}
+					WHERE NOTICE_SEQ=#{notice_seq}
+		</update>
+	
+	<!-- 공지사항 삭제 -->
+		<update id="noticeDelete" parameterType="java.lang.String">
+			UPDATE NOTICE
+				SET NOTICE_DELFLAG='Y'
+					WHERE NOTICE_SEQ=#{notice_seq}
+		</update>
+	
+	<!-- 공지사항 조회(페이징) -->	
+		<select id="noticeList" parameterType="PagingDto" resultType="NoticeDto">
+			SELECT RNUM, NOTICE_SEQ, NOTICE_TITLE, NOTICE_ID, NOTICE_REGDATE, NOTICE_CONTENT, NOTICE_DELFLAG
+				FROM(SELECT ROW_NUMBER() OVER(ORDER BY NOTICE_SEQ) RNUM, 
+					NOTICE_SEQ, NOTICE_TITLE, NOTICE_ID, NOTICE_REGDATE, 
+					NOTICE_CONTENT, NOTICE_DELFLAG
+						FROM NOTICE
+						WHERE NOTICE_DELFLAG = 'N')
+				WHERE RNUM BETWEEN #{start} AND #{last}
+					
+				<!--  last 가 end 로 바뀜! -->
+		</select>
+		
+	<!-- 공지사항 조회 -->
+		<select id="noticeListRow" resultType="java.lang.Integer">
+			SELECT COUNT(*) FROM NOTICE WHERE NOTICE_DELFLAG='N'
+		</select>
+		
+	<!-- 공지사항 상세 조희 -->
+		<select id="noticeDetail" parameterType="java.lang.String" resultType="NoticeDto">
+			SELECT NOTICE_SEQ, NOTICE_TITLE, NOTICE_ID, TO_CHAR(NOTICE_REGDATE,'YYYY-MM-dd') AS NOTICE_REGDATE, NOTICE_CONTENT, NOTICE_DELFLAG
+				FROM NOTICE
+					WHERE NOTICE_SEQ = #{notice_seq}
+		</select>	
+	
+		
+</mapper>

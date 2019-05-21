@@ -1,6 +1,7 @@
 package com.happy.para.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class StockDto implements Serializable {
 	
@@ -12,6 +13,8 @@ public class StockDto implements Serializable {
 	private String store_code;
 	private String stock_name;
 	private int stock_qty;
+	private List<StockDto> slists;
+	private String item_name;
 	
 	private ItemDto itemDto;
 	
@@ -20,11 +23,6 @@ public class StockDto implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "StockDto [stock_seq=" + stock_seq + ", store_code=" + store_code + ", stock_name=" + stock_name
-				+ ", stock_qty=" + stock_qty + "]";
-	}
 
 	public int getStock_seq() {
 		return stock_seq;
@@ -65,6 +63,35 @@ public class StockDto implements Serializable {
 	public void setItemDto(ItemDto itemDto) {
 		this.itemDto = itemDto;
 	}
+
+
+	public List<StockDto> getSlists() {
+		return slists;
+	}
+
+
+	public void setSlists(List<StockDto> slists) {
+		this.slists = slists;
+	}
+
+
+	public String getItem_name() {
+		return item_name;
+	}
+
+
+	public void setItem_name(String item_name) {
+		this.item_name = item_name;
+	}
+
+
+	@Override
+	public String toString() {
+		return "StockDto [stock_seq=" + stock_seq + ", store_code=" + store_code + ", stock_name=" + stock_name
+				+ ", stock_qty=" + stock_qty + ", slists=" + slists + ", item_name=" + item_name + ", itemDto="
+				+ itemDto + "]";
+	}
+	
 	
 	
 

@@ -1,6 +1,7 @@
 package com.happy.para.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ItemDto implements Serializable {
 	
@@ -14,15 +15,10 @@ public class ItemDto implements Serializable {
 	private int pi_seq;
 	private int pi_qty;
 	private int pao_seq;
+	private List<ItemDto> ilists;
 	
 	public ItemDto() {
 		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public String toString() {
-		return "ItemDto [item_seq=" + item_seq + ", item_name=" + item_name + ", item_price=" + item_price + ", pi_seq="
-				+ pi_seq + ", pi_qty=" + pi_qty + ", pao_seq=" + pao_seq + "]";
 	}
 
 	public int getItem_seq() {
@@ -72,6 +68,22 @@ public class ItemDto implements Serializable {
 	public void setPao_seq(int pao_seq) {
 		this.pao_seq = pao_seq;
 	}
+
+	public List<ItemDto> getIlists() {
+		return ilists;
+	}
+
+	public void setIlists(List<ItemDto> ilists) {
+		this.ilists = ilists;
+	}
+
+	@Override
+	public String toString() {
+		return "ItemDto [item_seq=" + item_seq + ", item_name=" + item_name + ", item_price=" + item_price + ", pi_seq="
+				+ pi_seq + ", pi_qty=" + pi_qty + ", pao_seq=" + pao_seq + ", ilists=" + ilists + "]";
+	}
+	
+	
 	
 	
 }
