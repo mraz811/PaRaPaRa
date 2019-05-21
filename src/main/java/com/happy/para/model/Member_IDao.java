@@ -62,5 +62,11 @@ public interface Member_IDao {
 	// 업주 등록 시 매장 업주등록여부 업데이트 (owner_reg, store_code) 필요
 	public int storeOwnerRegi(Map<String, String> map);
 	
-
+	// 담당자 등록 시 사번 중복 검사
+	public int adminIdDupleChk(String admin_id);
+	
+	// 업주 등록시 사업자 번호 중복 검사
+	public int ownerIdDupleChk(String owner_id);
+	
+	
 }

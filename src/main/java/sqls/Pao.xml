@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="para.pao">
-<!-- 	
-	<resultMap id="member_hobby" type="com.happy.para.dto.PaoDto">
-		<result property="PAO_STATUS.PS_NAME" column="PS_NAME" />
-		<result property="STORE.STORE_NAME" column="STORE_NAME" />
-		<result property="userName" column="user_name" />
-		<result property="hobbyName" column="hobby_name" />
+ 	
+ 	<resultMap id="ItemDto" type="ItemDto">
+		<result property="item_name" column="ITEM_NAME" />
+		<result property="item_price" column="ITEM_PRICE" />
+	</resultMap>
+ 	
+	<resultMap id="StockDto" type="StockDto">
+		<result property="stock_seq" column="STOCK_SEQ" />
+		<result property="store_code" column="STORE_CODE" />
+		<result property="stock_name" column="STOCK_NAME" />
+		<result property="stock_qty" column="STOCK_QTY" />
+		<association property="itemDto" resultMap="itemDto"/>
 	</resultMap>
 
-	  -->
 	
 	<!-- 업주 : 매장 발주 내역 조회 -->
 	<select id="paoList" parameterType="java.lang.String" resultType="PaoInfoDto">
@@ -38,6 +43,8 @@
         	PAO_DATE >= #{startDate} AND PAO_DATE <= #{endDate}
     	]]>
 	</select>
+	
+	
 	
 	<!-- 업주 : 발주 신청 시 재고 목록 조회 -->
 	<!-- 

@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
@@ -12,6 +13,8 @@
 		<typeAlias type="com.happy.para.dto.PaoDto" alias="PaoDto"/>
 		<typeAlias type="com.happy.para.dto.PaoInfoDto" alias="PaoInfoDto"/>
 		<typeAlias type="com.happy.para.dto.StockDto" alias="StockDto"/>
+		<typeAlias type="com.happy.para.dto.ItemDto" alias="ItemDto"/>
+		<typeAlias type="com.happy.para.dto.ChatDto" alias="ChatDto"/>
 	</typeAliases>
 
 <!-- Mapper 연결 -->
@@ -21,5 +24,7 @@
 		<mapper resource="/sqls/Stats.xml" />
 		<mapper resource="/sqls/Menu.xml" />
 		<mapper resource="/sqls/Pao.xml" />
+		<mapper resource="/sqls/Item.xml"/>
+		<mapper resource="/sqls/Chat.xml"/>
 	</mappers>
 </configuration>

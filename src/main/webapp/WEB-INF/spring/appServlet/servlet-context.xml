@@ -51,7 +51,24 @@
 		</bean>
 	</mvc:interceptors>
 	
+	<!-- 메일 보내기 위해 계정정보 입력 -->
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com"></property>
+		<property name="port" value="587"></property>
+		<property name="username" value="happyproject8811@gmail.com"></property>
+		<property name="password" value="happy@8811"></property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>		
+				<prop key="mail.smtp.starttls.enable">true</prop>		
+				<prop key="mail.debug">true</prop>		
+			</props>
+		</property>
+	</bean>
 	
+	<!-- 임시 비밀번호 생성을 위한 tempKey 클래스 -->
+	<bean id="tempKey" class="com.happy.para.common.TempKey"/>
 
 </beans>
 

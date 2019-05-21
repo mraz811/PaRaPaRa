@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="para.chat">
+	
+	<select id="selectOwner" parameterType="java.lang.String" resultType="OwnerDto">
+		SELECT OWNER_SEQ, OWNER_ID, OWNER_PW, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, ADMIN_ID, STORE_CODE, OWNER_START, OWNER_END, OWNER_MENU 
+		FROM OWNER WHERE ADMIN_ID = #{admin_id}
+	</select>
+	
+	<select id="selectAdmin" resultType="AdminDto" parameterType="java.lang.String">
+		SELECT ADMIN_ID, ADMIN_PW, ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG
+		FROM ADMIN WHERE ADMIN_ID = #{admin_id}
+	</select>
+	
+	<update id="updateChatContent" parameterType="ChatDto">
+		UPDATE CHAT SET CHAT_CONTENT = #{chat_content} WHERE CHAT_TITLE = #{chat_title}
+	</update>
+	
+	<select id="selectChatRoom" parameterType="java.lang.String" resultType="ChatDto">
+		SELECT CHAT_SEQ, CHAT_TITLE, CHAT_CONTENT, CHAT_SCOUNT, CHAT_RCOUNT, CHAT_REGDATE
+		FROM CHAT WHERE CHAT_TITLE = #{chat_title}
+	</select>
+	
+	<insert id="createChatRoom" parameterType="java.lang.String">
+		INSERT INTO CHAT
+		(CHAT_SEQ, CHAT_TITLE, CHAT_CONTENT, CHAT_SCOUNT, CHAT_RCOUNT, CHAT_REGDATE)
+		VALUES(CHAT_SEQ.NEXTVAL, #{chat_title}, ' ', 0, 0, SYSDATE)
+	</insert>
+	
+</mapper>
