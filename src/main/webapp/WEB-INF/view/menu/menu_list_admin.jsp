@@ -73,13 +73,12 @@ function menuModiForm(menu_seq){
 	<div id="insert">
 			<input id="regiMenu" type="button" value="메뉴 등록" onclick="regiMenu()"/>
 	</div>
-		<div id="menuList">
+		<div id="menuList" >
 			<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
-					
-					<div class="menu"><input type="button" value="수정" onclick="menuModiForm(${vs.current.menu_seq})"/><img class="menuImg" src="./masolimg/img.png" alt=""/><input type="button" value="삭제" onclick="menuDel(${vs.current.menu_seq})"/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
-					<c:if test="${vs.count mod 4 eq 0}">
-						<br>
-					</c:if>
+						<div class="menu" style="float: left; width:250px"><input type="button" value="수정" onclick="menuModiForm(${vs.current.menu_seq})"/><img class="menuImg" src="./masolimg/img.png" alt=""/><input type="button" value="삭제" onclick="menuDel(${vs.current.menu_seq})"/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
+						<c:if test="${vs.count mod 4 eq 0}">
+							<br>
+						</c:if>
 			</c:forEach>
 		</div>
 	<div id="paging">
