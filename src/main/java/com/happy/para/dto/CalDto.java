@@ -15,6 +15,7 @@ public class CalDto implements Serializable {
 	private String cal_start;
 	private String cal_end;
 	private String store_code;
+	private String cal_regdate;
 	
 	public CalDto() {
 	}
@@ -29,7 +30,7 @@ public class CalDto implements Serializable {
 	}
 
 	public CalDto(String cal_seq, char cal_id, String cal_title, String cal_content, String cal_start, String cal_end,
-			String store_code) {
+			String store_code, String cal_regdate) {
 		super();
 		this.cal_seq = cal_seq;
 		this.cal_id = cal_id;
@@ -38,6 +39,7 @@ public class CalDto implements Serializable {
 		this.cal_start = cal_start;
 		this.cal_end = cal_end;
 		this.store_code = store_code;
+		this.cal_regdate = cal_regdate;
 	}
 
 	public String getCal_seq() {

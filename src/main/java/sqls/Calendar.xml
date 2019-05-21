@@ -4,10 +4,10 @@
 
 	<!-- 일정 등록 -->
 	<insert id="calRgister" parameterType="CalDto">
-		INSERT INTO CALENDAR (CAL_SEQ, CAL_ID, CAL_TITLE, CAL_CONTENT, CAL_START, CAL_END, STORE_CODE)
+		INSERT INTO CALENDAR (CAL_SEQ, CAL_ID, CAL_TITLE, CAL_CONTENT, CAL_START, CAL_END, STORE_CODE, CAL_REGDATE)
 			VALUES(CAL_SEQ.NEXTVAL, #{cal_id}, #{cal_title}, #{cal_content}, 
 				TO_DATE(#{cal_start},'YYYY-MM-DD HH24:MI:SS'), 
-				TO_DATE(#{cal_end},'YYYY-MM-DD HH24:MI:SS'), #{store_code})	
+				TO_DATE(#{cal_end},'YYYY-MM-DD HH24:MI:SS'), #{store_code}, SYSDATE)	
 	</insert>
 	
 	<!-- 일정 수정 -->

@@ -137,7 +137,7 @@ var pageAjax = function(){
 				
 				htmlTable +="<tr>" +
 						"<td>"+fri.seq+"</td>" +
-						"<td><a href='./noticeDetail.do?notice_seq="+fri.seq+"'>"+fri.title+"</a></td>" +
+						"<td><a href='./selNoticeDetail.do?notice_seq="+fri.seq+"'>"+fri.title+"</a></td>" +
 						"<td>"+fri.id+"</td>+" +
 						"<td>"+regdate+"</td></tr>";
 			});
@@ -154,7 +154,7 @@ var pageAjax = function(){
 					htmlTable +="<li><a href='#' onclick='pageNext("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&rsaquo;</a></li>";
 					htmlTable +="<li><a href='#' onclick='pageLast("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&raquo;</a></li>";
 				}
-				
+
 //				alert(htmlTable);
 				
 				if(key=="lists"){

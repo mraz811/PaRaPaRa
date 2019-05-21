@@ -4,21 +4,33 @@
 
 window.onload = function() {
 	
+	/*
+
+
+	var alba_seq = ''; // alba_seq 들어온 매장의 알바들 조회해서 담음
+	var ts_date = ''; // 화면의 데이트 긁어오기
+	
 	$.ajax({
-		url: "timeGet.do", //요청 url
+		url: "selTimeSheet.do", //요청 url
 		type: "post", // 전송 처리방식
 		asyn: false, // true 비동기 false 동기
-		data: { 'name' : name ,'sTime': sTime, 'eTime' : eTime }, // 서버 전송 파라메터 
+		data: { 'alba_seq' : alba_seq ,'ts_date': ts_date }, // 서버 전송 파라메터 
 		dataType: "json",
 		success: function(msg){
 			alert("성공");
-			alert(msg.name);
+			alert(msg.alba_seq);
+			
+//			let shiftObj = 
+			
 		}, error : function() {
 			alert("실패");
 		}
-	});	
-}
+	});
 
+
+	*/
+	
+}
 
 let shiftObj = {
     "1" : {

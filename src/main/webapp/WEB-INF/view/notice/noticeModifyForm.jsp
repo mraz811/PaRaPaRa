@@ -10,7 +10,7 @@
 </head>
 <script type="text/javascript">
 	function listMove() {
-		location.href="./noticeList.do";
+		location.href="./selNoticeList.do";
 	}
 </script>
 <body>
@@ -27,9 +27,9 @@ ${dto}
 				<td colspan="2">
 					<textarea name="notice_content" rows="10" cols="30" style="overflow-y:scroll"></textarea>
 				</td>
-			</tr>	
+			</tr>
 		</table>
-	
+
 			<input type="button" value="글 목록" onclick="listMove()">
 			<input type="submit" value="글 수정">
 

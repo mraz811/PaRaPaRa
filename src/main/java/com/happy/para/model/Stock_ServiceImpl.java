@@ -3,9 +3,11 @@ package com.happy.para.model;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.happy.para.dto.StockDto;
 
+@Service
 public class Stock_ServiceImpl implements Stock_IService {
 
 	@Autowired
