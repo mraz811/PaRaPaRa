@@ -34,9 +34,9 @@ public class Request_ServiceImpl implements Request_IService{
 
 	// 주문상태가 대기 중인 주문 조회
 	@Override
-	public List<RequestDto> requestListWait(String store_code) {
-		logger.info("requestListWait Service : {} ", store_code);
-		return request_IDao.requestListWait(store_code);
+	public List<RequestDto> requestListWait(Map<String, String> map) {
+		logger.info("requestListWait Service : {} ", map);
+		return request_IDao.requestListWait(map);
 	}
 
 	// 주문상태가 대기 중인 주문 상세 조회
@@ -48,9 +48,9 @@ public class Request_ServiceImpl implements Request_IService{
 
 	// 주문상태가 제조 중인 주문 조회
 	@Override
-	public List<RequestDto> requestListMake(String store_code) {
-		logger.info("requestListMake Service : {} ", store_code);
-		return request_IDao.requestListMake(store_code);
+	public List<RequestDto> requestListMake(Map<String, String> map) {
+		logger.info("requestListMake Service : {} ", map);
+		return request_IDao.requestListMake(map);
 	}
 
 	// 주문상태가 제조 중인 주문 상세 조회
@@ -69,7 +69,7 @@ public class Request_ServiceImpl implements Request_IService{
 
 	// 메뉴 번호에 따른 메뉴이름 찾기
 	@Override
-	public String requestMenuName(Map<String, String[]> map) {
+	public String requestMenuName(Map<String, Object> map) {
 		logger.info("requestMenuName Service : {} ", map);
 		return request_IDao.requestMenuName(map);
 	}

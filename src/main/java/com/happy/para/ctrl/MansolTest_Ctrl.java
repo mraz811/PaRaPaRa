@@ -1,12 +1,15 @@
 package com.happy.para.ctrl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -339,12 +342,18 @@ public class MansolTest_Ctrl {
 	@Autowired
 	private Request_IService request_IService;
 	
+	//만드는중
 	@RequestMapping(value="/updateOrderState.do",method=RequestMethod.GET)
-	public void updateOscode(RequestDto dto) {
-		boolean isc = request_IService.updateOscode(dto);
+	public void updateOscode(String request_seq,String os_code,HttpSession session) {
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		RequestDto rDto = new RequestDto();
+		rDto.setRequest_seq(Integer.parseInt(request_seq));
+		rDto.setStore_code(oDto.getStore_code());
+		rDto.setOs_code(Integer.parseInt(os_code));
+		boolean isc = request_IService.updateOscode(rDto);
 		System.out.println("주문 상태 코드 업데이트 성공 ? : "+isc);
 	}
-	
+	// 업주 : 주문 완료, 환불 내역 조회
 	@RequestMapping(value="/selRequestList.do",method=RequestMethod.GET)
 	public String requestList(String store_code,String start,String end,Model model) {
 		Map<String, String> map = new HashMap<String,String>();
@@ -355,7 +364,7 @@ public class MansolTest_Ctrl {
 		System.out.println("주문 완료,환불 : "+lists);
 		System.out.println("주문 완료,환불 크기 : "+lists.size());
 		
-		Map<String, String[]> mapp = new HashMap<>();
+		Map<String, Object> mapp = new HashMap<>();
 		String menu_name = "";
 		for (int i = 0; i < lists.size(); i++) {
 			String[] request_menu = lists.get(i).getRequest_menu().split(",");
@@ -366,30 +375,85 @@ public class MansolTest_Ctrl {
 		model.addAttribute("requestList",lists);
 		return "/request/request_list";
 	}
-	
+	//업주 : 주문 현황 페이지
 	@RequestMapping(value="/selWaitRequest.do",method=RequestMethod.GET)
-	public void requestListWait(String store_code) {
-		List<RequestDto> lists = request_IService.requestListWait(store_code);
-		Map<String, String[]> map = new HashMap<String,String[]>();
-		for (int i = 0; i < lists.size(); i++) {
-			String[] menu_seq = lists.get(i).getRequest_menu().split(",");
-			map.put("menu_seq_", menu_seq);
-			String menuName = request_IService.requestMenuName(map);
-			System.out.println("주문 대기중 : "+lists.get(i));
-			System.out.println("주문 대기중인 메뉴명 : "+menuName);
+	public String requestListWait(HttpSession session,Model model) {
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		String store_code = oDto.getStore_code();
+		Date date = new Date();
+		SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
+		String start = day.format(date);
+		System.out.println(day.format(date));
+		System.out.println("==============시작일 : "+start);
+		Map<String, String> map = new HashMap<>();
+		map.put("store_code", store_code);
+		map.put("start", start);
+		int end = Integer.parseInt(start)+1;
+		map.put("end", Integer.toString(end));
+		System.out.println("===========종료일 : "+end);
+		List<RequestDto> waitLists = request_IService.requestListWait(map);
+		Map<String, Object> map1 = new HashMap<String,Object>();
+		for (int i = 0; i < waitLists.size(); i++) {
+			String[] menu_seq = waitLists.get(i).getRequest_menu().split(",");
+			map1.put("menu_seq_", menu_seq);
+			String menu_name = request_IService.requestMenuName(map1);
+			waitLists.get(i).setMenu_name(menu_name);
+			System.out.println("주문 대기중 : "+waitLists.get(i));
+			System.out.println("주문 대기중인 메뉴명 : "+menu_name);
 		}
+		List<RequestDto> makeLists = request_IService.requestListMake(map);
+		Map<String, Object> map2 = new HashMap<String,Object>();
+		for (int i = 0; i < makeLists.size(); i++) {
+			String[] menu_seq = makeLists.get(i).getRequest_menu().split(",");
+			map2.put("menu_seq_", menu_seq);
+			String menu_name = request_IService.requestMenuName(map2);
+			makeLists.get(i).setMenu_name(menu_name);
+			System.out.println("주문 제조중 : "+makeLists.get(i));
+			System.out.println("주문 제조중인 메뉴명 : "+menu_name);
+		}
+		model.addAttribute("waitLists",waitLists);
+		model.addAttribute("makeLists",makeLists);
+		return "/request/request_status";
 	}
-	
-	@RequestMapping(value="/selWaitReqDetail.do",method=RequestMethod.GET)
-	public void requestDetailWait(RequestDto dto) {
+	//업주 : 주문 대기중 상세조회
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/selWaitReqDetail.do",method=RequestMethod.POST)
+	@ResponseBody
+	public JSONObject requestDetailWait(HttpSession session,String request_seq) {
+		System.out.println("========"+request_seq);
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		RequestDto dto = new RequestDto();
+		dto.setStore_code(oDto.getStore_code());
+		dto.setRequest_seq(Integer.parseInt(request_seq));
 		RequestDto rDto = request_IService.requestDetailWait(dto);
-		System.out.println("주문 대기중 상세 : "+rDto);
+		
+		Map<String, Object> map = new HashMap<>();
+		String[] menu_seq = rDto.getRequest_menu().split(",");
+		map.put("menu_seq_", menu_seq);
+		String menu_name = request_IService.requestMenuName(map);
+		rDto.setMenu_name(menu_name);
+		
+		JSONObject json = new JSONObject();
+		json.put("makeMenu", rDto);
+		System.out.println("주문 제조중 상세 : "+rDto);
+		return json;
 	}
-	
+	//없앨까 고민중
 	@RequestMapping(value="/selMakeRequest.do",method=RequestMethod.GET)
-	public void requestListMake(String store_code) {
-		List<RequestDto> lists = request_IService.requestListMake(store_code);
-		Map<String, String[]> map = new HashMap<String,String[]>();
+	public void requestListMake(String store_code,HttpSession session,Model model) {
+		Date date = new Date();
+		SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
+		String start = day.format(date);
+		System.out.println(day.format(date));
+		System.out.println("==============시작일 : "+start);
+		Map<String, String> mapp = new HashMap<>();
+		mapp.put("store_code", store_code);
+		mapp.put("start", start);
+		int end = Integer.parseInt(start)+1;
+		mapp.put("end", Integer.toString(end));
+		System.out.println("===========종료일 : "+end);
+		List<RequestDto> lists = request_IService.requestListMake(mapp);
+		Map<String, Object> map = new HashMap<String,Object>();
 		for (int i = 0; i < lists.size(); i++) {
 			String[] menu_seq = lists.get(i).getRequest_menu().split(",");
 			map.put("menu_seq_", menu_seq);
@@ -398,11 +462,28 @@ public class MansolTest_Ctrl {
 			System.out.println("주문 제조중인 메뉴명 : "+menuName);
 		}
 	}
-	
-	@RequestMapping(value="/selMakeReqDetail.do",method=RequestMethod.GET)
-	public void requestDetailMake(RequestDto dto) {
+	// 업주 : 주문 제조중 상세조회
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/selMakeReqDetail.do",method=RequestMethod.POST)
+	@ResponseBody
+	public JSONObject requestDetailMake(HttpSession session,String request_seq) {
+		System.out.println("========"+request_seq);
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		RequestDto dto = new RequestDto();
+		dto.setStore_code(oDto.getStore_code());
+		dto.setRequest_seq(Integer.parseInt(request_seq));
 		RequestDto rDto = request_IService.requestDetailMake(dto);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String[] menu_seq = rDto.getRequest_menu().split(",");
+		map.put("menu_seq_", menu_seq);
+		String menu_name = request_IService.requestMenuName(map);
+		rDto.setMenu_name(menu_name);
+		
+		JSONObject json = new JSONObject();
+		json.put("makeMenu", rDto);
 		System.out.println("주문 제조중 상세 : "+rDto);
+		return json;
 	}
 	
 	@RequestMapping(value="/regiCustomOrder.do",method=RequestMethod.GET)

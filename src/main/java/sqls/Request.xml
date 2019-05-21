@@ -19,35 +19,43 @@
 	</select>
 
 	<!-- 주문상태가 대기 중인 주문 조회 -->
-	<select id="requestListWait" parameterType="java.lang.String" resultType="RequestDto">
-	SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
-	FROM REQUEST 
-	WHERE STORE_CODE =#{store_code}
-	AND OS_CODE=1
-	ORDER BY REQUEST_TIME DESC
+	<select id="requestListWait" parameterType="java.util.Map" resultType="RequestDto">
+	SELECT RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+			FROM(SELECT ROWNUM RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+				FROM(SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+					FROM REQUEST 
+					WHERE STORE_CODE = #{store_code} ORDER BY REQUEST_TIME))
+			WHERE OS_CODE= 1 AND (REQUEST_TIME BETWEEN #{start} AND #{end})
 	</select>
 	
 	<!-- 주문상태가 대기 중인 주문 상세 조회 -->
 	<select id="requestDetailWait" parameterType="RequestDto" resultType="RequestDto">
-	SELECT REQUEST_MENU,REQUEST_TIME,OS_CODE 
-	FROM REQUEST 
-	WHERE STORE_CODE = #{store_code} AND OS_CODE=1 AND REQUEST_SEQ=#{request_seq}
+	SELECT RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+			FROM(SELECT ROWNUM RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+				FROM(SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+					FROM REQUEST 
+					WHERE STORE_CODE = #{store_code}))
+			WHERE OS_CODE= 1 AND REQUEST_SEQ=#{request_seq}
 	</select>
 	
 	<!-- 주문상태가 제조 중인 주문 조회 -->
-	<select id="requestListMake" parameterType="java.lang.String" resultType="RequestDto">
-	SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
-	FROM REQUEST 
-	WHERE STORE_CODE = #{store_code}  
-	AND OS_CODE=2 
-	ORDER BY REQUEST_TIME DESC
+	<select id="requestListMake" parameterType="java.util.Map" resultType="RequestDto">
+	SELECT RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+			FROM(SELECT ROWNUM RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+				FROM(SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+					FROM REQUEST 
+					WHERE STORE_CODE = #{store_code} ORDER BY REQUEST_TIME))
+			WHERE OS_CODE= 2 AND (REQUEST_TIME BETWEEN #{start} AND #{end})
 	</select>
 	
 	<!-- 주문상태가 제조 중인 주문 상세 조회 -->
 	<select id="requestDetailMake" parameterType="RequestDto" resultType="RequestDto">
-	SELECT REQUEST_MENU,REQUEST_TIME,OS_CODE 
-	FROM REQUEST
-	WHERE STORE_CODE = #{store_code} AND OS_CODE=2 AND REQUEST_SEQ=#{request_seq}	
+	SELECT RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+			FROM(SELECT ROWNUM RNUM,REQUEST_SEQ, REQUEST_MENU, REQUEST_TIME,OS_CODE 
+				FROM(SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+					FROM REQUEST 
+					WHERE STORE_CODE = #{store_code}))
+			WHERE OS_CODE= 2 AND REQUEST_SEQ=#{request_seq}
 	</select>
 	
 	<!-- 고객 주문 시 주문 등록 -->

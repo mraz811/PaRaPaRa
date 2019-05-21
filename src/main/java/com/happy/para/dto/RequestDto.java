@@ -8,6 +8,7 @@ public class RequestDto implements Serializable {
 	 * 주문 DTO
 	 */
 	private static final long serialVersionUID = -2123126722438382555L;
+	private int rnum;
 	private int request_seq;
 	private String request_time;
 	private String request_menu;
@@ -21,6 +22,14 @@ public class RequestDto implements Serializable {
 	
 	public RequestDto() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public int getRnum() {
+		return rnum;
+	}
+
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
 	}
 
 	public String getMenu_name() {
@@ -105,11 +114,12 @@ public class RequestDto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "RequestDto [request_seq=" + request_seq + ", request_time=" + request_time + ", request_menu="
-				+ request_menu + ", request_price=" + request_price + ", os_code=" + os_code + ", os_name=" + os_name
-				+ ", store_code=" + store_code + ", request_bank=" + request_bank + ", request_account="
-				+ request_account + ", menu_name=" + menu_name + "]";
+		return "RequestDto [rnum=" + rnum + ", request_seq=" + request_seq + ", request_time=" + request_time
+				+ ", request_menu=" + request_menu + ", request_price=" + request_price + ", os_code=" + os_code
+				+ ", os_name=" + os_name + ", store_code=" + store_code + ", request_bank=" + request_bank
+				+ ", request_account=" + request_account + ", menu_name=" + menu_name + "]";
 	}
+
 	
 	
 }
