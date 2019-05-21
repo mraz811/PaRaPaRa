@@ -10,5 +10,15 @@
 </head>
 <body>
 
+
+	<a href="./selCal.do">캘린더</a><hr>
+<hr>
+	<a href="./selNoticeList.do">공지사항</a><hr>
+<hr>
+	<a href="./selStock.do">재고</a><hr>
+<hr>
+	<a href="./selTimeSheet.do">timeSheet</a><hr>
+
+
 </body>
 </html>

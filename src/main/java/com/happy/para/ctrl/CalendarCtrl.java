@@ -20,14 +20,14 @@ import net.sf.json.JSONObject;
 
 @Controller
 public class CalendarCtrl {
-/*	
+	
 	@Autowired
 	private Calendar_IService calSer;
 	
-	@RequestMapping(value="/calMonthCtrl.do", method=RequestMethod.GET)
+	@RequestMapping(value="/selCal.do", method=RequestMethod.GET)
 	public String calMonthCtrl(HttpServletRequest request) {		
 		
-		String store_code = "STORE123";
+		String store_code = "Store1234";
 		
 //		LoginDto ldto = new LoginDto();
 //		ldto.setStore_code("store1234");
@@ -36,13 +36,14 @@ public class CalendarCtrl {
 		List<CalDto> lists = calSer.calList(store_code);
 		request.setAttribute("lists", lists);
 //		request.setAttribute("ldto", ldto);		
+		request.setAttribute("ldto", store_code);		
 		
-		System.out.println(lists);
+		System.out.println("이거?"+lists);
 
-		return "month";
+		return "calendar/calendarView";
 	}
 	
-	@RequestMapping(value="/DeleteCalCtrl.do", method=RequestMethod.POST)
+	@RequestMapping(value="/delCal.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String deletecalCtrl(HttpServletRequest request) {
 
@@ -61,7 +62,7 @@ public class CalendarCtrl {
 		return obj.toString();
 	}
 	
-	@RequestMapping(value="/InsertCalCtrl.do", method=RequestMethod.POST)
+	@RequestMapping(value="/regiCal.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String InsertCalCtrl(HttpServletRequest request) {
 		
@@ -103,8 +104,7 @@ public class CalendarCtrl {
 		end = endyear+"-"+endmonth+"-"+endday+" "+endhours+":"+endminutes+":00";		
 		
 		// Service 실행 
-//		CalDto dto = new CalDto("", chcalid[0], title, content, start, end, store_code);
-		CalDto dto = new CalDto("", chcalid[0], title, content, start, end, store_code);
+		CalDto dto = new CalDto("", chcalid[0], title, content, start, end, store_code, "");
 		calSer.calRgister(dto);	
 		
 		List<CalDto> lists = calSer.calList(store_code);
@@ -120,7 +120,7 @@ public class CalendarCtrl {
 		return obj.toString();
 	}
 	
-	@RequestMapping(value="/UpdateCalCtrl.do", method=RequestMethod.POST)
+	@RequestMapping(value="/calModi.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String UpdateCalCtrl(HttpServletRequest request) {
 		
@@ -170,11 +170,11 @@ public class CalendarCtrl {
 			// ajax 데이터 반환
 			Map<String,String> mapl = new HashMap<String,String>();
 			mapl.put("id", cal_seq);		
-			JSONObject obj = JSONObject.fromObject(mapl); // 제이슨 오브젝트로 변쉰~		
+			JSONObject obj = JSONObject.fromObject(mapl); // 제이슨 오브젝트로
 
 		return obj.toString();
 	}
 
-	*/
+
 	
 }

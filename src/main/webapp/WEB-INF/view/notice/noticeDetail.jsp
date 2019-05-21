@@ -15,12 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <style type="text/css">
-
-/* 
-.allReply {
- 	display: none; 
-}
- */
+-
 
  .in-line {
 	width: 700px;
@@ -89,12 +84,6 @@ input[id=del] {
 	box-sizing: border-box;
 }
 
-/* 
-textarea[id=text]:hover {
-	background-color: lightblue;
-} 
- */
-
 input[id=del]:hover {
 	background-color: lightgray;
 }
@@ -140,8 +129,9 @@ input[id=del]:hover {
 			var reply_content = document.getElementsByName("reply_content");
 			var notice_seq = document.getElementsByName("notice_seq");
 			var frm = document.forms[0];
-			if(reply_content[0].value == null){
-				alert("작성된 댓글이 없습니다.")
+			
+			if(reply_content[0].value == ""){
+				alert("작성된 댓글이 없습니다.");
 			}else{
 				var frm = document.forms[0];
 				frm.action = "./replyWrite.do?";
@@ -150,8 +140,8 @@ input[id=del]:hover {
 		});
 	});
 
- 
- 
+	
+	
 </script>
 </head>
 <body>
@@ -179,7 +169,7 @@ input[id=del]:hover {
 				
 				<!-- 세션 id와 작성자의 일치 여부 판단 -->
 <%--			<c:if test="${fn:trim(mem.auth) eq dto.notice_id}"> --%>
-					<td><input type="button" id="delete" value="삭제" style="height: 5px; "></td>
+					<td><input type="button" id="delete" value="삭제" ></td>
 <%--			</c:if> --%>
 				
 			</tr>
@@ -193,8 +183,6 @@ input[id=del]:hover {
 		<div>
 			<input type="text" name="reply_content" id="reply_content" />
 			<input type="button" value="댓글 입력" id="replyBtn" onclick="replyBtn()" />
-<!-- 			<input onkeydown="javascript:if(event.keyCode==13){test_key();}"></input -->
-			
 		</div>
 
 <!-- 		<a id="view">댓글 펼치기</a> -->
@@ -212,13 +200,18 @@ input[id=del]:hover {
 							<div class="in-line">
 							
 									<a id="replyId">${Rlists[i].reply_id}</a>
-									<input id="text" name="name" readonly="readonly">${Rlists[i].reply_content}</input>
+<%-- 									<input type="hidden" name="reply_seq">${Rlists[i].reply_seq}</input> --%>
+<%-- 									<input id="text" name="name" readonly="readonly">${Rlists[i].reply_content}</input> --%>
+									<input type="hidden" name="reply_seq" value="${Rlists[i].reply_seq}" />
+									<input id="text" name="name" readonly="readonly" value="${Rlists[i].reply_content}"/>
+									
+									
 									<a id="replyRegdate">${Rlists[i].reply_regdate}</a>
 								
 								<!-- 세션 id와 작성자의 일치 여부 판단 -->
 <%-- 							<c:if test="${fn:trim(mem.auth) eq Rlists.reply_id}"> --%>
-									<input type="button" id="del" name="name" value="삭제" 
-											onclick="location='./replyDel.do?reply_seq=${Rlists[i].reply_seq}&notice_seq=${Rlists[i].notice_seq}'">								
+									<input type="button" id="del" name="name" value="삭제"
+											onclick="location='./replyDel.do?reply_seq=${Rlists[i].reply_seq}&notice_seq=${Rlists[i].notice_seq}'"/>
 <%-- 							</c:if> --%>
 							</div>
 

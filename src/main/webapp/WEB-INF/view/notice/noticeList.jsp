@@ -16,7 +16,7 @@
 공지사항 페이지
 ${lists}
 
-<!-- <form action="./noticeWriteForm.do" method="get"> -->
+<!-- <form action="./regiNoticeForm.do" method="get"> -->
 <form action="#" id="frm" method="post">
 
 <div>
@@ -27,8 +27,8 @@ ${lists}
 			<th>작성자</th>
 			<th>등록일</th>
 		</tr>
-	<!-- NoticeInputList 이거 추가 해야함! -->	
-<%-- 		<jsp:useBean id="format" class="happy.lee.seul.beans.NoticeInputList" scope="page" /> --%>
+		
+		<jsp:useBean id="format" class="com.happy.para.common.NoticeInputList" scope="page" />
 		<jsp:setProperty property="lists" name="format" value="${lists}" />
 		<jsp:getProperty property="listformat" name="format" />
 	
@@ -61,7 +61,7 @@ ${lists}
 		<!-- 세션 auth 가 담당자일 경우에만 글쓰기 버튼이 보이도록 or 버튼은 보이지만 권한이 없다는 팝업창 뜨도록 -->
 <%-- 	<c:if test="${fn:trim(mem.auth) eq 'A'}"> --%>
 			<div>
-				<input type="button" value="글쓰기" onclick="location.href='./noticeWriteForm.do'">
+				<input type="button" value="글쓰기" onclick="location.href='./regiNoticeForm.do'">
 			</div>
 <%-- 	</c:if> --%>
 </form>

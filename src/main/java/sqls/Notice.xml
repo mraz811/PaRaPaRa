@@ -30,7 +30,7 @@
 					NOTICE_CONTENT, NOTICE_DELFLAG
 						FROM NOTICE
 						WHERE NOTICE_DELFLAG = 'N')
-				WHERE RNUM BETWEEN #{start} AND #{last}
+				WHERE RNUM BETWEEN #{start} AND #{end}
 					
 				<!--  last 가 end 로 바뀜! -->
 		</select>

@@ -32,7 +32,7 @@ function modifyBtn() {
 		modiQty.value=="수정 하기"
 
 		var frm = document.forms[0];
-		frm.action = "./stockQtyAdd.do";
+		frm.action = "./addStockItem.do";
 		frm.submit();
 	}
 }

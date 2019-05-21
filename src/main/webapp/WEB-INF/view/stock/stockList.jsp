@@ -36,7 +36,7 @@
 			modiQty.value == "수정 하기"
 
 			var frm = document.forms[0];
-			frm.action = "./stockQtyModi.do";
+			frm.action = "./stockModi.do";
 			frm.submit();
 		}
 	}
@@ -72,7 +72,7 @@
 
 						<c:if test="${empty dto.item_name}">
 							<td>
-								<input type="button" onclick="location.href='./stockDel.do?stock_seq=${dto.stock_seq}'" value="삭제" />
+								<input type="button" onclick="location.href='./delStock.do?stock_seq=${dto.stock_seq}'" value="삭제" />
 							</td>
 						</c:if>
 					

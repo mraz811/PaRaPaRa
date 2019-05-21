@@ -15,20 +15,19 @@ public class TimesheetCtrl {
 	@Autowired
 	private Timesheet_IService timeSer;
 	
-	/*
-	@RequestMapping(value="/timeSheet.do", method=RequestMethod.GET)
+	@RequestMapping(value="/selTimeSheet.do", method=RequestMethod.GET)
 	public String timeSheet() {
 		
 		System.out.println("들어왔닝?");
 		
-		return "timeSheet";
+		return "timesheet/timeSheetList";
 	}	
 	
-	@RequestMapping(value="/timeAdd.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@RequestMapping(value="/regiTimeSheet.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String timeAdd(TimeDto dto, String sTime, String eTime, String ts_date) {
 	
-		// 시간 차이 계산
+/*		// 시간 차이 계산
 		int sTimeF = Integer.parseInt(sTime.split(":")[0]); // 03
 		int sTimeE = Integer.parseInt(sTime.split(":")[1]); //	00
 		int eTimeF = Integer.parseInt(eTime.split(":")[0]); //	04
@@ -51,9 +50,12 @@ public class TimesheetCtrl {
 		
 		timeSer.tsRegister(dto);
 		
-		return "timeSheet";
+		*/
+		
+		return "timesheet/timeSheetList";
+		
+		
 	}
 	
-	*/
-	
+
 }

@@ -1595,7 +1595,7 @@ class CanvasT extends CalculationT{
 //        alert(typeof shift);
         
         $.ajax({
-			url: "timeAdd.do", //요청 url
+			url: "regiTimeSheet.do", //요청 url
 			type: "post", // 전송 처리방식
 			asyn: false, // true 비동기 false 동기
 			data: { 'name' : name ,'sTime': sTime, 'eTime' : eTime }, // 서버 전송 파라메터 
@@ -1607,8 +1607,7 @@ class CanvasT extends CalculationT{
 				alert("실패");
 			}
 		});	
-        
-        
+
     }
     /**
      * Delete Bar from matched id
