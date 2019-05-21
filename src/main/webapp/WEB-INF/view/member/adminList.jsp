@@ -157,49 +157,50 @@ var toAdminRegi = function(){
 };
 
 
-// var delAdmin = function(){
-// 	var chk = $("input:radio[name=admin_id]");
-// 	var val = false;	
+var delAdmin = function(){
+	var chk = $("input:radio[name=admin_id]");
+	var val = false;	
 	
-// // 	alert(chk.length);
-// 	var chkVal=null;
-// 	for (var i = 0; i < chk.length; i++) {
-// 		if(chk[i].checked){
-// // 			alert(chk[i].value);
-// 			chkVal = chk[i].value;
-// 		}
-// 	}
-// // 	alert("for문 밖에서 확인한 값 : "+chkVal);
-// 	if(chkVal==null){
-// 		swal("삭제 실패","선택된 담당자가 없습니다.");
-// 	}else {
+// 	alert(chk.length);
+	var chkVal=null;
+	for (var i = 0; i < chk.length; i++) {
+		if(chk[i].checked){
+// 			alert(chk[i].value);
+			chkVal = chk[i].value;
+		}
+	}
+// 	alert("for문 밖에서 확인한 값 : "+chkVal);
+	if(chkVal==null){
+		swal("삭제 실패","선택된 담당자가 없습니다.");
+	}else {
+		return confirm("정말로 삭제하시겠습니까?");
 // 		val  = con();
-// 	}
-// // 	alert(val);
-// return val;
-// };
+	}
+// 	alert(val);
+return val;
+};
 
 
-// function con(){
-// 	swal({
-//         title: "Are you sure?",
-//         text: "삭제 후 되돌릴 수 없습니다",
-//         type: "warning",
-//         showCancelButton: true,
-// //	        confirmButtonColor: "#DD6B55",
-// //	        confirmButtonText: "Yes, delete it!",
-// //	        cancelButtonText: "No, cancel plx!",
-//         closeOnConfirm: true,
-//         closeOnCancel: true 
-//     },
-//     function(isConfirm) {
-//         if (isConfirm) {
-//           return true;
-//         } else {
-// 	       return false;
-//         }
-//     });
-// };
+function con(){
+	swal({
+        title: "Are you sure?",
+        text: "삭제 후 되돌릴 수 없습니다",
+        type: "warning",
+        showCancelButton: true,
+//	        confirmButtonColor: "#DD6B55",
+//	        confirmButtonText: "Yes, delete it!",
+//	        cancelButtonText: "No, cancel plx!",
+        closeOnConfirm: true,
+        closeOnCancel: true 
+    },
+    function(isConfirm) {
+        if (isConfirm) {
+          return true;
+        } else {
+	       return false;
+        }
+    });
+};
 
 
 
