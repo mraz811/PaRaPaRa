@@ -13,6 +13,9 @@ public class StockDto implements Serializable {
 	private String stock_name;
 	private int stock_qty;
 	
+	private ItemDto itemDto;
+	
+	
 	public StockDto() {
 		// TODO Auto-generated constructor stub
 	}
@@ -54,5 +57,15 @@ public class StockDto implements Serializable {
 	public void setStock_qty(int stock_qty) {
 		this.stock_qty = stock_qty;
 	}
+
+	public ItemDto getItemDto() {
+		return itemDto;
+	}
+
+	public void setItemDto(ItemDto itemDto) {
+		this.itemDto = itemDto;
+	}
+	
+	
 
 }
