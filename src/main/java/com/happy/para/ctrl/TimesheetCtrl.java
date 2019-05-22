@@ -35,12 +35,13 @@ public class TimesheetCtrl {
 		return "timesheet/timeSheetList";
 	}
 	
-	
-	@RequestMapping(value="/selTimeSheet.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
-	@ResponseBody
-	public String timeSheet(TimeDto dto, int alba_seq, String ts_date, Model model) {
+	@RequestMapping(value="/selTimeSheet.do", method=RequestMethod.GET)
+	public String timeSheet(TimeDto dto, Model model) {
 		
 		System.out.println("들어왔닝?");
+		
+		int alba_seq = 55; // alba_seq 들어온 매장의 알바들 조회해서 담음
+		String ts_date = "2019-05-22"; // 화면의 데이트 긁어오기
 		
 		dto.setAlba_seq(alba_seq);
 		dto.setTs_date(ts_date);
@@ -50,39 +51,41 @@ public class TimesheetCtrl {
 		
 		List<TimeDto> lists = timeSer.tsList(dto);
 		
-		String ts_datetime = lists.get(0).getTs_datetime();
-		System.out.println("이게 모야!!!!!"+ts_datetime);
+//		String ts_datetime = lists.get(0).getTs_datetime();
+//		System.out.println("이게 모야!!!!!"+ts_datetime);
 		
 		// ajax 데이터 반환
-		Map<String,String> mapl = new HashMap<String,String>();
-		mapl.put("alba_seq", Integer.toString(alba_seq));
+//		Map<String,String> mapl = new HashMap<String,String>();
+//		mapl.put("alba_seq", Integer.toString(alba_seq));
 		// 알바 seq 로 알바 이름 검색 해서 넣어주기 
-		mapl.put("alba_name", "이슬");		
-		mapl.put("ts_date", ts_date);
-		mapl.put("ts_datetime", ts_datetime);
+//		mapl.put("alba_name", "이슬");		
+//		mapl.put("ts_date", ts_date);
+//		mapl.put("ts_datetime", ts_datetime);
 		
-		JSONObject obj = JSONObject.fromObject(mapl);
+//		JSONObject obj = JSONObject.fromObject(mapl);
 		//{"alba_name":"이슬","ts_datetime":"05:30-08:30","ts_date":"2019-05-21","alba_seq":"55"}
-		System.out.println(obj.toString());
+//		System.out.println(obj.toString());
 		
-		List<String> timeList = timeSer.tsDatetimeList(dto);
+//		List<String> timeList = timeSer.tsDatetimeList(dto);
 // 		[05:30-08:30, 04:00-07:30, 03:30-11:30, 04:30-07:30, 22:30-00:30]
-		System.out.println(timeList);
+//		System.out.println(timeList);
 		
 		// json object > json array 로 변경
 		
 		Map<String,String> timeObj = new HashMap<String,String>();
-		timeObj.put("1", lists.get(0).getTs_datetime());
-		timeObj.put("2", lists.get(1).getTs_datetime());
+		
+		for (int i = 0; i < lists.size(); i++) {
+			timeObj.put("1", lists.get(i).getTs_datetime());
+		};
+		
+//		timeObj.put("1", lists.get(0).getTs_datetime());
+//		timeObj.put("2", lists.get(1).getTs_datetime());
+//		timeObj.put("1", lists.get(2).getTs_datetime());
+//		timeObj.put("2", lists.get(3).getTs_datetime());
 
 		JSONArray timeAr = new JSONArray();
 		timeAr.add(timeObj);
 
-		// ??
-		Gson gson = new Gson();
-		String rr = gson.toJson(timeAr);
-		System.out.println("이게 rr 이얌"+rr);
-		
 		JSONObject objW = new JSONObject();
 		objW.put("이슬", timeAr); // 키에 알바 이름
 
@@ -91,10 +94,11 @@ public class TimesheetCtrl {
 		
 		//{"999":{"이슬":[{"1":"03:30-07:30","2":"01:30-02:30"}]}}
 		System.out.println("히ㅡ히ㅡ히희흐히"+objWW.toString());
-		
+
 		model.addAttribute("objWW", objWW);
-		
-		return objWW.toString();
+
+//		return objWW.toString();
+		return "timesheet/timeSheetList";
 	}
 	
 	@RequestMapping(value="/regiTimeSheet.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
