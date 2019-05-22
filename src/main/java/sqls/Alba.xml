@@ -24,7 +24,18 @@
 </select>
 
 <!-- 아르바이트 정보 수정 -->
-
+<update id="albaModify" parameterType="AlbaDto">
+	UPDATE ALBA 
+	<trim prefix="SET" suffixOverrides=",">
+		<if test="alba_name != null">ALBA_NAME = #{alba_name}</if>
+		<if test="alba_phone != null">ALBA_PHONE = #{alba_phone}</if>
+		<if test="alba_address != null">ALBA_ADDRESS = #{alba_address}</if>
+		<if test="alba_timesal != null">ALBA_TIMESAL = #{alba_timesal}</if>
+		<if test="alba_bank != null">ALBA_BANK = #{alba_bank}</if>
+		<if test="alba_account != null">ALBA_ACCOUNT=#{alba_account}</if>
+	</trim>
+	WHERE ALBA_SEQ = #{alba_seq}
+</update>
 
 
 <!-- 아르바이트 정보 삭제 -->

@@ -54,7 +54,7 @@ var regiCancel = function(){
 };
 
 var regiChk = function(){
-	
+	return true;
 }
 
 </script>
