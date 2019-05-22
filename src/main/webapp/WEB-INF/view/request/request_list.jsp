@@ -38,6 +38,21 @@
 </head>
 <body>
 	<div id="container">
+	<%@include file="../header.jsp" %>
+	<div class="bodyFrame">
+	<div class="bodyfixed">
+		<div class="oneDepth">
+		주문
+		</div>
+		<div class="twoDepth">
+			<ul class="nav nav-tabs">
+  				<li class="nav-item">
+    			 <a class="nav-link" data-toggle="tab" href="./selRequestStatus.do">주문현황</a>
+  				</li>
+  				<li class="nav-item">
+    			 <a class="nav-link" data-toggle="tab" href="#">주문내역</a>
+  				</li>
+			</ul>
 		<div id="day">
 			<input id="startDay" name="start" type="date" value="시작일"/>~<input id="endDay" name="end" type="date" value="종료일"/>
 		</div>
@@ -66,6 +81,10 @@
 		<div id="paging">
 		
 		</div>	
+			</div>
+	</div>
+	</div>
+<%@include file="../footer.jsp" %>
 	</div>
 	
 </body>
