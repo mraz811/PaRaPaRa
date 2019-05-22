@@ -17,7 +17,7 @@
 <hr>
 	<a href="./selStock.do">재고</a><hr>
 <hr>
-	<a href="./selTS.do">timeSheet</a><hr>
+	<a href="./selTimeSheet.do">timeSheet</a><hr>
 
 </body>
 </html>
