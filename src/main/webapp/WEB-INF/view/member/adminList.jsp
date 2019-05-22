@@ -8,21 +8,36 @@
 </head>
 <script type="text/javascript" src="./js/paging.js"></script>
 <body>
+<div id="container">
 	<%@include file="../header.jsp"%>
-	<br> 페이징dto : ${row}
-	<br> 담당자 리스트 : ${adminList}
-	<br> loc입력시 리스트 :${adminLocList}
-	<br> 퇴사자 : ${delAdminList}
+<%-- 	<br> 페이징dto : ${row} --%>
+<%-- 	<br> 담당자 리스트 : ${adminList} --%>
+<%-- 	<br> loc입력시 리스트 :${adminLocList} --%>
+<%-- 	<br> 퇴사자 : ${delAdminList} --%>
 
-	<div id="container">
-
+	<div class="bodyFrame">
+	<div class="bodyfixed">
+		<div class="oneDepth">
+			
+		</div>
+		
+		<div class="twoDepth">
+			<ul class="nav nav-tabs">
+  				<li class="nav-item">
+    			 <a class="nav-link" data-toggle="tab" href="#home">담당자</a>
+  				</li>
+  				<li class="nav-item">
+    			 <a class="nav-link" data-toggle="tab" href="#profile">Profile</a>
+  				</li>
+			</ul>
+		
+	
 		<!-- 담당자 전체 조회 -->
 		<c:if test="${adminList ne null}">
-			<form action="./delAdmin.do" method="post"
-				onsubmit="return delAdmin()">
-				<div>
-					<table id="adminList">
-						<tr>
+			<form action="./delAdmin.do" method="post" onsubmit="return delAdmin()">
+				<div class="table-size">
+					<table class="table table-hover" id="adminList">
+						<tr class="table-secondary">
 							<th></th>
 							<th>사번</th>
 							<th>담당자명</th>
@@ -70,8 +85,7 @@
 
 						<c:forEach var="ad" items="${adminLocList}" varStatus="vs">
 							<tr>
-								<td><input type="radio" name="admin_id"
-									value="${ad.admin_id}"></td>
+								<td><input type="radio" name="admin_id" value="${ad.admin_id}"></td>
 								<td>${ad.admin_id}</td>
 								<td>${ad.admin_name}</td>
 								<td>${ad.admin_phone}</td>
@@ -84,8 +98,8 @@
 				</div>
 				<!-- 등록/삭제 버튼 -->
 				<div>
-					<input type="button" value="등록" onclick="toAdminRegi()"> <input
-						type="submit" value="삭제">
+					<input type="button" value="등록" onclick="toAdminRegi()"> 
+					<input type="submit" value="삭제">
 				</div>
 			</form>
 		</c:if>
@@ -128,27 +142,35 @@
 
 		<div class="center">
 			<ul class="pagination">
-				<li><a href="#"
-					onclick="pageFirst(${row.pageList},${row.pageList})">&laquo;</a></li>
-				<li><a href="#"
-					onclick="pagePre(${row.pageNum},${row.pageList})">&lsaquo;</a></li>
+				<li class="page-item">
+				 <a class="page-link" href="#" onclick="pageFirst(${row.pageList},${row.pageList})">&laquo;</a>
+				</li>
+				<li class="page-item">
+				 <a class="page-link" href="#" onclick="pagePre(${row.pageNum},${row.pageList})">&lsaquo;</a>
+				</li>
 
-				<c:forEach var="i" begin="${row.pageNum}" end="${row.count}"
-					step="1">
-					<li><a href="#" onclick="pageIndex(${i})">${i}</a></li>
+				<c:forEach var="i" begin="${row.pageNum}" end="${row.count}" step="1">
+					<li class="page-item">
+					 <a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a>
+					</li>
 				</c:forEach>
 
-				<li><a href="#"
-					onclick="pageNext(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&rsaquo;</a></li>
-				<li><a href="#"
-					onclick="pageLast(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&raquo;</a></li>
+				<li class="page-item">
+				 <a class="page-link" href="#" onclick="pageNext(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&rsaquo;</a>
+				</li>
+				<li class="page-item">
+				 <a class="page-link" href="#" onclick="pageLast(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&raquo;</a>
+				</li>
 			</ul>
 		</div>
+	
+	</div> <!-- twoDepth -->
+
+	</div>	<!-- bodyfixed -->
 
 	</div>
-
-
 	<%@include file="../footer.jsp"%>
+</div>
 </body>
 <script type="text/javascript">
 
@@ -181,26 +203,26 @@ return val;
 };
 
 
-function con(){
-	swal({
-        title: "Are you sure?",
-        text: "삭제 후 되돌릴 수 없습니다",
-        type: "warning",
-        showCancelButton: true,
-//	        confirmButtonColor: "#DD6B55",
-//	        confirmButtonText: "Yes, delete it!",
-//	        cancelButtonText: "No, cancel plx!",
-        closeOnConfirm: true,
-        closeOnCancel: true 
-    },
-    function(isConfirm) {
-        if (isConfirm) {
-          return true;
-        } else {
-	       return false;
-        }
-    });
-};
+// function con(){
+// 	swal({
+//         title: "Are you sure?",
+//         text: "삭제 후 되돌릴 수 없습니다",
+//         type: "warning",
+//         showCancelButton: true,
+// //	        confirmButtonColor: "#DD6B55",
+// //	        confirmButtonText: "Yes, delete it!",
+// //	        cancelButtonText: "No, cancel plx!",
+//         closeOnConfirm: true,
+//         closeOnCancel: true 
+//     },
+//     function(isConfirm) {
+//         if (isConfirm) {
+//           return true;
+//         } else {
+// 	       return false;
+//         }
+//     });
+// };
 
 
 
