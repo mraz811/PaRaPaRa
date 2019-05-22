@@ -9,7 +9,7 @@
 </insert>
 
 <!-- 아르바이트 전체 조회 -->
-<select id="albaList" parameterMap="java.util.Map" resultType="AlbaDto">
+<select id="albaList" parameterType="java.util.Map" resultType="AlbaDto">
 	SELECT RNUM, ALBA_SEQ, ALBA_NAME, ALBA_PHONE, ALBA_ADDRESS, ALBA_TIMESAL, 
 		ALBA_BANK, ALBA_ACCOUNT, ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE
 	FROM(SELECT ROW_NUMBER() OVER(ORDER BY ALBA_DELFLAG ASC, ALBA_NAME ASC) RNUM, ALBA_SEQ, ALBA_NAME, 
