@@ -1552,10 +1552,7 @@ class CanvasT extends CalculationT{
     */
     addShiftData(color){
     	
-    	// 날짜! ts_date
-//    	document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
-//    	var ts_date = document.getElementById('currentDate').value;
-//    	alert(ts_date);
+    	
     	
         // Data to insert
         let index = this.startCoordinate.index;
@@ -1587,7 +1584,10 @@ class CanvasT extends CalculationT{
             shift[`${index}`] = nameObj;
         }
         
-//        alert("이거야!!");
+     // 날짜! ts_date
+//    	document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
+    	var ts_date = document.getElementById('currentDate').value;
+
         alert(index);
         alert(name);
         alert(sTime);
@@ -1598,7 +1598,7 @@ class CanvasT extends CalculationT{
 			url: "regiTimeSheet.do", //요청 url
 			type: "post", // 전송 처리방식
 			asyn: false, // true 비동기 false 동기
-			data: { 'name' : name ,'sTime': sTime, 'eTime' : eTime }, // 서버 전송 파라메터 
+			data: { 'name' : name ,'sTime': sTime, 'eTime' : eTime, 'ts_date' : ts_date }, // 서버 전송 파라메터 
 			dataType: "json",
 			success: function(msg){
 				alert("성공");
@@ -1607,6 +1607,8 @@ class CanvasT extends CalculationT{
 				alert("실패");
 			}
 		});	
+        
+        
 
     }
     /**

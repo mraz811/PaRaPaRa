@@ -1,6 +1,8 @@
 package com.happy.para.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.happy.para.dto.TimeDto;
 
@@ -12,6 +14,9 @@ public interface Timesheet_IDao {
 	// 매장별, 알바별 timesheet 조회
 	public List<TimeDto> tsList(TimeDto dto);
 
+	// 일별 알바별 datetime list로 가져오기
+	public List<String> tsDatetimeList(TimeDto dto);
+	
 	// timesheet 추가
 	public boolean tsRegister(TimeDto dto);
 

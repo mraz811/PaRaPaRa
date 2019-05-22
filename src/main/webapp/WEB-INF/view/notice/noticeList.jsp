@@ -35,24 +35,24 @@ ${lists}
 	</table>
 	
 	<!-- 현재 페이지, 인덱스, 출력 갯수 -->
-	${row.index} ${row.pageNum} ${row.listNum} ${row.count}
-	<input type="hidden" id="index" name="index" value="${row.index}">
-	<input type="hidden" id="pageNum" name="pageNum" value="${row.pageNum}">
-	<input type="hidden" id="listNum" name="listNum" value="${row.listNum}">
+	${noticRow.index} ${noticRow.pageNum} ${noticRow.listNum} ${noticRow.count}
+	<input type="hidden" id="index" name="index" value="${noticRow.index}">
+	<input type="hidden" id="pageNum" name="pageNum" value="${noticRow.pageNum}">
+	<input type="hidden" id="listNum" name="listNum" value="${noticRow.listNum}">
 	
 	<div class="center">
 		<ul class="pagination">
 			<li><a href="#"
-				onclick="pageFirst(${row.pageList},${row.pageList})">&laquo;</a></li>
+				onclick="pageFirst(${noticRow.pageList},${noticRow.pageList})">&laquo;</a></li>
 			<li><a href="#"
-				onclick="pagePre(${row.pageNum},${row.pageList})">&lsaquo;</a></li>
-			<c:forEach var="i" begin="${row.pageNum}" end="${row.count}" step="1">
+				onclick="pagePre(${noticRow.pageNum},${noticRow.pageList})">&lsaquo;</a></li>
+			<c:forEach var="i" begin="${noticRow.pageNum}" end="${noticRow.count}" step="1">
 				<li><a href="#" onclick="pageIndex(${i})">${i}</a></li>
 			</c:forEach>
 			<li><a href="#"
-				onclick="pageNext(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&rsaquo;</a></li>
+				onclick="pageNext(${noticRow.pageNum},${noticRow.total},${noticRow.listNum},${noticRow.pageList})">&rsaquo;</a></li>
 			<li><a href="#"
-				onclick="pageLast(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&raquo;</a></li>
+				onclick="pageLast(${noticRow.pageNum},${noticRow.total},${noticRow.listNum},${noticRow.pageList})">&raquo;</a></li>
 		</ul>
 	</div>
 	

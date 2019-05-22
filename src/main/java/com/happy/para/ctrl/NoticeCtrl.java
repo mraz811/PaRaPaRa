@@ -35,10 +35,10 @@ public class NoticeCtrl {
 		PagingDto rowDto = null;
 		List<NoticeDto> lists = null;
 		
-		if(session.getAttribute("row")== null) {
+		if(session.getAttribute("noticRow")== null) {
 			rowDto = new PagingDto();
 		}else {
-			rowDto = (PagingDto) session.getAttribute("row");
+			rowDto = (PagingDto) session.getAttribute("noticRow");
 		}
 		
 		rowDto.setTotal(noticeSer.noticeListRow());
@@ -46,7 +46,7 @@ public class NoticeCtrl {
 		lists = noticeSer.noticeList(rowDto);
 		
 		model.addAttribute("lists", lists);
-		model.addAttribute("row", rowDto);
+		model.addAttribute("noticRow", rowDto);
 		
 		return "notice/noticeList";
 	}
@@ -105,10 +105,10 @@ public class NoticeCtrl {
 	
 	@RequestMapping(value="/replyWrite.do", method=RequestMethod.POST)
 	public String replyWrite(ReplyDto dto) {
-		
+
 //		System.out.println(dto.getNotice_seq());
 //		System.out.println(dto.getReply_content());
-		
+
 		String notice_seq = dto.getNotice_seq();
 		
 		dto.setReply_id("임시작성자"); // 세션으로 받을거
@@ -133,7 +133,7 @@ public class NoticeCtrl {
 		return "redirect:/selNoticeDetail.do?notice_seq="+notice_seq;
 	}
 	
-	@RequestMapping(value="/paging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@RequestMapping(value="/noticePaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String paging(Model model, HttpSession session, PagingDto pDto) {
 		
@@ -142,14 +142,14 @@ public class NoticeCtrl {
 		pDto.setTotal(noticeSer.noticeListRow());
 		json = objectJson(noticeSer.noticeList(pDto), pDto);
 		
-		session.removeAttribute("row");
-		session.setAttribute("row", pDto);
+		session.removeAttribute("noticRow");
+		session.setAttribute("noticRow", pDto);
 		return json.toString();
 	}
 
 //	"lists":{{seq:1},{title:tt},{}} << 이런식으로 담을거야 어레이 리스트로 담고 맴 형태로
 	@SuppressWarnings({ "unchecked", "unused" })
-	private JSONObject objectJson(List<NoticeDto> lists, PagingDto row) {
+	private JSONObject objectJson(List<NoticeDto> lists, PagingDto noticRow) {
 		JSONObject json = new JSONObject(); // 최종적으로 담는애는 여긴데
 		JSONArray jLists = new JSONArray(); // 어레이리스트를 담을때는 여기에
 		JSONObject jList = null; // 그냥 얘는 제이슨 타입으로
@@ -169,15 +169,15 @@ public class NoticeCtrl {
 		
 		//페이징에 관련된
 		jList = new JSONObject();
-		jList.put("pageList",row.getPageList());
-		jList.put("index",row.getIndex());
-		jList.put("pageNum",row.getPageNum());
-		jList.put("listNum",row.getListNum());
-		jList.put("total",row.getTotal());
-		jList.put("count",row.getCount());
+		jList.put("pageList",noticRow.getPageList());
+		jList.put("index",noticRow.getIndex());
+		jList.put("pageNum",noticRow.getPageNum());
+		jList.put("listNum",noticRow.getListNum());
+		jList.put("total",noticRow.getTotal());
+		jList.put("count",noticRow.getCount());
 		
 		json.put("lists", jLists);
-		json.put("row", jList);
+		json.put("noticRow", jList);
 		
 		return json;
 	}
