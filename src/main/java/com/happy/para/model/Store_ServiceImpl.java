@@ -54,10 +54,22 @@ public class Store_ServiceImpl implements Store_IService {
 		return storeDao.storeListRow(admin_id);
 	}
 
+//	@Override
+//	public int storeRow(String admin_id) {
+//		logger.info("storeRow Service : {}", admin_id);
+//		return storeDao.storeRow(admin_id);
+//	}
+
 	@Override
-	public int storeRow(String admin_id) {
-		logger.info("storeRow Service : {}", admin_id);
-		return storeDao.storeRow(admin_id);
+	public StoreDto storeDetail(String store_code) {
+		logger.info("storeDetail Service : {}", store_code);
+		return storeDao.storeDetail(store_code);
+	}
+
+	@Override
+	public String selectMaxStoreCode(String loc_code) {
+		logger.info("select Max StoreCode Service : {}", loc_code);
+		return storeDao.selectMaxStoreCode(loc_code);
 	}
 
 }
