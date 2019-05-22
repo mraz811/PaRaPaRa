@@ -63,6 +63,18 @@ function menuModiForm(menu_seq){
 </script>
 <body>
 <div id="container">
+<%@include file="../header.jsp" %>
+	<div class="bodyFrame">
+	<div class="bodyfixed">
+		<div class="oneDepth">
+		메뉴
+		</div>
+		<div class="twoDepth">
+			<ul class="nav nav-tabs">
+  				<li class="nav-item">
+    			 <a class="nav-link" data-toggle="tab" href="#home">전체메뉴</a>
+  				</li>
+			</ul>
 	<form action="./AselAllMenuList.do" method="post">
 		<div id="category">
 			<input id="mainMenu" name="menu_category" type="submit" value="주메뉴"/>
@@ -84,6 +96,10 @@ function menuModiForm(menu_seq){
 	<div id="paging">
 	
 	</div>
+	</div>
+	</div>
+	</div>
+<%@include file="../footer.jsp" %>
 </div>
 </body>
 </html>
