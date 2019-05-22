@@ -40,8 +40,8 @@
 		height: 40px;
 	}
 	.menuImg{
-		width: 100px;
-		height: 100px;
+		width: 110px;
+		height: 110px;
 	}
 	#insert{
 		float: right;
@@ -76,6 +76,76 @@ function choiceMenu(){
 		return false;
 	}
 }
+function mainMenu(){
+	var menu_category = "주메뉴";
+	var menuList = document.getElementById("menuList");
+	$.ajax({
+		url : "./OselAllMenuList.do",
+		type : "post",
+		async : true,
+		data : {"menu_category":menu_category},
+		dataType : "json",
+		success : function(obj){
+			var htmlText = "";
+			$.each(obj,function(key,value){
+				if(key == "choiceMenu"){
+					$.each(value,function(key,menu){
+						htmlText += "<div class=\"menu\" style=\"float: left; width:200px\"><input name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+					});
+				}
+			});
+			menuList.innerHTML = htmlText;
+		},error : function(obj){
+			alert(obj); 
+		}
+	})
+}
+function sideMenu(){
+	var menu_category = "사이드메뉴";
+	$.ajax({
+		url : "./OselAllMenuList.do",
+		type : "post",
+		async : true,
+		data : {"menu_category":menu_category},
+		dataType : "json",
+		success : function(obj){
+			var htmlText = "";
+			$.each(obj,function(key,value){
+				if(key == "choiceMenu"){
+					$.each(value,function(key,menu){
+						htmlText += "<div class=\"menu\" style=\"float: left; width:200px\"><input name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+					});
+				}
+			});
+			menuList.innerHTML = htmlText;
+		},error : function(obj){
+			alert(obj); 
+		}
+	})
+}
+function drinkMenu(){
+	var menu_category = "음료";
+	$.ajax({
+		url : "./OselAllMenuList.do",
+		type : "post",
+		async : true,
+		data : {"menu_category":menu_category},
+		dataType : "json",
+		success : function(obj){
+			var htmlText = "";
+			$.each(obj,function(key,value){
+				if(key == "choiceMenu"){
+					$.each(value,function(key,menu){
+						htmlText += "<div class=\"menu\" style=\"float: left; width:200px\"><input name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+					});
+				}
+			});
+			menuList.innerHTML = htmlText;
+		},error : function(obj){
+			alert(obj); 
+		}
+	})
+}
 
 </script>
 <body>
@@ -95,13 +165,9 @@ function choiceMenu(){
     			 <a class="nav-link" data-toggle="tab" href="#">전체 메뉴</a>
   				</li>
 			</ul>
-	<form action="./OselAllMenuList.do" method="post">
-		<div id="category">
-			<input id="mainMenu" name="menu_category" type="submit" value="주메뉴"/>
-			<input id="sideMenu" name="menu_category" type="submit" value="사이드메뉴"/>
-			<input id="drink" name="menu_category" type="submit" value="음료"/>
-		</div>
-	</form>
+			<input id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()"/>
+			<input id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()"/>
+			<input id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()"/>
 		<div id="insert">
 				<input type="checkbox" onclick="checkAllDel(this.checked)" />전체선택
 				<input id="choiceMenu" type="button" value="판매 메뉴 등록" onclick="choiceMenu()"/>
