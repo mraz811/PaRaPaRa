@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+
+*{
+	margin: 0px;
+	padding: 0px;
+}
+
+.bodyFrame{
+/* 	border: 1px solid red; */
+	width: 1060px;
+	height: 540px;
+	right: 0px;
+	position: absolute;
+	margin: 0px;
+	padding: 0px;
+}
+
+.table-size{
+	border: 1px solid blue;
+	width: 800px;
+	height: 300px;
+}
+#container{
+	width: 1260px;
+	height: 610px;
+	position: relative;
+	
+}
+#header{
+	border: 1px solid black;
+	width: 200px;
+	height: 610px;
+	position: absolute;
+}
+
+#footer{
+	border: 1px solid green;
+	width: 1060px;
+	height: 70px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+}
+
+.bodyfixed{
+	border: 1px dotted red;
+	width: 1060px;
+	height: 540px;
+	right: 0px;
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+}
+
+.oneDepth{
+	border: 1px dotted gray;
+	width: 1020px;
+	height: 50px; 
+	margin: 10px 20px;
+}
+
+.twoDepth{
+	border: 1px dotted red;
+	width: 1020px;
+	height: 460px;
+	margin: 10px 20px;
+}
+
+.headConts{
+	margin: 0px;
+	padding: 0px;
+}
+
+#paraPhoto{
+	border: 1px dotted green;
+	margin: 0px;
+	width: 200px;
+	height: 100px; 
+}
+
+.welcomeMsg{
+	border: 1px dotted red;
+	width: 200px;
+	height: 75px;
+}

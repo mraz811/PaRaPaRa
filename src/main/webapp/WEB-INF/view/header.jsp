@@ -12,94 +12,9 @@
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="./css/header.css">
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
-<style type="text/css">
-*{
-	margin: 0px;
-	padding: 0px;
-}
-
-.bodyFrame{
-/* 	border: 1px solid red; */
-	width: 1060px;
-	height: 540px;
-	right: 0px;
-	position: absolute;
-	margin: 0px;
-	padding: 0px;
-}
-
-.table-size{
-	border: 1px solid blue;
-	width: 800px;
-	height: 300px;
-}
-#container{
-	width: 1260px;
-	height: 610px;
-	position: relative;
-	
-}
-#header{
-	border: 1px solid black;
-	width: 200px;
-	height: 610px;
-	position: absolute;
-}
-
-#footer{
-	border: 1px solid green;
-	width: 1060px;
-	height: 70px;
-	position: absolute;
-	bottom: 0px;
-	right: 0px;
-}
-
-.bodyfixed{
-	border: 1px dotted red;
-	width: 1060px;
-	height: 540px;
-	right: 0px;
-	position: relative;
-	margin: 0px;
-	padding: 0px;
-}
-
-.oneDepth{
-	border: 1px dotted gray;
-	width: 1020px;
-	height: 50px; 
-	margin: 10px 20px;
-}
-
-.twoDepth{
-	border: 1px dotted red;
-	width: 1020px;
-	height: 460px;
-	margin: 10px 20px;
-}
-
-.headConts{
-	margin: 0px;
-	padding: 0px;
-}
-
-#paraPhoto{
-	border: 1px dotted green;
-	margin: 0px;
-	width: 200px;
-	height: 100px; 
-}
-
-.welcomeMsg{
-	border: 1px dotted red;
-	width: 200px;
-	height: 75px;
-}
-
-</style>
 </head>
 
 <%-- 로그인 세션 : ${loginDto} --%>
@@ -144,11 +59,14 @@
 	        <li class="nav-item"><a class="nav-link" href="./selOwnerList.do?loc_code=${loginDto.loc_code}">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="회원관리"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">매장관리</a>
+	        <li class="nav-item"><a class="nav-link" href="#">
+		        <input style="width: 160px;" type="button" class="btn btn-outline-primary" value="매장관리"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">채　　팅</a>
+	        <li class="nav-item"><a class="nav-link" href="#">
+	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="채　　팅"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">통　　계</a>
+	        <li class="nav-item"><a class="nav-link" href="#">
+	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="통　　계"></a>
 	        </li>
 	 	</ul><br>
 	</c:if>
@@ -159,13 +77,27 @@
 		</div>
 		<hr>
 		<ul class="nav nav-pills flex-column">
-	        <li class="nav-item"><a class="nav-link" href="#">공지사항　</a></li>
-	        <li class="nav-item"><a class="nav-link" href="#">메　　뉴　</a></li>
-	        <li class="nav-item"><a class="nav-link" href="#">주　　문　</a></li>
-	        <li class="nav-item"><a class="nav-link" href="#">매장관리　</a></li>
-	        <li class="nav-item"><a class="nav-link" href="#">아르바이트</a></li>
-	        <li class="nav-item"><a class="nav-link" href="#">채　　팅　</a></li>
-	        <li class="nav-item"><a class="nav-link" href="#">통　　계　</a></li>
+	        <li class="nav-item"><a class="nav-link" href="#">
+	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="공지사항"></a>
+	        </li>
+	        <li class="nav-item"><a class="nav-link" href="#">
+	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="메　　뉴"></a>
+	        </li>
+	        <li class="nav-item"><a class="nav-link" href="#">
+	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="주　　문"></a>
+	        </li>
+	        <li class="nav-item"><a class="nav-link" href="#">
+	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="매장관리"></a>
+	        </li>
+	        <li class="nav-item"><a class="nav-link" href="#">
+	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="아르바이트"></a>
+	        </li>
+	        <li class="nav-item"><a class="nav-link" href="#">
+	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="채　　팅"></a>
+	        </li>
+	        <li class="nav-item"><a class="nav-link" href="#">
+	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="통　　계"></a>
+	        </li>
 		</ul><br>
 	</c:if>
 

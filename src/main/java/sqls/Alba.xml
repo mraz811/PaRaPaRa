@@ -1,4 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="para.alba">
+
+<!-- 아르바이트 등록 -->
+<insert id="albaRegister" parameterType="AlbaDto">
+	INSERT INTO ALBA(ALBA_SEQ, ALBA_NAME, ALBA_PHONE, ALBA_ADDRESS, ALBA_TIMESAL, ALBA_BANK, ALBA_ACCOUNT, ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE)
+	VALUES(ALBA_SEQ.NEXTVAL, #{alba_name}, #{alba_phone}, #{alba_address}, #{alba_timesal}, #{alba_bank}, #{alba_account}, 'N', #{alba_regdate}, #{store_code})
+</insert>
+
+<!-- 아르바이트 전체 조회 -->
+<select id="albaList" parameterMap="java.util.Map" resultType="AlbaDto">
+	SELECT RNUM, ALBA_SEQ, ALBA_NAME, ALBA_PHONE, ALBA_ADDRESS, ALBA_TIMESAL, 
+		ALBA_BANK, ALBA_ACCOUNT, ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE
+	FROM(SELECT ROW_NUMBER() OVER(ORDER BY ALBA_DELFLAG ASC, ALBA_NAME ASC) RNUM, ALBA_SEQ, ALBA_NAME, 
+  			ALBA_PHONE, ALBA_ADDRESS, ALBA_TIMESAL, ALBA_BANK, ALBA_ACCOUNT, ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE
+ 		FROM ALBA WHERE STORE_CODE = #{store_code})
+	WHERE RNUM BETWEEN #{start} AND #{end}
+</select>
+
+<!-- 페이징을 위한 전체 아르바이트 수 조회 -->
+<select id="albaListRow" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM ALBA WHERE STORE_CODE = #{store_code}
+</select>
+
+<!-- 아르바이트 정보 수정 -->
+
+
+
+<!-- 아르바이트 정보 삭제 -->
+<update id="albaDelete" parameterType="java.lang.String">
+	UPDATE ALBA SET ALBA_DELFLAG='Y' WHERE ALBA_SEQ = #{alba_seq}
+</update>
+
 </mapper>
