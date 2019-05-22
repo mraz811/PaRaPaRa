@@ -87,7 +87,7 @@ $(document)
 			// 웹소켓 객체를 만들기 위해 매개변수로 url을 넣어 접속할 서버를 지정해준다.
 			// 파라미터로 내 아이디를 보내준다.
 			ws = new WebSocket(
-					"ws://192.168.4.19:8091/PaRaPaRa/wsChat.do?id="
+					"ws://192.168.8.20:8091/PaRaPaRa/wsChat.do?id="
 							+ mySessionId + "&target=" + targetId);
 			ws.binaryType = "arraybuffer";
 			
