@@ -51,8 +51,18 @@
 		SELECT COUNT(*) FROM STORE WHERE STORE_DELFLAG = 'N' AND ADMIN_ID=#{admin_id}
 	</select>
 	
-	<select id="storeRow" parameterType="java.lang.String" resultType="java.lang.Integer">
-		SELECT COUNT(*) FROM STORE WHERE ADMIN_ID=#{admin_id}
+<!-- 	<select id="storeRow" parameterType="java.lang.String" resultType="java.lang.Integer"> -->
+<!-- 		SELECT COUNT(*) FROM STORE WHERE ADMIN_ID=#{admin_id} -->
+<!-- 	</select> -->
+	
+	<select id="storeDetail" parameterType="java.lang.String" resultType="StoreDto">
+		SELECT STORE_CODE, LOC_CODE, STORE_PHONE, STORE_NAME, STORE_ADDRESS, ADMIN_ID 
+		FROM STORE
+		WHERE STORE_CODE=#{store_code}
+	</select>
+	
+	<select id="selectMaxStoreCode" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT MAX(STORE_CODE) FROM STORE WHERE LOC_CODE=#{loc_code}
 	</select>
 	
 </mapper>

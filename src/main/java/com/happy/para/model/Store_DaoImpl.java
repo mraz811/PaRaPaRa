@@ -47,9 +47,19 @@ public class Store_DaoImpl implements Store_IDao {
 		return sqlSession.selectOne(NS+"storeListRow", admin_id);
 	}
 
+//	@Override
+//	public int storeRow(String admin_id) {
+//		return sqlSession.selectOne(NS+"storeRow", admin_id);
+//	}
+
 	@Override
-	public int storeRow(String admin_id) {
-		return sqlSession.selectOne(NS+"storeRow", admin_id);
+	public StoreDto storeDetail(String store_code) {
+		return sqlSession.selectOne(NS+"storeDetail", store_code);
+	}
+
+	@Override
+	public String selectMaxStoreCode(String loc_code) {
+		return sqlSession.selectOne(NS+"selectMaxStoreCode", loc_code);
 	}
 
 }
