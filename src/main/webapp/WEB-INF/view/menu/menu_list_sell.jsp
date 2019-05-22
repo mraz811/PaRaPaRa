@@ -12,7 +12,19 @@
 <style type="text/css">
 	.menu{
 		width: 200px;
-		height: 160px;
+		height: 130px;
+		float: left;
+		margin-right: 30px;
+		margin-bottom: 20px;
+		text-align: center;
+	}
+	#menuList{
+		width: 940px;
+		height : 350px;
+		margin-top : 40px;
+		margin-left: 65px;
+		margin-right: 35px;
+		overflow: scroll;
 	}
 	#container{
 		width: 1020px;
@@ -40,11 +52,20 @@
 		height: 40px;
 	}
 	.menuImg{
-		width: 100px;
-		height: 100px;
+		width: 110px;
+		height: 110px;
 	}
 	#insert{
 		float: right;
+	}
+	#modiMenu{
+		float: left;
+	}
+	#delMenu{
+		float: right;
+	}
+	#checkbox{
+		float: left;
 	}
 </style>
 </head>
@@ -76,6 +97,76 @@ function cancelMenu(){
 		return false;
 	}
 }
+function mainMenu(){
+	var menu_category = "주메뉴";
+	var menuList = document.getElementById("menuList");
+	$.ajax({
+		url : "./choiceMenuList.do",
+		type : "post",
+		async : true,
+		data : {"menu_category":menu_category},
+		dataType : "json",
+		success : function(obj){
+			var htmlText = "";
+			$.each(obj,function(key,value){
+				if(key == "choiceMenu"){
+					$.each(value,function(key,menu){
+						htmlText += "<div class=\"menu\" ><input id=\"checkbox\" name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+					});
+				}
+			});
+			menuList.innerHTML = htmlText;
+		},error : function(obj){
+			alert(obj); 
+		}
+	})
+}
+function sideMenu(){
+	var menu_category = "사이드메뉴";
+	$.ajax({
+		url : "./choiceMenuList.do",
+		type : "post",
+		async : true,
+		data : {"menu_category":menu_category},
+		dataType : "json",
+		success : function(obj){
+			var htmlText = "";
+			$.each(obj,function(key,value){
+				if(key == "choiceMenu"){
+					$.each(value,function(key,menu){
+						htmlText += "<div class=\"menu\" ><input id=\"checkbox\" name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+					});
+				}
+			});
+			menuList.innerHTML = htmlText;
+		},error : function(obj){
+			alert(obj); 
+		}
+	})
+}
+function drinkMenu(){
+	var menu_category = "음료";
+	$.ajax({
+		url : "./choiceMenuList.do",
+		type : "post",
+		async : true,
+		data : {"menu_category":menu_category},
+		dataType : "json",
+		success : function(obj){
+			var htmlText = "";
+			$.each(obj,function(key,value){
+				if(key == "choiceMenu"){
+					$.each(value,function(key,menu){
+						htmlText += "<div class=\"menu\" ><input id=\"checkbox\" name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+					});
+				}
+			});
+			menuList.innerHTML = htmlText;
+		},error : function(obj){
+			alert(obj); 
+		}
+	})
+}
 
 </script>
 <body>
@@ -95,26 +186,17 @@ function cancelMenu(){
     			 <a class="nav-link" data-toggle="tab" href="./ownerAllMenuList.do">전체 메뉴</a>
   				</li>
 			</ul>
-	<form action="./choiceMenuList.do" method="post">
-		<div id="category">
-			<input id="mainMenu" name="menu_category" type="submit" value="주메뉴"/>
-			<input id="sideMenu" name="menu_category" type="submit" value="사이드메뉴"/>
-			<input id="drink" name="menu_category" type="submit" value="음료"/>
-		</div>
-	</form>
+			<input id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()"/>
+			<input id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()"/>
+			<input id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()"/>
 		<div id="insert">
 				<input type="checkbox" onclick="checkAllDel(this.checked)" />전체선택
 				<input id="cancelMenu" type="button" value="판매 메뉴에서 삭제" onclick="cancelMenu()"/>
 		</div>
 	<form id="frm" action="./menuCancel.do" method="post" onsubmit="return cancelMenu()">
-	<input type="hidden" name="owner_seq" value="44"/> <!-- 세션에서 받아올꺼임 -->
 		<div id="menuList">
 			<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
-					
-					<div class="menu"><input name="cancel_menu_seq" type="checkbox" value="${menu.menu_seq}"/><img class="menuImg" src="./masolimg/img.png" alt=""/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
-					<c:if test="${vs.count mod 4 eq 0}">
-						<br>
-					</c:if>
+					<div class="menu"><input id="checkbox" name="cancel_menu_seq" type="checkbox" value="${menu.menu_seq}"/><img class="menuImg" src="./masolimg/img.png" alt=""/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
 			</c:forEach>
 		</div>
 	</form>

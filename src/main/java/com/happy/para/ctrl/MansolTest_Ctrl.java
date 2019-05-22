@@ -11,6 +11,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,9 +73,11 @@ public class MansolTest_Ctrl {
 	}
 	//업주 : 판매 메뉴 리스트 2depth, 카테고리 버튼 눌렀을때
 	@RequestMapping(value="/choiceMenuList.do",method=RequestMethod.POST)
-	public String ownerMenuList(HttpSession session,Model model,String menu_category) {
+	@ResponseBody
+	public JSONObject ownerMenuList(HttpSession session,String menu_category) {
 		System.out.println("-----------------"+menu_category);
 		OwnerDto dto = (OwnerDto)session.getAttribute("loginDto");
+		JSONObject json = null;
 		if(session.getAttribute("owner_menu")==null) {
 			String owner_menu = dto.getOwner_menu();
 			String[] menu_seq = new String[owner_menu.split(",").length];
@@ -88,7 +91,7 @@ public class MansolTest_Ctrl {
 			map.put("menu_category", menu_category);
 			List<MenuDto> lists = menu_IService.ownerMenuList(map);
 			System.out.println("업주가 선택한 메뉴 : "+lists.toString());
-			model.addAttribute("menuList",lists);
+			json = objectJson(lists);
 		}else {
 			String owner_menu = (String)session.getAttribute("owner_menu");
 			String[] menu_seq = new String[owner_menu.split(",").length];
@@ -102,10 +105,31 @@ public class MansolTest_Ctrl {
 			map.put("menu_category", menu_category);
 			List<MenuDto> lists = menu_IService.ownerMenuList(map);
 			System.out.println("업주가 선택한 메뉴 : "+lists.toString());
-			model.addAttribute("menuList",lists);
+			json = objectJson(lists);
 		}
-		
-		return "/menu/menu_list_sell";
+		return json;
+	}
+	@SuppressWarnings("unchecked")
+	private JSONObject objectJson(List<MenuDto> lists) {
+		JSONObject json = new JSONObject();
+		JSONArray jLists = new JSONArray();
+		JSONObject jList = null;
+		for (int i = 0; i < lists.size(); i++) {
+			jList = new JSONObject();
+//			jList.put("file_seq", lists.get(i).getFileDto().getFile_seq());
+//			jList.put("file_tname", lists.get(i).getFileDto().getFile_tname());
+//			jList.put("file_rname", lists.get(i).getFileDto().getFile_rname());
+			jList.put("menu_seq", lists.get(i).getMenu_seq());
+			jList.put("menu_name", lists.get(i).getMenu_name());
+			jList.put("menu_price", lists.get(i).getMenu_price());
+			jList.put("menu_category", lists.get(i).getMenu_category());
+			
+			jLists.add(jList);
+		}
+		json.put("choiceMenu", jLists);
+		System.out.println(json+"가가가");
+		System.out.println(json.toString()+"나나나");
+		return json;
 	}
 	
 	//업주 : 메뉴 삭제 버튼
@@ -222,13 +246,15 @@ public class MansolTest_Ctrl {
 	
 	//업주 : 전체 메뉴 에서 카테고리 버튼 눌럿을때
 	@RequestMapping(value="/OselAllMenuList.do",method=RequestMethod.POST)
-	public String OallMenu(Model model,String menu_category) {
+	@ResponseBody
+	public JSONObject OallMenu(String menu_category) {
 		MenuDto dto = new MenuDto();
 		dto.setMenu_category(menu_category);
 		List<MenuDto> lists = menu_IService.allMenu(dto);
 		System.out.println("전체 메뉴 조회 : "+lists);
-		model.addAttribute("menuList", lists);
-		return "/menu/menu_list_owner";
+		JSONObject json = null;
+		json = objectJson(lists);
+		return json;
 	}
 	
 	//업주 : 판매 메뉴 선택  버튼
@@ -275,13 +301,15 @@ public class MansolTest_Ctrl {
 	
 	//담당자 : 카테고리 버튼 눌럿을때
 	@RequestMapping(value="/AselAllMenuList.do",method=RequestMethod.POST)
-	public String AallMenu(Model model,String menu_category) {
+	@ResponseBody
+	public JSONObject AallMenu(String menu_category) {
 		MenuDto dto = new MenuDto();
 		dto.setMenu_category(menu_category);
 		List<MenuDto> lists = menu_IService.allMenu(dto);
 		System.out.println("전체 메뉴 조회 : "+lists);
-		model.addAttribute("menuList", lists);
-		return "/menu/menu_list_admin";
+		JSONObject json = null;
+		json = objectJson(lists);
+		return json;
 	}
 	
 	@RequestMapping(value="/menuRegiForm.do",method=RequestMethod.GET)

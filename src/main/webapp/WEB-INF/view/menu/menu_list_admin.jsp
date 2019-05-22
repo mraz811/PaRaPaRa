@@ -8,11 +8,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>담당자:전체메뉴</title>
 <style type="text/css">
 	.menu{
 		width: 200px;
-		height: 160px;
+		height: 130px;
+		float: left;
+		margin-right: 30px;
+		margin-bottom: 20px;
+		text-align: center;
+	}
+	#menuList{
+		width: 940px;
+		height : 350px;
+		margin-top : 40px;
+		margin-left: 65px;
+		margin-right: 35px;
+		overflow: scroll;
 	}
 	#container{
 		width: 1020px;
@@ -40,11 +52,20 @@
 		height: 40px;
 	}
 	.menuImg{
-		width: 100px;
-		height: 100px;
+		width: 110px;
+		height: 110px;
 	}
 	#insert{
 		float: right;
+	}
+	#modiMenu{
+		float: left;
+	}
+	#delMenu{
+		float: right;
+	}
+	#checkbox{
+		float: left;
 	}
 </style>
 </head>
@@ -59,7 +80,76 @@ function menuDel(menu_seq){
 function menuModiForm(menu_seq){
 	window.open('./modifyMenuForm.do?menu_seq='+menu_seq,'window팝업','width=310, height=380, scrollbars=no');
 }
-
+	function mainMenu(){
+	var menu_category = "주메뉴";
+	var menuList = document.getElementById("menuList");
+	$.ajax({
+		url : "./AselAllMenuList.do",
+		type : "post",
+		async : true,
+		data : {"menu_category":menu_category},
+		dataType : "json",
+		success : function(obj){
+			var htmlText = "";
+			$.each(obj,function(key,value){
+				if(key == "choiceMenu"){
+					$.each(value,function(key,menu){
+						htmlText += "<div class=\"menu\"\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+					});
+				}
+			});
+			menuList.innerHTML = htmlText;
+		},error : function(obj){
+			alert(obj); 
+		}
+	})
+}
+function sideMenu(){
+	var menu_category = "사이드메뉴";
+	$.ajax({
+		url : "./AselAllMenuList.do",
+		type : "post",
+		async : true,
+		data : {"menu_category":menu_category},
+		dataType : "json",
+		success : function(obj){
+			var htmlText = "";
+			$.each(obj,function(key,value){
+				if(key == "choiceMenu"){
+					$.each(value,function(key,menu){
+						htmlText += "<div class=\"menu\"\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+					});
+				}
+			});
+			menuList.innerHTML = htmlText;
+		},error : function(obj){
+			alert(obj); 
+		}
+	})
+}
+function drinkMenu(){
+	var menu_category = "음료";
+	$.ajax({
+		url : "./AselAllMenuList.do",
+		type : "post",
+		async : true,
+		data : {"menu_category":menu_category},
+		dataType : "json",
+		success : function(obj){
+			var htmlText = "";
+			$.each(obj,function(key,value){
+				if(key == "choiceMenu"){
+					$.each(value,function(key,menu){
+						htmlText += "<div class=\"menu\"\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+					});
+				}
+			});
+			menuList.innerHTML = htmlText;
+		},error : function(obj){
+			alert(obj); 
+		}
+	})
+}
 </script>
 <body>
 <div id="container">
@@ -75,22 +165,15 @@ function menuModiForm(menu_seq){
     			 <a class="nav-link" data-toggle="tab" href="#home">전체메뉴</a>
   				</li>
 			</ul>
-	<form action="./AselAllMenuList.do" method="post">
-		<div id="category">
-			<input id="mainMenu" name="menu_category" type="submit" value="주메뉴"/>
-			<input id="sideMenu" name="menu_category" type="submit" value="사이드메뉴"/>
-			<input id="drink" name="menu_category" type="submit" value="음료"/>
-		</div>
-	</form>
+			<input id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()"/>
+			<input id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()"/>
+			<input id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()"/>
 	<div id="insert">
 			<input id="regiMenu" type="button" value="메뉴 등록" onclick="regiMenu()"/>
 	</div>
 		<div id="menuList" >
 			<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
-						<div class="menu" style="float: left; width:250px"><input type="button" value="수정" onclick="menuModiForm(${vs.current.menu_seq})"/><img class="menuImg" src="./masolimg/img.png" alt=""/><input type="button" value="삭제" onclick="menuDel(${vs.current.menu_seq})"/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
-						<c:if test="${vs.count mod 4 eq 0}">
-							<br>
-						</c:if>
+						<div class="menu"><input id="modiMenu" type="button" value="수정" onclick="menuModiForm(${vs.current.menu_seq})"/><img class="menuImg" src="./masolimg/img.png" alt=""/><input id="delMenu" type="button" value="삭제" onclick="menuDel(${vs.current.menu_seq})"/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
 			</c:forEach>
 		</div>
 	<div id="paging">
