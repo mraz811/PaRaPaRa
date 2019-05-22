@@ -260,7 +260,6 @@ public class MemberCtrl {
 			if(loc_sido==null && (delflag==null || delflag.equalsIgnoreCase("N"))) {
 				PagingDto pagingDto = new PagingDto();
 				pagingDto.setTotal(memService.adminListRow("N"));
-				pagingDto.setListNum(10); // 한 페이지당 10개 정보 보여줄 예정
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("start", pagingDto.getStart()+"");
 				map.put("end", pagingDto.getEnd()+"");
@@ -276,7 +275,6 @@ public class MemberCtrl {
 			} else if(loc_sido!=null){
 				PagingDto pagingDto = new PagingDto();
 				pagingDto.setTotal(memService.adminLocListRow(loc_sido));
-				pagingDto.setListNum(10);
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("start", pagingDto.getStart()+"");
 				map.put("end", pagingDto.getEnd()+"");
@@ -290,7 +288,6 @@ public class MemberCtrl {
 			} else {
 				PagingDto pagingDto = new PagingDto();
 				pagingDto.setTotal(memService.adminListRow("Y"));
-				pagingDto.setListNum(10);
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("start", pagingDto.getStart()+"");
 				map.put("end", pagingDto.getEnd()+"");
@@ -315,7 +312,6 @@ public class MemberCtrl {
 			
 			PagingDto pagingDto = new PagingDto();
 			pagingDto.setTotal(memService.ownerListRow(loc_code));
-			pagingDto.setListNum(10);
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("start", pagingDto.getStart()+"");
 			map.put("end", pagingDto.getEnd()+"");

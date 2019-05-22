@@ -9,10 +9,10 @@
 <script type="text/javascript" src="./js/paging.js"></script>
 
 <body>
+<div id="container">
 <%@include file="../header.jsp" %>
 
-업주 리스트: ${ownerlist}
-<div id="container">
+<%-- 업주 리스트: ${ownerlist} --%>
 	<div>
 		<table id="ownerList">
 			<tr>
@@ -62,24 +62,34 @@
 	</div>
 
 
-<!-- 페이징 처리 기능은 화면 템플릿 추가 후 추가할 예정 -->
-	<input type="hidden" name="index" id="index" value="${row.index}">
-	<input type="hidden" name="pageNum" id="pageNum" value="${row.pageNum}">
-	<input type="hidden" name="listNum" id="listNum" value="${row.listNum}">
-	
-	<div class="center">
-		<ul class="pagination">
-			<li><a href="#" onclick="pageFirst(${row.pageList},${row.pageList})">&laquo;</a></li>
-			<li><a href="#" onclick="pagePre(${row.pageNum},${row.pageList})">&lsaquo;</a></li>
-				
-			<c:forEach var="i" begin="${row.pageNum}" end="${row.count}" step="1" >
-				<li><a href="#" onclick="pageIndex(${i})">${i}</a></li>
-			</c:forEach>
+		<!-- 페이징 처리 기능은 화면 템플릿 추가 후 추가할 예정 -->
+		<input type="hidden" name="index" id="index" value="${row.index}">
+		<input type="hidden" name="pageNum" id="pageNum" value="${row.pageNum}"> 
+		<input type="hidden" name="listNum"	id="listNum" value="${row.listNum}">
 
-			<li><a href="#" onclick="pageNext(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&rsaquo;</a></li>
-			<li><a href="#" onclick="pageLast(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&raquo;</a></li>
-		</ul>
-	</div>
+		<div class="center">
+			<ul class="pagination">
+				<li class="page-item">
+				 <a class="page-link" href="#" onclick="pageFirst(${row.pageList},${row.pageList})">&laquo;</a>
+				</li>
+				<li class="page-item">
+				 <a class="page-link" href="#" onclick="pagePre(${row.pageNum},${row.pageList})">&lsaquo;</a>
+				</li>
+
+				<c:forEach var="i" begin="${row.pageNum}" end="${row.count}" step="1">
+					<li class="page-item">
+					 <a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a>
+					</li>
+				</c:forEach>
+
+				<li class="page-item">
+				 <a class="page-link" href="#" onclick="pageNext(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&rsaquo;</a>
+				</li>
+				<li class="page-item">
+				 <a class="page-link" href="#" onclick="pageLast(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&raquo;</a>
+				</li>
+			</ul>
+		</div>
 	
 </div>
 
