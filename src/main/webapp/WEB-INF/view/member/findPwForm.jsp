@@ -14,7 +14,6 @@
 
 
 <div id="container">
-<form id="findPwForm" action="./findPw.do" method="post">
 
 	<input type="hidden" id="emailchkVal" value="0">
 	<input type="hidden" id="idchkVal" value="0">
@@ -23,16 +22,9 @@
 		<label><input type="radio" name="auth" value="A"> 담당자 </label>	
 		<br>
 		<input type="text" id="inputId" name="id" placeholder="아이디를 입력하세요" required="required" >
-		<span id="idresult"></span><br>
-		<input type="text" id="inputEmail" name="email" placeholder="이메일을 입력하세요" required="required" >
-		<br>
-		<input type="submit" value="임시 비밀번호 받기" >
-		<input type="button" value="취소" onclick="javascript:history.back(-1)">
-		
 		<span id="idRst"></span><br>
 		<input type="text" id="inputEmail" name="email" placeholder="이메일을 입력하세요" required="required" >
 		<span id="emailRst"></span><br>
-
 		<div>
 			<input type="submit" value="임시 비밀번호 받기" >
 			<input type="button" value="취소" onclick="javascript:history.back(-1)">
@@ -128,6 +120,15 @@ $(function(){
 			$("#idRst").html("  유효하지 않은 아이디");
 			$("#idchkVal").val("0");
 		}
+	});
+	
+	// 담당자/업주 선택 변경 시 값 초기화
+	$("input:radio[name=auth]").click(function(){
+		$("#inputId").val("");
+		$("#idRst").html(" ");
+		$("#inputEmail").val("");
+		$("#emailRst").html(" ");
+
 	});
 	
 });
