@@ -365,7 +365,11 @@ public class MansolTest_Ctrl {
 		Map<String, String> map = new HashMap<String,String>();
 		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
 		String store_code = oDto.getStore_code();
-		String start = oDto.getOwner_start();
+		String start1 = oDto.getOwner_start();
+		String start2 = start1.substring(0, 4);
+		String start3 = start1.substring(5,7);
+		String start4 = start1.substring(8,10);
+		String start = start2+start3+start4;
 		System.out.println("@@@@시작일@@@@"+start);
 		Date date = new Date();
 		SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
@@ -374,7 +378,7 @@ public class MansolTest_Ctrl {
 		String end = Integer.toString(a);
 		System.out.println("@@@@종료일@@@@"+end);
 		map.put("store_code", store_code);
-		map.put("start", day.format(start));
+		map.put("start", start);
 		map.put("end", end);
 		List<RequestDto> lists = request_IService.requestList(map);
 		System.out.println("주문 완료,환불 : "+lists);
@@ -415,8 +419,8 @@ public class MansolTest_Ctrl {
 		return "/request/request_list";
 	}
 	//업주 : 주문 현황 페이지
-	@RequestMapping(value="/selWaitRequest.do",method=RequestMethod.GET)
-	public String requestListWait(HttpSession session,Model model) {
+	@RequestMapping(value="/selRequestStatus.do",method=RequestMethod.GET)
+	public String requestListStatus(HttpSession session,Model model) {
 		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
 		String store_code = oDto.getStore_code();
 		Date date = new Date();
@@ -514,6 +518,7 @@ public class MansolTest_Ctrl {
 		dto.setStore_code(oDto.getStore_code());
 		dto.setRequest_seq(Integer.parseInt(request_seq));
 		RequestDto rDto = request_IService.requestDetailWait(dto);
+		System.out.println("메뉴 이름 넣기전 : "+rDto);
 		
 		Map<String, Object> map = new HashMap<>();
 		
@@ -548,30 +553,6 @@ public class MansolTest_Ctrl {
 		json.put("makeMenu", rDto);
 		System.out.println("주문 제조중 상세 : "+rDto);
 		return json;
-	}
-	//없앨까 고민중
-	@RequestMapping(value="/selMakeRequest.do",method=RequestMethod.GET)
-	public void requestListMake(String store_code,HttpSession session,Model model) {
-		Date date = new Date();
-		SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
-		String start = day.format(date);
-		System.out.println(day.format(date));
-		System.out.println("==============시작일 : "+start);
-		Map<String, String> mapp = new HashMap<>();
-		mapp.put("store_code", store_code);
-		mapp.put("start", start);
-		int end = Integer.parseInt(start)+1;
-		mapp.put("end", Integer.toString(end));
-		System.out.println("===========종료일 : "+end);
-		List<RequestDto> lists = request_IService.requestListMake(mapp);
-		Map<String, Object> map = new HashMap<String,Object>();
-		for (int i = 0; i < lists.size(); i++) {
-			String[] menu_seq = lists.get(i).getRequest_menu().split(",");
-			map.put("menu_seq_", menu_seq);
-//			String menuName = request_IService.requestMenuName(map);
-			System.out.println("주문 제조중 : "+lists.get(i));
-//			System.out.println("주문 제조중인 메뉴명 : "+menuName);
-		}
 	}
 	// 업주 : 주문 제조중 상세조회
 	@SuppressWarnings("unchecked")

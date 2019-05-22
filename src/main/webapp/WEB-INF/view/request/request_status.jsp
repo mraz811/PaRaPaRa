@@ -25,7 +25,7 @@
 		width: 510px;
 		height: 435px;
 		position: absolute;
-		left: 0px;
+		left: 20px;
 	}
 	#wait{
 		width: 510px;
@@ -56,21 +56,21 @@
 	#makingDetail{
 		width:510px;
 		height: 130px;
-		top: 305px;
+		top: 420px;
 		position: absolute;
 	}
 	#waitingDetail{
 		width:510px;
 		height: 130px;
-		left : 510px;
-		top: 305px;
+		left : 550px;
+		top: 420px;
 		position: absolute;
 	}
 </style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript">
-	function makeMenuDetail(request_seq){
+	function makeMenuDetail(request_seq,rnum){
 		$.ajax({
 			url : "./selMakeReqDetail.do",
 			type : "post",
@@ -79,7 +79,7 @@
 			dataType : "json",
 			success : function(obj){
 				var makingDetail = document.getElementById("makingDetail");
-				makingDetail.innerHTML = "<div>"+obj.makeMenu.rnum+"</div>"
+				makingDetail.innerHTML = "<div>"+rnum+"</div>"
 										  +"<div>"+obj.makeMenu.request_time+"</div>"
 										  +"<div>"+obj.makeMenu.menu_name+"</div>";
 			},error : function(obj){
@@ -87,7 +87,7 @@
 			}
 		})
 	}
-	function waitMenuDetail(request_seq){
+	function waitMenuDetail(request_seq,rnum){
 		$.ajax({
 			url : "./selWaitReqDetail.do",
 			type : "post",
@@ -95,8 +95,8 @@
 			data : {"request_seq":request_seq},
 			dataType : "json",
 			success : function(obj){
-				var makingDetail = document.getElementById("waitingDetail");
-				makingDetail.innerHTML = "<div>"+obj.makeMenu.rnum+"</div>"
+				var waitingDetail = document.getElementById("waitingDetail");
+				waitingDetail.innerHTML = "<div>"+rnum+"</div>"
 										  +"<div>"+obj.makeMenu.request_time+"</div>"
 										  +"<div>"+obj.makeMenu.menu_name+"</div>";
 			},error : function(obj){
@@ -135,6 +135,21 @@
 </script>
 <body>
 	<div id="container">
+	<%@include file="../header.jsp" %>
+	<div class="bodyFrame">
+	<div class="bodyfixed">
+		<div class="oneDepth">
+		주문
+		</div>
+		<div class="twoDepth">
+			<ul class="nav nav-tabs">
+  				<li class="nav-item">
+    			 <a class="nav-link" data-toggle="tab" href="#">주문현황</a>
+  				</li>
+  				<li class="nav-item">
+    			 <a class="nav-link" data-toggle="tab" href="./selRequestList.do">주문내역</a>
+  				</li>
+			</ul>
 		<div id="make">
 			<div id="making">
 			제조중
@@ -151,8 +166,8 @@
 						
 						<tr>
 							
-							<td style="width: 50px;height: 28px" onclick="makeMenuDetail(${make.request_seq})">${make.rnum}</td>
-							<td style="width: 300px;height: 28px" onclick="makeMenuDetail(${make.request_seq})">
+							<td style="width: 50px;height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">${make.rnum}</td>
+							<td style="width: 300px;height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">
 								<c:choose>
 									<c:when test="${fn:length(make.menu_name) > 20}">
 										${fn:substring(make.menu_name,0,20)}...
@@ -162,7 +177,7 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td style="width: 100px;height: 28px" onclick="makeMenuDetail(${make.request_seq})">${fn:substring(make.request_time,11,19)}</td>
+							<td style="width: 100px;height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">${fn:substring(make.request_time,11,19)}</td>
 							<td style="width: 35px;height: 28px"><input type="button" value="완료" onclick="changeStatusCode3(${make.request_seq})"/></td>
 							
 						</tr>
@@ -188,8 +203,8 @@
 					</tr>
 					<c:forEach begin="0" end="${fn:length(waitLists)}" items="${waitLists}" var="wait" varStatus="vs">
 						<tr>
-							<td style="width: 50px;height: 28px" onclick="waitMenuDetail(${wait.request_seq})">${wait.rnum}</td>
-							<td style="width: 260px;height: 28px" onclick="waitMenuDetail(${wait.request_seq})">
+							<td style="width: 50px;height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">${wait.rnum}</td>
+							<td style="width: 260px;height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">
 								<c:choose>
 									<c:when test="${fn:length(wait.menu_name) > 14}">
 										${fn:substring(wait.menu_name,0,14)}...
@@ -199,7 +214,7 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td style="width: 100px;height: 28px" onclick="waitMenuDetail(${wait.request_seq})">${fn:substring(wait.request_time,11,19)}</td>
+							<td style="width: 100px;height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">${fn:substring(wait.request_time,11,19)}</td>
 							<td style="width: 35px;height: 28px"><input type="button" value="제조" onclick="changeStatusCode2(${wait.request_seq})"/></td>
 							<td style="width: 35px;height: 28px"><input type="button" value="환불"/></td>
 						</tr>
@@ -209,6 +224,10 @@
 		</div>
 		<div id="waitingDetail">
 		</div>
+			</div>
+	</div>
+	</div>
+<%@include file="../footer.jsp" %>
 	</div>
 </body>
 </html>

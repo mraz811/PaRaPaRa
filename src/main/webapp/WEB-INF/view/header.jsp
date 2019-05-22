@@ -83,7 +83,7 @@
 	        <li class="nav-item"><a class="nav-link" href="#">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="메　　뉴"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./selRequestStatus.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="주　　문"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="#">
@@ -92,7 +92,7 @@
 	        <li class="nav-item"><a class="nav-link" href="#">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="아르바이트"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./chatList.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="채　　팅"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="#">
