@@ -1,6 +1,7 @@
 package com.happy.para.dto;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class RequestDto implements Serializable {
 	
@@ -23,6 +24,17 @@ public class RequestDto implements Serializable {
 	public RequestDto() {
 		// TODO Auto-generated constructor stub
 	}
+	
+
+	public String getMenu_name() {
+		return menu_name;
+	}
+
+
+	public void setMenu_name(String menu_name) {
+		this.menu_name = menu_name;
+	}
+
 
 	public int getRnum() {
 		return rnum;
@@ -32,13 +44,6 @@ public class RequestDto implements Serializable {
 		this.rnum = rnum;
 	}
 
-	public String getMenu_name() {
-		return menu_name;
-	}
-
-	public void setMenu_name(String menu_name) {
-		this.menu_name = menu_name;
-	}
 
 	public int getRequest_seq() {
 		return request_seq;
@@ -112,6 +117,7 @@ public class RequestDto implements Serializable {
 		this.os_name = os_name;
 	}
 
+
 	@Override
 	public String toString() {
 		return "RequestDto [rnum=" + rnum + ", request_seq=" + request_seq + ", request_time=" + request_time
@@ -119,6 +125,9 @@ public class RequestDto implements Serializable {
 				+ ", os_name=" + os_name + ", store_code=" + store_code + ", request_bank=" + request_bank
 				+ ", request_account=" + request_account + ", menu_name=" + menu_name + "]";
 	}
+
+	
+
 
 	
 	

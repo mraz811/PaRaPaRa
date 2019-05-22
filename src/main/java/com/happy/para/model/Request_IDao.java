@@ -29,6 +29,6 @@ public interface Request_IDao {
 	public boolean customOrder(RequestDto dto);
 
 	// 메뉴 번호에 따른 메뉴이름 찾기
-	public String requestMenuName(Map<String, Object> map);
+	public String[] requestMenuName(Map<String, Object> map);
 	
 }

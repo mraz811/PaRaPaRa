@@ -69,7 +69,7 @@ public class Request_ServiceImpl implements Request_IService{
 
 	// 메뉴 번호에 따른 메뉴이름 찾기
 	@Override
-	public String requestMenuName(Map<String, Object> map) {
+	public String[] requestMenuName(Map<String, Object> map) {
 		logger.info("requestMenuName Service : {} ", map);
 		return request_IDao.requestMenuName(map);
 	}

@@ -2,10 +2,12 @@ package com.happy.para.ctrl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpSession;
 
@@ -343,34 +345,71 @@ public class MansolTest_Ctrl {
 	private Request_IService request_IService;
 	
 	//만드는중
-	@RequestMapping(value="/updateOrderState.do",method=RequestMethod.GET)
-	public void updateOscode(String request_seq,String os_code,HttpSession session) {
+	@RequestMapping(value="/updateOrderState.do",method=RequestMethod.POST, produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String updateOscode(String request_seq,String os_code,HttpSession session) {
 		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
 		RequestDto rDto = new RequestDto();
 		rDto.setRequest_seq(Integer.parseInt(request_seq));
 		rDto.setStore_code(oDto.getStore_code());
 		rDto.setOs_code(Integer.parseInt(os_code));
+		System.out.println("=======넘겨받은 주문 번호 : "+request_seq);
+		System.out.println("=======바뀔 주문 상태 코드 : "+os_code);
 		boolean isc = request_IService.updateOscode(rDto);
 		System.out.println("주문 상태 코드 업데이트 성공 ? : "+isc);
+		return isc?"성공":"실패";
 	}
-	// 업주 : 주문 완료, 환불 내역 조회
+	// 업주 : 주문 완료, 환불 내역 조회 20190522:날짜 집어넣는거 해야뎀
 	@RequestMapping(value="/selRequestList.do",method=RequestMethod.GET)
-	public String requestList(String store_code,String start,String end,Model model) {
+	public String requestList(HttpSession session,Model model) {
 		Map<String, String> map = new HashMap<String,String>();
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		String store_code = oDto.getStore_code();
+		String start = oDto.getOwner_start();
+		System.out.println("@@@@시작일@@@@"+start);
+		Date date = new Date();
+		SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
+		String tempEnd = day.format(date);
+		int a = Integer.parseInt(tempEnd)+1;
+		String end = Integer.toString(a);
+		System.out.println("@@@@종료일@@@@"+end);
 		map.put("store_code", store_code);
-		map.put("start", start);
+		map.put("start", day.format(start));
 		map.put("end", end);
 		List<RequestDto> lists = request_IService.requestList(map);
 		System.out.println("주문 완료,환불 : "+lists);
 		System.out.println("주문 완료,환불 크기 : "+lists.size());
 		
-		Map<String, Object> mapp = new HashMap<>();
-		String menu_name = "";
-		for (int i = 0; i < lists.size(); i++) {
-			String[] request_menu = lists.get(i).getRequest_menu().split(",");
-			mapp.put("menu_seq_", request_menu);
-			menu_name = request_IService.requestMenuName(mapp);
-			lists.get(i).setMenu_name(menu_name);
+		Map<String, Object> map1 = new HashMap<>();
+		
+		for (int i = 0; i < lists.size(); i++) { //1:2,2:1,3:2,4:3,5:4
+			String temp = lists.get(i).getRequest_menu();
+			int tempLen = temp.length();
+			int templenChange = temp.replaceAll(",","").length();
+			int arraySize = tempLen-templenChange;
+			
+			String[] menu = new String[arraySize];
+			String[] cnt = new String[arraySize];
+			StringTokenizer temp1 = new StringTokenizer(temp,",");
+			int num = 0;
+			while(temp1.hasMoreTokens()) { 
+				String str1 = temp1.nextToken();
+				int idx = str1.indexOf(":");
+				menu[num] = str1.substring(0,idx);
+				cnt[num] = str1.substring(idx+1);
+				num++;
+			}
+			String[] menu_name = new String[menu.length];
+			map1.put("menu_seq_", menu);
+			menu_name = request_IService.requestMenuName(map1);
+			String request_menu = "";
+			for (int j = 0; j < menu_name.length; j++) {
+				request_menu += menu_name[j]+cnt[j]+",";
+			}
+			lists.get(i).setMenu_name(request_menu.substring(0, request_menu.lastIndexOf(",")));
+			System.out.println(lists.get(i));
+			System.out.println(Arrays.toString(menu) +"메뉴");
+			System.out.println(Arrays.toString(cnt)+"갯수");
 		}
 		model.addAttribute("requestList",lists);
 		return "/request/request_list";
@@ -384,33 +423,82 @@ public class MansolTest_Ctrl {
 		SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
 		String start = day.format(date);
 		System.out.println(day.format(date));
-		System.out.println("==============시작일 : "+start);
 		Map<String, String> map = new HashMap<>();
+		int start111 = Integer.parseInt(start)-1;
+		start = Integer.toString(start111);
+		System.out.println("==============시작일 : "+start);
 		map.put("store_code", store_code);
 		map.put("start", start);
-		int end = Integer.parseInt(start)+1;
+		int end = Integer.parseInt(start)+2;
 		map.put("end", Integer.toString(end));
 		System.out.println("===========종료일 : "+end);
 		List<RequestDto> waitLists = request_IService.requestListWait(map);
-		Map<String, Object> map1 = new HashMap<String,Object>();
-		for (int i = 0; i < waitLists.size(); i++) {
-			String[] menu_seq = waitLists.get(i).getRequest_menu().split(",");
-			map1.put("menu_seq_", menu_seq);
-			String menu_name = request_IService.requestMenuName(map1);
-			waitLists.get(i).setMenu_name(menu_name);
-			System.out.println("주문 대기중 : "+waitLists.get(i));
-			System.out.println("주문 대기중인 메뉴명 : "+menu_name);
+		Map<String, Object> map1 = new HashMap<>();
+		
+		for (int i = 0; i < waitLists.size(); i++) { //1:2,2:1,3:2,4:3,5:4
+			String temp = waitLists.get(i).getRequest_menu();
+			int tempLen = temp.length();
+			int templenChange = temp.replaceAll(",","").length();
+			int arraySize = tempLen-templenChange;
+			
+			String[] menu = new String[arraySize];
+			String[] cnt = new String[arraySize];
+			StringTokenizer temp1 = new StringTokenizer(temp,",");
+			int num = 0;
+			while(temp1.hasMoreTokens()) { 
+				String str1 = temp1.nextToken();
+				int idx = str1.indexOf(":");
+				menu[num] = str1.substring(0,idx);
+				cnt[num] = str1.substring(idx+1);
+				num++;
+			}
+			String[] menu_name = new String[menu.length];
+			map1.put("menu_seq_", menu);
+			menu_name = request_IService.requestMenuName(map1);
+			String request_menu = "";
+			for (int j = 0; j < menu_name.length; j++) {
+				request_menu += menu_name[j]+cnt[j]+",";
+			}
+			waitLists.get(i).setMenu_name(request_menu.substring(0, request_menu.lastIndexOf(",")));
+			System.out.println(waitLists.get(i));
+			System.out.println(Arrays.toString(menu) +"메뉴");
+			System.out.println(Arrays.toString(cnt)+"갯수");
 		}
+
 		List<RequestDto> makeLists = request_IService.requestListMake(map);
-		Map<String, Object> map2 = new HashMap<String,Object>();
-		for (int i = 0; i < makeLists.size(); i++) {
-			String[] menu_seq = makeLists.get(i).getRequest_menu().split(",");
-			map2.put("menu_seq_", menu_seq);
-			String menu_name = request_IService.requestMenuName(map2);
-			makeLists.get(i).setMenu_name(menu_name);
-			System.out.println("주문 제조중 : "+makeLists.get(i));
-			System.out.println("주문 제조중인 메뉴명 : "+menu_name);
+		
+		Map<String, Object> map2 = new HashMap<>();
+		for (int i = 0; i < makeLists.size(); i++) { //1:4,2:3,3:1
+			String temp = makeLists.get(i).getRequest_menu();
+			int tempLen = temp.length();
+			int templenChange = temp.replaceAll(",","").length();
+			int arraySize = tempLen-templenChange;
+			
+			String[] menu = new String[arraySize];
+			String[] cnt = new String[arraySize];
+			StringTokenizer temp1 = new StringTokenizer(temp,",");
+			int num = 0;
+			while(temp1.hasMoreTokens()) { 
+				String str1 = temp1.nextToken();
+				int idx = str1.indexOf(":");
+				menu[num] = str1.substring(0,idx);
+				cnt[num] = str1.substring(idx+1);
+				num++;
+			}
+			String[] menu_name = new String[menu.length];
+			map2.put("menu_seq_", menu);
+			menu_name = request_IService.requestMenuName(map2);
+			String request_menu = "";
+			for (int j = 0; j < menu_name.length; j++) {
+				request_menu += menu_name[j]+cnt[j]+",";
+			}
+			makeLists.get(i).setMenu_name(request_menu.substring(0, request_menu.lastIndexOf(",")));
+			System.out.println(makeLists.get(i));
+			System.out.println(Arrays.toString(menu) +"메뉴");
+			System.out.println(Arrays.toString(cnt)+"갯수");
+			
 		}
+		
 		model.addAttribute("waitLists",waitLists);
 		model.addAttribute("makeLists",makeLists);
 		return "/request/request_status";
@@ -428,10 +516,33 @@ public class MansolTest_Ctrl {
 		RequestDto rDto = request_IService.requestDetailWait(dto);
 		
 		Map<String, Object> map = new HashMap<>();
-		String[] menu_seq = rDto.getRequest_menu().split(",");
-		map.put("menu_seq_", menu_seq);
-		String menu_name = request_IService.requestMenuName(map);
-		rDto.setMenu_name(menu_name);
+		
+		
+		String temp = rDto.getRequest_menu();
+		int tempLen = temp.length();
+		int templenChange = temp.replaceAll(",","").length();
+		int arraySize = tempLen-templenChange;
+		
+		String[] menu = new String[arraySize];
+		String[] cnt = new String[arraySize];
+		StringTokenizer temp1 = new StringTokenizer(temp,",");
+		int num = 0;
+		while(temp1.hasMoreTokens()) { 
+			String str1 = temp1.nextToken();
+			int idx = str1.indexOf(":");
+			menu[num] = str1.substring(0,idx);
+			cnt[num] = str1.substring(idx+1);
+			num++;
+		}
+		String[] menu_name = new String[menu.length];
+		map.put("menu_seq_", menu);
+		menu_name = request_IService.requestMenuName(map);
+		String request_menu = "";
+		for (int j = 0; j < menu_name.length; j++) {
+			request_menu += menu_name[j]+cnt[j]+",";
+		}
+		rDto.setMenu_name(request_menu.substring(0,request_menu.lastIndexOf(",")));
+		
 		
 		JSONObject json = new JSONObject();
 		json.put("makeMenu", rDto);
@@ -457,9 +568,9 @@ public class MansolTest_Ctrl {
 		for (int i = 0; i < lists.size(); i++) {
 			String[] menu_seq = lists.get(i).getRequest_menu().split(",");
 			map.put("menu_seq_", menu_seq);
-			String menuName = request_IService.requestMenuName(map);
+//			String menuName = request_IService.requestMenuName(map);
 			System.out.println("주문 제조중 : "+lists.get(i));
-			System.out.println("주문 제조중인 메뉴명 : "+menuName);
+//			System.out.println("주문 제조중인 메뉴명 : "+menuName);
 		}
 	}
 	// 업주 : 주문 제조중 상세조회
@@ -475,10 +586,31 @@ public class MansolTest_Ctrl {
 		RequestDto rDto = request_IService.requestDetailMake(dto);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		String[] menu_seq = rDto.getRequest_menu().split(",");
-		map.put("menu_seq_", menu_seq);
-		String menu_name = request_IService.requestMenuName(map);
-		rDto.setMenu_name(menu_name);
+		String temp = rDto.getRequest_menu();
+		int tempLen = temp.length();
+		int templenChange = temp.replaceAll(",","").length();
+		int arraySize = tempLen-templenChange;
+		
+		String[] menu = new String[arraySize];
+		String[] cnt = new String[arraySize];
+		StringTokenizer temp1 = new StringTokenizer(temp,",");
+		int num = 0;
+		while(temp1.hasMoreTokens()) { 
+			String str1 = temp1.nextToken();
+			int idx = str1.indexOf(":");
+			menu[num] = str1.substring(0,idx);
+			cnt[num] = str1.substring(idx+1);
+			num++;
+		}
+		String[] menu_name = new String[menu.length];
+		map.put("menu_seq_", menu);
+		menu_name = request_IService.requestMenuName(map);
+		String request_menu = "";
+		for (int j = 0; j < menu_name.length; j++) {
+			request_menu += menu_name[j]+cnt[j]+",";
+		}
+		rDto.setMenu_name(request_menu.substring(0,request_menu.lastIndexOf(",")));
+		
 		
 		JSONObject json = new JSONObject();
 		json.put("makeMenu", rDto);

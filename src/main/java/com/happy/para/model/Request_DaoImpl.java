@@ -62,11 +62,11 @@ public class Request_DaoImpl implements Request_IDao{
 	
 	//메뉴 번호에 따른 메뉴이름 찾기
 	@Override
-	public String requestMenuName(Map<String, Object> map) {
-		String menuName = "";
+	public String[] requestMenuName(Map<String, Object> map) {
 		List<MenuDto> lists = sqlSession.selectList(NS+"requestMenuName", map);
+		String[] menuName = new String[lists.size()];
 		for (int i = 0; i < lists.size(); i++) {
-			menuName += lists.get(i).getMenu_name()+" ";
+			menuName[i] = lists.get(i).getMenu_name()+" ";
 		}
 		return menuName;
 	}
