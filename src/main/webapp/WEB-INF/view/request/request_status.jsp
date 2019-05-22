@@ -104,8 +104,33 @@
 			}
 		})
 	}
-	function changeStatus(){
-		
+	function changeStatusCode3(request_seq){
+		var os_code = "3";
+		$.ajax({
+			url : "./updateOrderState.do",
+			type : "post",
+			async : true,
+			data : {"request_seq":request_seq,"os_code":os_code},
+			success : function(obj){
+;				location.reload();
+			},error : function(obj){
+				alert(obj); 
+			}
+		})
+	}
+	function changeStatusCode2(request_seq){
+		var os_code = "2";
+		$.ajax({
+			url : "./updateOrderState.do",
+			type : "post",
+			async : true,
+			data : {"request_seq":request_seq,"os_code":os_code},
+			success : function(obj){
+				location.reload();
+			},error : function(obj){
+				alert(obj); 
+			}
+		})
 	}
 </script>
 <body>
@@ -127,9 +152,18 @@
 						<tr>
 							
 							<td style="width: 50px;height: 28px" onclick="makeMenuDetail(${make.request_seq})">${make.rnum}</td>
-							<td style="width: 300px;height: 28px" onclick="makeMenuDetail(${make.request_seq})">${make.menu_name}</td>
+							<td style="width: 300px;height: 28px" onclick="makeMenuDetail(${make.request_seq})">
+								<c:choose>
+									<c:when test="${fn:length(make.menu_name) > 20}">
+										${fn:substring(make.menu_name,0,20)}...
+									</c:when>
+									<c:otherwise>
+										${make.menu_name}
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<td style="width: 100px;height: 28px" onclick="makeMenuDetail(${make.request_seq})">${fn:substring(make.request_time,11,19)}</td>
-							<td style="width: 35px;height: 28px"><input type="button" value="완료" onclick="changeStatus(${make.request_seq})"/></td>
+							<td style="width: 35px;height: 28px"><input type="button" value="완료" onclick="changeStatusCode3(${make.request_seq})"/></td>
 							
 						</tr>
 						
@@ -149,15 +183,24 @@
 						<td style="width: 50px;height: 28px">번호</td>
 						<td style="width: 260px;height: 28px">주문메뉴명</td>
 						<td style="width: 100px;height: 28px">주문시간</td>
-						<td style="width: 35px;height: 28px">확인</td>
+						<td style="width: 35px;height: 28px">제조</td>
 						<td style="width: 35px;height: 28px">환불</td>
 					</tr>
 					<c:forEach begin="0" end="${fn:length(waitLists)}" items="${waitLists}" var="wait" varStatus="vs">
 						<tr>
 							<td style="width: 50px;height: 28px" onclick="waitMenuDetail(${wait.request_seq})">${wait.rnum}</td>
-							<td style="width: 260px;height: 28px" onclick="waitMenuDetail(${wait.request_seq})">${wait.menu_name}</td>
+							<td style="width: 260px;height: 28px" onclick="waitMenuDetail(${wait.request_seq})">
+								<c:choose>
+									<c:when test="${fn:length(wait.menu_name) > 14}">
+										${fn:substring(wait.menu_name,0,14)}...
+									</c:when>
+									<c:otherwise>
+										${wait.menu_name}
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<td style="width: 100px;height: 28px" onclick="waitMenuDetail(${wait.request_seq})">${fn:substring(wait.request_time,11,19)}</td>
-							<td style="width: 35px;height: 28px"><input type="button" value="확인"/></td>
+							<td style="width: 35px;height: 28px"><input type="button" value="제조" onclick="changeStatusCode2(${wait.request_seq})"/></td>
 							<td style="width: 35px;height: 28px"><input type="button" value="환불"/></td>
 						</tr>
 					</c:forEach>
