@@ -53,7 +53,7 @@
 	        <li class="nav-item"><a class="nav-link" href="#">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="공지사항"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./adminAllMenuList.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="메　　뉴"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="./selOwnerList.do?loc_code=${loginDto.loc_code}">
@@ -62,7 +62,7 @@
 	        <li class="nav-item"><a class="nav-link" href="#">
 		        <input style="width: 160px;" type="button" class="btn btn-outline-primary" value="매장관리"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./chatList.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="채　　팅"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="#">
@@ -80,7 +80,7 @@
 	        <li class="nav-item"><a class="nav-link" href="#">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="공지사항"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./ownerMenuList.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="메　　뉴"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="./selRequestStatus.do">

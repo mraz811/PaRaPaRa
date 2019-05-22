@@ -223,6 +223,7 @@
 			</div>
 		</div>
 		<div id="waitingDetail">
+		<a href="${loginDto.auth eq 'U'?'./ownerMenuList.do':'./adminAllMenuList.do'}">헤더에서 메뉴 1depth 이동에 쓸꺼임</a>
 		</div>
 			</div>
 	</div>
