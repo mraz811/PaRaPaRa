@@ -13,11 +13,22 @@
 	<select id="tsList" parameterType="TimeDto" resultType="TimeDto">
 		SELECT TS_SEQ, ALBA_SEQ, TS_DATE, TS_DATETIME, TS_WORKHOUR
 			FROM TIMESHEET
-	<!-- 테스트 중!!!! 일단 alba_seq 로만 확인 -->
+	<!-- 테스트 중!!!! -->
 				WHERE ALBA_SEQ = #{alba_seq}
 				AND TS_DATE = #{ts_date}
 	<!-- 		WHERE ALBA_SEQ IN ( SELECT ALBA_SEQ FROM ALBA WHERE STORE_CODE = #{store_code}) -->
 	</select>
+
+<!-- 일별 알바별 datetime list로 가져오기 -->
+<!-- 	<select id="tsDatetimeList" parameterType="TimeDto" resultType="java.util.HashMap"> -->
+	<select id="tsDatetimeList" parameterType="TimeDto" resultType="java.lang.String">
+		SELECT TS_DATETIME
+			FROM TIMESHEET
+				WHERE ALBA_SEQ = #{alba_seq}
+				AND TS_DATE = #{ts_date}
+	<!-- 		WHERE ALBA_SEQ IN ( SELECT ALBA_SEQ FROM ALBA WHERE STORE_CODE = #{store_code}) -->
+	</select>
+	
 
 <!-- timeSheet 등록  -->
 	<insert id="tsRegister" parameterType="TimeDto">

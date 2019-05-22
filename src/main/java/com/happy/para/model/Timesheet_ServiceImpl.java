@@ -1,6 +1,7 @@
 package com.happy.para.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,11 @@ public class Timesheet_ServiceImpl implements Timesheet_IService {
 	public List<TimeDto> tsList(TimeDto dto) {
 		return timeDao.tsList(dto);
 	}
+	
+	@Override
+	public List<String> tsDatetimeList(TimeDto dto) {
+		return timeDao.tsDatetimeList(dto);
+	}
 
 	@Override
 	public boolean tsRegister(TimeDto dto) {
@@ -37,6 +43,8 @@ public class Timesheet_ServiceImpl implements Timesheet_IService {
 	public boolean tsDelete(TimeDto dto) {
 		return timeDao.tsDelete(dto);
 	}
+
+
 	
 	
 	

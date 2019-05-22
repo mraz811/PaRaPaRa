@@ -10,7 +10,7 @@
 </head>
 <script type="text/javascript">
 	function listMove() {
-		location.href="./selCal.do";
+		location.href="./selNoticeList.do";
 	}
 </script>
 <body>

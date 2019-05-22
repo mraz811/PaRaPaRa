@@ -1,103 +1,33 @@
 "use strict";
 
+//var shiftObj = "";
+//var obj = "";
+
 // {index : { name : { color : time, ...}}}
 
-window.onload = function() {
-	
-	/*
 
 
-	var alba_seq = ''; // alba_seq 들어온 매장의 알바들 조회해서 담음
-	var ts_date = ''; // 화면의 데이트 긁어오기
-	
-	$.ajax({
-		url: "selTimeSheet.do", //요청 url
-		type: "post", // 전송 처리방식
-		asyn: false, // true 비동기 false 동기
-		data: { 'alba_seq' : alba_seq ,'ts_date': ts_date }, // 서버 전송 파라메터 
-		dataType: "json",
-		success: function(msg){
-			alert("성공");
-			alert(msg.alba_seq);
-			
-//			let shiftObj = 
-			
-		}, error : function() {
-			alert("실패");
-		}
-	});
+//let shiftObj = {"999":{"이슬":          [ {"1" : "03:30-07:30","2":"01:30-02:30"}]}}
 
-
-	*/
-	
-}
 
 let shiftObj = {
-    "1" : {
+    "0" : {
         "Mrs. Tomato": [
-            {"1" : "10:00-12:00"},
+            {"1" : "09:00-12:00"},
             {"2" : "13:00-14:00"},
             {"9" : "17:00-20:00"},
         ]
     },
+    
+//  "1" : { "Mrs. Tomato": [ {"1" : "09:00-12:00"},{"2" : "13:00-14:00"},] },
+//  키 :   {   키                : [ { 키 : 벨류 } , { 키 : 벨류 } ] },
+// {   "999":{"이슬":[{"1":"05:30-08:30","2":"04:00-07:30"}]}  ,         ,             }
 
+    "2":{"이슈리":[{"3":"11:00-12:30","5" : "14:00-19:30"}]},
+    "3":{"이슈리2":[{"3":"11:00-12:30","5" : "14:00-19:30"}]},
     
-    
-    
-    "2" : {
-        "Jason Paige": [
-            {"3" : "11:00-12:30"},
-            {"5" : "14:00-19:30"},
-        ]
-    },
-    "500" : {
-        "Jedi": [
-            {"8" : "13:00-19:00"}
-        ]
-    },
-    "3" : {
-        "Skywalker": [
-            {"1" : "10:00-12:00"},
-            {"2" : "13:00-14:00"},
-            {"9" : "17:00-20:00"},
-        ]
-    },
-    "4" : {
-        "Mrs.Smith": [
-            {"8" : "10:00-13:30"},
-            {"7" : "14:00-17:30"},
-        ]
-    },
-    "5" : {
-        "Mario": [
-            {"1" : "12:00-15:30"}
-        ]
-    },
-    "6" : {
-        "Tom": [
-            {"0" : "15:00-22:30"}
-        ]
-    },
-    "7" : {
-        "Michael": [
-            {"9" : "15:00-18:30"}
-        ]
-    },
-    "8" : {
-        "Pikachu": [
-            {"1" : "10:00-12:00"},
-            {"2" : "13:00-14:00"},
-            {"3" : "17:00-20:30"},
-        ]
-    },
-    "9" : {
-        "MR.JSON": [
-            {"2" : "09:00-12:59"},
-            {"4" : "15:00-15:20"},
-            {"7" : "17:00-17:30"},
-        ]
-    },
 };
+
 
 let obj = {
     // Beginning Time
@@ -118,16 +48,15 @@ let obj = {
         // Give randome if shift index was not in selectBox index
         selectBox: {
             "35" : "Jason Paige 01051798468",
-            "18" : "Mr.Jason",
-            "25" : "Mrs.Jason",
-            "38" : "A",
-            "39" : "B",
-            "40" : "C"
+            "18" : "Mr.Jason"
         },
         // Set true when using TimeTable inside of BootStrap class row
         useBootstrap: false,
     }
 };
+
+
+
 // Call Time Table
 var instance = new TimeTable(obj);
 console.time("time"); // eslint-disable-line
@@ -150,5 +79,42 @@ $(document).on("click","#getData", ()=>{
     let data = instance.data();
     console.log(data);
 });
+
+
+
+
+function intutDB() {
+
+	var alba_seq = "55"; // alba_seq 들어온 매장의 알바들 조회해서 담음
+	var ts_date = "2019-05-22"; // 화면의 데이트 긁어오기
+	
+//	alert(alba_seq);
+	
+	$.ajax({
+		url: "./selTimeSheet.do", //요청 url
+		type: "post", // 전송 처리방식
+		asyn: false, // true 비동기 false 동기
+		data: { 'alba_seq' : alba_seq ,'ts_date': ts_date }, // 서버 전송 파라메터 
+//		dataType: "json",
+		success: function(objoo){
+			alert("성공");
+			alert(objoo);
+			
+			// "1" : { "Mrs. Tomato": [ {"1" : "09:00-12:00"},{"2" : "13:00-14:00"},] }, 
+			//{"999":{"이슬":          [ {"1" : "03:30-07:30","2":"01:30-02:30"}]}}
+			
+//			shiftObj = obj;
+			
+			alert(shiftObj);
+			
+			
+			
+		}, error : function() {
+			alert("실패!!");
+			alert(obj);
+		}
+	});
+	
+}
 
 

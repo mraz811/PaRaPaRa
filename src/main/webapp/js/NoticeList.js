@@ -109,7 +109,7 @@ var pageAjax = function(){
 //	alert("아작스 작동 예정");
 //	var obj = docuement.getElementById("index").value;
 	$.ajax({
-		url : "./paging.do",
+		url : "./noticePaging.do",
 		type : "post",
 		async : true,
 		data :  $("#frm").serialize(),    //"index="+ obj  // JSON.stringify
