@@ -109,7 +109,7 @@ var pageAjax = function(){
 //	alert("아작스 작동 예정");
 //	var obj = docuement.getElementById("index").value;
 	$.ajax({
-		url : "./paging.do",
+		url : "./storePaging.do",
 		type : "post",
 		async : true,
 		data :  $("#frm").serialize(),    //"index="+ obj  // JSON.stringify
@@ -125,22 +125,22 @@ var pageAjax = function(){
 				if(key=="lists"){ // table을 만들어 줌
 					
 					htmlTable += "<tr>"+
-					"<th>NO.</th>"+
-					"<th>제목</th>"+
-					"<th>작성자</th>"+
-					"<th>등록일</th></tr>";
+					"<th>매장코드</th>"+
+					"<th>매장명</th>"+
+					"<th>주소</th>"+
+					"<th>전화번호</th></tr>";
 		
-			// 내용을 출력해 준다(lists:[{key,value},{},{}])
-			$.each(value,function(key,fri){
-				
-				var regdate = fri.regdate.substring(0,fri.regdate.indexOf(" "));
-				
-				htmlTable +="<tr>" +
-						"<td>"+fri.seq+"</td>" +
-						"<td><a href='./selNoticeDetail.do?notice_seq="+fri.seq+"'>"+fri.title+"</a></td>" +
-						"<td>"+fri.id+"</td>+" +
-						"<td>"+regdate+"</td></tr>";
-			});
+					// 내용을 출력해 준다(lists:[{key,value},{},{}])
+					$.each(value,function(key,fri){
+						
+		//				var regdate = fri.regdate.substring(0,fri.regdate.indexOf(" "));
+						
+						htmlTable +="<tr>" +
+								"<td>"+fri.store_code+"</td>" +
+								"<td><a href='./selStoreDetail.do?store_code="+fri.store_code+"'>"+fri.store_name+"</a></td>" +
+								"<td>"+fri.store_address+"</td>+" +
+								"<td>"+fri.store_phone+"</td></tr>";
+					});
 
 				}else{ // key=row는 paging를 만들어 줌
 

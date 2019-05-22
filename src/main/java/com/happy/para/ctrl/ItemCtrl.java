@@ -27,7 +27,12 @@ public class ItemCtrl {
 		List<ItemDto> lists = itemService.itemList();
 		logger.info("Select ItemList Controller : {}",lists);
 		model.addAttribute("itemLists", lists);
-		return "item_list";
+		return "item/itemList";
+	}
+	
+	@RequestMapping()
+	public String addToItemForm() {
+		return "item/itemRegForm";
 	}
 	
 	@RequestMapping(value="/addItem.do", method=RequestMethod.GET)

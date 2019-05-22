@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.PagingDto;
 import com.happy.para.dto.StoreDto;
 import com.happy.para.model.Store_IService;
+
+import net.sf.json.JSONObject;
 
 @Controller
 public class StoreCtrl {
@@ -56,14 +60,14 @@ public class StoreCtrl {
 		}else {
 			rowDto = (PagingDto) session.getAttribute("storeRow");
 		}
-		
+		rowDto.setTotal(storeService.storeListRow(aDto.getAdmin_id()+""));
 		map.put("admin_id", aDto.getAdmin_id());
 		map.put("start", rowDto.getStart());
 		map.put("end", rowDto.getEnd());
 		
 		lists = storeService.storeListPaging(map);
 		model.addAttribute("lists", lists);
-		model.addAttribute("row", rowDto);
+		model.addAttribute("storeRow", rowDto);
 		
 		return "store/storeList";
 	}
@@ -157,5 +161,54 @@ public class StoreCtrl {
 		boolean isc = storeService.storeDelete(store_code);
 		System.out.println("매장 삭제 완료 : " + isc);
 		return "redirect:/selStoreList.do";
+	}
+	
+	@RequestMapping(value="/storePaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	//매장정보 페이징 처리
+	public String pagingStore(Model model, HttpSession session, PagingDto pDto) {
+		JSONObject json = null;
+		AdminDto aDto = (AdminDto) session.getAttribute("loginDto");
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		pDto.setTotal(storeService.storeListRow(aDto.getAdmin_id()+""));
+		map.put("admin_id", aDto.getAdmin_id());
+		map.put("start", pDto.getStart());
+		map.put("end", pDto.getEnd());
+		json = objectJson(storeService.storeListPaging(map), pDto);
+		
+		session.removeAttribute("storeRow");
+		session.setAttribute("storeRow", pDto);
+		return json.toString();
+	}
+	
+	// JSONArray 형태로 페이징 처리된 매장 리스트를 담을 예정
+	private JSONObject objectJson(List<StoreDto> lists , PagingDto storeRow) {
+		JSONObject json = new JSONObject(); // 최종적으로 담는애는 여긴데
+		JSONArray jLists = new JSONArray(); // 어레이리스트를 담을때는 여기에
+		JSONObject jList = null; // 그냥 얘는 제이슨 타입으로
+		
+		for (StoreDto dto : lists) {
+			jList = new JSONObject();
+			jList.put("store_code", dto.getStore_code());
+			jList.put("store_name", dto.getStore_name());
+			jList.put("store_address", dto.getStore_address());
+			jList.put("store_phone", dto.getStore_phone());
+			
+			jLists.add(jList);
+		}
+		
+		jList = new JSONObject();
+		jList.put("pageList",storeRow.getPageList());
+		jList.put("index",storeRow.getIndex());
+		jList.put("pageNum",storeRow.getPageNum());
+		jList.put("listNum",storeRow.getListNum());
+		jList.put("total",storeRow.getTotal());
+		jList.put("count",storeRow.getCount());
+		
+		json.put("lists", jLists);
+		json.put("storeRow", jList);
+		
+		return json;
 	}
 }
