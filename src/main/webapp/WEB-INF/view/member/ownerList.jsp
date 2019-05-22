@@ -63,30 +63,30 @@
 
 
 		<!-- 페이징 처리 기능은 화면 템플릿 추가 후 추가할 예정 -->
-		<input type="hidden" name="index" id="index" value="${row.index}">
-		<input type="hidden" name="pageNum" id="pageNum" value="${row.pageNum}"> 
-		<input type="hidden" name="listNum"	id="listNum" value="${row.listNum}">
+		<input type="hidden" name="index" id="index" value="${ownerRow.index}">
+		<input type="hidden" name="pageNum" id="pageNum" value="${ownerRow.pageNum}"> 
+		<input type="hidden" name="listNum"	id="listNum" value="${ownerRow.listNum}">
 
 		<div class="center">
 			<ul class="pagination">
 				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pageFirst(${row.pageList},${row.pageList})">&laquo;</a>
+				 <a class="page-link" href="#" onclick="pageFirst(${ownerRow.pageList},${ownerRow.pageList})">&laquo;</a>
 				</li>
 				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pagePre(${row.pageNum},${row.pageList})">&lsaquo;</a>
+				 <a class="page-link" href="#" onclick="pagePre(${ownerRow.pageNum},${ownerRow.pageList})">&lsaquo;</a>
 				</li>
 
-				<c:forEach var="i" begin="${row.pageNum}" end="${row.count}" step="1">
+				<c:forEach var="i" begin="${ownerRow.pageNum}" end="${ownerRow.count}" step="1">
 					<li class="page-item">
 					 <a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a>
 					</li>
 				</c:forEach>
 
 				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pageNext(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&rsaquo;</a>
+				 <a class="page-link" href="#" onclick="pageNext(${ownerRow.pageNum},${ownerRow.total},${ownerRow.listNum},${ownerRow.pageList})">&rsaquo;</a>
 				</li>
 				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pageLast(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&raquo;</a>
+				 <a class="page-link" href="#" onclick="pageLast(${ownerRow.pageNum},${ownerRow.total},${ownerRow.listNum},${ownerRow.pageList})">&raquo;</a>
 				</li>
 			</ul>
 		</div>

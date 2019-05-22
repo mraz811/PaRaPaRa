@@ -48,8 +48,7 @@
 
 						<c:forEach var="ad" items="${adminList}" varStatus="vs">
 							<tr>
-								<td><input type="radio" name="admin_id"
-									value="${ad.admin_id}"></td>
+								<td><input type="radio" name="admin_id"	value="${ad.admin_id}"></td>
 								<td>${ad.admin_id}</td>
 								<td>${ad.admin_name}</td>
 								<td>${ad.admin_phone}</td>
@@ -132,34 +131,33 @@
 		</c:if>
 
 
-		${row.index} ${row.pageNum} ${row.listNum} ${row.count}
+		${adminRow.index} ${adminRow.pageNum} ${adminRow.listNum} ${adminRow.count}
 
 		<!-- 페이징 처리 기능은 화면 템플릿 추가 후 추가할 예정 -->
-		<input type="hidden" name="index" id="index" value="${row.index}">
-		<input type="hidden" name="pageNum" id="pageNum"
-			value="${row.pageNum}"> <input type="hidden" name="listNum"
-			id="listNum" value="${row.listNum}">
+		<input type="hidden" name="index" id="index" value="${adminRow.index}">
+		<input type="hidden" name="pageNum" id="pageNum" value="${adminRow.pageNum}"> 
+		<input type="hidden" name="listNum"	id="listNum" value="${adminRow.listNum}">
 
 		<div class="center">
 			<ul class="pagination">
 				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pageFirst(${row.pageList},${row.pageList})">&laquo;</a>
+				 <a class="page-link" href="#" onclick="pageFirst(${adminRow.pageList},${adminRow.pageList})">&laquo;</a>
 				</li>
 				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pagePre(${row.pageNum},${row.pageList})">&lsaquo;</a>
+				 <a class="page-link" href="#" onclick="pagePre(${adminRow.pageNum},${adminRow.pageList})">&lsaquo;</a>
 				</li>
 
-				<c:forEach var="i" begin="${row.pageNum}" end="${row.count}" step="1">
+				<c:forEach var="i" begin="${adminRow.pageNum}" end="${adminRow.count}" step="1">
 					<li class="page-item">
 					 <a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a>
 					</li>
 				</c:forEach>
 
 				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pageNext(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&rsaquo;</a>
+				 <a class="page-link" href="#" onclick="pageNext(${adminRow.pageNum},${adminRow.total},${adminRow.listNum},${adminRow.pageList})">&rsaquo;</a>
 				</li>
 				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pageLast(${row.pageNum},${row.total},${row.listNum},${row.pageList})">&raquo;</a>
+				 <a class="page-link" href="#" onclick="pageLast(${adminRow.pageNum},${adminRow.total},${adminRow.listNum},${adminRow.pageList})">&raquo;</a>
 				</li>
 			</ul>
 		</div>

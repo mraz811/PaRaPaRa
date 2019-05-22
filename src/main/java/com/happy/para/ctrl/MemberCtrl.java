@@ -267,7 +267,7 @@ public class MemberCtrl {
 				List<AdminDto> adminList = memService.adminList(map);
 			
 				model.addAttribute("adminList", adminList);
-				model.addAttribute("row", pagingDto);
+				model.addAttribute("adminRow", pagingDto);
 			
 				return "/member/adminList";
 			
@@ -281,7 +281,7 @@ public class MemberCtrl {
 				map.put("loc_sido", loc_sido);
 				List<AdminDto> adminLocList = memService.adminLocList(map);
 				model.addAttribute("adminLocList", adminLocList);
-				model.addAttribute("row", pagingDto);
+				model.addAttribute("adminRow", pagingDto);
 				return "/member/adminList";
 				
 			// 퇴사자 delflag='Y'조회
@@ -295,7 +295,7 @@ public class MemberCtrl {
 				List<AdminDto> delAdminList = memService.adminList(map);
 				
 				model.addAttribute("delAdminList", delAdminList);
-				model.addAttribute("row", pagingDto); 
+				model.addAttribute("adminRow", pagingDto); 
 				
 				return "/member/adminList";
 			}
@@ -319,7 +319,7 @@ public class MemberCtrl {
 			List<OwnerDto> ownerlist = memService.ownerList(map);
 			
 			model.addAttribute("ownerlist", ownerlist);
-			model.addAttribute("row", pagingDto);
+			model.addAttribute("ownerRow", pagingDto);
 			
 			return "/member/ownerList";
 		}
