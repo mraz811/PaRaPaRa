@@ -1,5 +1,6 @@
 package com.happy.para.model;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class Stats_ServiceImpl implements Stats_IService {
 
 	// 업주 : 상위판매메뉴 통계
 	@Override
-	public Map<String, Integer> ownerStatsMenu(Map<String, String> map) {
+	public Map<String, List<String>> ownerStatsMenu(Map<String, String> map) {
 		logger.info("ownerStatsMenu Service : {} ", map);
 		return stats_IDao.ownerStatsMenu(map);
 	}
@@ -46,7 +47,7 @@ public class Stats_ServiceImpl implements Stats_IService {
 
 	// 관리자,담당자 : 상위판매메뉴 통계
 	@Override
-	public Map<String, Integer> adminStatsMenu(Map<String, Object> map) {
+	public Map<String, String> adminStatsMenu(Map<String, Object> map) {
 		logger.info("adminStatsMenu Service : {} ", map);
 		return stats_IDao.adminStatsMenu(map);
 	}
