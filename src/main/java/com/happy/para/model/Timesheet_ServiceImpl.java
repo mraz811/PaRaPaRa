@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.happy.para.dto.AlbaDto;
 import com.happy.para.dto.TimeDto;
 
 @Service
@@ -42,6 +43,11 @@ public class Timesheet_ServiceImpl implements Timesheet_IService {
 	@Override
 	public boolean tsDelete(TimeDto dto) {
 		return timeDao.tsDelete(dto);
+	}
+
+	@Override
+	public List<AlbaDto> tsAlba(String store_code) {
+		return timeDao.tsAlba(store_code);
 	}
 
 

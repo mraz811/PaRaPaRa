@@ -1059,9 +1059,11 @@ class TimeTable{    // eslint-disable-line no-unused-vars
         let shift = this.v.shiftTime;
         let refresh = ()=>{this.refreshCanvas();};
         $(document).on("click", ".js-deleteButton",function(){
+        	
             let _this = this;
             let id = $(_this).attr("data-nameid");
             if($(".js-tdata").length > 1){
+            	
                 $("#timeTableToolTip").remove();
                 if(id){
                     $(`#${id}`).remove();
@@ -1405,6 +1407,7 @@ class CanvasT extends CalculationT{
             let deleteButton = $("<button class=\"toolTipDelete\">x</button>");
             // Add Event to delete bar and also Tool tip
             $(deleteButton).on("click", ()=>{
+            	
                 this.stage.removeChild(shape);
                 $("#timeTableToolTip").remove();
                 $(shape).off("click");
@@ -1519,6 +1522,25 @@ class CanvasT extends CalculationT{
     * @param  {object} shift  Object of shift to modify
     */
     deleteShiftData(time, index){
+    	alert("삭제????");
+    	alert(time); // 07:00-11:00
+    	alert(index); // 알바 seq
+    	
+    	var currentDate = document.getElementById("currentDate").value;
+    	alert(currentDate);
+    	
+    	$.ajax({
+			url: "tsDelete.do", //요청 url
+			type: "post", // 전송 처리방식
+			asyn: false, // true 비동기 false 동기
+			data: { 'ts_datetime' : time , 'alba_seq' : index , 'ts_date' : currentDate }, // 서버 전송 파라메터 
+			success: function(msg){
+				alert("성공");
+			}, error : function() {
+				alert("실패");
+			}
+		});	
+    	
         let shift = this.v.shiftTime;
         //let firstIndex = super.getIndexFromStartId(index);
         // Access to Object rooted to Index Key
@@ -1537,6 +1559,7 @@ class CanvasT extends CalculationT{
                         // Delete from index when there is only 1 defined time
                         if(nameObj.length == 1){
                             delete shift[key];
+                           
                         }else{
                             nameObj.splice(i,1);
                         }
@@ -1592,17 +1615,16 @@ class CanvasT extends CalculationT{
         alert(name);
         alert(sTime);
         alert(eTime);
+        alert(ts_date);
 //        alert(typeof shift);
-        
+
         $.ajax({
 			url: "regiTimeSheet.do", //요청 url
 			type: "post", // 전송 처리방식
 			asyn: false, // true 비동기 false 동기
 			data: { 'name' : name ,'sTime': sTime, 'eTime' : eTime, 'ts_date' : ts_date }, // 서버 전송 파라메터 
-			dataType: "json",
 			success: function(msg){
 				alert("성공");
-				alert(msg.name);
 			}, error : function() {
 				alert("실패");
 			}

@@ -7,19 +7,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<link rel="stylesheet" type="text/css" href="css/TimeTable.css"/>
+</head>
 <body>
 
 ${objWW}
 <hr>
+${objLists}
+<hr>
+${today}
+<hr>
+${lists}
 
-	<form action="./regiTimeSheet.do" method="post">
+<!-- 	<form action="./regiTimeSheet.do" method="post"> -->
+	<form action="#" method="post">
 
 	파라파라 TIMESHEET
 	<hr>
-	<input type="date" id='currentDate' name="ts_date">
+	<input type="date" id='currentDate' name="ts_date" value="${today}">
 	<hr>
-	
+
 	</form>
 
     <div id="test"></div>
@@ -32,19 +39,14 @@ ${objWW}
     <!--Sample code when use TimeTable.js-->
 <!--     <script src="js/sample.js"></script> -->
 	
-	<button id="intutShift" onclick="intutDB()">값 넣기 테스트</button>
-	<button onclick="intutDB22()">값 넣기 테스트22</button>
-	
 </body>
 
 <script type="text/javascript">
 
-window.onload = function () {
-	document.getElementById("currentDate").defaultValue = new Date().toISOString().substring(0, 10);
-	var ts_date = document.getElementById('currentDate').value;
-}
-
-var shiftObj = ${objWW};
+var shiftObj = ${timeArAr};
+// var shiftObj = ${objWW};
+// var shiftObj = { "55":{"태":[{"1":"03:30-07:30","2":"01:30-02:30"}]} };
+// var shiftObj = { "44":{"태2":[{"1":"00:00-00:00"}]} };
 
 let obj = {
   // Beginning Time
@@ -72,13 +74,11 @@ let obj = {
   }
 };
 
-
 //Call Time Table
 var instance = new TimeTable(obj);
 console.time("time"); // eslint-disable-line
 instance.init("#test");
 console.timeEnd("time");// eslint-disable-line
-
 
  </script>
 </html>
