@@ -54,6 +54,7 @@
 					<option value="INCHEON">인천시</option>
 				</select>
 			</div>
+			
 			<div class="tab-content" align="center">
 			<!-- 담당자 전체 조회 -->
 			<c:if test="${adminList ne null}">
@@ -195,10 +196,12 @@
 </div>
 </body>
 <script type="text/javascript">
-
+// 담당자 등록 폼으로
 var toAdminRegi = function(){
-	location.href="./adminRegiForm.do";
+	window.open("./adminRegiForm.do","담당자 등록", 
+			"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes");
 };
+
 
 // selectbox 선택시
 function selectToAdList(val){
@@ -210,6 +213,7 @@ function selectToAdList(val){
 	}
 }
 
+// 담당자 삭제시
 var delAdmin = function(){
 	var chk = $("input:radio[name=admin_id]");
 	var val = false;	
@@ -250,7 +254,14 @@ function confirmDel(chkVal){
 				data: "admin_id="+chkVal,
 				async: false,
 				success: function(data){
-					swal("삭제 완료", "담당자 정보 삭제가 완료되었습니다.", "success");
+					swal({
+						title: "삭제 완료", 
+						text: "담당자 정보 삭제가 완료되었습니다", 
+						type: "success"
+					},
+					function(){ 
+						location.reload();
+					});
 				},
 				error: function(data){
 					swal("삭제 에러", "삭제 중 문제가 발생하였습니다.", "error");
