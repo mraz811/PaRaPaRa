@@ -33,15 +33,18 @@
 	<div class="bodyFrame">
 	<div class="bodyfixed">
 		<div class="oneDepth">
-		
+			<p class="text-primary" style="font-size: 30px; background-color: RGB(21,140,186); color: white;">아르바이트</p>
 		</div>
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#home">아르바이트</a>
+    			 <a class="nav-link" data-toggle="tab" href="#home">TimeSheet</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#profile">두번째탭</a>
+    			 <a class="nav-link" data-toggle="tab" href="#profile">아르바이트</a>
+  				</li>
+  				<li class="nav-item">
+    			 <a class="nav-link" data-toggle="tab" href="#profile">급여</a>
   				</li>
 			</ul>
 			<div class="tab-content" align="center">
@@ -49,7 +52,7 @@
 				<form action="" method="post">
 				<div class="alba_table">
 					<table class="table table-hover">
-						<tr class="table-secondary">
+						<tr class="table-primary">
 							<th></th>
 							<th>이름</th>
 							<th>전화번호</th>
@@ -176,16 +179,17 @@ function confrmDel(chkVal){
 				success: function (data) {
 		        	swal("삭제 완료", "아르바이트 정보 삭제가 완료되었습니다", "success");
 		        	// 화면에서 refresh 전에 보여주기 삭제
-					var tds = $("input:radio[name=alba_seq]");
-// 						alert(tds.length); // 5
-// 						alert(tds[1].value);
-		        	for (var i = 0; i < tds.length; i++) {
-		        		if(tds[i].value==chkVal){
-// 		        			alert(tds[i].value);
-							var tr = tds[i].parentNode.parentNode;
-							tds[i].parentNode.parentNode.parentNode.removeChild(tr);
-		        		}
-					}
+// 					var tds = $("input:radio[name=alba_seq]");
+// // 						alert(tds.length); // 5
+// // 						alert(tds[1].value);
+// 		        	for (var i = 0; i < tds.length; i++) {
+// 		        		if(tds[i].value==chkVal){
+// // 		        			alert(tds[i].value);
+// 							var tr = tds[i].parentNode.parentNode;
+// 							tds[i].parentNode.parentNode.parentNode.removeChild(tr);
+// 		        		}
+// 					}
+// 					location.reload();
 		        },
 		        error: function (data) {
 		        	swal("삭제 에러", "삭제 중 문제가 발생하였습니다.", "error");

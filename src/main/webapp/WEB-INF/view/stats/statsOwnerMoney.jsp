@@ -11,6 +11,13 @@
 <head>
 <meta charset="UTF-8">
 <title>업주:수익/지출 통계</title>
+<style type="text/css">
+	#money,#menu{
+		width: 500px;
+		float: left;
+	}
+	
+</style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -45,11 +52,6 @@ function selectDay(){
 			google.charts.load('current', {packages : [ 'corechart' ]});
 			google.charts.setOnLoadCallback(drawChart);
 			function drawChart() {
-				var data1 = new google.visualization.arrayToDataTable([
-					['Month','Bolivia','Ecuador'],
-					['2004/05',165,938],
-					['2005/06',135,1120]
-				]);
 				var data = new google.visualization.DataTable(obj.jstr);
 				var options = {
 						title : '업주 수익/지출 통계',
@@ -69,8 +71,14 @@ function selectDay(){
 		 					},
 		 				
 				};
+				var data2 = new google.visualization.DataTable(obj.jstr2);
+				var options2 = {
+						title : '업주 판매 메뉴 통계',
+				};
 				var chart = new google.visualization.ColumnChart(document.getElementById('money'));
 			    chart.draw(data,options);
+			    var chart = new google.visualization.PieChart(document.getElementById('menu'));
+			    chart.draw(data2,options2);
 			}
 		},error : function(obj){
 			alert("등록에 실패하였습니다."); //성공햇는데 error로 넘어옴 ㅡㅡ; producer 없애고 JSONObject로 던져서 해결함
@@ -98,9 +106,9 @@ function selectDay(){
 		<input id="start" type="date" value="시작일"/>~<input id="end" type="date" value="종료일"/>
 		<input type="button" value="선택완료" onclick="selectDay()"/>
 	</div>
-	<div id="money" style="width: 500px">
-		<div id="filter_div"></div>
-		<div id="chart_div"></div>
+	<div id="money">
+	</div>
+	<div id="menu" style="width: 500px; float: left;">
 	</div>
 		</div>
 	</div>

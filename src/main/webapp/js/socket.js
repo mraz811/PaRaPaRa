@@ -1,5 +1,6 @@
 var allContent = "";
 var fd = new FormData();
+var ws = null;
 function handleFileUpload(files) {
 	//파일의 길이만큼 반복하며 formData에 셋팅해준다.
 	alert(files.length);
@@ -60,11 +61,9 @@ function sendText() {
 //	key++;
 }
 
-$(document)
-.ready(
+$(document).ready(
 		function() {
-			
-//			var curAuth = $('#auth').val();
+			var curAuth = $('#auth').val();
 			
 			var chatTitle = $('#storeCode').val();
 //			alert("업데이트를 위한 고유값 : " + chatTitle);
@@ -87,7 +86,7 @@ $(document)
 			// 웹소켓 객체를 만들기 위해 매개변수로 url을 넣어 접속할 서버를 지정해준다.
 			// 파라미터로 내 아이디를 보내준다.
 			ws = new WebSocket(
-					"ws://192.168.8.20:8091/PaRaPaRa/wsChat.do?id="
+					"ws://192.168.11.38:8091/PaRaPaRa/wsChat.do?id="
 							+ mySessionId + "&target=" + targetId);
 			ws.binaryType = "arraybuffer";
 			

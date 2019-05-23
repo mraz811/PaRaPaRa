@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="./css/header.css">
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap.js"></script>
 </head>
 
 <%-- 로그인 세션 : ${loginDto} --%>
@@ -30,13 +31,13 @@
 		</div>
 	    <hr>
 	    <ul class="nav nav-pills flex-column">
-	      <li class="nav-item"><a class="nav-link" href="#">
+	      <li class="nav-item"><a class="nav-link" href="./selNoticeList.do">
 	      	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="공지사항"></a>
 	      </li>
 	      <li class="nav-item"><a class="nav-link" href="./selAdminList.do">
 	      	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="회원관리"></a>
 	      </li>
-	      <li class="nav-item"><a class="nav-link" href="#">
+	      <-li class="nav-item"><a class="nav-link" href="./adminStatsIn.do">
 	      	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="통　　계"></a>
 	      </li>
 	    </ul><br>
@@ -50,7 +51,7 @@
 		</div>
 		<hr>
 		<ul class="nav nav-pills flex-column">
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./selNoticeList.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="공지사항"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="./adminAllMenuList.do">
@@ -59,13 +60,13 @@
 	        <li class="nav-item"><a class="nav-link" href="./selOwnerList.do?loc_code=${loginDto.loc_code}">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="회원관리"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./selStoreList.do">
 		        <input style="width: 160px;" type="button" class="btn btn-outline-primary" value="매장관리"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="./chatList.do">
+	        <li class="nav-item"><a class="nav-link" href="./chatList.do?auth=A">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="채　　팅"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./adminStatsIn.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="통　　계"></a>
 	        </li>
 	 	</ul><br>
@@ -77,7 +78,7 @@
 		</div>
 		<hr>
 		<ul class="nav nav-pills flex-column">
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./selNoticeList.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="공지사항"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="./ownerMenuList.do">
@@ -86,16 +87,16 @@
 	        <li class="nav-item"><a class="nav-link" href="./selRequestStatus.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="주　　문"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./selCal.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="매장관리"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="./selAlbaList.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="아르바이트"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="./chatList.do">
+	        <li class="nav-item"><a class="nav-link" href="./chatList.do?auth=U">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="채　　팅"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="#">
+	        <li class="nav-item"><a class="nav-link" href="./ownerStats.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="통　　계"></a>
 	        </li>
 		</ul><br>
