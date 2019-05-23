@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.PagingDto;
 import com.happy.para.dto.StoreDto;
+import com.happy.para.model.Stock_IService;
 import com.happy.para.model.Store_IService;
 
 import net.sf.json.JSONObject;
@@ -30,6 +31,9 @@ public class StoreCtrl {
 	
 	@Autowired
 	private Store_IService storeService;
+	
+	@Autowired
+	private Stock_IService stockService;
 	
 //	@RequestMapping(value="/selStoreList.do", method=RequestMethod.GET)
 //	public String locStoreList(HttpSession session, Model model) {
@@ -86,6 +90,7 @@ public class StoreCtrl {
 		AdminDto aDto = (AdminDto) session.getAttribute("loginDto");
 		System.out.println("로그인 된 담당자 DTO : " + aDto);
 		String store_code = storeService.selectMaxStoreCode(aDto.getLoc_code());
+		String loc_code = aDto.getLoc_code();
 		int cnt = 0;
 		if(store_code == null) {
 			store_code = aDto.getLoc_code()+"_01";
@@ -102,17 +107,55 @@ public class StoreCtrl {
 		}
 		System.out.println("완성된 이후 store_code : " + store_code);
 		model.addAttribute("store_code", store_code);
+		model.addAttribute("loc_code", loc_code);
 		return "store/storeRegForm";
 	}
+//	@RequestMapping(value="/regiStoreForm.do", method=RequestMethod.GET)
+//	public String addStoreForm(HttpSession session, Model model) {
+//		AdminDto aDto = (AdminDto) session.getAttribute("loginDto");
+//		System.out.println("로그인 된 담당자 DTO : " + aDto);
+//		String store_code = storeService.selectMaxStoreCode(aDto.getLoc_code());
+//		int cnt = 0;
+//		if(store_code == null) {
+//			store_code = aDto.getLoc_code()+"_01";
+//		}else {
+//			String subStoreCode = store_code.substring(store_code.indexOf("_")+1);
+//			System.out.println("잘린 store_code : " + subStoreCode);
+//			cnt = Integer.parseInt(subStoreCode) + 1;
+//			System.out.println(cnt);
+//			if(cnt/10 == 0) {
+//				store_code = aDto.getLoc_code() + "_0"+cnt;
+//			}else {
+//				store_code = aDto.getLoc_code() + "_"+cnt;
+//			}
+//		}
+//		System.out.println("완성된 이후 store_code : " + store_code);
+//		model.addAttribute("store_code", store_code);
+//		return "store/storeRegForm";
+//	}
 	
 	//regiStore.do
-	@RequestMapping(value="/regiStore.do", method=RequestMethod.POST)
+	@RequestMapping(value="/regiStore.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
 	public String addStore(StoreDto sDto) {
 		logger.info("insert Store Controller : {}", sDto);
 		boolean isc = storeService.storeInsert(sDto);
 		System.out.println("매장 등록 완료 : "+isc);
-		return "redirect:/selStoreList.do";
+		JSONObject json = new JSONObject();
+		if(isc) {
+			json.put("isc", "true");
+		}else {
+			json.put("isc", "false");
+		}
+		return json.toString();
 	}
+//	@RequestMapping(value="/regiStore.do", method=RequestMethod.POST)
+//	public String addStore(StoreDto sDto) {
+//		logger.info("insert Store Controller : {}", sDto);
+//		boolean isc = storeService.storeInsert(sDto);
+//		System.out.println("매장 등록 완료 : "+isc);
+//		return "redirect:/selStoreList.do";
+//	}
 	
 	
 	
@@ -160,6 +203,11 @@ public class StoreCtrl {
 		logger.info("delete Store Controller : {}", store_code);
 		boolean isc = storeService.storeDelete(store_code);
 		System.out.println("매장 삭제 완료 : " + isc);
+		
+		boolean delStock = stockService.stockDeleteStore(store_code);
+		System.out.println("매장삭제 시 삭제된 매장의 재고 삭제 : " + delStock);
+		
+		
 		return "redirect:/selStoreList.do";
 	}
 	

@@ -124,11 +124,6 @@ var pageAjax = function(){
 				
 				if(key=="lists"){ // table을 만들어 줌
 					
-					htmlTable += "<tr>"+
-					"<th>매장코드</th>"+
-					"<th>매장명</th>"+
-					"<th>주소</th>"+
-					"<th>전화번호</th></tr>";
 		
 					// 내용을 출력해 준다(lists:[{key,value},{},{}])
 					$.each(value,function(key,fri){
@@ -167,3 +162,65 @@ var pageAjax = function(){
 	});
 	
 }
+function insertStore() {
+	window.open("http://localhost:8091/PaRaPaRa/regiStoreForm.do","_blank","width=400, height=500");
+}
+
+// 매장 등록 모달 form
+//function insertStore(){
+//	alert("하이여");
+//	ajaxInsertStore();
+//	alert("하이여2");
+//	$("#insert").modal();
+//}
+//
+//var ajaxInsertStore = function(){
+//	$.ajax({
+//		url:"./regiStoreForm.do",
+//		type: "post",
+//		dataType: "json",
+//		success:function(obj){
+////			alert("매장 코드 : " + obj.store_code);
+////			alert("지역 코드 : " + obj.loc_code );
+//			var htmlModal = "<input type='hidden' name='store_code' value='"+obj.store_code+"'>"
+//							+"<input type='hidden' name='loc_code' value='"+obj.loc_code+"'>"
+//							+"<input type='hidden' name='admin_id' value='"+obj.admin_id+"'>"
+//							+"<div class='form-group'>"
+//								+"<label>매장코드</label>"
+//								+"<strong>"+obj.store_code+"</strong>"
+//							+"</div>"
+//							+"<div class='form-group'>"
+//								+"<label>지역코드</label>"
+//								+"<strong>"+obj.loc_code+"</strong>"
+//							+"</div>"
+//							+"<div class='form-group'>"
+//								+"<label>매장전화번호</label>"
+//								+"<input type='text' class='form-control' id='moPhone' name='store_phone' required='required' />"
+//							+"</div>"
+//							+"<div class='form-group'>"
+//								+"<label>매장명</label>"
+//								+"<input type='text' class='form-control' id='moName' name='store_name' required='required' />"
+//							+"</div>"
+//							+"<div class='form-group'>"
+//								+"<label>매장주소</label>"
+//								+"<input type='text' class='form-control' id='moAddress' name='store_address' required='required' />"
+//							+"</div>"
+//							+"<div class='modal-footer'>"
+//								+"<input class='btn btn-success' type='button' value='등록' onclick='insert()' />"
+//								+"<input class='btn btn-success' type='reset' value='초기화' />"
+//								+"<button type='button' class='btn btn-default' data-dismiss='modal'>닫기</button>"
+//							+"</div>";
+//				$("#frmInsert").html(htmlModal);
+//		},error:function(){
+//			alert("실패");
+//		}
+//	});
+//}
+//
+//function insert(){
+//	var frm = document.getElementById("frmInsert");
+//	frm.action = "./regiStore.do";
+//	frm.submit();
+//}
+
+
