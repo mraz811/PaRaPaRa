@@ -13,7 +13,7 @@
 <%@include file="../header.jsp" %>
 
 <%-- 업주 리스트: ${ownerlist} --%>
-	<div>
+	<div class="bodyFrame">
 		<table id="ownerList">
 			<tr>
 				<th style="width: 150px">사업자번호</th>
