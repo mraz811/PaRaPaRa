@@ -52,4 +52,13 @@
 	ORDER BY STOCK_NAME
 	</select>
 	
+	<!-- 업주 : 발주 신청(발주 테이블 INSERT) -->
+	<insert id="paoInsert" parameterType="java.util.Map">
+ 	INSERT INTO PAO(PAO_SEQ, PAO_DATE, STORE_CODE, PS_CODE) VALUES(PAO_SEQ.NEXTVAL, SYSDATE, #{store_code}, 1)
+  	</insert>
+	
+	<!-- 업주 : 발주 신청(발주 품목 테이블 INSERT) -->
+	<insert id="piInsert" parameterType="java.util.Map">
+ 	INSERT INTO PAO_ITEM(PI_SEQ, ITEM_SEQ, PI_QTY, PAO_SEQ) VALUES(PI_SEQ.NEXTVAL, #{item_seq}, #{pi_qty}, PAO_SEQ.CURRVAL)
+  	</insert>
 </mapper>

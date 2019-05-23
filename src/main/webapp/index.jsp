@@ -9,7 +9,7 @@
 <body>
 parapara메인<br>
 
-<a href="./selPaoList.do?store_code=스토어코드1">업주 발주 리스트</a><br>
+<a href="./selPaoList.do?store_code=SEOUL01_06">업주 발주 리스트</a><br>
 
 </body>
 </html>

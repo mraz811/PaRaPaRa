@@ -19,6 +19,13 @@
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <script type="text/javascript">
 
+	// 모든 엘리먼트에 keydown이벤트 추가 후 엔터키 이벤트 제거
+	document.addEventListener('keydown', function(event) {
+	    if (event.keyCode === 13) {
+	        event.preventDefault();
+	    }
+	}, true);
+
 	var cnt = 1;	// 발주 품목에서 번호를 매겨줄 count
 
 	// 발주 품목의 수량을 빼주는 이벤트
@@ -91,8 +98,8 @@
         // 키를 눌렀을 때 해당 key의 코드를 받아옴 
         var keyValue = event.keyCode;
         
-        // 숫자, BackSpace(8), delete(46)를 입력했을 때
-        if( ((keyValue >= 96) && (keyValue <= 105)) || ((keyValue >= 48) && (keyValue <= 57)) || (keyValue==8 || keyValue==46) ){
+     // 숫자, BackSpace(8), delete(46)를 입력했을 때
+        if( ((keyValue >= 96) && (keyValue <= 105)) || ((keyValue >= 48) && (keyValue <= 57)) || keyValue==8 || keyValue==46 ){
         	// 합계금액을 변경
     		var price = Number(document.getElementsByName("pi_price")[idx].value);
     		var sumPiPrice = Number(document.getElementsByName("sumPi_price")[idx].value);
@@ -124,9 +131,7 @@
     		totalPiPrice = Number(sumPrice);
     		$('input[name=totalPiPrice]').val(totalPiPrice);
     		
-        }else if(keyValue==13){	// 엔터를 입력했을 때
-        	alert("숫자만 입력해주세요!!");
-        }else if( keyValue==59 || keyValue==61 || keyValue==110 || keyValue==111 || ((keyValue >= 188) && (keyValue <= 192)) || ((keyValue >= 219) && (keyValue <= 222)) ){	// 문자 및 특수문자, 스페이스바를 입력했을 때
+        }if( ((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 문자 및 특수문자, 스페이스바를 입력했을 때
         	alert("숫자만 입력해주세요!!");
     		$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
         }
@@ -139,14 +144,14 @@
 		var stockInfo = info.split(",");
 		
 		var stockTr_id = stockInfo[0];	// 해당 <tr>의 id
+		var stockSeq = stockInfo[1];	// 재고번호
 		var piSeq = cnt++;	// 발주품목 번호
-		var piName = stockInfo[1];;	// 발주품목 품목명
-		var piQty = 1;	// 발주품목 수량
-		var piPrice = stockInfo[2];	// 발주품목 가격
-		var sumPiPrice = stockInfo[2];	// 발주품목 합계금액
-	
-		var newTr = document.createElement("tr");	// 새로운 <tr> 태그 생성
+		var piName = stockInfo[2];;	// 발주품목 품목명
+		var piQty = 1;	// 처음 발주품목 수량
+		var piPrice = stockInfo[3];	// 발주품목 가격
+		var sumPiPrice = stockInfo[3];	// 발주품목 합계금액
 		
+		var newTr = document.createElement("tr");	// 새로운 <tr> 태그 생성
 		newTr.setAttribute("id", stockTr_id);	// 새로 생성된 <tr>에 id를 똑같이 설정 
 		
 		var pbody = document.getElementById("pbody");
@@ -160,6 +165,7 @@
 		noListTr.style.display = "none";
 		
 		pbody.appendChild(newTr).innerHTML = "<td>" +
+												"<input type='hidden' name='item_seq' value='"+stockSeq+"'>" +
 												"<input type='text' class='txt' name='pi_seq' value='"+piSeq+"' readonly='readonly'>" +
 											  "</td>" +
 											  "<td>" +
@@ -167,7 +173,7 @@
 											  "</td>" +
 											  "<td>" +
 												"<input type='button' class='downBtn' value='-' onclick='minus(this)'>" +
-												"<input type='text' name='pi_qty' class='pi_qty' value='"+piQty+"' onkeyup='changeQty(this)'>" +
+												"<input type='text' name='pi_qty' class='pi_qty' value='"+piQty+"' style='width:50px;' onkeyup='changeQty(this)' required='required'>" +
 												"<input type='button' class='upBtn' value='+' onclick='plus(this)'>" +
 											  "</td>" +
 											  "<td>" +
@@ -195,9 +201,7 @@
 	
 	// 발주 품목에서 해당 품목 삭제를 했을 때 발주 품목에서는 사라지고 재고 목록에 추가되는 이벤트
 	function delStock(line, lineId) {
-		//alert(lineId);
-		
-		
+
 		// 현재 줄의 인덱스 번호
 		var idx = $('.delBtn').index(line);
 		//alert(idx);
@@ -227,18 +231,82 @@
 		cnt--;
 		
 		// 발주 품목의 번호를 다시 계산하기 위해 pi_seq들을 가져옴
-		var piSeq = document.getElementsByName("pi_seq");
+		var piSeq = document.getElementsByName("pi_seq").length;
 		
 		// 발주 품목의 목록이 없을 때 대한 처리
-		if(isNaN(piSeq)){
+		if(piSeq == 0){ 
 			// 발주 품목의 목록이 없을 때 나타나는 <tr>을 보이게 함 
 			var noListTr = document.getElementById("noPiList");
 			noListTr.style.display = "";
+			
 		}else{
 			// 발주 품목의 번호 다시 계산하여 value에 입력
 			for (var i = 0; i < cnt; i++) {
 				piSeq[i].value = (i+1);
 			}
+		}
+	}
+	
+	// 신청 버튼 클릭 이벤트
+	function reqPao() {
+		
+		var piSeqs = document.getElementsByName("pi_seq").length;	// 발주 품목이 있는지 확인하기 위한 length
+		var piNames = document.getElementsByName("pi_name");	// 각각의 발주 품목명
+		
+		var storeCode = document.getElementById("store_code").value;	// 로그인한 업주의 매장코드
+		
+		//var itemSeqs = document.getElementsByName("item_seq");	
+		//var piQtys = document.getElementsByName("pi_qty");	
+
+		var itemSeqs = new Array();	// 발주 품목에 추가된 품목 각각의 원래 재고번호를 담을 배열
+		var piQtys = new Array();	// 발주 품목에 추가된 품목 각각의 갯수를 담을 배열
+		
+		for (var i = 0; i < piSeqs; i++) {
+			itemSeqs[i] = document.getElementsByName("item_seq")[i].value;	// 재고번호 입력
+			piQtys[i] = document.getElementsByName("pi_qty")[i].value;	// 갯수 입력
+			
+			// 발주 품목 중 수량이 0인 품목이 있을 때
+			if(piQtys[i]==0){
+				alert((i+1)+"번째 발주 품목 [ "+piNames[i].value+" ]의 수량이 0 입니다.");
+				return false;
+			}
+		}
+		
+		if(piSeqs == 0){	// 발주할 품목이 존재하지 않을 때
+			alert("발주하실 품목을 선택해 주세요!");	
+			return false;
+		}else{
+			var isc = confirm("해당 발주를 신청하시겠습니까??");
+			
+			if(isc){
+				
+				$.ajax({
+					url : "./paoRequest.do",	// 요청 URL
+					type : "post",	// 전송 처리 방식
+					asyn : false,	// trun 비동기식, false 동기식
+					data : "store_code="+storeCode+"&item_seqs="+itemSeqs+"&pi_qtys="+piQtys,	// 서버 전송 파라미터(매장코드, 재고번호, 수량)
+					success : function() {
+						alert("발주 신청이 완료되었습니다!");
+						opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
+						window.close();	// 발주 신청 창 닫음
+						
+					}, error : function() {
+						alert("발주 신청이 실패했습니다. 다시 신청해주세요.");
+					}
+				});
+				 
+			}
+			
+		}
+		
+		return false;
+	}
+	
+	// 닫기 버튼 클릭 이벤트
+	function closeWindow() {
+		var isc = confirm("해당 발주를 종료하시겠습니까??");
+		if(isc){
+			window.close();
 		}
 	}
 	
@@ -264,8 +332,16 @@
 	th{
 		background-color: skyblue;
 	}
+	#resultDiv #totalCal{
+		border-style: hidden;
+	}
 	#resultDiv #totalCal th{
+		background-color: white;
+		border-style: none;
+	}
+	#resultDiv #totalCal th .txt{
 		background-color: orange;
+		width: 150px;
 	}
 	#btn{
 		width: 15px;
@@ -275,21 +351,23 @@
 		border: none;
 	}
 	/* 
-	thead{
-		position: absolute;
-		display: block; 
-	} */
-	/* tbody{display: block; overflow-y:scroll; float:left; width:880px; max-height:110px;} */
-
+	#stockList thead, #paoList thead{
+		/* position: absolute; */
+		display: table;
+		/* margin-bottom: 26px; */ 
+	}
+	tbody{display: block; overflow-y:scroll; float:left; width:880px; max-height:110px;} */
+ */
 </style>
 </head>
 <body>
-	${stockLists}
-	
+
 	<div id="stockList">
-		<input type='hidden' id='store_code' value='${stockLists[0].store_code}'>
 		<h3>■ 재고</h3>
 		<table>
+			<colgroup>
+				<col width="50px;"><col style="width:150px;"><col width="50px;"><col width="150px;"><col width="100px;">
+			</colgroup>
 			<thead>
 				<tr>
 					<th>재고번호</th><th>재고명</th><th>수량</th><th>가격</th><th>추가</th>
@@ -318,7 +396,7 @@
 									<input type="text" class="txt" name="stock_seq" value="${dto.itemDto.item_price}" readonly="readonly">
 								</td>
 								<td>
-									<input type="button" class="addBtn" value="추가" onclick="addStock('stockLine${status.count},${dto.stock_name},${dto.itemDto.item_price}')">
+									<input type="button" class="addBtn" value="추가" onclick="addStock('stockLine${status.count},${dto.stock_seq},${dto.stock_name},${dto.itemDto.item_price}')">
 								</td>
 							</tr>
 						</c:forEach>
@@ -328,36 +406,47 @@
 		</table>
 	</div>
 	
-	<div id="paoList">
-		<h3>■ 발주 품목</h3>
-		<table>
-			<thead>
+	<form action="./paoRequest.do" method="post" onsubmit="return reqPao();">
+		<input type='hidden' name='store_code' id='store_code' value='${stockLists[0].store_code}'>
+		<div id="paoList">
+			<h3>■ 발주 품목</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>번호</th><th>품목명</th><th>수량</th><th>가격</th><th>합계금액</th><th>삭제</th>
+					</tr>
+				</thead>
+				<tbody id="pbody" style="height: 110px; width: 880px; overflow: scroll;">		
+					<tr id="noPiList">
+						<td colspan='6'>발주 품목이 없습니다.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div id="resultDiv">
+			<table id="totalCal">
 				<tr>
-					<th>번호</th><th>품목명</th><th>수량</th><th>가격</th><th>합계금액</th><th>삭제</th>
+					<th colspan="2">합계</th>
+					<th>수량</th>
+					<th>
+						<input type="text" class="txt" name="totalPiQty" value="0" readonly="readonly" style="text-align: right;">개
+					</th>
+					<th>총금액</th>
+					<th>
+						<input type="text" class="txt" name="totalPiPrice" value="0" readonly="readonly" style="text-align: right;">원
+					</th>
 				</tr>
-			</thead>
-			<tbody id="pbody" style="height: 110px; width: 880px; overflow: scroll;">		
-				<tr id="noPiList">
-					<td colspan='6'>발주 품목이 없습니다.</td>
+				<tr>
+					<th colspan="3">
+						<input type="submit" class="commitBtn" value="신청">
+					</th>
+					<th colspan="3">
+						<input type="button" class="closeBtn" value="닫기" onclick="closeWindow()">
+					</th>
 				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	<div id="resultDiv">
-		<table id="totalCal">
-			<tr>
-				<th colspan="2">합계</th>
-				<th>수량</th>
-				<th>
-					<input type="text" class="txt" name="totalPiQty" value="0" readonly="readonly" style="text-align: right;">개
-				</th>
-				<th>총금액</th>
-				<th>
-					<input type="text" class="txt" name="totalPiPrice" value="0" readonly="readonly" style="text-align: right;">원
-				</th>
-			</tr>
-		</table>
-	</div>
+			</table>
+		</div>
+	</form>
 </body>
 </html>
