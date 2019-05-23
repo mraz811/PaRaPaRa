@@ -12,7 +12,13 @@
 }
 .regianddel{
 	width: 160px;
+	float: right;
 	position: relative;
+}
+.alba_table{
+	margin: 10px 0px;
+	width: 1010px;
+	height: 340px;
 }
 
 </style>
@@ -38,9 +44,10 @@
     			 <a class="nav-link" data-toggle="tab" href="#profile">두번째탭</a>
   				</li>
 			</ul>
-			<div class="tab-content">
+			<div class="tab-content" align="center">
 				<!-- 각자 내용들.. -->
 				<form action="" method="post">
+				<div class="alba_table">
 					<table class="table table-hover">
 						<tr class="table-secondary">
 							<th></th>
@@ -66,14 +73,15 @@
 							<td>${alba.alba_bank}</td>
 							<td>${alba.alba_account}</td>
 							<td>${fn:substring(alba.alba_regdate,0,10)}</td>
-							<td><input class="btn btn-secondary" type="button" value="수정하기" onclick="modAlba('${alba_seq}')"></td>
+							<td><input class="btn btn-secondary" type="button" value="수정하기" onclick="modiAlba('${alba_seq}')"></td>
 						</tr>
 						</c:forEach>
 					</table>
-					<div class="regianddel">
-						<input class="btn btn-outline-success" type="button" value="등록하기" onclick="toAlbaRegi()">
-						<input class="btn btn-outline-warning" type="button" value="삭제하기" onclick="delAlba()">
-					</div>
+				</div>
+				<div class="regianddel">
+					<input class="btn btn-outline-success" type="button" value="등　록" onclick="toAlbaRegi()">
+					<input class="btn btn-outline-warning" type="button" value="삭　제" onclick="delAlba()">
+				</div>
 				</form>
 				
 				<div class="center">
@@ -113,8 +121,14 @@
 <script type="text/javascript">
 // 알바 등록 폼으로
 var toAlbaRegi = function(){
-	location.href="./albaRegiForm.do";	
+	window.open("./albaRegiForm.do", "아르바이트 등록","width=420, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+// 	location.href="./albaRegiForm.do";	
 };
+
+// 알바 수정하기
+var modiAlba = function(){
+	
+}
 
 // 알바 삭제하기
 var delAlba = function(){
@@ -134,7 +148,6 @@ var delAlba = function(){
 	}else{
 		val = confrmDel(chkVal);
 	}
-// 	return val;
 };
 
 function confrmDel(chkVal){
@@ -178,10 +191,7 @@ function confrmDel(chkVal){
 		        	swal("삭제 에러", "삭제 중 문제가 발생하였습니다.", "error");
 		        }
 			});
-// 			return true;
-			
 		}
-// 		return false;
 	});
 	
 }
