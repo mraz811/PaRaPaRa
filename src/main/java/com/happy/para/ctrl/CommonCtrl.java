@@ -41,12 +41,12 @@ public class CommonCtrl {
 	
 	@RequestMapping(value="/chatList.do", method=RequestMethod.GET)
 	public String selectChatList(String auth, Model model, HttpSession session) {
-		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
-		if(aDto != null) {
+		if(auth.equalsIgnoreCase("A")) {
+			AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
 			List<OwnerDto> lists = chatService.selectOwner(aDto.getAdmin_id()+"");
 			model.addAttribute("lists", lists);
 		}
-		if(aDto == null) {
+		if(auth.equalsIgnoreCase("U")) {
 			OwnerDto oDto = (OwnerDto) session.getAttribute("loginDto");
 			AdminDto dto = chatService.selectAdmin(oDto.getAdmin_id()+"");
 			model.addAttribute("adminDto", dto);

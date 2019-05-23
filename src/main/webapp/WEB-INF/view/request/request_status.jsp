@@ -112,7 +112,7 @@
 			async : true,
 			data : {"request_seq":request_seq,"os_code":os_code},
 			success : function(obj){
-;				location.reload();
+				location.reload();
 			},error : function(obj){
 				alert(obj); 
 			}

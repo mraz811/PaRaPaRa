@@ -644,11 +644,13 @@ public class MansolTest_Ctrl {
 	@Autowired
 	private Store_IService store_IService;
 	
-	@RequestMapping(value="/ddd.do",method=RequestMethod.GET)
+	//통계 페이지로 이동
+	@RequestMapping(value="/ownerStats.do",method=RequestMethod.GET)
 	public String ddd() {
 		return "/stats/statsOwnerMoney";
 	}
 	
+	//아작스로 통계에 필요한 값 생성해서 보내는 거
 	@RequestMapping(value="/ownerStatsIn.do",method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, String> ownerStatsIncome(Model model,HttpSession session,String start,String end) {
@@ -665,6 +667,12 @@ public class MansolTest_Ctrl {
 		map.put("end", end);
 		int incomeMoney = stats_IService.ownerStatsIncome(map);
 		int outcomeMoney = stats_IService.ownerStatsOutcome(map);
+		Map<String, List<String>> resultMap = stats_IService.ownerStatsMenu(map);
+		
+		
+		
+		
+		
 		
 		GoogleChartDTO jdata = new GoogleChartDTO();
 		jdata.addColumn("stats", "통계", "", "string");
@@ -674,16 +682,28 @@ public class MansolTest_Ctrl {
 		System.out.println("업주 수익/지출 통계에 쓸 값 : "+incomeMoney+":");
 		Gson gs = new Gson();
 		String jstr = gs.toJson(jdata);
+
+		GoogleChartDTO jdata2 = new GoogleChartDTO();
+		jdata2.addColumn("stats", "통계", "", "string");
+		jdata2.addColumn("count", "단위(개)", "", "number");
+		for (int i = 0; i < resultMap.get("menu").size(); i++) {
+			jdata2.addRow(resultMap.get("menu").get(i), Integer.parseInt(resultMap.get("cnt").get(i)));
+		}
+		System.out.println("업주 메뉴 통계에 쓸 값 : "+resultMap);
+		String jstr2 = gs.toJson(jdata2);
+		
 		
 		StoreDto sDto = store_IService.storeDetail(store_code);
 		String store_name = sDto.getStore_name();
 		
 		Map<String, String> mapp = new HashMap<String,String>();
 		mapp.put("jstr", jstr);
+		mapp.put("jstr2", jstr2);
 		mapp.put("store_name", store_name);
 		return mapp;
 	}
 	
+	//없앨꺼임
 	@RequestMapping(value="/ownerStatsOut.do",method=RequestMethod.GET)
 	public void ownerStatsOutcome(HttpSession session,String start,String end) {
 		Map<String, String> map = new HashMap<String,String>();
@@ -696,6 +716,7 @@ public class MansolTest_Ctrl {
 		System.out.println("업주 지출 통계에 쓸 값 : "+n);
 	}
 	
+	//이거 위에위에 꺼라 합쳐야 할듯, 메뉴 통계 값 나오는 컨트롤러
 	@RequestMapping(value="/ownerStatsMenu.do",method=RequestMethod.GET)
 	public void ownerStatsMenu(HttpSession session,String start,String end) {
 		Map<String, String> map = new HashMap<String,String>();
@@ -704,9 +725,7 @@ public class MansolTest_Ctrl {
 		map.put("store_code", store_code);
 		map.put("start", start);
 		map.put("end", end);
-		Map<String, List<String>> resultMap = stats_IService.ownerStatsMenu(map);
 		
-		System.out.println("업주 메뉴 통계에 쓸 값 : "+resultMap);
 	}
 	
 	@RequestMapping(value="/adminStatsIn.do",method=RequestMethod.GET)
