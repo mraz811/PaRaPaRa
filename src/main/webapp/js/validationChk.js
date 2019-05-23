@@ -17,22 +17,26 @@ $(function(){
 		var pwChk = $("#pwChk").val();
 
 		if(pw!=pwChk){ // pwChk 사용 후 다시 변경 시
-			$("#pwChkRst").css({'color':'red', 'font-size':'10px'});
-			$("#pwChkRst").html(" ");
+//			$("#pwChkRst").css({'color':'red', 'font-size':'10px'});
+//			$("#pwChkRst").html(" ");
+			$("#pw").attr("class","form-control is-invalid");
 			$("#pwchkVal").val("0");
 		}
 		
 		if(pw.indexOf(" ") != -1){
-			$("#pwRst").css({'color':'red', 'font-size':'10px'});
-			$("#pwRst").html("  공백 사용 불가");
+//			$("#pwRst").css({'color':'red', 'font-size':'10px'});
+//			$("#pwRst").html("  공백 사용 불가");
+			$("#pw").attr("class","form-control is-invalid");
 			$("#pwchkVal").val("0");
 		} else if(inputLen>=4 && inputLen <=12){
-			$("#pwRst").css({'color':'forestgreen', 'font-size':'10px'});
-			$("#pwRst").html("  사용 가능한 비밀번호");
+//			$("#pwRst").css({'color':'forestgreen', 'font-size':'10px'});
+//			$("#pwRst").html("  사용 가능한 비밀번호");
+			$("#pw").attr("class","form-control is-valid");
 			$("#pwchkVal").val("1");
 		} else {
-			$("#pwRst").css({'color':'red', 'font-size':'10px'});
-			$("#pwRst").html(" ");
+//			$("#pwRst").css({'color':'red', 'font-size':'10px'});
+//			$("#pwRst").html(" ");
+			$("#pw").attr("class","form-control is-invalid");
 			$("#pwchkVal").val("0");
 		}
 	}); // 비밀번호 유효성 검사 종료
@@ -43,12 +47,14 @@ $(function(){
 		var pw = $("#pw").val();
 		
 		if(pwChk==pw){
-			$("#pwChkRst").css({'color':'forestgreen', 'font-size':'10px'});
-			$("#pwChkRst").html("  비밀번호 일치");
+//			$("#pwChkRst").css({'color':'forestgreen', 'font-size':'10px'});
+//			$("#pwChkRst").html("  비밀번호 일치");
+			$("#pwChk").attr("class","form-control is-valid");
 			$("#pwchkVal").val("1");
 		} else {
-			$("#pwChkRst").css({'color':'red', 'font-size':'10px'});
-			$("#pwChkRst").html("  비밀번호 불일치");
+//			$("#pwChkRst").css({'color':'red', 'font-size':'10px'});
+//			$("#pwChkRst").html("  비밀번호 불일치");
+			$("#pwChk").attr("class","form-control is-invalid");
 			$("#pwchkVal").val("0");
 		}
 	}); // 비밀번호 확인 유효성 검사 종료
@@ -60,16 +66,19 @@ $(function(){
 		var phnRegExp = /^\d{2,3}-\d{3,4}-\d{4}$/;
 		
 		if(phn.indexOf(" ") != -1){
-			$("#phnRst").css({'color':'red', 'font-size':'10px'});
-			$("#phnRst").html("  공백 사용 불가");
+//			$("#phnRst").css({'color':'red', 'font-size':'10px'});
+//			$("#phnRst").html("  공백 사용 불가");
+			$("#phone").attr("class","form-control is-invalid");
 			$("#phnchkVal").val("0");
 		} else if(phn.match(phnRegExp) != null){
-			$("#phnRst").css({'color':'forestgreen', 'font-size':'10px'});
-			$("#phnRst").html("  사용 가능한 전화번호");
+//			$("#phnRst").css({'color':'forestgreen', 'font-size':'10px'});
+//			$("#phnRst").html("  사용 가능한 전화번호");
+			$("#phone").attr("class","form-control is-valid");
 			$("#phnchkVal").val("1");
 		} else {
-			$("#phnRst").css({'color':'red', 'font-size':'10px'});
-			$("#phnRst").html(" -포함해서 입력해주세요");
+//			$("#phnRst").css({'color':'red', 'font-size':'10px'});
+//			$("#phnRst").html(" -포함해서 입력해주세요");
+			$("#phone").attr("class","form-control is-invalid");
 			$("#phnchkVal").val("0");
 		}
 	}); // 전화번호 유효성 검사 종료
@@ -81,16 +90,19 @@ $(function(){
 		var emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 	
 		if(email.indexOf(" ") != -1){
-			$("#emailRst").css({'color':'red', 'font-size':'10px'});
-			$("#emailRst").html("  공백 사용 불가");
+//			$("#emailRst").css({'color':'red', 'font-size':'10px'});
+//			$("#emailRst").html("  공백 사용 불가");
+			$("#email").attr("class","form-control is-invalid");
 			$("#emailchkVal").val("0");
 		}else if(email.match(emailRegExp)!=null){
-			$("#emailRst").css({'color':'forestgreen', 'font-size':'10px'});
-			$("#emailRst").html("  사용 가능한 이메일");
+//			$("#emailRst").css({'color':'forestgreen', 'font-size':'10px'});
+//			$("#emailRst").html("  사용 가능한 이메일");
+			$("#email").attr("class","form-control is-valid");
 			$("#emailchkVal").val("1");
 		}else{
-			$("#emailRst").css({'color':'red', 'font-size':'10px'});
-			$("#emailRst").html("  유효한 이메일을 입력해 주세요");
+//			$("#emailRst").css({'color':'red', 'font-size':'10px'});
+//			$("#emailRst").html("  유효한 이메일을 입력해 주세요");
+			$("#email").attr("class","form-control is-invalid");
 			$("#emailchkVal").val("0");
 		}
 	}); // 이메일 유효성 검사 완료

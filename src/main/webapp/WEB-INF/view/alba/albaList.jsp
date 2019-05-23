@@ -124,7 +124,8 @@
 <script type="text/javascript">
 // 알바 등록 폼으로
 var toAlbaRegi = function(){
-	window.open("./albaRegiForm.do", "아르바이트 등록","width=420, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+	window.open("./albaRegiForm.do", "아르바이트 등록",
+			"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes");
 // 	location.href="./albaRegiForm.do";	
 };
 
@@ -177,20 +178,15 @@ function confrmDel(chkVal){
 				data: "alba_seq="+chkVal,
 				async : false,
 				success: function (data) {
-		        	swal("삭제 완료", "아르바이트 정보 삭제가 완료되었습니다", "success");
-		        	// 화면에서 refresh 전에 보여주기 삭제
-// 					var tds = $("input:radio[name=alba_seq]");
-// // 						alert(tds.length); // 5
-// // 						alert(tds[1].value);
-// 		        	for (var i = 0; i < tds.length; i++) {
-// 		        		if(tds[i].value==chkVal){
-// // 		        			alert(tds[i].value);
-// 							var tr = tds[i].parentNode.parentNode;
-// 							tds[i].parentNode.parentNode.parentNode.removeChild(tr);
-// 		        		}
-// 					}
-// 					location.reload();
-		        },
+		        	swal({
+						title: "삭제 완료", 
+						text: "아르바이트 정보 삭제가 완료되었습니다", 
+						type: "success"
+					},
+					function(){ 
+						location.reload();
+					});
+				},
 		        error: function (data) {
 		        	swal("삭제 에러", "삭제 중 문제가 발생하였습니다.", "error");
 		        }

@@ -16,7 +16,9 @@
 }
 .fullCtrl{
 	width: 420px;
-	margin-left: 100px;
+	margin-left: 20%;
+	margin-top: 20px;
+	margin-bottom: 40px;
 }
 </style>
 </head>
@@ -26,7 +28,6 @@
 	<div class="fullCtrl">
 	<form name="albaFrm" action="" method="post" onsubmit="regiChk()">
 	  <fieldset>
-    	<legend>아르바이트 등록</legend>
 		<div class="form-group">
       		<label for="alba_name">이름</label>
 			<input type="text" class="form-control" id="alba_name" name="alba_name" placeholder="이름" required="required" maxlength="20">

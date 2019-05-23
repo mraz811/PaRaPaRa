@@ -97,20 +97,21 @@ public class MemberCtrl {
 		}
 		
 		// 담당자 회원 등록 메소드
-		@RequestMapping(value="/adminRegi.do", method=RequestMethod.POST)
-		public String adminRegi(AdminDto aDto, String loc_sido, String loc_sigungu) {
+		@RequestMapping(value="/adminRegi.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
+		public void adminRegi(AdminDto aDto, String loc_sido, String loc_sigungu) {
 			
 			String loc_code = loc_sido + loc_sigungu;
 			aDto.setLoc_code(loc_code);
 			
 			System.out.println(aDto);
-			int n = memService.adminRegister(aDto);
-			// 담당자 회원 등록 성공시
-			if(n>0) {
-				return "redirect:/selAdminList.do";
-			}
-			// 실패 시 회원 등록 폼으로
-			return "redirect:/adminRegiForm.do";
+			memService.adminRegister(aDto);
+//			// 담당자 회원 등록 성공시
+//			if(n>0) {
+//				return "redirect:/selAdminList.do";
+//			}
+//			// 실패 시 회원 등록 폼으로
+//			return "redirect:/adminRegiForm.do";
 		}
 		
 		// 업주 회원 등록 페이지로 보내주는 메소드 (업주 등록 여부 0인 매장코드 리스트 전송)

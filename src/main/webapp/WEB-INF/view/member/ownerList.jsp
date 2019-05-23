@@ -5,6 +5,22 @@
 <head>
 <meta charset="UTF-8">
 <title>업주 조회 페이지</title>
+<style type="text/css">
+.owner_table{
+	margin: 5px 0px 10px 0px;
+	width: 1010px;
+	height: 350px;
+}
+.center{
+	width: 330px;
+	position: relative;
+}
+.regianddel{
+	width: 160px;
+	float: right;
+	position: relative;
+}
+</style>
 </head>
 <script type="text/javascript" src="./js/paging.js"></script>
 
@@ -14,86 +30,109 @@
 
 <%-- 업주 리스트: ${ownerlist} --%>
 	<div class="bodyFrame">
-		<table id="ownerList">
-			<tr>
-				<th style="width: 150px">사업자번호</th>
-				<th>업주명</th>
-				<th>전화번호</th>
-				<th>이메일</th>
-				<th>매장명</th>
-				<th>계약시작</th>
-				<th>계약종료</th>
-				<th></th>
-			</tr>	
-		</table>
-						
-		<c:forEach var="ow" items="${ownerlist}" varStatus="vs">
-
-		<form action="#" method="post" >
-		<input type="hidden" name="owner_seq" value="${ow.owner_seq}">
-		<table>
-			<tr>
-				<td style="width: 150px">${ow.owner_id}</td>		
-				<td>${ow.owner_name}</td>		
-				<td>${ow.owner_phone}</td>		
-				<td>${ow.owner_email}</td>
-				<!-- 매장 코드 매장명으로 변환해주어야 함. 쿼리 추가 필요할수도 -->
-				<td>${ow.store_code}</td>
-				<td>${fn:substring(ow.owner_start,0,10)}</td>
-				<c:if test="${ow.owner_end eq null}">
-					<td><input id="owner_end${vs.index}" name="owner_end" type="date"></td>
-					<td><input type="button" value="계약종료" onclick="finContract('${vs.index}','${ow.owner_start}')"></td>	
-				</c:if>
-				<c:if test="${ow.owner_end ne null}">
-					<td>${fn:substring(ow.owner_end,0,10)}</td>
-					<td></td>	
-				</c:if>
-			</tr>
-		</table>
-		</form>
-
-
-			</c:forEach>
-	
-	</div>
-
-	<div>
-		<input type="button" value="등록" onclick="toOwnerRegi()">
-	</div>
-
-
-		<!-- 페이징 처리 기능은 화면 템플릿 추가 후 추가할 예정 -->
-		<input type="hidden" name="index" id="index" value="${ownerRow.index}">
-		<input type="hidden" name="pageNum" id="pageNum" value="${ownerRow.pageNum}"> 
-		<input type="hidden" name="listNum"	id="listNum" value="${ownerRow.listNum}">
-
-		<div class="center">
-			<ul class="pagination">
-				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pageFirst(${ownerRow.pageList},${ownerRow.pageList})">&laquo;</a>
-				</li>
-				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pagePre(${ownerRow.pageNum},${ownerRow.pageList})">&lsaquo;</a>
-				</li>
-
-				<c:forEach var="i" begin="${ownerRow.pageNum}" end="${ownerRow.count}" step="1">
-					<li class="page-item">
-					 <a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a>
-					</li>
-				</c:forEach>
-
-				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pageNext(${ownerRow.pageNum},${ownerRow.total},${ownerRow.listNum},${ownerRow.pageList})">&rsaquo;</a>
-				</li>
-				<li class="page-item">
-				 <a class="page-link" href="#" onclick="pageLast(${ownerRow.pageNum},${ownerRow.total},${ownerRow.listNum},${ownerRow.pageList})">&raquo;</a>
-				</li>
-			</ul>
+	<div class="bodyfixed">
+		<div class="oneDepth">
+			
 		</div>
-	
+		<div class="twoDepth">
+			<ul class="nav nav-tabs">
+  				<li class="nav-item">
+    			 <a class="nav-link" data-toggle="tab" href="#home">업　주</a>
+  				</li>
+			</ul>
+			
+			<div class="tab-content" align="center">
+				<div class="owner_table">
+				<table id="ownerList" class="table table-hover" style="margin-bottom: 0px;">
+					<tr class="table-primary">
+						<th width="125px">사업자번호</th>
+						<th width="95px">업주명</th>
+						<th width="125px">전화번호</th>
+						<th width="160px">이메일</th>
+						<th width="115px">매장명</th>
+						<th width="130px">계약시작</th>
+						<th width="160px">계약종료</th>
+						<th width="100px"></th>
+					</tr>	
+				<c:if test="${empty ownerlist}">
+					<tr><td colspan="8" style="color: red; text-align: center;" >등록된 업주가 없습니다.</td></tr>
+				</c:if>
+				</table>
+				
+								
+				<c:forEach var="ow" items="${ownerlist}" varStatus="vs">
+		
+				<form action="#" method="post" >
+				<input type="hidden" name="owner_seq" value="${ow.owner_seq}">
+				<table class="table table-hover">
+					<tr>
+						<td width="125px">${ow.owner_id}</td>		
+						<td width="95px">${ow.owner_name}</td>		
+						<td width="125px">${ow.owner_phone}</td>		
+						<td width="160px">${ow.owner_email}</td>
+						<!-- 매장 코드 매장명으로 변환해주어야 함. 쿼리 추가 필요할수도 -->
+						<td width="115px">${ow.store_code}</td>
+						<td width="130px">${fn:substring(ow.owner_start,0,10)}</td>
+						<c:if test="${ow.owner_end eq null}">
+							<td width="160px"><input id="owner_end${vs.index}" name="owner_end" type="date"></td>
+							<td width="90px"><input class="btn btn-secondary" type="button" value="계약종료" onclick="finContract('${vs.index}','${ow.owner_start}')"></td>	
+						</c:if>
+						<c:if test="${ow.owner_end ne null}">
+							<td width="160px">${fn:substring(ow.owner_end,0,10)}</td>
+							<td width="90px"></td>	
+						</c:if>
+					</tr>
+				</table>
+				</form>
+		
+				</c:forEach>
+				
+				</div><!-- owner_table -->	
+					
+					
+		
+				<div class="regianddel" align="right" style="margin-right: 10px;">
+					<input class="btn btn-outline-success" type="button" value="등　록" onclick="toOwnerRegi()">
+				</div>
+		
+		
+				<!-- 페이징 처리 기능은 화면 템플릿 추가 후 추가할 예정 -->
+				<input type="hidden" name="index" id="index" value="${ownerRow.index}">
+				<input type="hidden" name="pageNum" id="pageNum" value="${ownerRow.pageNum}"> 
+				<input type="hidden" name="listNum"	id="listNum" value="${ownerRow.listNum}">
+		
+				<div class="center" align="center">
+					<ul class="pagination">
+						<li class="page-item">
+						 <a class="page-link" href="#" onclick="pageFirst(${ownerRow.pageList},${ownerRow.pageList})">&laquo;</a>
+						</li>
+						<li class="page-item">
+						 <a class="page-link" href="#" onclick="pagePre(${ownerRow.pageNum},${ownerRow.pageList})">&lsaquo;</a>
+						</li>
+		
+						<c:forEach var="i" begin="${ownerRow.pageNum}" end="${ownerRow.count}" step="1">
+							<li class="page-item">
+							 <a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a>
+							</li>
+						</c:forEach>
+		
+						<li class="page-item">
+						 <a class="page-link" href="#" onclick="pageNext(${ownerRow.pageNum},${ownerRow.total},${ownerRow.listNum},${ownerRow.pageList})">&rsaquo;</a>
+						</li>
+						<li class="page-item">
+						 <a class="page-link" href="#" onclick="pageLast(${ownerRow.pageNum},${ownerRow.total},${ownerRow.listNum},${ownerRow.pageList})">&raquo;</a>
+						</li>
+					</ul>
+				</div>
+
+			</div><!-- tab-content -->
+
+		</div> <!-- twoDepth -->
+	</div><!-- bodyfixed -->
+	</div><!-- bodyFrame -->
+<%@include file="../footer.jsp" %>
 </div>
 
-<%@include file="../footer.jsp" %>
 
 </body>
 <script type="text/javascript">
