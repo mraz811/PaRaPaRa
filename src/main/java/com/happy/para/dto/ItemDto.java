@@ -1,6 +1,7 @@
 package com.happy.para.dto;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 public class ItemDto implements Serializable {
@@ -16,6 +17,8 @@ public class ItemDto implements Serializable {
 	private int pi_qty;
 	private int pao_seq;
 	private List<ItemDto> ilists;
+	private String[] item_seqs;
+	private String[] pi_qtys;
 	
 	public ItemDto() {
 		// TODO Auto-generated constructor stub
@@ -76,14 +79,29 @@ public class ItemDto implements Serializable {
 	public void setIlists(List<ItemDto> ilists) {
 		this.ilists = ilists;
 	}
+	
+	public String[] getItem_seqs() {
+		return item_seqs;
+	}
+
+	public void setItem_seqs(String[] item_seqs) {
+		this.item_seqs = item_seqs;
+	}
+
+	public String[] getPi_qtys() {
+		return pi_qtys;
+	}
+
+	public void setPi_qtys(String[] pi_qtys) {
+		this.pi_qtys = pi_qtys;
+	}
 
 	@Override
 	public String toString() {
 		return "ItemDto [item_seq=" + item_seq + ", item_name=" + item_name + ", item_price=" + item_price + ", pi_seq="
-				+ pi_seq + ", pi_qty=" + pi_qty + ", pao_seq=" + pao_seq + ", ilists=" + ilists + "]";
+				+ pi_seq + ", pi_qty=" + pi_qty + ", pao_seq=" + pao_seq + ", ilists=" + ilists + ", item_seqs="
+				+ Arrays.toString(item_seqs) + ", pi_qtys=" + Arrays.toString(pi_qtys) + "]";
 	}
-	
-	
 	
 	
 }
