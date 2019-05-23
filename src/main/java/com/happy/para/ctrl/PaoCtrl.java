@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.happy.para.dto.ItemDto;
 import com.happy.para.dto.PaoDto;
 import com.happy.para.dto.StockDto;
 import com.happy.para.model.Pao_IService;
@@ -95,14 +96,43 @@ public class PaoCtrl {
 	}
 	
 	// 업주 : 발주 신청 시 재고 목록 조회
-	@RequestMapping(value="/paoRequest.do", method=RequestMethod.GET, produces="application/text; charset=UTF-8")
+	@RequestMapping(value="/paoRequestOpen.do", method=RequestMethod.GET, produces="application/text; charset=UTF-8")
 	public String paoStockList(String store_code, Model model) {
 		System.out.println("=== 넘겨받은 매장코드 === : "+store_code);
 		List<StockDto> stockLists = paoService.paoStockList(store_code);
 		System.out.println(stockLists);
-		System.out.println("들어왔나?????");
+		
 		model.addAttribute("stockLists", stockLists);
 		return "/pao/paoRequest";
 	}
+	
+	// 업주 : 발주 신청(발주 테이블 INSERT)
+	@RequestMapping(value="/paoRequest.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public void paoRequestInsert(String store_code, String[] item_seqs, String[] pi_qtys) {
+		System.out.println("=== 넘겨받은 매장코드 === : "+store_code);
+		System.out.println("=== 넘겨받은 재고번호 === : "+item_seqs);
+		System.out.println("=== 넘겨받은 수량 === : "+pi_qtys);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("store_code", store_code);
+		
+		ItemDto dto = new ItemDto(0, item_seqs, pi_qtys, 0);
+		System.out.println("===================== 디티오 =============== : "+dto.getItem_seqs()[0]+" : "+dto.getPi_qtys()[0]);
+		int cnt = item_seqs.length;	// 발주 품목 갯수
+		
+		// 트랜잭션 처리
+		boolean isc = paoService.paoRequest(map, dto, item_seqs.length);
+		
+		if(isc) {
+			System.out.println("발주 신청 완료!!");
+		}else {
+			System.out.println("발주 신청 실패..");
+		}
+		
+		
+	}
+	
 	
 }

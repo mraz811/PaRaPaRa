@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.happy.para.dto.ItemDto;
 import com.happy.para.dto.PaoDto;
 import com.happy.para.dto.StockDto;
 
@@ -41,6 +42,19 @@ public class Pao_DaoImpl implements Pao_IDao {
 	@Override
 	public List<StockDto> paoStockList(String store_code) {
 		return sqlSession.selectList(NS+"paoStockList", store_code);
+	}
+
+	// 업주 : 발주 신청(발주 테이블 INSERT)
+	@Override
+	public boolean paoInsert(Map<String, String> map) {
+		return (sqlSession.insert(NS+"paoInsert", map) == 1) ? true : false;
+	}
+
+	// 업주 : 발주 신청(발주 품목 테이블 INSERT)
+	@Override
+	public boolean piInsert(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return (sqlSession.insert(NS+"piInsert", map) == 1) ? true : false;
 	}
 
 	

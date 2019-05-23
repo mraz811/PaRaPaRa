@@ -22,12 +22,12 @@
 	//발주 상태 조회 셀렉트 박스 이벤트
 	function selectStatus() {
 		var store_code = document.getElementById("store_code").value;
-		alert("스토어 코드 = "+store_code);
+		//alert("스토어 코드 = "+store_code);
 		var doc = document.getElementsByName("paoStatus")[0];
 		var idx = doc.selectedIndex;	// 선택한 옵션 태그를 인덱스로 변환
 		var paoStatus = doc.options[idx].value;	// 선택한 옵션 태그 인덱스의 value 값 가져옴
-		alert(store_code);
-		alert(paoStatus);
+		//alert(store_code);
+		//alert(paoStatus);
 		
 		$.ajax({
 			url : "./paoStatusAjax.do",	// 요청 URL
@@ -46,7 +46,7 @@
 					//alert("리스트 길이 : "+paoLists.length);
 					
 					if(paoLists.length==0){
-						$("tbody").append("<tr><td id='noList' colspan='4'>글이없습니다.</td></tr>");
+						$("tbody").append("<tr><th id='noList' colspan='4'>글이없습니다.</th></tr>");
 					}else{
 						for(var i = 0; i < paoLists.length; i++){
 							var dto = paoLists[i];
@@ -83,7 +83,7 @@
 			data : "store_code="+store_code+"&startDate="+startDate+"&endDate="+endDate,	// 서버 전송 파라미터
 			dataType : "json",	// 서버에서 받는 데이터 타입
 			success : function(obj) {
-				alert("성공");
+				//alert("성공");
 				//alert(obj.store_code);
 				$("tbody").children().remove();
 				$.each(obj, function(key, val){
@@ -119,7 +119,7 @@
 	function paoRequest() {
 		//alert("dd");
 		var store_code = document.getElementById("store_code").value;
-		window.open("./paoRequest.do?store_code="+store_code, "발주신청", "width=880, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+		window.open("./paoRequestOpen.do?store_code="+store_code, "발주신청", "width=880, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 		//location.href = "./paoRequest.do?store_code="+store_code;
 	}
 	

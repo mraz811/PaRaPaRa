@@ -24,6 +24,15 @@ public class ItemDto implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	public ItemDto(int pi_seq, String[] item_seqs, String[] pi_qtys, int pao_seq) {
+		super();
+		this.pi_seq = pi_seq;
+		this.item_seqs = item_seqs;
+		this.pi_qtys = pi_qtys;
+		this.pao_seq = pao_seq;
+	}
+
+
 	public int getItem_seq() {
 		return item_seq;
 	}
