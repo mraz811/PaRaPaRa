@@ -1,8 +1,10 @@
 package com.happy.para.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,29 +34,61 @@ public class Stats_DaoImpl implements Stats_IDao{
 	
 	//업주 : 상위판매메뉴 통계
 	@Override
-	public Map<String, Integer> ownerStatsMenu(Map<String, String> map){
-		Map<String, Integer> resultMap = new HashMap<String, Integer>(); //결과를 담아줄 Map(주문메뉴명,주문된 갯수)
+	public Map<String, List<String>> ownerStatsMenu(Map<String, String> map){
+		Map<String, List<String>> resultMap = new HashMap<String,List<String>>();
 		List<RequestDto> lists = sqlSession.selectList(NS+"ownerStatsMenu", map);
-		String menu_name = ""; // 주문메뉴 이름을 담아줄 변수
+		System.out.println(lists);
+		List<String> menuList = new ArrayList<String>();
+		List<String> cntList = new ArrayList<String>();
+		
+		List<String> menuList2 = new ArrayList<String>();
+		List<String> cntList2 = new ArrayList<String>();
+		
 		for (int i = 0; i < lists.size(); i++) {
-			String[] reMenu = lists.get(i).getRequest_menu().split(","); // , 를 구분자로 입력된 메뉴번호를 잘라냄
-			for (int j = 0; j < reMenu.length; j++) { 
-				int count = 1; // 주문된 갯수를 담아줄 변수
-				System.out.println("처음 카운트 : "+count);
-				menu_name = sqlSession.selectOne(NS+"findMenuName", reMenu[j]); // 주문메뉴번호에 해당되는 메뉴명 조회 
-				if(resultMap.containsKey(menu_name)) { // 주문메뉴가 Key값으로 존재하면 value인 주문된 갯수 증가되게 함
-					count = resultMap.get(menu_name);
-					System.out.println("카운트 증가하기전 : "+count);
-					count++;
-					resultMap.put(menu_name,count);
-					System.out.println("두번째 카운트 : "+count);
-				}else { // 존재하지 않으면 1로 입력되게함
-					count = 1;
-					resultMap.put(menu_name, count);
-					System.out.println("세번째 카운트 : "+count);
-				}
+			String reMenu = lists.get(i).getRequest_menu();
+			int reMenuLen = reMenu.length();
+			int reMenuLenChange = reMenu.replaceAll(",", "").length();
+			int arraySize = reMenuLen-reMenuLenChange;
+			
+			String[] menu = new String[arraySize];
+			String[] cnt = new String[arraySize];
+			StringTokenizer st = new StringTokenizer(reMenu, ",");
+			int num = 0;
+			while (st.hasMoreTokens()) {
+				String str1 = st.nextToken();
+				int idx = str1.indexOf(":");
+				menu[num] = str1.substring(0, idx);
+				cnt[num] = str1.substring(idx+1);
+				num++;
+			}
+			for (int j = 0; j < menu.length; j++) {
+				menuList.add(j, sqlSession.selectOne(NS+"findMenuName", menu[j]));  
+				cntList.add(j, cnt[j]);
 			}
 		}
+		String menuName = "";
+		int count = 0;
+		List<String> name = sqlSession.selectList(NS+"selectAllMenu");
+		for (int j = 0; j < name.size(); j++) {
+			for (int i = 0; i < menuList.size(); i++) {
+				if(menuList.contains(name.get(j))) {
+					menuName = name.get(j);
+					if(menuList.get(i).equals(name.get(j))) {
+						count += Integer.parseInt(cntList.get(i)); 
+					}
+				}
+			}
+			if(menuList.contains(name.get(j))) {
+				menuList2.add(menuName);
+				cntList2.add(Integer.toString(count));
+				menuName = "";
+				count = 0;
+			}
+		}
+		resultMap.put("menu", menuList2);
+		resultMap.put("cnt", cntList2);
+		System.out.println("바뀌기전 카운트 : "+cntList);
+		System.out.println("바뀐후 카운트 : "+cntList2);
 		return resultMap;
 	}
 	
@@ -66,27 +100,30 @@ public class Stats_DaoImpl implements Stats_IDao{
 	
 	//관리자,담당자 : 상위판매메뉴 통계
 	@Override
-	public Map<String, Integer> adminStatsMenu(Map<String, Object> map){
-		Map<String, Integer> resultMap = new HashMap<String, Integer>();
+	public Map<String, String> adminStatsMenu(Map<String, Object> map){
+		Map<String, String> resultMap = new HashMap<String, String>();
 		List<RequestDto> lists = sqlSession.selectList(NS+"adminStatsMenu", map);
 		String menu_name = "";
 		for (int i = 0; i < lists.size(); i++) {
-			String[] reMenu = lists.get(i).getRequest_menu().split(",");
-			for (int j = 0; j < reMenu.length; j++) {
-				int count = 1;
-				System.out.println("처음 카운트 : "+count);
-				menu_name = sqlSession.selectOne(NS+"findMenuName", reMenu[j]); 
-				if(resultMap.containsKey(menu_name)) {
-					count = resultMap.get(menu_name);
-					System.out.println("카운트 증가하기전 : "+count);
-					count++;
-					resultMap.put(menu_name,count);
-					System.out.println("두번째 카운트 : "+count);
-				}else {
-					count = 1;
-					resultMap.put(menu_name, count);
-					System.out.println("세번째 카운트 : "+count);
-				}
+			String reMenu = lists.get(i).getRequest_menu();
+			int reMenuLen = reMenu.length();
+			int reMenuLenChange = reMenu.replaceAll(",", "").length();
+			int arraySize = reMenuLen-reMenuLenChange;
+			
+			String[] menu = new String[arraySize];
+			String[] cnt = new String[arraySize];
+			StringTokenizer st = new StringTokenizer(reMenu, ",");
+			int num = 0;
+			while (st.hasMoreTokens()) {
+				String str1 = st.nextToken();
+				int idx = str1.indexOf(":");
+				menu[num] = str1.substring(0, idx);
+				cnt[num] = str1.substring(idx+1);
+				num++;
+			}
+			for (int j = 0; j < menu.length; j++) {
+				menu_name = sqlSession.selectOne(NS+"findMenuName", menu[j]); 
+				resultMap.put(menu_name, cnt[j]);
 			}
 		}
 		return resultMap;

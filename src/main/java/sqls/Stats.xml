@@ -32,6 +32,11 @@
 	SELECT MENU_NAME FROM MENU WHERE MENU_SEQ=#{menu_seq} AND (MENU_CATEGORY='주메뉴' OR MENU_CATEGORY='사이드메뉴')
 	</select>
 	
+	<!-- 주메뉴,사이드메뉴 전체 가져오기 -->
+	<select id="selectAllMenu" resultType="java.lang.String">
+	SELECT MENU_NAME FROM MENU WHERE MENU_CATEGORY = '주메뉴' OR MENU_CATEGORY = '사이드메뉴'
+	</select>
+		
 	<!-- 관리자,담당자 : 수익통계 -->
 	<select id="adminStatsIncome" parameterType="java.util.Map" resultType="java.lang.Integer">
 	SELECT SUM(REQUEST_PRICE)

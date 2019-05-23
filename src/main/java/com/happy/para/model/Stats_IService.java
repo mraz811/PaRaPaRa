@@ -1,5 +1,6 @@
 package com.happy.para.model;
 
+import java.util.List;
 import java.util.Map;
 
 public interface Stats_IService {
@@ -11,13 +12,13 @@ public interface Stats_IService {
 	public int ownerStatsOutcome(Map<String, String> map);
 
 	// 업주 : 상위판매메뉴 통계
-	public Map<String, Integer> ownerStatsMenu(Map<String, String> map);
+	public Map<String, List<String>> ownerStatsMenu(Map<String, String> map);
 
 	// 관리자,담당자 : 수익통계
 	public int adminStatsIncome(Map<String, Object> map);
 
 	// 관리자,담당자 : 상위판매메뉴 통계
-	public Map<String, Integer> adminStatsMenu(Map<String, Object> map);
+	public Map<String, String> adminStatsMenu(Map<String, Object> map);
 
 	
 }

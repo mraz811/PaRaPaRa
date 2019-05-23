@@ -20,13 +20,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.happy.para.dto.FileDto;
+import com.happy.para.dto.GoogleChartDTO;
 import com.happy.para.dto.MenuDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.RequestDto;
+import com.happy.para.dto.StoreDto;
 import com.happy.para.model.Menu_IService;
 import com.happy.para.model.Request_IService;
 import com.happy.para.model.Stats_IService;
+import com.happy.para.model.Store_IService;
 
 @Controller
 public class MansolTest_Ctrl {
@@ -637,19 +641,54 @@ public class MansolTest_Ctrl {
 	@Autowired
 	private Stats_IService stats_IService;
 	
+	@Autowired
+	private Store_IService store_IService;
+	
+	@RequestMapping(value="/ddd.do",method=RequestMethod.GET)
+	public String ddd() {
+		return "/stats/statsOwnerMoney";
+	}
+	
 	@RequestMapping(value="/ownerStatsIn.do",method=RequestMethod.GET)
-	public void ownerStatsIncome(String store_code,String start,String end) {
+	@ResponseBody
+	public Map<String, String> ownerStatsIncome(Model model,HttpSession session,String start,String end) {
+		String start1 = start.substring(0, 4);
+		String start2 = start.substring(5, 7);
+		String start3 = start.substring(8, 10);
+		start = start1+start2+start3;
+
 		Map<String, String> map = new HashMap<String,String>();
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		String store_code = oDto.getStore_code();
 		map.put("store_code", store_code);
 		map.put("start", start);
 		map.put("end", end);
-		int n = stats_IService.ownerStatsIncome(map);
-		System.out.println("업주 수익 통계에 쓸 값 : "+n);
+		int incomeMoney = stats_IService.ownerStatsIncome(map);
+		int outcomeMoney = stats_IService.ownerStatsOutcome(map);
+		
+		GoogleChartDTO jdata = new GoogleChartDTO();
+		jdata.addColumn("stats", "통계", "", "string");
+		jdata.addColumn("money", "단위(원)", "", "number");
+		jdata.addRow("수익",incomeMoney);
+		jdata.addRow("지출", outcomeMoney);
+		System.out.println("업주 수익/지출 통계에 쓸 값 : "+incomeMoney+":");
+		Gson gs = new Gson();
+		String jstr = gs.toJson(jdata);
+		
+		StoreDto sDto = store_IService.storeDetail(store_code);
+		String store_name = sDto.getStore_name();
+		
+		Map<String, String> mapp = new HashMap<String,String>();
+		mapp.put("jstr", jstr);
+		mapp.put("store_name", store_name);
+		return mapp;
 	}
 	
 	@RequestMapping(value="/ownerStatsOut.do",method=RequestMethod.GET)
-	public void ownerStatsOutcome(String store_code,String start,String end) {
+	public void ownerStatsOutcome(HttpSession session,String start,String end) {
 		Map<String, String> map = new HashMap<String,String>();
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		String store_code = oDto.getStore_code();
 		map.put("store_code", store_code);
 		map.put("start", start);
 		map.put("end", end);
@@ -658,12 +697,14 @@ public class MansolTest_Ctrl {
 	}
 	
 	@RequestMapping(value="/ownerStatsMenu.do",method=RequestMethod.GET)
-	public void ownerStatsMenu(String store_code,String start,String end) {
+	public void ownerStatsMenu(HttpSession session,String start,String end) {
 		Map<String, String> map = new HashMap<String,String>();
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		String store_code = oDto.getStore_code();
 		map.put("store_code", store_code);
 		map.put("start", start);
 		map.put("end", end);
-		Map<String, Integer> resultMap = stats_IService.ownerStatsMenu(map);
+		Map<String, List<String>> resultMap = stats_IService.ownerStatsMenu(map);
 		
 		System.out.println("업주 메뉴 통계에 쓸 값 : "+resultMap);
 	}
@@ -675,7 +716,7 @@ public class MansolTest_Ctrl {
 		map.put("start", start);
 		map.put("end", end);
 		int n = stats_IService.adminStatsIncome(map);
-		System.out.println("업주 수익 통계에 쓸 값 : "+n);
+		System.out.println("담당자 수익 통계에 쓸 값 : "+n);
 	}
 	
 	@RequestMapping(value="/adminStatsMenu.do",method=RequestMethod.GET)
@@ -684,8 +725,8 @@ public class MansolTest_Ctrl {
 		map.put("store_code_", store_code);
 		map.put("start", start);
 		map.put("end", end);
-		Map<String, Integer> resultMap = stats_IService.adminStatsMenu(map);
-		System.out.println("업주 메뉴 통계에 쓸 값 : "+resultMap);
+		Map<String, String> resultMap = stats_IService.adminStatsMenu(map);
+		System.out.println("담당자 메뉴 통계에 쓸 값 : "+resultMap);
 	}
 
 	
