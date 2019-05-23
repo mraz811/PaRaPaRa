@@ -12,15 +12,15 @@
 <select id="albaList" parameterType="java.util.Map" resultType="AlbaDto">
 	SELECT RNUM, ALBA_SEQ, ALBA_NAME, ALBA_PHONE, ALBA_ADDRESS, ALBA_TIMESAL, 
 		ALBA_BANK, ALBA_ACCOUNT, ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE
-	FROM(SELECT ROW_NUMBER() OVER(ORDER BY ALBA_DELFLAG ASC, ALBA_NAME ASC) RNUM, ALBA_SEQ, ALBA_NAME, 
+	FROM(SELECT ROW_NUMBER() OVER(ORDER BY ALBA_NAME ASC) RNUM, ALBA_SEQ, ALBA_NAME, 
   			ALBA_PHONE, ALBA_ADDRESS, ALBA_TIMESAL, ALBA_BANK, ALBA_ACCOUNT, ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE
- 		FROM ALBA WHERE STORE_CODE = #{store_code})
+ 		FROM ALBA WHERE STORE_CODE = #{store_code} AND ALBA_DELFLAG=#{alba_delflag})
 	WHERE RNUM BETWEEN #{start} AND #{end}
 </select>
 
 <!-- 페이징을 위한 전체 아르바이트 수 조회 -->
-<select id="albaListRow" parameterType="java.lang.String" resultType="java.lang.Integer">
-	SELECT COUNT(*) FROM ALBA WHERE STORE_CODE = #{store_code}
+<select id="albaListRow" parameterType="java.util.Map" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM ALBA WHERE STORE_CODE = #{store_code} AND ALBA_DELFLAG=#{alba_delflag}
 </select>
 
 <!-- 아르바이트 정보 수정 -->

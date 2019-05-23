@@ -48,12 +48,16 @@ public class AlbaCtrl {
 		String store_code = ownDto.getStore_code();
 		
 		PagingDto pagingDto = new PagingDto();
-		pagingDto.setTotal(alService.albaListRow(store_code));
+		Map<String, String> albamap = new HashMap<String,String>();
+		albamap.put("store_code", store_code);
+		albamap.put("alba_delflag", "N");
+		pagingDto.setTotal(alService.albaListRow(albamap));
 		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("start", pagingDto.getStart()+"");
 		map.put("end", pagingDto.getEnd()+"");
 		map.put("store_code", store_code);
+		map.put("alba_delflag", "N");
 		
 		List<AlbaDto> albaList =  alService.albaList(map);
 		model.addAttribute("albaList", albaList);
@@ -62,6 +66,15 @@ public class AlbaCtrl {
 		return "/alba/albaList";
 	}
 	
+	// 아르바이트 삭제
+	@RequestMapping(value="/delAlba.do", method=RequestMethod.POST)
+	public String delAlba(String alba_seq) {
+		System.out.println(alba_seq);
+		
+		alService.albaDelete(alba_seq);
+		
+		return "redirect:/selAlbaList.do";
+	}
 	
 	
 }
