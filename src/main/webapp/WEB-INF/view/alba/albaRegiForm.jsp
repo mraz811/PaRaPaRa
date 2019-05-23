@@ -5,46 +5,52 @@
 <head>
 <meta charset="UTF-8">
 <title>아르바이트 등록</title>
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+<style type="text/css">
+.form-control{
+	width: 200px;
+}
+</style>
 </head>
 <body>
-
 <div id="container">
-	
 	<!-- 아르바이트 등록 form -->
 	<form action="./albaRegi.do" method="post" onsubmit="return regiChk()">
-		<div>
-			<span>이름</span><br>
-			<input type="text" name="alba_name" placeholder="이름" required="required" maxlength="20">
-			
-			<br><span>전화번호</span><br>	
-			<input type="text" name="alba_phone" placeholder="연락처" required="required" maxlength="20">
-
-			<br><span>주소</span><br>	
-			<input type="text" name="alba_address" placeholder="주소" required="required" maxlength="100">
+	  <fieldset>
+    	<legend>아르바이트 정보 등록</legend>
+		<div class="form-group">
 		
-			<br><span>시급</span><br>	
-			<input type="text" name="alba_timesal" placeholder="시급" required="required" maxlength="10">
-		
-			<br><span>은행</span><br>	
-			<input type="text" name="alba_bank" placeholder="은행명" required="required" maxlength="10">
-			
-			<br><span>계좌번호</span><br>	
-			<input type="text" name="alba_account" placeholder="계좌번호" required="required" maxlength="20">
-		
-			<br><span>근무시작일</span><br>	
-			<input type="date" name="alba_regdate" placeholder="근무시작일" required="required">
+      		<label for="alba_name">이름</label>
+			<input type="text" class="form-control" id="alba_name" name="alba_name" placeholder="이름" required="required" maxlength="20">
+			<br>		
+			<label for="alba_phone">전화번호</label>	
+			<input type="text" class="form-control" name="alba_phone" placeholder="연락처" required="required" maxlength="20">
+			<br>
+			<label for="alba_address">주소</label>
+			<input type="text" class="form-control" name="alba_address" placeholder="주소" required="required" maxlength="100">
+			<br>	
+			<label>시급</label>	
+			<input type="text" class="form-control" name="alba_timesal" placeholder="시급" required="required" maxlength="10">
+			<br>
+			<label>은행명</label>
+			<input type="text" class="form-control" name="alba_bank" placeholder="은행명" required="required" maxlength="10">
+			<br>
+			<label>계좌번호</label>	
+			<input type="text" class="form-control" name="alba_account" placeholder="계좌번호" required="required" maxlength="20">
+			<br>
+			<label>근무시작일</label>	
+			<input type="date" class="form-control" name="alba_regdate" placeholder="근무시작일" required="required">
 			
 		</div>
 		<div>	
-			<input type="submit" value="등록 완료">
-			<input type="button" value="취소" onclick="regiCancel()">
+			<input class="btn btn-outline-success" type="submit" value="등록 완료">
+			<input class="btn btn-outline-warning" type="button" value="취소" onclick="regiCancel()">
 		</div>
-		
+		</fieldset>
 	</form>
 
 
 </div>
-
 </body>
 <script type="text/javascript">
 

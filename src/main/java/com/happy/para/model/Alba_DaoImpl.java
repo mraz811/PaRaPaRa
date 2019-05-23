@@ -33,8 +33,8 @@ public class Alba_DaoImpl implements Alba_IDao {
 	}
 
 	@Override
-	public int albaListRow(String store_code) {
-		return sqlSession.selectOne(ALNS+"albaListRow", store_code);
+	public int albaListRow(Map<String, String> map) {
+		return sqlSession.selectOne(ALNS+"albaListRow", map);
 	}
 
 	@Override

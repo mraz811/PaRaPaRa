@@ -17,7 +17,7 @@ public interface Alba_IDao {
 	public List<AlbaDto> albaList(Map<String, String> map);
 	
 	// 페이징을 위한 아르바이트 전체 수 조회
-	public int albaListRow(String store_code);
+	public int albaListRow(Map<String, String> map);
 	
 	// 아르바이트 삭제 (Delflag->Y)
 	public int albaDelete(String alba_seq);

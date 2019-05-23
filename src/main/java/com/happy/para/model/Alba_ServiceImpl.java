@@ -30,8 +30,8 @@ public class Alba_ServiceImpl implements Alba_IService {
 	}
 
 	@Override
-	public int albaListRow(String store_code) {
-		return alba_IDao.albaListRow(store_code);
+	public int albaListRow(Map<String, String> map) {
+		return alba_IDao.albaListRow(map);
 	}
 
 	@Override
