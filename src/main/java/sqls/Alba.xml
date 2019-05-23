@@ -37,10 +37,16 @@
 	WHERE ALBA_SEQ = #{alba_seq}
 </update>
 
-
 <!-- 아르바이트 정보 삭제 -->
 <update id="albaDelete" parameterType="java.lang.String">
 	UPDATE ALBA SET ALBA_DELFLAG='Y' WHERE ALBA_SEQ = #{alba_seq}
 </update>
+
+<!-- 아르바이트 조회(Timesheet에 사용) -->
+<select id="albaTimeSheet" parameterType="java.lang.String" resultType="AlbaDto">
+	SELECT ALBA_SEQ, ALBA_NAME 
+	FROM ALBA 
+	WHERE STORE_CODE=#{store_code}	
+</select>
 
 </mapper>
