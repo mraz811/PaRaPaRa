@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.happy.para.dto.AlbaDto;
 import com.happy.para.dto.TimeDto;
 
 @Repository
@@ -47,6 +48,11 @@ public class Timesheet_DaoImpl implements Timesheet_IDao {
 	public boolean tsDelete(TimeDto dto) {
 		int n = sqlSession.delete("para.timesheet.tsDelete", dto);
 		return n>0?true:false;
+	}
+
+	@Override
+	public List<AlbaDto> tsAlba(String store_code) {
+		return sqlSession.selectList("para.alba.albaTimeSheet", store_code);
 	}
 
 

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.happy.para.dto.AlbaDto;
 import com.happy.para.dto.TimeDto;
 
 public interface Timesheet_IDao {
@@ -25,5 +26,8 @@ public interface Timesheet_IDao {
 
 	// timesheet 삭제
 	public boolean tsDelete(TimeDto dto);
+	
+	// Store_code 별 알바 조회
+	public List<AlbaDto> tsAlba(String store_code);
 	
 }

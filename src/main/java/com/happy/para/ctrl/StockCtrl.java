@@ -2,6 +2,8 @@ package com.happy.para.ctrl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.happy.para.dto.ItemDto;
+import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.StockDto;
 import com.happy.para.model.Item_IService;
 import com.happy.para.model.Stock_IService;
@@ -25,10 +28,14 @@ public class StockCtrl {
 	private Item_IService itemSer;
 
 	@RequestMapping(value="/selStock.do", method=RequestMethod.GET)
-	public String StockList(Model model) {
+	public String StockList(Model model, HttpSession session) {
 		
 		// 임시 테스트
-		String store_code = "STORE123";
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		String store_code = oDto.getStore_code();
+		
+		System.out.println("로그인한 oDto : "+oDto);
+		System.out.println("로그인한 store_code : "+store_code);
 		
 		// 전체 store_code 조회
 		List<String> storeLists = stockSer.selStore();

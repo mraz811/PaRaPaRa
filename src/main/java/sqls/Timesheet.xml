@@ -47,6 +47,7 @@
 		DELETE FROM TIMESHEET
 			WHERE ALBA_SEQ = #{alba_seq}
 				AND TS_DATE = #{ts_date}
+					AND TS_DATETIME = #{ts_datetime}
 	</delete>
 	
 	
