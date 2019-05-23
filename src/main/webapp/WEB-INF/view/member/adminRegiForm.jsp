@@ -9,8 +9,8 @@
 
 </head>
 <body>
-<%@include file="../header.jsp" %>
 <div id="container">
+<%@include file="../header.jsp" %>
 	
 	<input type="hidden" value="0" id="idchkVal">
 	<input type="hidden" value="0" id="pwchkVal">
@@ -58,9 +58,9 @@
 		
 	</form>
 
+<%@include file="../footer.jsp" %>
 </div>
 
-<%@include file="../footer.jsp" %>
 </body>
 <!-- 유효성 검사 -->
 <script type="text/javascript" src="js/validationChk.js"></script>

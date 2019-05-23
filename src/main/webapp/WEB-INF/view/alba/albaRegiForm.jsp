@@ -6,49 +6,59 @@
 <meta charset="UTF-8">
 <title>아르바이트 등록</title>
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+<script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <style type="text/css">
 .form-control{
-	width: 200px;
+	width: 250px;
+}
+.fullCtrl{
+	width: 420px;
+	margin-left: 100px;
 }
 </style>
 </head>
 <body>
 <div id="container">
 	<!-- 아르바이트 등록 form -->
-	<form action="./albaRegi.do" method="post" onsubmit="return regiChk()">
+	<div class="fullCtrl">
+	<form name="albaFrm" action="" method="post" onsubmit="regiChk()">
 	  <fieldset>
-    	<legend>아르바이트 정보 등록</legend>
+    	<legend>아르바이트 등록</legend>
 		<div class="form-group">
-		
       		<label for="alba_name">이름</label>
 			<input type="text" class="form-control" id="alba_name" name="alba_name" placeholder="이름" required="required" maxlength="20">
-			<br>		
+		</div>
+		<div class="form-group">		
 			<label for="alba_phone">전화번호</label>	
 			<input type="text" class="form-control" name="alba_phone" placeholder="연락처" required="required" maxlength="20">
-			<br>
+		</div>
+		<div class="form-group">
 			<label for="alba_address">주소</label>
 			<input type="text" class="form-control" name="alba_address" placeholder="주소" required="required" maxlength="100">
-			<br>	
+		</div>
+		<div class="form-group">	
 			<label>시급</label>	
 			<input type="text" class="form-control" name="alba_timesal" placeholder="시급" required="required" maxlength="10">
-			<br>
+		</div>
+		<div class="form-group">
 			<label>은행명</label>
 			<input type="text" class="form-control" name="alba_bank" placeholder="은행명" required="required" maxlength="10">
-			<br>
+		</div>
+		<div class="form-group">
 			<label>계좌번호</label>	
 			<input type="text" class="form-control" name="alba_account" placeholder="계좌번호" required="required" maxlength="20">
-			<br>
+		</div>
+		<div class="form-group">
 			<label>근무시작일</label>	
 			<input type="date" class="form-control" name="alba_regdate" placeholder="근무시작일" required="required">
-			
 		</div>
 		<div>	
-			<input class="btn btn-outline-success" type="submit" value="등록 완료">
-			<input class="btn btn-outline-warning" type="button" value="취소" onclick="regiCancel()">
+			<input style="width: 123px;" class="btn btn-outline-success" type="submit" value="등　록">
+			<input style="width: 123px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="regiCancel()">
 		</div>
 		</fieldset>
 	</form>
-
+	</div>
 
 </div>
 </body>
@@ -56,11 +66,28 @@
 
 //등록 취소 버튼클릭 시 실행할 함수
 var regiCancel = function(){
-	location.href="./selAlbaList.do";
+	self.close();
 };
 
+// 제출 시
 var regiChk = function(){
-	return true;
+	var albadata = $("form").serialize();
+// 	alert(albadata);
+	
+	$.ajax({
+		url : "./albaRegi.do",
+		type: "POST",
+		data: albadata,
+		async: false,
+		success: function(){
+			swal("등록 완료", "등록되었습니다.");
+			opener.parent.location.reload();
+			regiCancel();
+		},
+		error: function(){
+			swal("등록 실패", "등록이 실패되었습니다.","error");
+		}
+	});
 }
 
 </script>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.dto.AlbaDto;
 import com.happy.para.dto.OwnerDto;
@@ -30,15 +31,14 @@ public class AlbaCtrl {
 	}
 	
 	// 아르바이트 등록
-	@RequestMapping(value="/albaRegi.do", method=RequestMethod.POST)
-	public String albaRegi(HttpSession session, AlbaDto albaDto) {
+	@RequestMapping(value="/albaRegi.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public void albaRegi(HttpSession session, AlbaDto albaDto) {
 		OwnerDto ownDto = (OwnerDto) session.getAttribute("loginDto");
 		String store_code = ownDto.getStore_code();
 		albaDto.setStore_code(store_code);
 		System.out.println("------------------------\n"+albaDto+"\n----------------------");
 		alService.albaRegister(albaDto);
-		
-		return "redirect:/selAlbaList.do";
 	}
 	
 	// 아르바이트 전체 조회
@@ -67,14 +67,16 @@ public class AlbaCtrl {
 	}
 	
 	// 아르바이트 삭제
-	@RequestMapping(value="/delAlba.do", method=RequestMethod.POST)
+	@RequestMapping(value="/delAlba.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
 	public String delAlba(String alba_seq) {
 		System.out.println(alba_seq);
-		
 		alService.albaDelete(alba_seq);
-		
 		return "redirect:/selAlbaList.do";
 	}
+	
+	// 아르바이트 정보 수정
+	
 	
 	
 }
