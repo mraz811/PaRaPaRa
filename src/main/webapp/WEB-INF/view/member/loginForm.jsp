@@ -10,7 +10,9 @@
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <style type="text/css">
+
 #loginform{
+	margin: 80px auto;
 	width: 300px;
 }
 </style>
@@ -19,10 +21,10 @@
 
 
 <div id="container">
-	<h2>파라파라 로그인</h2>
-	<input type="hidden" value="0" id="chkVal">
-		
 	<form id="loginform" method="post">
+		<input type="hidden" value="0" id="chkVal">
+		<h2 align="center">파라파라 로그인</h2>
+		<hr>
 		<label style="width: 148px;"><input type="radio" name="auth" value="U" checked="checked"> 업주 </label>		
 		<label><input type="radio" name="auth" value="A"> 담당자 </label>	
 		<div class="form-group">
@@ -36,7 +38,7 @@
 		<div>
 			<input style="width: 300px;" class="btn btn-outline-success" type="button" value="로그인" onclick="loginCheck()">
 		</div>
-		<!-- 비밀번호 찾기 버튼 추가 예정 --> 
+		<hr>
 		<div align="right">
 			<a href="./findPwForm.do">비밀번호 찾기</a>
 		</div>
@@ -114,6 +116,7 @@ $(function(){
 		$("#inputId").val("");
 		$("#inputId").attr("class","form-control");
 		$("#inputPw").val("");
+		$("#inputPw").attr("class","form-control");
 	});
 		
 });
