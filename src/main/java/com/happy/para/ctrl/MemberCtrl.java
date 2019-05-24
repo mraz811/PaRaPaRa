@@ -20,6 +20,9 @@ import com.happy.para.dto.PagingDto;
 import com.happy.para.model.Member_IService;
 import com.happy.para.model.Menu_IService;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 @Controller
 public class MemberCtrl {
 	//***************** 조민지 - 회원(업주,담당자)관리를 위한 컨트롤러 ***************// 
@@ -254,11 +257,62 @@ public class MemberCtrl {
 		// --------------- 조회, 삭제 추가 필요 -------------- //
 		
 		// 페이징 ajax처리 추후 화면작업 시 필요 ******************************수정 필요
-		@RequestMapping(value="/memPaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@RequestMapping(value="/adminPaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 		@ResponseBody
-		public String paging(Model model, HttpSession session, PagingDto pageDto) {
-			return "";
+		public String adminPaging(Model model, String chkCons , PagingDto pageDto) {
+			JSONObject json = null;
+			Map<String, String> map = new HashMap<String, String>();
+			if(chkCons.equalsIgnoreCase("N") || chkCons.equalsIgnoreCase("Y")) {
+				pageDto.setTotal(memService.adminListRow(chkCons));
+				map.put("start", pageDto.getStart()+"");
+				map.put("end", pageDto.getEnd()+"");
+				map.put("admin_delflag", chkCons);
+				json = objectJson(memService.adminList(map), pageDto);
+			} else { 
+				pageDto.setTotal(memService.adminLocListRow(chkCons));
+				map.put("start", pageDto.getStart()+"");
+				map.put("end", pageDto.getEnd()+"");
+				map.put("loc_sido", chkCons);
+				json = objectJson(memService.adminLocList(map), pageDto);
+			}
+			
+			return json.toString();
 		}
+		
+		// JSONArray 형태로 페이징 처리된 담당자 리스트를 담을 예정
+		private JSONObject objectJson(List<AdminDto> adLists, PagingDto pDto) {
+			JSONObject json = new JSONObject(); // 최종 담을 애
+			JSONArray jLists = new JSONArray(); // arraylist 담을 애
+			JSONObject jList = null; // 그냥 제이슨 타입으로
+			
+			for (AdminDto dto : adLists) {
+				// 새로 new 해서 키 중복 시 값 없어지지 않게
+				jList = new JSONObject();
+				jList.put("admin_id", dto.getAdmin_id());
+				jList.put("admin_name", dto.getAdmin_name());
+				jList.put("admin_phone", dto.getAdmin_phone());
+				jList.put("admin_email", dto.getAdmin_email());
+				jList.put("loc_code", dto.getLoc_code());
+				
+				// json 형태의 값들을 list에 담아줌
+				jLists.add(jList);
+			}
+			
+			jList = new JSONObject();
+			jList.put("pageList",pDto.getPageList());
+			jList.put("index",pDto.getIndex());
+			jList.put("pageNum",pDto.getPageNum());
+			jList.put("listNum",pDto.getListNum());
+			jList.put("total",pDto.getTotal());
+			jList.put("count",pDto.getCount());
+			
+			json.put("adLists", jLists);
+			json.put("adPaging", jList);
+			
+			return json;
+			
+		}
+		
 		
 		// 담당자 전체 조회 (페이징 사용)
 		@RequestMapping(value="/selAdminList.do", method=RequestMethod.GET)
@@ -268,6 +322,7 @@ public class MemberCtrl {
 			
 			// 담당자 전체 조회 
 			if(loc_sido==null && (delflag==null || delflag.equalsIgnoreCase("N"))) {
+				
 				PagingDto pagingDto = new PagingDto();
 				pagingDto.setTotal(memService.adminListRow("N"));
 				Map<String, String> map = new HashMap<String, String>();
@@ -278,6 +333,7 @@ public class MemberCtrl {
 			
 				model.addAttribute("adminList", adminList);
 				model.addAttribute("adminRow", pagingDto);
+				model.addAttribute("chkCons", "N");
 			
 				return "/member/adminList";
 			
@@ -290,8 +346,11 @@ public class MemberCtrl {
 				map.put("end", pagingDto.getEnd()+"");
 				map.put("loc_sido", loc_sido);
 				List<AdminDto> adminLocList = memService.adminLocList(map);
+				
 				model.addAttribute("adminLocList", adminLocList);
 				model.addAttribute("adminRow", pagingDto);
+				model.addAttribute("chkCons", loc_sido);
+
 				return "/member/adminList";
 				
 			// 퇴사자 delflag='Y'조회
@@ -306,6 +365,7 @@ public class MemberCtrl {
 				
 				model.addAttribute("delAdminList", delAdminList);
 				model.addAttribute("adminRow", pagingDto); 
+				model.addAttribute("chkCons", "Y");
 				
 				return "/member/adminList";
 			}
