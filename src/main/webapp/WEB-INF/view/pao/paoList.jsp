@@ -75,6 +75,7 @@
 	
 	
 
+
 </script>
 <style type="text/css">
 	table{
@@ -99,15 +100,28 @@
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" href="#home">일정관리</a>
+	    			 <a class="nav-link" data-toggle="tab" id="calendar">Calendar</a>
 	  				</li>
 	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" href="./selPaoList.do?store_code=SEOUL01_06">발주</a>
+	    			 <a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a>
 	  				</li>
 	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" href="#profile">재고</a>
+	    			 <a class="nav-link" data-toggle="tab" id="stock">재고</a>
 	  				</li>
 			</ul>
+			<script type="text/javascript">
+				$(function() {
+					$("#calendar").click(function() {
+						location.href="./selCal.do";
+					});
+				})
+				
+				$(function() {
+					$("#stock").click(function() {
+						location.href="./selStock.do";
+					});
+				})
+			</script>
 			<div class="tab-content" align="center">
 			<!-- 각자 내용들.. -->
 				<div id="selectDate">

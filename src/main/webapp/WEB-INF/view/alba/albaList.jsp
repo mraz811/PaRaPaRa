@@ -38,7 +38,7 @@
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#home">TimeSheet</a>
+    			 <a class="nav-link" data-toggle="tab" id="timesheet">TimeSheet</a>
   				</li>
   				<li class="nav-item">
     			 <a class="nav-link" data-toggle="tab" href="#profile">아르바이트</a>
@@ -47,6 +47,15 @@
     			 <a class="nav-link" data-toggle="tab" href="#profile">급여</a>
   				</li>
 			</ul>
+			
+				<script type="text/javascript">
+				$(function() {
+					$("#timesheet").click(function() {
+						location.href="./selTimeSheet.do";
+					});
+				});
+				</script>
+				
 			<div class="tab-content" align="center">
 				<!-- 각자 내용들.. -->
 				<form action="" method="post">
