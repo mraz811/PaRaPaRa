@@ -16,9 +16,10 @@
 	position: relative;
 }
 .regianddel{
-	width: 160px;
+	width: 80px;
 	float: right;
 	position: relative;
+	margin-right: 16px;
 }
 </style>
 </head>
@@ -45,13 +46,13 @@
 				<div class="owner_table">
 				<table id="ownerList" class="table table-hover" style="margin-bottom: 0px;">
 					<tr class="table-primary">
-						<th width="125px">사업자번호</th>
-						<th width="95px">업주명</th>
-						<th width="125px">전화번호</th>
-						<th width="160px">이메일</th>
+						<th width="110px">사업자번호</th>
+						<th width="90px">업주명</th>
+						<th width="120px">전화번호</th>
+						<th width="190px">이메일</th>
 						<th width="115px">매장명</th>
-						<th width="130px">계약시작</th>
-						<th width="160px">계약종료</th>
+						<th width="120px">계약시작</th>
+						<th width="165px">계약종료</th>
 						<th width="100px"></th>
 					</tr>	
 				<c:if test="${empty ownerlist}">
@@ -64,22 +65,22 @@
 		
 				<form action="#" method="post" >
 				<input type="hidden" name="owner_seq" value="${ow.owner_seq}">
-				<table class="table table-hover">
+				<table class="table table-hover" style="margin-bottom: 0px; height: 59px;">
 					<tr>
-						<td width="125px">${ow.owner_id}</td>		
-						<td width="95px">${ow.owner_name}</td>		
-						<td width="125px">${ow.owner_phone}</td>		
-						<td width="160px">${ow.owner_email}</td>
+						<td width="110px">${ow.owner_id}</td>		
+						<td width="90px">${ow.owner_name}</td>		
+						<td width="120px">${ow.owner_phone}</td>		
+						<td width="190px">${ow.owner_email}</td>
 						<!-- 매장 코드 매장명으로 변환해주어야 함. 쿼리 추가 필요할수도 -->
 						<td width="115px">${ow.store_code}</td>
-						<td width="130px">${fn:substring(ow.owner_start,0,10)}</td>
+						<td width="120px">${fn:substring(ow.owner_start,0,10)}</td>
 						<c:if test="${ow.owner_end eq null}">
-							<td width="160px"><input id="owner_end${vs.index}" name="owner_end" type="date"></td>
-							<td width="90px"><input class="btn btn-secondary" type="button" value="계약종료" onclick="finContract('${vs.index}','${ow.owner_start}')"></td>	
+							<td width="165px"><input id="owner_end${vs.index}" name="owner_end" type="date"></td>
+							<td width="100px"><input class="btn btn-secondary" type="button" value="계약종료" onclick="finContract('${vs.index}','${ow.owner_start}')"></td>	
 						</c:if>
 						<c:if test="${ow.owner_end ne null}">
-							<td width="160px">${fn:substring(ow.owner_end,0,10)}</td>
-							<td width="90px"></td>	
+							<td width="165px">${fn:substring(ow.owner_end,0,10)}</td>
+							<td width="100px"></td>	
 						</c:if>
 					</tr>
 				</table>
@@ -89,10 +90,8 @@
 				
 				</div><!-- owner_table -->	
 					
-					
-		
-				<div class="regianddel" align="right" style="margin-right: 10px;">
-					<input class="btn btn-outline-success" type="button" value="등　록" onclick="toOwnerRegi()">
+				<div class="regianddel" align="right">
+					<input style="width: 74px;" class="btn btn-outline-success" type="button" value="등　록" onclick="toOwnerRegi()">
 				</div>
 		
 		
@@ -139,7 +138,8 @@
 
 // 업주 등록
 var toOwnerRegi = function(){
-	location.href="./ownerRegiForm.do";
+	window.open("./ownerRegiForm.do","업주 등록 페이지", 
+	"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes");
 };
 
 // 업주 계약 종료 시 
