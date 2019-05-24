@@ -72,5 +72,10 @@ public class Menu_DaoImpl implements Menu_IDao{
 		return sqlSession.update(NS+"deleteMenu", menu_seq)>0?true:false;
 	}
 	
+	//전체 메뉴 조회
+	@Override
+	public List<Integer> selAllMenu() {
+		return sqlSession.selectList(NS+"selAllMenu");
+	}
 	
 }

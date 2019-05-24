@@ -51,8 +51,8 @@
 <!-- 업주 회원등록 -->
 <insert id="ownerRegister" parameterType="OwnerDto">
 	INSERT INTO OWNER
-	(OWNER_SEQ, OWNER_ID, OWNER_PW, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, OWNER_START, ADMIN_ID)
-	VALUES(OWNER_SEQ.NEXTVAL, #{owner_id}, #{owner_pw}, #{owner_name}, #{owner_phone}, #{owner_email}, 'U', #{store_code}, #{owner_start}, #{admin_id})
+	(OWNER_SEQ, OWNER_ID, OWNER_PW, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, OWNER_START, OWNER_MENU, ADMIN_ID)
+	VALUES(OWNER_SEQ.NEXTVAL, #{owner_id}, #{owner_pw}, #{owner_name}, #{owner_phone}, #{owner_email}, 'U', #{store_code}, #{owner_start}, #{owner_menu}, #{admin_id})
 </insert>
 
 <!-- 담당자 정보 수정: 새비밀번호, 이름, 전화번호, 이메일 수정 가능 (구분:admin_id) -->
