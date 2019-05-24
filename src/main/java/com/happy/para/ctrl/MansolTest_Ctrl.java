@@ -536,8 +536,12 @@ public class MansolTest_Ctrl {
 		return isc?"성공":"실패";
 	}
 	// 업주 : 주문 완료, 환불 내역 조회 
-	@RequestMapping(value="/selRequestList.do",method=RequestMethod.GET)
-	public String requestList(HttpSession session,Model model) {
+	@RequestMapping(value="/selRequestList.do",method={RequestMethod.GET,RequestMethod.POST})
+	public String requestList(HttpSession session,Model model,String os_code) {
+		System.out.println("os_code받음??"+os_code);
+		if(os_code != null&&os_code.equals("4")) {
+			os_code =null;
+		}
 		PagingDto rowDto = null;
 		Map<String, String> map = new HashMap<String,String>();
 		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
@@ -560,7 +564,6 @@ public class MansolTest_Ctrl {
 		}else {
 			rowDto = (PagingDto) session.getAttribute("requestRow");
 		}
-		rowDto.setTotal(request_IService.selectTotalRequest(store_code));
 		map.put("store_code", store_code);
 		map.put("start", start);
 		map.put("end", end);
@@ -568,7 +571,9 @@ public class MansolTest_Ctrl {
 		map.put("dayEnd", end);
 		map.put("pageStart", rowDto.getStart()+"");
 		map.put("pageEnd", rowDto.getEnd()+"");
-		List<RequestDto> lists = request_IService.requestList(map);
+		map.put("os_code", os_code);
+		rowDto.setTotal(request_IService.selectTotalRequest(map));
+		List<RequestDto> lists = request_IService.requestListPaging(map);
 		System.out.println("주문 완료,환불 : "+lists);
 		System.out.println("주문 완료,환불 크기 : "+lists.size());
 		
@@ -606,8 +611,8 @@ public class MansolTest_Ctrl {
 			System.out.println(Arrays.toString(cnt)+"갯수");
 		}
 		
-		
-		
+		session.removeAttribute("os_code");
+		session.setAttribute("os_code", os_code);
 		model.addAttribute("requestList",lists);
 		model.addAttribute("requestRow", rowDto);
 		return "/request/request_list";
@@ -632,12 +637,15 @@ public class MansolTest_Ctrl {
 		int a = Integer.parseInt(tempEnd)+1;
 		String end = Integer.toString(a);
 		System.out.println("@@@@종료일@@@@"+end);
-		pDto.setTotal(request_IService.selectTotalRequest(store_code));
+		
+		String os_code = (String)session.getAttribute("os_code");
 		map.put("store_code", store_code);
 		map.put("dayStart", start);
 		map.put("dayEnd", end);
 		map.put("pageStart", pDto.getStart()+"");
 		map.put("pageEnd", pDto.getEnd()+"");
+		map.put("os_code", os_code);
+		pDto.setTotal(request_IService.selectTotalRequest(map));
 		List<RequestDto> lists = request_IService.requestListPaging(map);
 		System.out.println("주문 완료,환불 : "+lists);
 		System.out.println("주문 완료,환불 크기 : "+lists.size());
@@ -688,14 +696,15 @@ public class MansolTest_Ctrl {
 		
 		for (RequestDto dto : lists) {
 			jList = new JSONObject();
-			jList.put("", dto.getRequest_seq());
-			jList.put("", dto.getRequest_menu());
-			jList.put("", dto.getRequest_price());
-			jList.put("", dto.getRequest_time());
-			jList.put("", dto.getRequest_bank());
-			jList.put("", dto.getRequest_account());
-			jList.put("", dto.getStore_code());
-			jList.put("", dto.getOs_code());
+			jList.put("rnum", dto.getRnum());
+			jList.put("request_seq", dto.getRequest_seq());
+			jList.put("menu_name", dto.getMenu_name());
+			jList.put("request_price", dto.getRequest_price());
+			jList.put("request_time", dto.getRequest_time());
+			jList.put("request_bank", dto.getRequest_bank());
+			jList.put("request_account", dto.getRequest_account());
+			jList.put("store_code", dto.getStore_code());
+			jList.put("os_code", dto.getOs_code());
 			
 			jLists.add(jList);
 		}
@@ -719,6 +728,8 @@ public class MansolTest_Ctrl {
 	//업주 : 주문 현황 페이지
 	@RequestMapping(value="/selRequestStatus.do",method=RequestMethod.GET)
 	public String requestListStatus(HttpSession session,Model model) {
+		
+		System.out.println("들어옴");
 		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
 		String store_code = oDto.getStore_code();
 		Date date = new Date();
@@ -726,16 +737,17 @@ public class MansolTest_Ctrl {
 		String start = day.format(date);
 		System.out.println(day.format(date));
 		Map<String, String> map = new HashMap<>();
-		int start111 = Integer.parseInt(start)-1;
+		int start111 = Integer.parseInt(start);
 		start = Integer.toString(start111);
 		System.out.println("==============시작일 : "+start);
 		map.put("store_code", store_code);
 		map.put("start", start);
-		int end = Integer.parseInt(start)+2;
+		int end = Integer.parseInt(start)+1;
 		map.put("end", Integer.toString(end));
 		System.out.println("===========종료일 : "+end);
 		List<RequestDto> waitLists = request_IService.requestListWait(map);
 		Map<String, Object> map1 = new HashMap<>();
+	
 		
 		for (int i = 0; i < waitLists.size(); i++) { //1:2,2:1,3:2,4:3,5:4
 			String temp = waitLists.get(i).getRequest_menu();
@@ -765,6 +777,7 @@ public class MansolTest_Ctrl {
 			System.out.println(waitLists.get(i));
 			System.out.println(Arrays.toString(menu) +"메뉴");
 			System.out.println(Arrays.toString(cnt)+"갯수");
+			System.out.println("dfdlkflnclvncxlncklnvkcvnlnlvn");
 		}
 
 		List<RequestDto> makeLists = request_IService.requestListMake(map);
@@ -798,6 +811,7 @@ public class MansolTest_Ctrl {
 			System.out.println(makeLists.get(i));
 			System.out.println(Arrays.toString(menu) +"메뉴");
 			System.out.println(Arrays.toString(cnt)+"갯수");
+			System.out.println("ccccccccccccccccccccccccccccccccccc");
 			
 		}
 		

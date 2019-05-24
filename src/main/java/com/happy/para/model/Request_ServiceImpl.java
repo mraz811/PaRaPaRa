@@ -83,7 +83,7 @@ public class Request_ServiceImpl implements Request_IService{
 	
 	//전체 주문 갯수
 	@Override
-	public int selectTotalRequest(String store_code) {
-		return request_IDao.selectTotalRequest(store_code);
+	public int selectTotalRequest(Map<String, String> map) {
+		return request_IDao.selectTotalRequest(map);
 	}
 }

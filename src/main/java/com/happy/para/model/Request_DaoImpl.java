@@ -79,7 +79,7 @@ public class Request_DaoImpl implements Request_IDao{
 	
 	//전체 주문 갯수
 	@Override
-	public int selectTotalRequest(String store_code) {
-		return sqlSession.selectOne(NS+"selectTotalRequest",store_code);
+	public int selectTotalRequest(Map<String, String> map) {
+		return sqlSession.selectOne(NS+"selectTotalRequest",map);
 	}
 }
