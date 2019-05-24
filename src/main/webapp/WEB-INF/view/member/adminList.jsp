@@ -35,13 +35,15 @@
 	<div class="bodyFrame">
 	<div class="bodyfixed">
 		<div class="oneDepth">
-			
+			<p style="width: 170px; font-size: 30px; background-color: RGB(21,140,186); color:white; font-weight: bold; padding: 0px 10px; text-align: center; ">
+				회원관리
+			</p>
 		</div>
 		
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" id="selAdminList">담당자</a>
+    			 <a class="nav-link active" data-toggle="tab" id="selAdminList">담당자</a>
   				</li>
   				<li class="nav-item">
     			 <a class="nav-link" data-toggle="tab" id="leftOnes">퇴사자</a>
@@ -50,7 +52,7 @@
 				<script type="text/javascript">
 				$(function(){
 					$("#leftOnes").click(function(){
-						location.href="./selAdminList.do?delflag=Y";						
+						location.href="./selAdminList.do?delflag=Y";
 					});
 					
 					$("#selAdminList").click(function(){
@@ -144,6 +146,10 @@
 	
 			<!-- 퇴사한 담당자 조회 -->
 			<c:if test="${delAdminList ne null}">
+			<script type="text/javascript">
+				$("#leftOnes").attr("class", "nav-link active");
+				$("#selAdminList").attr("class", "nav-link");
+			</script>
 				<div class="admin_table">
 					<table class="table table-hover">
 						<tr class="table-primary">

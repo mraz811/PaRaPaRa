@@ -32,7 +32,7 @@
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#home">업　주</a>
+    			 <a class="nav-link" data-toggle="tab" href="#home">마이페이지</a>
   				</li>
 			</ul>
 			

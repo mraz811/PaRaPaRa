@@ -33,7 +33,9 @@
 	<div class="bodyFrame">
 	<div class="bodyfixed">
 		<div class="oneDepth">
-			
+			<p style="width: 170px; font-size: 30px; background-color: RGB(21,140,186); color:white; font-weight: bold; padding: 0px 10px; text-align: center; ">
+				회원관리
+			</p>
 		</div>
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
