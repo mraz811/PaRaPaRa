@@ -10,7 +10,6 @@
 
 <%	
  	List<CalDto> lists = (List<CalDto>)request.getAttribute("lists");
-// 	LoginDto ldto = (LoginDto)request.getAttribute("ldto");
 %>   
 <!DOCTYPE html>
 <html>
@@ -22,7 +21,8 @@
 <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
 <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+<script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>  
 <script type="text/javascript" src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
 <script type="text/javascript" src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
@@ -78,6 +78,9 @@
 		  };
 
   $(document).ready(function (){	
+	  
+// 	  var store_code = document.getElementById("store_code").value;
+// 	  alert(store_code);
 	  
 	  // 테마 설정
 	  var COMMON_CUSTOM_THEME = {
@@ -149,10 +152,9 @@
 			    end: '<%=lists.get(i).getCal_end()%>',				    
 			    category: 'time',
 // 			    color : '#000000',					   
-			    state : 'Free',					  
-<%-- 			    store_code : '<%=ldto.getStore_code()%>' --%>
-			    store_code : 'Store1234'
-
+			    state : 'Free',
+			    store_code : '${store_code}',
+			    
 				};		 
 		 
 	  calendar.createSchedules([result]);
@@ -170,7 +172,6 @@
 	// 스케쥴 생성
 		calendar.on('beforeCreateSchedule',function(schedule){		
 				
-			
 			 var startday = new Date(schedule.start);
 			 var endday = new Date(schedule.end);
 			 
@@ -191,7 +192,9 @@
 						'endday' : endday.getDate() , 'endhours' : endday.getHours(),
 						'endminutes' : endday.getMinutes(),
 <%-- 						'store_code' : '<%=ldto.getStore_code()%>', --%>
-						'store_code' : 'Store1234',
+						'store_code' : '${store_code}',
+// 						'store_code' : 'Store_test1',
+			
 						'state' : schedule.state
 				}, // 서버 전송 파라메터
 				dataType: "json", // 서버에서 받는 데이터 타입
@@ -238,8 +241,7 @@
 	 							'endyear': endTime.getFullYear(), 'endmonth' : endTime.getMonth()+1,
 	 							'endday' : endTime.getDate() , 'endhours' : endTime.getHours(),
 	 							'endminutes' : endTime.getMinutes(),
-<%-- 	 							'store_code' : '<%=ldto.getStore_code()%>', --%>
-	 							'store_code' : 'Store1234',
+	 							'store_code' : '${store_code}',
 	 							'state' : schedule.state
 	 					}, // 서버 전송 파라메터
 	 					dataType: "json", // 서버에서 받는 데이터 타입
@@ -337,7 +339,7 @@
 					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="./selCal.do">CALENDAR</a></li>
+						<a class="nav-link" data-toggle="tab">CALENDAR</a></li>
 						<li class="nav-item">
     			 		<a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a></li>
 						<li class="nav-item">
@@ -353,6 +355,7 @@
 			    </div>
 	
 				<input name="title" type="hidden">
+				<input name="store_code" type="hidden" value="${store_code}" />
 				<div id="calendar" style="width:900px; height: 410px;"></div>		
 	
 	

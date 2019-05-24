@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="css/TimeTable.css"/>
 </head>
 <body>
+<%-- 
 ${objWW}
 <hr>
 ${objLists}
@@ -18,7 +19,9 @@ ${today}
 <hr>
 ${lists}
  
-		<div id="container">
+ --%>
+  
+ 		<div id="container">
 		<%@include file="../header.jsp"%>
 		<div class="bodyFrame">
 			<div class="bodyfixed">
@@ -35,7 +38,7 @@ ${lists}
 					</ul>
 					<div class="tab-content">
 
- 
+  
 
 	<form action="#" method="post">
 
@@ -55,7 +58,7 @@ ${lists}
     <script src="js/TimeTable.js"></script>
 	
 	
-	
+	 
 		</div><!-- div class=tab-content -->
 				</div><!-- div class twoDepth -->
 			</div><!-- div class=bodyfixed -->

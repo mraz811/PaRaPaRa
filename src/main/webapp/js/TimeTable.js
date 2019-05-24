@@ -1239,7 +1239,7 @@ class CanvasT extends CalculationT{
         this.canvasTag.height = lastCell.y - firstCell.y + this.cell.height;
         let canvas = $("<canvas>",{id:"timeBar",class:"barCanvas"});
         let top = this.canvasTag.y;
-        let left = 102;
+        let left = 200;
         if(this.useBootstrap){
             top = 32; // Height of Table Header
         }
