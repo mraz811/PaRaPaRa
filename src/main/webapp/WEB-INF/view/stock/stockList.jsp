@@ -59,7 +59,7 @@
 					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="./selCal.do">CALENDAR</a></li>
+						<a class="nav-link" data-toggle="tab" id="calendar">CALENDAR</a></li>
 						<li class="nav-item">
     			 		<a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a></li>
 						<li class="nav-item">
@@ -67,6 +67,15 @@
 
 					</ul>
 					<div class="tab-content">
+					
+<script type="text/javascript">
+$(function(){
+	$("#calendar").click(function(){
+		location.href="./selCal.do";
+	});
+	
+})
+</script>
 
 	<form action="#" method="post">
 		<input type="text" name="store_code" value="${store_code}" />

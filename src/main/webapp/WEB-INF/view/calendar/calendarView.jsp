@@ -33,6 +33,68 @@
 
   
 </head>
+
+
+
+<body>
+	<div id="container">
+		<%@include file="../header.jsp"%>
+		<div class="bodyFrame">
+			<div class="bodyfixed">
+				<div class="oneDepth">
+					<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
+				
+				</div>
+				<!-- div class=oneDepth -->
+				<div class="twoDepth">
+					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
+					<ul class="nav nav-tabs">
+						<li class="nav-item">
+						<a class="nav-link" data-toggle="tab">CALENDAR</a></li>
+						<li class="nav-item">
+    			 		<a class="nav-link" data-toggle="tab" id="pao">발주</a></li>
+						<li class="nav-item">
+    			 		<a class="nav-link" data-toggle="tab" id = "stockList">재고</a></li>
+					</ul>
+					<div class="tab-content">
+					
+<script type="text/javascript">
+$(function(){
+	$("#stockList").click(function(){
+		location.href="./selStock.do";
+	});
+});
+
+$(function(){
+	$("#pao").click(function(){
+		location.href="./selPaoList.do";
+	});
+});
+
+</script>
+	
+				<div id="menu">
+				  <p id="now"></p>
+			      <button id="prev">◀</button>
+			      <button id="next">▶</button>      
+			    </div>
+	
+				<input name="title" type="hidden">
+				<input name="store_code" type="hidden" value="${store_code}" />
+				<div id="calendar" style="width:900px; height: 410px;"></div>		
+	
+	
+	
+	</div><!-- div class=tab-content -->
+				</div><!-- div class twoDepth -->
+			</div><!-- div class=bodyfixed -->
+		</div><!-- div class=bodyFrame -->
+		<%@include file="../footer.jsp"%>
+	</div>
+	
+</body>
+
+
 <script type="text/javascript">
 	var Calendar = tui.Calendar;	
 	// 달력 양식 지정
@@ -325,47 +387,4 @@
 </script>
 
 
-<body>
-	<div id="container">
-		<%@include file="../header.jsp"%>
-		<div class="bodyFrame">
-			<div class="bodyfixed">
-				<div class="oneDepth">
-					<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
-				
-				</div>
-				<!-- div class=oneDepth -->
-				<div class="twoDepth">
-					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
-					<ul class="nav nav-tabs">
-						<li class="nav-item">
-						<a class="nav-link" data-toggle="tab">CALENDAR</a></li>
-						<li class="nav-item">
-    			 		<a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a></li>
-						<li class="nav-item">
-    			 		<a class="nav-link" data-toggle="tab" href="./selStock.do">재고</a></li>
-					</ul>
-					<div class="tab-content">
-
-	
-				<div id="menu">
-				  <p id="now"></p>
-			      <button id="prev">◀</button>
-			      <button id="next">▶</button>      
-			    </div>
-	
-				<input name="title" type="hidden">
-				<input name="store_code" type="hidden" value="${store_code}" />
-				<div id="calendar" style="width:900px; height: 410px;"></div>		
-	
-	
-	
-	</div><!-- div class=tab-content -->
-				</div><!-- div class twoDepth -->
-			</div><!-- div class=bodyfixed -->
-		</div><!-- div class=bodyFrame -->
-		<%@include file="../footer.jsp"%>
-	</div>
-	
-</body>
 </html>
