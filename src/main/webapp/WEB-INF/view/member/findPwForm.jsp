@@ -5,10 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
-
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
+<style type="text/css">
+#findPwForm{
+	margin: 80px auto;
+	width: 300px;
+}
+</style>
 </head>
 <body>
 
@@ -18,17 +24,22 @@
 	<input type="hidden" id="emailchkVal" value="0">
 	<input type="hidden" id="idchkVal" value="0">
 	<form id="findPwForm" action="./findPw.do" method="post" onsubmit="return chkVal()">
-		<label><input type="radio" name="auth" value="U" checked="checked"> 업주 </label>		
+		<h2 align="center">비밀번호 찾기</h2>
+		<hr>	
+		<label style="width: 148px;"><input type="radio" name="auth" value="U" checked="checked"> 업주 </label>		
 		<label><input type="radio" name="auth" value="A"> 담당자 </label>	
-		<br>
-		<input type="text" id="inputId" name="id" placeholder="아이디를 입력하세요" required="required" >
-		<span id="idRst"></span><br>
-		<input type="text" id="inputEmail" name="email" placeholder="이메일을 입력하세요" required="required" >
-		<span id="emailRst"></span><br>
-		<div>
-			<input type="submit" value="임시 비밀번호 받기" >
-			<input type="button" value="취소" onclick="javascript:history.back(-1)">
-		</div>
+	<div class="form-group">
+		<input class="form-control" type="text" id="inputId" name="id" placeholder="아이디를 입력하세요" required="required">
+		<div class="valid-feedback">유효한 아이디</div>
+		<div class="invalid-feedback">유효하지 않은 아이디</div>
+	</div>
+	<div class="form-group">
+		<input class="form-control" type="text" id="inputEmail" name="email" placeholder="이메일을 입력하세요" required="required" >
+	</div>
+	<div>
+		<input style="width: 198px;" class="btn btn-outline-success" type="submit" value="email로 임시 비밀번호 받기" >
+		<input style="width: 98px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="location.href='./loginForm.do'">
+	</div>
 	</form>
 </div>
 
@@ -46,16 +57,13 @@ $(function(){
 		var emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
 		if(email.indexOf(" ") != -1){
-			$("#emailRst").css({'color':'red', 'font-size':'10px'});
-			$("#emailRst").html("  공백 사용 불가");
+			$("#inputEmail").attr("class","form-control is-invalid");
 			$("#emailchkVal").val("0");
 		}else if(email.match(emailRegExp)!=null){
-			$("#emailRst").css({'color':'forestgreen', 'font-size':'10px'});
-			$("#emailRst").html("  사용 가능한 이메일");
+			$("#inputEmail").attr("class","form-control is-valid");
 			$("#emailchkVal").val("1");
 		}else{
-			$("#emailRst").css({'color':'red', 'font-size':'10px'});
-			$("#emailRst").html("  유효한 이메일을 입력해 주세요");
+			$("#inputEmail").attr("class","form-control is-invalid");
 			$("#emailchkVal").val("0");
 		}
 	}); // 이메일 유효성 검사 완료
@@ -70,8 +78,7 @@ $(function(){
 		var ownRegex = /^\d{3}-\d{2}-\d{5}$/;
 		
 		if(id.indexOf(" ") != -1){
-			$("#idRst").css({'color':'red', 'font-size':'10px'});
-			$("#idRst").html("  공백 사용 불가");
+			$("#inputId").attr("class","form-control is-invalid");
 			$("#idchkVal").val("0");
 		} else if(auth[0].checked && id.match(ownRegex)!=null){ // 업주일 때
 			// 아이디 존재여부 검사
@@ -83,12 +90,10 @@ $(function(){
 				success : function(msg){
 // 					alert(msg.substr(0,5)); // 사용 가능 / 사용 불가
 					if(msg.substr(0,5)=="사용 불가"){
-						$("#idRst").css({'color':'forestgreen', 'font-size':'10px'});
-						$("#idRst").html("  유효한 아이디");
+						$("#inputId").attr("class","form-control is-valid");
 						$("#idchkVal").val("1");
-					} else{
-						$("#idRst").css({'color':'red', 'font-size':'10px'});
-						$("#idRst").html("  유효하지 않은 아이디");
+					} else{ // 존재하지 않을 시
+						$("#inputId").attr("class","form-control is-invalid");
 						$("#idchkVal").val("0");
 					}
 				}
@@ -104,20 +109,17 @@ $(function(){
 				success : function(msg){
 // 					alert(msg.substr(0,5)); // 사용 가능 / 사용 불가
 					if(msg.substr(0,5)=="사용 불가"){
-						$("#idRst").css({'color':'forestgreen', 'font-size':'10px'});
-						$("#idRst").html("  유효한 아이디");
+						$("#inputId").attr("class","form-control is-valid");
 						$("#idchkVal").val("1");					
 					} else{
-						$("#idRst").css({'color':'red', 'font-size':'10px'});
-						$("#idRst").html("  유효하지 않은 아이디");
+						$("#inputId").attr("class","form-control is-invalid");
 						$("#idchkVal").val("0");
 					}
 				}
 			});
 			
 		} else{
-			$("#idRst").css({'color':'red', 'font-size':'10px'});
-			$("#idRst").html("  유효하지 않은 아이디");
+			$("#inputId").attr("class","form-control is-invalid");
 			$("#idchkVal").val("0");
 		}
 	});
@@ -125,9 +127,9 @@ $(function(){
 	// 담당자/업주 선택 변경 시 값 초기화
 	$("input:radio[name=auth]").click(function(){
 		$("#inputId").val("");
-		$("#idRst").html(" ");
+		$("#inputId").attr("class","form-control");
 		$("#inputEmail").val("");
-		$("#emailRst").html(" ");
+		$("#inputEmail").attr("class","form-control");
 
 	});
 	
