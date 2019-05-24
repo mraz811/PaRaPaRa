@@ -90,11 +90,11 @@ public class StockCtrl {
 		dto.setStore_code(store_code);
 
 		for (int i = 1; i < dto.getSlists().size(); i++) {
-//			if(dto.getSlists().get(i).getStock_seq() == "") {
-			if(dto.getSlists().get(i).getItem_name() == null) {
+			if(dto.getSlists().get(i).getStock_seq() == 0) {
 				dto.setStock_name(dto.getSlists().get(i).getStock_name());
 				dto.setStock_qty(dto.getSlists().get(i).getStock_qty());			
 				stockSer.stockAdd(dto);
+				System.out.println("새로 추가된 품목"+dto.getSlists().get(i).getStock_name());
 			}else {
 				dto.setStock_seq(dto.getSlists().get(i).getStock_seq());
 	            dto.setStock_name(dto.getSlists().get(i).getStock_name());

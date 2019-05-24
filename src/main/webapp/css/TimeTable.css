@@ -136,6 +136,7 @@
 .barCanvas{
     cursor: pointer;
 }
+
 .deleteRow:active{
     -ms-transform: translateY(1px);
     -webkit-transform: translateY(1px);
