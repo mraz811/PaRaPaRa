@@ -84,7 +84,7 @@ var regiChk = function(){
 		data: albadata,
 		async: false,
 		success: function(){
-			swal("등록 완료", "등록되었습니다.");
+// 			swal("등록 완료", "등록되었습니다.");
 			opener.parent.location.reload();
 			regiCancel();
 		},

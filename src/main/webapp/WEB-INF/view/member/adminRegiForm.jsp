@@ -6,10 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>담당자 등록 페이지</title>
-<link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
+<script type="text/javascript" src="./js/validationChk.js"></script>
 <script type="text/javascript">
 //등록 취소 버튼클릭 시 실행할 함수
 function adRegiCancel(){
@@ -80,7 +81,7 @@ var change = function(val){
 	
 	<!-- 담당자 등록 form -->
 	<div class="fullCtrl">
-	<form id="adRegiForm" action="" method="post" onsubmit="regiChk()">
+	<form id="adRegiForm" action="" method="post" onsubmit="return regiChk()">
 	<fieldset>
 		<div class="form-group">
 			<label for="id">사번</label>
@@ -95,7 +96,7 @@ var change = function(val){
 			<div class="invalid-feedback">사용 불가능한 비밀번호</div>
 		</div>
 		<div class="form-group">
-			<label for="pwChk">비밀번호 확인</label><span id="pwChkRst"></span><br>	
+			<label for="pwChk">비밀번호 확인</label>
 			<input class="form-control" type="password" id="pwChk" placeholder="비밀번호 확인" required="required" maxlength="12">
 			<div class="valid-feedback">비밀번호 일치</div>
 			<div class="invalid-feedback">비밀번호 불일치</div>
@@ -105,20 +106,20 @@ var change = function(val){
 			<input class="form-control" type="text" id="name" name="admin_name" placeholder="이름" required="required" maxlength="20">
 		</div>
 		<div class="form-group">			
-			<label>전화번호</label><span id="phnRst"></span>
+			<label>전화번호</label>
 			<input class="form-control" type="text" id="phone" name="admin_phone" placeholder="연락처" required="required" maxlength="20">
 			<div class="valid-feedback">사용 가능한 전화번호</div>
 			<div class="invalid-feedback">-를 포함해서 입력해주세요</div>
 		</div>
 		<div class="form-group">
-			<label>이메일</label><span id="emailRst"></span>
+			<label>이메일</label>
 			<input class="form-control" type="text" id="email" name="admin_email" placeholder="이메일" required="required" maxlength="80">
 			<div class="valid-feedback">사용 가능한 이메일</div>
 			<div class="invalid-feedback">유효한 이메일을 입력해주세요</div>
 		</div>
 		<div class="form-group">	
 			<label>지역코드</label><br>
-			<select class="custom-select" name="loc_sido" onchange="chgSigungu(this)" required="required">
+			<select class="custom-select" id="loc_sido" name="loc_sido" onchange="chgSigungu(this)" required="required">
 				<option>시/도</option>
 				<option value="SEOUL">서울시</option>
 				<option value="INCHEON">인천시</option>
@@ -141,49 +142,64 @@ var change = function(val){
 
 </body>
 <!-- 유효성 검사 -->
-<script type="text/javascript" src="js/validationChk.js"></script>
 <script type="text/javascript">
 
 //회원 등록 버튼 클릭 시 실행할 함수
 var regiChk = function(){
-	var idVal = $("#idchkVal").val();
-	var pwVal = $("#pwchkVal").val();
-	var phnVal = $("#phnchkVal").val();
-	var emailVal = $("#emailchkVal").val();
-	var sido = $("select[name=loc_sido]")[0].val();
-	
-	
-	alert(idVal +":" + pwVal +":"+phnVal +":" +emailVal);
-	alert(sido);
-	
-	if(idVal=="1" && pwVal=="1" && phnVal=="1" && emailVal=="1"){
-		var adminData = $("form").serialize();
+		var idVal = document.getElementById("idchkVal").value; 
+		var pwVal = document.getElementById("pwchkVal").value;
+		var phnVal =document.getElementById("phnchkVal").value;
+		var emailVal = document.getElementById("emailchkVal").value;
+// 		alert(idVal +":" + pwVal +":"+phnVal +":" +emailVal);
+		
+		var sido = document.getElementById("loc_sido");
+// 		alert(sido.options[sido.selectedIndex].value);
+		var loc_sido = sido.options[sido.selectedIndex].value;
+// 		alert(loc_sido);
+		
+		var sigungu = document.getElementById("sigungu");
+// 		alert(sigungu.options[sigungu.selectedIndex].value);
+		
+		
+	if(idVal=="1" && pwVal=="1" && phnVal=="1" && emailVal=="1" && loc_sido!="시/도"){
+		var adminData = $("#adRegiForm").serialize();
+// 		alert(adminData);
  		// 유효값 모두 통과 시
 		$.ajax({
 			url: "./adminRegi.do",
 			type: "post",
 			data: adminData,
 			async: false,
-			success: function(){
-				swal({
-					title: "담당자 등록 완료", 
-					text: "담당자가 등록되었습니다", 
-					type: "success"
-				},
-				function(){ 
-					opener.parent.location.reload();
-					regiCancel();
-				});
+			success: function(rst){
+// 				alert(rst);
+// 				chek();
+				opener.parent.location.reload();
+				adRegiCancel();
 			},
-			error: function(){
-				swal("회원등록 실패", "등록이 실패되었습니다.","error");
+			error: function(rst){
+// 				swal("회원등록 실패", "등록이 실패되었습니다.","error");
+				alert("등록이 실패되었습니다.");
+				return false;
 			}
  		}); // ajax
 		
  	} else {
- 		swal("회원등록 실패", "유효값을 확인해주세요", "error");
+ 		swal("담당자 등록 실패", "유효값을 확인해 주세요", "error");
+		return false;
  	}
 };
+
+function chek(){
+		swal({
+			title: "담당자 등록 완료", 
+			text: "담당자가 등록되었습니다", 
+			type: "success"
+		},
+		function(){ 
+			opener.parent.location.reload();
+			adRegiCancel();
+		});
+}
 
 
 $(function(){
