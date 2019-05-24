@@ -61,7 +61,7 @@
 						<li class="nav-item">
 						<a class="nav-link" data-toggle="tab" id="calendar">CALENDAR</a></li>
 						<li class="nav-item">
-    			 		<a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a></li>
+    			 		<a class="nav-link" data-toggle="tab" id="pao">발주</a></li>
 						<li class="nav-item">
     			 		<a class="nav-link" data-toggle="tab" href="#home">재고</a></li>
 
@@ -73,8 +73,11 @@ $(function(){
 	$("#calendar").click(function(){
 		location.href="./selCal.do";
 	});
-	
-})
+	$("#pao").click(function(){
+		location.href="./selPaoList.do";
+	});	
+});
+
 </script>
 
 	<form action="#" method="post">

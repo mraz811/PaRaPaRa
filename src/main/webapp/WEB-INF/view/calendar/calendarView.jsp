@@ -4,34 +4,45 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" session="false"%>
+	pageEncoding="UTF-8" session="false"%>
 
-<%	
- 	List<CalDto> lists = (List<CalDto>)request.getAttribute("lists");
-%>   
+<%
+	List<CalDto> lists = (List<CalDto>) request.getAttribute("lists");
+%>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>캘린더</title>
+<title>캘린더</title>
 
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
+<link rel="stylesheet" type="text/css"
+	href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
+<link rel="stylesheet" type="text/css"
+	href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
 
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script> -->
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>  
-<script type="text/javascript" src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
-<script type="text/javascript" src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
-<script type="text/javascript" src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
-<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
+<script type="text/javascript"
+	src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+<script type="text/javascript"
+	src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
+<script
+	src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
 
-  
+
 </head>
 
 
@@ -43,55 +54,55 @@
 			<div class="bodyfixed">
 				<div class="oneDepth">
 					<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
-				
+
 				</div>
 				<!-- div class=oneDepth -->
 				<div class="twoDepth">
 					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
 					<ul class="nav nav-tabs">
-						<li class="nav-item">
-						<a class="nav-link" data-toggle="tab">CALENDAR</a></li>
-						<li class="nav-item">
-    			 		<a class="nav-link" data-toggle="tab" id="pao">발주</a></li>
-						<li class="nav-item">
-    			 		<a class="nav-link" data-toggle="tab" id = "stockList">재고</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab">CALENDAR</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							id="pao">발주</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							id="stockList">재고</a></li>
 					</ul>
 					<div class="tab-content">
-					
-<script type="text/javascript">
+
+						<script type="text/javascript">
 $(function(){
 	$("#stockList").click(function(){
 		location.href="./selStock.do";
 	});
-});
-
-$(function(){
 	$("#pao").click(function(){
 		location.href="./selPaoList.do";
 	});
 });
 
 </script>
-	
-				<div id="menu">
-				  <p id="now"></p>
-			      <button id="prev">◀</button>
-			      <button id="next">▶</button>      
-			    </div>
-	
-				<input name="title" type="hidden">
-				<input name="store_code" type="hidden" value="${store_code}" />
-				<div id="calendar" style="width:900px; height: 410px;"></div>		
-	
-	
-	
-	</div><!-- div class=tab-content -->
-				</div><!-- div class twoDepth -->
-			</div><!-- div class=bodyfixed -->
-		</div><!-- div class=bodyFrame -->
+
+						<div id="menu">
+							<p id="now"></p>
+							<button id="prev">◀</button>
+							<button id="next">▶</button>
+						</div>
+
+						<input name="title" type="hidden"> <input
+							name="store_code" type="hidden" value="${store_code}" />
+						<div id="calendar" style="width: 900px; height: 410px;"></div>
+
+
+
+					</div>
+					<!-- div class=tab-content -->
+				</div>
+				<!-- div class twoDepth -->
+			</div>
+			<!-- div class=bodyfixed -->
+		</div>
+		<!-- div class=bodyFrame -->
 		<%@include file="../footer.jsp"%>
 	</div>
-	
+
 </body>
 
 
@@ -199,9 +210,7 @@ $(function(){
 		});		  
 
 	  
-	  <%
-	  	for(int i = 0; i < lists.size() ; i++){
-	  %>
+	  <%for (int i = 0; i < lists.size(); i++) {%>
 	  
 	  var result  =  {
 				
@@ -221,9 +230,7 @@ $(function(){
 		 
 	  calendar.createSchedules([result]);
 	  
-	  <%
-	  	}
-	  %>	  
+	  <%}%>	  
 	  
 	  
 	  // 달력 시작일 설정
