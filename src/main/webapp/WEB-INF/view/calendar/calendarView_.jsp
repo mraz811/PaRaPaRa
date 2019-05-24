@@ -3,20 +3,19 @@
 <%@page import="net.sf.json.JSONArray"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<% request.setCharacterEncoding("UTF-8");%>
-<% response.setContentType("text/html; charset=UTF-8");%>
+	pageEncoding="UTF-8" session="false"%>
+
+<%
+	List<CalDto> lists = (List<CalDto>) request.getAttribute("lists");
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>calendar</title>
-</head>
+<title>캘린더</title>
 
- <%
- 	List<CalDto> lists = (List<CalDto>) request.getAttribute("lists"); 
- %>
 <link rel="stylesheet" type="text/css"
 	href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
 <link rel="stylesheet"
@@ -43,15 +42,19 @@
 <script
 	src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
 
-<body>
 
+</head>
+
+
+
+<body>
 	<div id="container">
 		<%@include file="../header.jsp"%>
 		<div class="bodyFrame">
 			<div class="bodyfixed">
 				<div class="oneDepth">
 					<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
-				
+
 				</div>
 				<!-- div class=oneDepth -->
 				<div class="twoDepth">
@@ -65,18 +68,18 @@
 					</ul>
 					<div class="tab-content">
 
-					<script type="text/javascript">
-					$(function(){
-						$("#stockList").click(function(){
-							location.href="./selStock.do";
-						});
-						$("#pao").click(function(){
-							location.href="./selPaoList.do";
-						});
-					});
-					</script>
+<script type="text/javascript">
+$(function(){
+	$("#stockList").click(function(){
+		location.href="./selStock.do";
+	});
+	$("#pao").click(function(){
+		location.href="./selPaoList.do";
+	});
+});
+</script>
 
-					<div id="menu">
+						<div id="menu">
 							<p id="now"></p>
 							<button id="prev">◀</button>
 							<button id="next">▶</button>
@@ -85,14 +88,23 @@
 						<input name="title" type="hidden"> <input
 							name="store_code" type="hidden" value="${store_code}" />
 						<div id="calendar" style="width: 900px; height: 410px;"></div>
-					
-					</div><!-- div class=tab-content -->
-				</div><!-- div class twoDepth -->
-			</div><!-- div class=bodyfixed -->
-		</div><!-- div class=bodyFrame -->
+
+
+
+					</div>
+					<!-- div class=tab-content -->
+				</div>
+				<!-- div class twoDepth -->
+			</div>
+			<!-- div class=bodyfixed -->
+		</div>
+		<!-- div class=bodyFrame -->
 		<%@include file="../footer.jsp"%>
 	</div>
+
 </body>
+
+
 <script type="text/javascript">
 	var Calendar = tui.Calendar;	
 	// 달력 양식 지정
@@ -379,4 +391,6 @@
 		});
 	});
 </script>
+
+
 </html>

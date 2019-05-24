@@ -31,8 +31,7 @@
 						FROM NOTICE
 						WHERE NOTICE_DELFLAG = 'N')
 				WHERE RNUM BETWEEN #{start} AND #{end}
-					
-				<!--  last 가 end 로 바뀜! -->
+				ORDER BY NOTICE_REGDATE DESC
 		</select>
 		
 	<!-- 공지사항 조회 -->

@@ -35,11 +35,12 @@ public class NoticeInputList {
 		
 		StringBuffer sb = new StringBuffer();
 		
-		sb.append("<tr><td>"+dto.getNotice_seq()+"</td>");
+//		sb.append("<tr><td>"+dto.getNotice_seq()+"</td>");
+		sb.append("<tr><td>"+1+"</td>");
 		sb.append("<td><a href='./selNoticeDetail.do?notice_seq="+dto.getNotice_seq()+"'>"+dto.getNotice_title()+"</a></td>");
 		sb.append("<td>"+dto.getNotice_id()+"</td>");
 		sb.append("<td>"+dateFormat(dto.getNotice_regdate())+"</td></tr>");
-		
+				
 		return sb.toString();
 	}
 	

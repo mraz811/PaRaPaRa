@@ -37,8 +37,8 @@
 						<form action="#" id="frm" method="post">
 
 							<div>
-								<table class="table">
-									<tr>
+								<table class="table table-hover">
+									<tr class="table-primary">
 										<th>NO.</th>
 										<th>제목</th>
 										<th>작성자</th>
