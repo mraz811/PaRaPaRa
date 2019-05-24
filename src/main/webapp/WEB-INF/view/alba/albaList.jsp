@@ -33,7 +33,9 @@
 	<div class="bodyFrame">
 	<div class="bodyfixed">
 		<div class="oneDepth">
-			<p class="text-primary" style="font-size: 30px; background-color: RGB(21,140,186); color: white;">아르바이트</p>
+			<p style="width: 170px; font-size: 30px; background-color: RGB(21,140,186); color:white; font-weight: bold; padding: 0px 10px; text-align: center; ">
+				아르바이트
+			</p>
 		</div>
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
@@ -41,7 +43,7 @@
     			 <a class="nav-link" data-toggle="tab" id="timesheet">TimeSheet</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#home">아르바이트</a>
+    			 <a class="nav-link active" data-toggle="tab" href="#home">아르바이트</a>
   				</li>
   				<li class="nav-item">
     			 <a class="nav-link" data-toggle="tab" href="#profile">급여</a>

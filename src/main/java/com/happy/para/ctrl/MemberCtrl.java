@@ -26,7 +26,7 @@ import net.sf.json.JSONObject;
 @Controller
 public class MemberCtrl {
 	//**********************************************************//	
-	//				조민지 - 회원(업주,담당자)관리를 위한 컨트롤러				// 
+	//				조민지 - 회원(업주,담당자)관리를 위한 컨트롤러			// 
 	//**********************************************************//	
 		@Autowired
 		private Member_IService memService;
@@ -182,7 +182,7 @@ public class MemberCtrl {
 		public String toMypage(String id, String pw, String auth, Model model) {
 			System.out.println(id+":"+pw+":"+auth);
 			
-			if(auth.equalsIgnoreCase("A")) {
+			if(auth.equalsIgnoreCase("A") || auth.equalsIgnoreCase("S")) {
 				AdminDto aMyDto = new AdminDto(Integer.parseInt(id), pw);
 				AdminDto aDto = memService.adminLogin(aMyDto);
 				if(aDto!=null) {
