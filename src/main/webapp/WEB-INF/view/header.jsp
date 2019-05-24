@@ -90,7 +90,7 @@
 	        <li class="nav-item"><a class="nav-link" href="./selStock.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="매장관리"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="./selAlbaList.do">
+	        <li class="nav-item"><a class="nav-link" href="./selTimeSheet.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="아르바이트"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="./chatList.do?auth=U">

@@ -98,6 +98,44 @@
         // 키를 눌렀을 때 해당 key의 코드를 받아옴 
         var keyValue = event.keyCode;
         
+        // 숫자, BackSpace(8), delete(46)를 입력했을 때
+        if( ((keyValue >= 96) && (keyValue <= 105)) || ((keyValue >= 48) && (keyValue <= 57)) || keyValue==8 || keyValue==46 ){
+        	// 합계금액을 변경
+    		var price = Number(document.getElementsByName("pi_price")[idx].value);
+    		var sumPiPrice = Number(document.getElementsByName("sumPi_price")[idx].value);
+    		
+    		sumPiPrice = price * piQty;	// 가격 * 현재 입력되어 있는 수량으로 합계금액을 계산
+    		
+    		document.getElementsByName("sumPi_price")[idx].value = sumPiPrice;
+    		
+    		// 발주 품목에 있는 모든 수량과 금액을 종합 함
+    		var piQtyList = document.getElementsByName("pi_qty");
+    		var piSumPriceList = document.getElementsByName("sumPi_price");
+    		var sumQty = 0;
+    		var sumPrice = 0;
+    		
+    		for (var i = 0; i < piQtyList.length; i++) {
+    			sumQty += Number(piQtyList[i].value);
+    			sumPrice += Number(piSumPriceList[i].value);
+			}
+    		//alert(sumQty);
+    		 
+    		// 발주 품목 수량 text에 직접 입력할 때 총 수량 값 변경
+    		var totalPiQty = Number($('input[name=totalPiQty]').val());
+    		totalPiQty = Number(sumQty);
+    		$('input[name=totalPiQty]').val(totalPiQty);
+    		
+    		
+    		// 발주 품목 수량 text에 직접 입력할 때 총 금액 값 변경
+    		var totalPiPrice = Number($('input[name=totalPiPrice]').val());
+    		totalPiPrice = Number(sumPrice);
+    		$('input[name=totalPiPrice]').val(totalPiPrice);
+    		
+        }if( ((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 문자 및 특수문자, 스페이스바를 입력했을 때
+        	alert("숫자만 입력해주세요!!");
+    		$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
+        }
+        /* 
      	// 숫자, BackSpace(8), delete(46)를 입력했을 때
         if( ((keyValue >= 96) && (keyValue <= 105)) || ((keyValue >= 48) && (keyValue <= 57)) || keyValue==8 || keyValue==46 ){
         	// 합계금액을 변경
@@ -136,6 +174,10 @@
      		alert("숫자만 입력해주세요!!");
     		$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
      	}
+        if( ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 특수문자, 스페이스바(32)를 입력했을 때
+    		alert("숫자만 입력해주세요!!");
+			$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
+    	}
      	/* 
      	if( ((keyValue >= 33) && (keyValue <= 47)) || ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 58) && (keyValue <= 64)) || ((keyValue >= 91) && (keyValue <= 96)) || ((keyValue >= 123) && (keyValue <= 126)) ){
      		alert("숫자만 입력해주세요!!");
@@ -143,11 +185,8 @@
      	}
      	 */
      	 
-     	if( ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 특수문자, 스페이스바(32)를 입력했을 때
-        	alert("숫자만 입력해주세요!!");
-    		$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
-        }
-         
+     	
+          
 	}
 	
 	// 재고 목록에서 해당 품목 추가를 했을 때 재고 목록에서는 사라지고 발주 품목에 추가되는 이벤트 
