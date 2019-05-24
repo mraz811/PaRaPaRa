@@ -23,15 +23,12 @@
 /* 	text-align: left; */
 }
 
-input {
-	margin: 0;
-}
 
 a[id="replyId"] {
 	width: 15%;
 	height: 100%;
 	border: none;
-	font-size: 1em;
+	font-size: 14px;
  	padding-left: 5px; 
 	padding: 0px;
  	margin-top: 5px;
@@ -46,7 +43,7 @@ input[id="text"] {
 	width: 60%;
 	height: 100%;
 	border: none;
-	font-size: 1em;
+	font-size:  14px;
  	padding-left: 5px; 
 	padding: 0px;
  	margin-top: 5px;
@@ -60,7 +57,7 @@ a[id="replyRegdate"] {
 	width: 15%;
 	height: 100%;
 	border: none;
-	font-size: 1em;
+	font-size:  14px;
  	padding-left: 5px; 
 	padding: 0px;
  	margin-top: 5px;
@@ -76,7 +73,7 @@ input[id=del] {
 	background-color: lightgray;
 	border: none;
 	background-color: white;
-	font-size: 1em;
+	font-size:  14px;
 	color: #042AaC;
 	outline: none;
 	display: inline;
@@ -88,61 +85,32 @@ input[id=del]:hover {
 	background-color: lightgray;
 }
 
+.modiBtn{
+	position : absolute;
+	right : 172px;
+	bottom : 333px;
+}
+
+.delBtn{
+	position : absolute;
+	right : 90px;
+	bottom : 333px;
+}
+
+.backBtn{
+	position : absolute;
+	right : 10px;
+	bottom : 333px;
+}
+
+th{
+	text-align: center;
+}
 
 </style>
 <title>noticeDetail</title>
 
-<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script type="text/javascript" src="./js/NoticeList.js"></script>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
-<script type="text/javascript">
-
-	$(function() {
-		$("#modify").click(function() {
-			var notice_seq = document.getElementsByName("notice_seq");
-			var frm = document.forms[0];
-			frm.action = "./noticeModifyForm.do";
-			frm.submit();
-		});
-	});
-	
-	$(function() {
-		$("#delete").click(function() {
-			var notice_seq = document.getElementsByName("notice_seq");
-			var frm = document.forms[0];
-			if(confirm("선택한 게시글을 삭제하시겠습니까?")==true){
-				frm.action = "./noticeDelete.do";
-				frm.submit();				
-			}else{
-				return;
-			}
-		});
-	});
-
-	$(function() {
-		$("#replyBtn").click(function() {
-			
-			var reply_content = document.getElementsByName("reply_content");
-			var notice_seq = document.getElementsByName("notice_seq");
-			var frm = document.forms[0];
-			
-			if(reply_content[0].value == ""){
-				alert("작성된 댓글이 없습니다.");
-			}else{
-				var frm = document.forms[0];
-				frm.action = "./replyWrite.do?";
-				frm.submit();			
-			}
-		});
-	});
-
-	
-	
-</script>
 </head>
 <body>
 
@@ -166,31 +134,35 @@ input[id=del]:hover {
 	<form action="#" method="post">
 		<input type="hidden" id="notice_seq" name="notice_seq" value="${dto.notice_seq}">
 		
-		<table>
+		<table class="table table-hover">
 			<tr>
-				<td>작성자</td>
+				<th>작성자</th>
 				<td>${dto.notice_id}</td>
-				<td>작성일</td>
+				<th>작성일</th>
 				<td>${dto.notice_regdate}</td>
 			</tr>
 			<tr>
-				<td>제목</td>
+				<th>제목</th>
 				<td>${dto.notice_title}</td>
 				
 				<!-- 세션 id와 작성자의 일치 여부 판단 -->
 <%--			<c:if test="${fn:trim(mem.auth) eq dto.notice_id}"> --%>
-				<td><input type="submit" id="modify" value="수정"></td>
+				<td class="modiBtn"><input class="btn btn-outline-success" type="submit" id="modify" value="수　정"></td>
 <%--			</c:if> --%>
-				
+
 				<!-- 세션 id와 작성자의 일치 여부 판단 -->
 <%--			<c:if test="${fn:trim(mem.auth) eq dto.notice_id}"> --%>
-					<td><input type="button" id="delete" value="삭제" ></td>
+				<td class="delBtn"><input class="btn btn-outline-warning" type="button" id="delete" value="삭　제" ></td>
 <%--			</c:if> --%>
-				
+
+				<td class="backBtn"><input class="btn btn-outline-warning" type="submit" id="modify" value="목　록"></td>
+
 			</tr>
 			<tr>
-				<td colspan="4">
-				<textarea rows="10" cols="50" style="overflow-y: scroll">${dto.notice_content}</textarea></td>
+				<td colspan="4" style="width:780px; height:200px; border:1px solid pink;">
+					${dto.notice_content}
+				</td>
+				
 			</tr>
 		</table>
 
@@ -246,4 +218,48 @@ input[id=del]:hover {
 		<%@include file="../footer.jsp"%>
 	</div>
 </body>
+<script type="text/javascript">
+
+	$(function() {
+		$("#modify").click(function() {
+			var notice_seq = document.getElementsByName("notice_seq");
+			var frm = document.forms[0];
+			frm.action = "./noticeModifyForm.do";
+			frm.submit();
+		});
+	});
+	
+	$(function() {
+		$("#delete").click(function() {
+			var notice_seq = document.getElementsByName("notice_seq");
+			var frm = document.forms[0];
+			if(confirm("선택한 게시글을 삭제하시겠습니까?")==true){
+				frm.action = "./noticeDelete.do";
+				frm.submit();				
+			}else{
+				return;
+			}
+		});
+	});
+
+	$(function() {
+		$("#replyBtn").click(function() {
+			
+			var reply_content = document.getElementsByName("reply_content");
+			var notice_seq = document.getElementsByName("notice_seq");
+			var frm = document.forms[0];
+			
+			if(reply_content[0].value == ""){
+				alert("작성된 댓글이 없습니다.");
+			}else{
+				var frm = document.forms[0];
+				frm.action = "./replyWrite.do?";
+				frm.submit();			
+			}
+		});
+	});
+
+	
+	
+</script>
 </html>
