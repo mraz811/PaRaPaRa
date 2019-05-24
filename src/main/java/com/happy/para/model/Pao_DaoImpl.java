@@ -32,6 +32,13 @@ public class Pao_DaoImpl implements Pao_IDao {
 		return sqlSession.selectList(NS+"paoSelectStatusDate", map);
 	}
 	
+	// 업주 : 발주 상세보기
+	@Override
+	public List<ItemDto> paoDetail(String pao_seq) {
+		return sqlSession.selectList(NS+"paoDetail", pao_seq);
+	}
+
+	
 	// 업주 : 발주 신청 시 재고 목록 조회
 	@Override
 	public List<StockDto> paoStockList(String store_code) {
@@ -50,7 +57,6 @@ public class Pao_DaoImpl implements Pao_IDao {
 		// TODO Auto-generated method stub
 		return (sqlSession.insert(NS+"piInsert", map) == 1) ? true : false;
 	}
-
 	
 
 }

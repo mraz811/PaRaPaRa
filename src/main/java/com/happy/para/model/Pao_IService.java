@@ -15,6 +15,9 @@ public interface Pao_IService {
 	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회
 	public List<PaoDto> paoSelectStatusDate(Map<String, Object> map);
 
+	// 업주 : 발주 상세보기
+	public List<ItemDto> paoDetail(String pao_seq);
+	
 	// 업주 : 발주 신청 시 재고 목록 조회
 	public List<StockDto> paoStockList(String store_code);
 	
