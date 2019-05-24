@@ -62,13 +62,20 @@ public class Stats_DaoImpl implements Stats_IDao{
 				num++;
 			}
 			for (int j = 0; j < menu.length; j++) {
-				menuList.add(j, sqlSession.selectOne(NS+"findMenuName", menu[j]));  
-				cntList.add(j, cnt[j]);
+				String m = sqlSession.selectOne(NS+"findMenuName", menu[j]);
+				if(m != null) {
+					menuList.add(j, m); 
+					cntList.add(j, cnt[j]);
+					System.out.println(menu[j]);
+					System.out.println(menuList);
+				}
 			}
 		}
 		String menuName = "";
 		int count = 0;
 		List<String> name = sqlSession.selectList(NS+"selectAllMenu");
+		System.out.println("전체메뉴명 : "+name);
+		System.out.println("주문메뉴명 : "+menuList);
 		for (int j = 0; j < name.size(); j++) {
 			for (int i = 0; i < menuList.size(); i++) {
 				if(menuList.contains(name.get(j))) {
@@ -85,6 +92,7 @@ public class Stats_DaoImpl implements Stats_IDao{
 				count = 0;
 			}
 		}
+		//정렬하는거 해야됨
 		resultMap.put("menu", menuList2);
 		resultMap.put("cnt", cntList2);
 		System.out.println("바뀌기전 카운트 : "+cntList);
