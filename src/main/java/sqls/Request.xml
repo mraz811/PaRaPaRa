@@ -10,12 +10,22 @@
 
 	<!-- 주문 완료,환불 내역 전체 조회 -->
 	<select id="requestList" parameterType="java.util.Map" resultType="RequestDto">
-		SELECT REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
-		REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
-		FROM REQUEST 
-		WHERE STORE_CODE=#{store_code} AND (OS_CODE=3 OR OS_CODE=0) 
-		AND (REQUEST_TIME BETWEEN #{start} AND #{end})
-		ORDER BY REQUEST_TIME DESC
+	SELECT ROWNUM RNUM,REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
+		REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE 
+		FROM( SELECT REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
+				REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
+				FROM REQUEST 
+				WHERE STORE_CODE=#{store_code} AND 
+				<choose>
+					<when test="os_code != null">
+					OS_CODE=#{os_code}
+					</when>
+					<otherwise>
+					(OS_CODE=3 OR OS_CODE=0)
+					</otherwise>
+				</choose> 
+				AND (REQUEST_TIME BETWEEN #{start} AND #{end})
+				ORDER BY REQUEST_TIME) ORDER BY REQUEST_TIME DESC
 	</select>
 
 	<!-- 주문상태가 대기 중인 주문 조회 -->
@@ -24,8 +34,9 @@
 			FROM(SELECT ROWNUM RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
 				FROM(SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
 					FROM REQUEST 
-					WHERE STORE_CODE = #{store_code} ORDER BY REQUEST_TIME))
-			WHERE OS_CODE= 1 AND (REQUEST_TIME BETWEEN #{start} AND #{end})
+					WHERE STORE_CODE = #{store_code} AND (REQUEST_TIME BETWEEN #{start} AND #{end})
+					ORDER BY REQUEST_TIME))
+			WHERE OS_CODE= 1 
 	</select>
 	
 	<!-- 주문상태가 대기 중인 주문 상세 조회 -->
@@ -44,8 +55,8 @@
 			FROM(SELECT ROWNUM RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
 				FROM(SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
 					FROM REQUEST 
-					WHERE STORE_CODE = #{store_code} ORDER BY REQUEST_TIME))
-			WHERE OS_CODE= 2 AND (REQUEST_TIME BETWEEN #{start} AND #{end})
+					WHERE STORE_CODE = #{store_code}  AND (REQUEST_TIME BETWEEN #{start} AND #{end}) ORDER BY REQUEST_TIME))
+			WHERE OS_CODE= 2
 	</select>
 	
 	<!-- 주문상태가 제조 중인 주문 상세 조회 -->
@@ -75,24 +86,37 @@
 	
 	<!-- 페이징 -->
 	<select id="requestListPaging" parameterType="java.util.Map" resultType="RequestDto">
-		SELECT REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
+		SELECT RNUM ,REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
 				REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
 		FROM(
-			SELECT ROWNUM RNUM, REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
+			SELECT ROW_NUMBER() OVER  (ORDER BY REQUEST_TIME DESC) AS R, ROW_NUMBER() OVER (ORDER BY REQUEST_TIME) AS RNUM, 
+					REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
 					REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
-				FROM
-				(SELECT REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
-						REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
-					FROM REQUEST 
-						WHERE (OS_CODE=3 OR OS_CODE=0) AND STORE_CODE=#{store_code}
-							AND (REQUEST_TIME BETWEEN #{dayStart} AND #{dayEnd})
-					ORDER BY REQUEST_TIME DESC)
-			)
-		WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
+				FROM(
+					SELECT REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
+							REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
+						FROM REQUEST 
+						WHERE 
+						<choose>
+							<when test="os_code != null">
+							OS_CODE=#{os_code}
+							</when>
+							<otherwise>
+							(OS_CODE=3 OR OS_CODE=0)
+							</otherwise>
+						</choose>
+						 AND STORE_CODE=#{store_code}
+						AND (REQUEST_TIME BETWEEN #{dayStart} AND #{dayEnd})
+						ORDER BY REQUEST_TIME DESC))
+		WHERE R BETWEEN #{pageStart} AND #{pageEnd}
 	</select>
 	
-	<!-- 전체 주문 갯수 -->
-	<select id="selectTotalRequest" parameterType="java.lang.String" resultType="java.lang.Integer">
+	<!-- 전체 주문 갯수 (다이나믹으로 완료,환불 주문 갯수만 체크할 수 있게함)-->
+	<select id="selectTotalRequest" parameterType="java.util.Map" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM REQUEST WHERE STORE_CODE = #{store_code}
+		<if test="os_code != null">
+			AND OS_CODE = #{os_code}
+		</if>
 	</select>
+	
 </mapper>

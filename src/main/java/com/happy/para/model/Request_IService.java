@@ -36,6 +36,6 @@ public interface Request_IService {
 	public List<RequestDto> requestListPaging(Map<String, String> map);
 	
 	//전체 주문 갯수
-	public int selectTotalRequest(String store_code);
+	public int selectTotalRequest(Map<String, String> map);
 	
 }

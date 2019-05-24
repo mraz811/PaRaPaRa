@@ -1,71 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<% request.setCharacterEncoding("UTF-8"); %>
-<% response.setContentType("text/html; charset=UTF-8"); %>
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
+<%
+	response.setContentType("text/html; charset=UTF-8");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-	table{
-		border-collapse: collapse;
-	}
-	tr,td{
-		border: 1px solid black;
-	}
-	#container{
-		width: 1020px;
-		height: 435px; 
-		position: relative;
-	}
-	#make{
-		width: 510px;
-		height: 435px;
-		position: absolute;
-		left: 20px;
-	}
-	#wait{
-		width: 510px;
-		height: 435px;
-		position: absolute;
-		right: 0px;
-	}
-	#making{
-		width: 140px;
-		height: 20px;
-		margin: 10px auto 10px 10px;
-	}
-	#waiting{
-		width: 140px;
-		height: 20px;
-		margin: 10px 360px 10px auto;
-	}
-	#makingList{
-		width: 490px;
-		height: 255px;
-		overflow: scroll;
-	}
-	#waitingList{
-		width: 490px;
-		height: 255px;
-		overflow: scroll;
-	}
-	#makingDetail{
-		width:510px;
-		height: 130px;
-		top: 430px;
-		position: absolute;
-	}
-	#waitingDetail{
-		width:510px;
-		height: 130px;
-		left : 550px;
-		top: 430px;
-		position: absolute;
-	}
+#container {
+	width: 1020px;
+	height: 435px;
+	position: relative;
+}
+
+#make {
+	width: 510px;
+	height: 435px;
+	position: absolute;
+	left: 20px;
+}
+
+#wait {
+	width: 510px;
+	height: 435px;
+	position: absolute;
+	right: 0px;
+}
+
+#making {
+	width: 140px;
+	height: 20px;
+	margin: 10px auto 10px 10px;
+}
+
+#waiting {
+	width: 140px;
+	height: 20px;
+	margin: 10px 360px 10px auto;
+}
+
+#makingList {
+	width: 490px;
+	height: 255px;
+	overflow: scroll;
+}
+
+#waitingList {
+	width: 490px;
+	height: 255px;
+	overflow: scroll;
+}
+
+#makingDetail {
+	width: 510px;
+	height: 130px;
+	top: 430px;
+	position: absolute;
+}
+
+#waitingDetail {
+	width: 510px;
+	height: 130px;
+	left: 550px;
+	top: 430px;
+	position: absolute;
+}
 </style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
@@ -132,105 +138,107 @@
 			}
 		})
 	}
+	function changeStatusCode0(request_seq){
+		var os_code = "0";
+		$.ajax({
+			url : "./updateOrderState.do",
+			type : "post",
+			async : true,
+			data : {"request_seq":request_seq,"os_code":os_code},
+			success : function(obj){
+				location.reload();
+			},error : function(obj){
+				alert(obj); 
+			}
+		})
+	}
 	function selRequestList(){
 		location.href="./selRequestList.do";
 	}
 </script>
 <body>
 	<div id="container">
-	<%@include file="../header.jsp" %>
-	<div class="bodyFrame">
-	<div class="bodyfixed">
-		<div class="oneDepth">
-		주문
-		</div>
-		<div class="twoDepth">
-			<ul class="nav nav-tabs">
-  				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#">주문현황</a>
-  				</li>
-  				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" onclick="selRequestList()" >주문내역</a>
-  				</li>
-			</ul>
-		<div id="make">
-			<div id="making">
-			제조중
-			</div>
-			<div id="makingList">
-				<table>
-					<tr>
-						<td style="width: 50px;height: 28px">번호</td>
-						<td style="width: 300px;height: 28px">주문메뉴명</td>
-						<td style="width: 100px;height: 28px">주문시간</td>
-						<td style="width: 35px;height: 28px">완료</td>
-					</tr>
-					<c:forEach begin="0" end="${fn:length(makeLists)}" items="${makeLists}" var="make" varStatus="vs">
-						
-						<tr>
-							
-							<td style="width: 50px;height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">${make.rnum}</td>
-							<td style="width: 300px;height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">
-								<c:choose>
-									<c:when test="${fn:length(make.menu_name) > 20}">
-										${fn:substring(make.menu_name,0,20)}...
-									</c:when>
-									<c:otherwise>
-										${make.menu_name}
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td style="width: 100px;height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">${fn:substring(make.request_time,11,19)}</td>
-							<td style="width: 35px;height: 28px"><input type="button" value="완료" onclick="changeStatusCode3(${make.request_seq})"/></td>
-							
-						</tr>
-						
-					</c:forEach>
-				</table>
-			</div>
-		</div>
-		<div id="makingDetail">
-		</div>
-		<div id="wait">
-			<div id="waiting">
-			대기중
-			</div>
-			<div id="waitingList">
-				<table>
-					<tr>
-						<td style="width: 50px;height: 28px">번호</td>
-						<td style="width: 260px;height: 28px">주문메뉴명</td>
-						<td style="width: 100px;height: 28px">주문시간</td>
-						<td style="width: 35px;height: 28px">제조</td>
-						<td style="width: 35px;height: 28px">환불</td>
-					</tr>
-					<c:forEach begin="0" end="${fn:length(waitLists)}" items="${waitLists}" var="wait" varStatus="vs">
-						<tr>
-							<td style="width: 50px;height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">${wait.rnum}</td>
-							<td style="width: 260px;height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">
-								<c:choose>
-									<c:when test="${fn:length(wait.menu_name) > 14}">
-										${fn:substring(wait.menu_name,0,14)}...
-									</c:when>
-									<c:otherwise>
-										${wait.menu_name}
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td style="width: 100px;height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">${fn:substring(wait.request_time,11,19)}</td>
-							<td style="width: 35px;height: 28px"><input type="button" value="제조" onclick="changeStatusCode2(${wait.request_seq})"/></td>
-							<td style="width: 35px;height: 28px"><input type="button" value="환불"/></td>
-						</tr>
-					</c:forEach>
-				</table>
+		<%@include file="../header.jsp"%>
+		<div class="bodyFrame">
+			<div class="bodyfixed">
+				<div class="oneDepth">주문</div>
+				<div class="twoDepth">
+					<ul class="nav nav-tabs">
+						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							href="#">주문현황</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							onclick="selRequestList()">주문내역</a></li>
+					</ul>
+					<div id="make">
+						<div id="making">제조중</div>
+						<div id="makingList">
+							<table class="table">
+								<tr>
+									<td style="width: 60px; height: 28px">번호</td>
+									<td style="width: 270px; height: 28px">주문메뉴명</td>
+									<td style="width: 100px; height: 28px">주문시간</td>
+									<td style="width: 55px; height: 28px">완료</td>
+								</tr>
+								<c:forEach begin="0" end="${fn:length(makeLists)}" items="${makeLists}" var="make" varStatus="vs">
+									<tr>
+										<td style="width: 60px; height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">${make.rnum}</td>
+										<td style="width: 270px; height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">
+											<c:choose>
+												<c:when test="${fn:length(make.menu_name) > 20}">
+													${fn:substring(make.menu_name,0,20)}...
+												</c:when>
+												<c:otherwise>
+													${make.menu_name}
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td style="width: 100px; height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">${fn:substring(make.request_time,11,19)}</td>
+										<td style="width: 55px; height: 28px"><input type="button" value="완료" onclick="changeStatusCode3(${make.request_seq})" /></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+					<div id="makingDetail">
+					</div>
+					<div id="wait">
+						<div id="waiting">대기중</div>
+						<div id="waitingList">
+							<table class="table">
+								<tr>
+									<td style="width: 60px; height: 28px">번호</td>
+									<td style="width: 220px; height: 28px">주문메뉴명</td>
+									<td style="width: 100px; height: 28px">주문시간</td>
+									<td style="width: 40px; height: 28px">제조</td>
+									<td style="width: 40px; height: 28px">환불</td>
+								</tr>
+								<c:forEach begin="0" end="${fn:length(waitLists)}" items="${waitLists}" var="wait" varStatus="vs">
+									<tr>
+										<td style="width: 60px; height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">${wait.rnum}</td>
+										<td style="width: 220px; height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">
+											<c:choose>
+												<c:when test="${fn:length(wait.menu_name) > 16}">
+													${fn:substring(wait.menu_name,0,16)}...
+												</c:when>
+												<c:otherwise>
+													${wait.menu_name}
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td style="width: 100px; height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">${fn:substring(wait.request_time,11,19)}</td>
+										<td style="width: 40px; height: 28px"><input type="button" value="제조" onclick="changeStatusCode2(${wait.request_seq})" /></td>
+										<td style="width: 40px; height: 28px"><input type="button" value="환불" onclick="changeStatusCode0(${wait.request_seq})"/></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+					<div id="waitingDetail">
+					</div>
+				</div>
 			</div>
 		</div>
-		<div id="waitingDetail">
-		</div>
-			</div>
-	</div>
-	</div>
-<%@include file="../footer.jsp" %>
+		<%@include file="../footer.jsp"%>
 	</div>
 </body>
 </html>
