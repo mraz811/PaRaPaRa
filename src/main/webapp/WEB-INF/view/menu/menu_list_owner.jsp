@@ -12,7 +12,19 @@
 <style type="text/css">
 	.menu{
 		width: 200px;
-		height: 160px;
+		height: 130px;
+		float: left;
+		margin-right: 30px;
+		margin-bottom: 20px;
+		text-align: center;
+	}
+	#menuList{
+		width: 940px;
+		height : 350px;
+		margin-top : 40px;
+		margin-left: 65px;
+		margin-right: 35px;
+		overflow: scroll;
 	}
 	#container{
 		width: 1020px;
@@ -46,35 +58,53 @@
 	#insert{
 		float: right;
 	}
+	#modiMenu{
+		float: left;
+	}
+	#delMenu{
+		float: right;
+	}
+	#checkbox{
+		float: left;
+	}
 </style>
 </head>
+<script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript">
 function checkAllDel(bool){
-	var checks = document.getElementsByName("checkVal");
+	var checks = document.getElementsByName("menu_seq");
 //	alert(checks.length);
 	for (var i = 0; i < checks.length; i++) {
 		checks[i].checked = bool;
 	}
 }
 function choiceMenu(){
-//	alert("작동");
 	var checks = document.getElementsByName("menu_seq");
-	var c = 0;
+	var checkedBox = "";
 	for (var i = 0; i < checks.length; i++) {
 		if(checks[i].checked){
-			c++;
+			checkedBox += checks[i].value+",";
 		}
 	}
-	if(c > 0){
-		var frm = document.getElementById("frm");
-		frm.action = "./menuChoice.do";
-		frm.method = "post";
-		frm.submit();
-		return true;
-	}else{
-		alert("선택된 메뉴가 없습니다.");
-		return false;
-	}
+	var menu_seq = checkedBox;
+	$.ajax({
+		url : "./menuChoice.do",
+		type : "post",
+		async : true,
+		data : {"menu_seqs":menu_seq},
+		success :function(obj){
+			if(obj == "success"){
+				alert("업주 메뉴 선택에 성공했습니다.");
+			}
+			location.reload();
+		},error : function(obj){
+			if(obj == "fail"){
+				alert("업주 메뉴 선택에 실패했습니다. 관리자에게 문의해주세요.");
+			}
+			location.reload();
+		}
+	});
+	
 }
 function mainMenu(){
 	var menu_category = "주메뉴";
@@ -90,7 +120,7 @@ function mainMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\" style=\"float: left; width:200px\"><input name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\"><input name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -113,7 +143,7 @@ function sideMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\" style=\"float: left; width:200px\"><input name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\" ><input name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -136,7 +166,7 @@ function drinkMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\" style=\"float: left; width:200px\"><input name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\"><input name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -172,7 +202,6 @@ function drinkMenu(){
 				<input type="checkbox" onclick="checkAllDel(this.checked)" />전체선택
 				<input id="choiceMenu" type="button" value="판매 메뉴 등록" onclick="choiceMenu()"/>
 		</div>
-	<form id="frm" action="./menuChoice.do" method="post" onsubmit="return choiceMenu()">
 		<div id="menuList">
 			<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
 					<div class="menu"><input name="menu_seq" type="checkbox" value="${menu.menu_seq}"/><img class="menuImg" src="./masolimg/img.png" alt=""/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
@@ -181,7 +210,6 @@ function drinkMenu(){
 					</c:if>
 			</c:forEach>
 		</div>
-	</form>
 	<div id="paging">
 	
 	</div>

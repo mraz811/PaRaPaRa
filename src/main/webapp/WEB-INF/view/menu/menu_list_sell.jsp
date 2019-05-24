@@ -71,7 +71,7 @@
 </head>
 <script type="text/javascript">
 function checkAllDel(bool){
-	var checks = document.getElementsByName("checkVal");
+	var checks = document.getElementsByName("cancel_menu_seq");
 //	alert(checks.length);
 	for (var i = 0; i < checks.length; i++) {
 		checks[i].checked = bool;
