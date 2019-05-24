@@ -38,9 +38,7 @@ public class TimesheetCtrl {
 	@RequestMapping(value="/selTimeSheet.do", method=RequestMethod.GET)
 	public String timeSheet(TimeDto dto, Model model, HttpSession session) {
 		
-		System.out.println("들어왔닝?");
-		
-//		int alba_seq = 55; // alba_seq 들어온 매장의 알바들 조회해서 담음
+		System.out.println("TimeSheet");
 		
 		OwnerDto oDto = (OwnerDto) session.getAttribute("loginDto");
 		String store_code = oDto.getStore_code();
@@ -58,23 +56,21 @@ public class TimesheetCtrl {
 		System.out.println("today : "+sdf.format(getDate));
 		
 		JSONObject timeObj = null;
-		JSONArray timeAr = new JSONArray();
-		JSONArray timeArAr = new JSONArray();
+		String timeArr = "";
 		
 		for (int i = 0; i < albaLists.size(); i++) {
-//			albaLists.get(i).getAlba_seq();
-//			albaLists.get(i).getAlba_name();
 			
+			JSONArray timeAr = new JSONArray();
+
 			dto.setAlba_seq(albaLists.get(i).getAlba_seq());
 			dto.setTs_date(sdf.format(getDate));
 
 			List<TimeDto> lists = timeSer.tsList(dto);
 			System.out.println("lists.size() ? "+lists.size());
+			System.out.println("lists ? "+lists);
 
-//			{ "44":{"태2":[{"1":"00:00-00:00"}]} }
-			
 			if(lists.size() == 0) {
-			
+
 				timeObj = new JSONObject();
 				timeObj.put("1", "00:00-00:00");
 				
@@ -86,15 +82,18 @@ public class TimesheetCtrl {
 				JSONObject objWW = new JSONObject();
 				objWW.put(albaLists.get(i).getAlba_seq(), objW); // 키에 알바 seq
 
-				System.out.println("lists.size가 0 일때 : "+objWW.toString());			
+				System.out.println("해당 알바 근무 시간이 0 일때 : "+objWW.toString());			
 				
-				timeArAr.add(objWW);
+				String objWWSub1 = objWW.toString().substring(1);
+				String objWWSub2 = objWWSub1.substring (0, objWWSub1.length()-1);
+
+				timeArr += objWWSub2+",";
 			
 			}else {
 				
 				for (TimeDto tDto : lists) {
 					timeObj = new JSONObject();
-					timeObj.put("1", tDto.getTs_datetime());
+					timeObj.put("6", tDto.getTs_datetime());
 					
 					timeAr.add(timeObj);
 				}
@@ -105,24 +104,29 @@ public class TimesheetCtrl {
 				JSONObject objWW = new JSONObject();
 				objWW.put(albaLists.get(i).getAlba_seq(), objW); // 키에 알바 seq
 
-				System.out.println("히ㅡ히ㅡ히희흐히"+objWW.toString());			
+				System.out.println("해당 알바 근무 시간이 0이 아닐때 일때 : "+objWW.toString());			
 				
-				timeArAr.add(objWW);
+				String objWWSub1 = objWW.toString().substring(1);
+				String objWWSub2 = objWWSub1.substring (0, objWWSub1.length()-1);
+				
+				timeArr += objWWSub2+",";
 
 			}
 			
-			model.addAttribute("timeArAr", timeArAr);
-			System.out.println("timeArAr : "+timeArAr);
 			model.addAttribute("lists", lists);
 		}
+		
+		timeArr = "{"+timeArr+"}";
+		
+		model.addAttribute("timeArr", timeArr);
+		System.out.println("timeArr : "+timeArr);
 
-//		return objWW.toString();
 		return "timesheet/timeSheetList";
 	}
 	
 	@RequestMapping(value="/regiTimeSheet.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
-	public String timeAdd(TimeDto dto, String name, String sTime, String eTime, String ts_date) {
+	public String timeAdd(TimeDto dto, int index, String name, String sTime, String eTime, String ts_date) {
 	
 		// 시간 차이 계산
 		int sTimeF = Integer.parseInt(sTime.split(":")[0]); // 03
@@ -132,6 +136,7 @@ public class TimesheetCtrl {
 		int timeM = eTimeE-sTimeE;
 
 		// 22:30-00:30 같은 경우 연산이 달라지는 것을 확인 해 주어야 함
+		// 01:30 - 04:00  이 경우도 뒤가 00 이라 실패함
 
 //		#{alba_seq}, #{ts_date}, #{ts_datetime}, #{ts_workhour}
 		dto.setTs_datetime(sTime+"-"+eTime); // 03:00-04:30
@@ -140,7 +145,9 @@ public class TimesheetCtrl {
 		System.out.println("dto.getTs_date() ?"+dto.getTs_date());
 		System.out.println("ts_date ?"+ts_date);
 		
-		dto.setAlba_seq(11); // 이름을 가져와서 seq 를 찾음
+		System.out.println("선택한 alba_seq"+index);
+		
+		dto.setAlba_seq(index); // 이름을 가져와서 seq 를 찾음
 		
 		if(timeM == 30) {
 			timeM = 5;
@@ -150,7 +157,6 @@ public class TimesheetCtrl {
 		}
 
 		System.out.println("regiTimeSh_dto.getTs_date()"+dto.getTs_date());
-		System.out.println("sTime!!!!!!!!"+sTime);
 		
 		boolean isc = timeSer.tsRegister(dto);
 		

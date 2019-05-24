@@ -10,7 +10,6 @@
 <link rel="stylesheet" type="text/css" href="css/TimeTable.css"/>
 </head>
 <body>
-
 ${objWW}
 <hr>
 ${objLists}
@@ -18,8 +17,26 @@ ${objLists}
 ${today}
 <hr>
 ${lists}
+ 
+		<div id="container">
+		<%@include file="../header.jsp"%>
+		<div class="bodyFrame">
+			<div class="bodyfixed">
+				<div class="oneDepth">
+					<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
+				
+				</div>
+				<!-- div class=oneDepth -->
+				<div class="twoDepth">
+					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
+					<ul class="nav nav-tabs">
+						<li class="nav-item"><a class="nav-link" data-toggle="tab"
+							href="#home">CALENDAR</a></li>
+					</ul>
+					<div class="tab-content">
 
-<!-- 	<form action="./regiTimeSheet.do" method="post"> -->
+ 
+
 	<form action="#" method="post">
 
 	파라파라 TIMESHEET
@@ -36,17 +53,22 @@ ${lists}
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/createjs.min.js"></script>
     <script src="js/TimeTable.js"></script>
-    <!--Sample code when use TimeTable.js-->
-<!--     <script src="js/sample.js"></script> -->
+	
+	
+	
+		</div><!-- div class=tab-content -->
+				</div><!-- div class twoDepth -->
+			</div><!-- div class=bodyfixed -->
+		</div><!-- div class=bodyFrame -->
+		<%@include file="../footer.jsp"%>
+	</div>
+	
 	
 </body>
 
 <script type="text/javascript">
 
-var shiftObj = ${timeArAr};
-// var shiftObj = ${objWW};
-// var shiftObj = { "55":{"태":[{"1":"03:30-07:30","2":"01:30-02:30"}]} };
-// var shiftObj = { "44":{"태2":[{"1":"00:00-00:00"}]} };
+var shiftObj = ${timeArr};
 
 let obj = {
   // Beginning Time
@@ -61,16 +83,10 @@ let obj = {
   option: {
 	// workTime include time not displaying
       workTime: true,
+//       bgcolor: ["#158cba"],
       bgcolor: ["#00FFFF"],
-      // {index :  name, : index: name,,..}
-      // selectBox index and shift index should be same
-      // Give randome if shift index was not in selectBox index
-      selectBox: {
-          "35" : "Jason Paige 01051798468",
-          "18" : "Mr.Jason"
-      },
       // Set true when using TimeTable inside of BootStrap class row
-      useBootstrap: false,
+      useBootstrap: true
   }
 };
 

@@ -1239,7 +1239,7 @@ class CanvasT extends CalculationT{
         this.canvasTag.height = lastCell.y - firstCell.y + this.cell.height;
         let canvas = $("<canvas>",{id:"timeBar",class:"barCanvas"});
         let top = this.canvasTag.y;
-        let left = this.canvasTag.x;
+        let left = 102;
         if(this.useBootstrap){
             top = 32; // Height of Table Header
         }
@@ -1530,9 +1530,9 @@ class CanvasT extends CalculationT{
     	alert(currentDate);
     	
     	$.ajax({
-			url: "tsDelete.do", //요청 url
-			type: "post", // 전송 처리방식
-			asyn: false, // true 비동기 false 동기
+			url: "tsDelete.do",
+			type: "post",
+			asyn: false,
 			data: { 'ts_datetime' : time , 'alba_seq' : index , 'ts_date' : currentDate }, // 서버 전송 파라메터 
 			success: function(msg){
 				alert("성공");
@@ -1622,7 +1622,7 @@ class CanvasT extends CalculationT{
 			url: "regiTimeSheet.do", //요청 url
 			type: "post", // 전송 처리방식
 			asyn: false, // true 비동기 false 동기
-			data: { 'name' : name ,'sTime': sTime, 'eTime' : eTime, 'ts_date' : ts_date }, // 서버 전송 파라메터 
+			data: { 'index':index , 'name' : name ,'sTime': sTime, 'eTime' : eTime, 'ts_date' : ts_date }, // 서버 전송 파라메터 
 			success: function(msg){
 				alert("성공");
 			}, error : function() {
