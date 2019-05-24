@@ -14,7 +14,6 @@
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="./css/header.css">
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <script type="text/javascript" src="./js/bootstrap.js"></script>
 </head>
@@ -88,7 +87,7 @@
 	        <li class="nav-item"><a class="nav-link" href="./selRequestStatus.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="주　　문"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="./selCal.do">
+	        <li class="nav-item"><a class="nav-link" href="./selStock.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="매장관리"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="./selAlbaList.do">

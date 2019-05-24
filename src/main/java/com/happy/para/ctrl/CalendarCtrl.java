@@ -5,15 +5,18 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.common.DateModule;
 import com.happy.para.dto.CalDto;
+import com.happy.para.dto.OwnerDto;
 import com.happy.para.model.Calendar_IService;
 
 import net.sf.json.JSONObject;
@@ -25,20 +28,20 @@ public class CalendarCtrl {
 	private Calendar_IService calSer;
 	
 	@RequestMapping(value="/selCal.do", method=RequestMethod.GET)
-	public String calMonthCtrl(HttpServletRequest request) {		
+	public String calMonthCtrl(Model model, HttpSession session, HttpServletRequest request) {	
 		
-		String store_code = "Store1234";
-		
-//		LoginDto ldto = new LoginDto();
-//		ldto.setStore_code("store1234");
-//		String store_code = ldto.getStore_code();
-				
+		OwnerDto own = (OwnerDto) session.getAttribute("loginDto");
+		String store_code = own.getStore_code();
 		List<CalDto> lists = calSer.calList(store_code);
-		request.setAttribute("lists", lists);
-//		request.setAttribute("ldto", ldto);		
-		request.setAttribute("ldto", store_code);		
+
+		model.addAttribute("lists", lists);
+		model.addAttribute("store_code", store_code);
 		
-		System.out.println("이거?"+lists);
+		// ????
+		request.setAttribute("lists", lists);
+		
+		System.out.println("접속한 매장 코드 : "+store_code);
+		System.out.println("접속한 매장의 calLists"+lists);
 
 		return "calendar/calendarView";
 	}
