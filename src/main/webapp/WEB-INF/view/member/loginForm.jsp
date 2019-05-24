@@ -5,32 +5,41 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 페이지</title>
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
-
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
+<style type="text/css">
+#loginform{
+	width: 300px;
+}
+</style>
 </head>
 <body>
-<%-- <%@include file="../header.jsp" %> --%>
 
 
 <div id="container">
-	<div id="title">파라파라 로그인</div>
-
+	<h2>파라파라 로그인</h2>
 	<input type="hidden" value="0" id="chkVal">
 		
 	<form id="loginform" method="post">
-		<label><input type="radio" name="auth" value="U" checked="checked"> 업주 </label>		
+		<label style="width: 148px;"><input type="radio" name="auth" value="U" checked="checked"> 업주 </label>		
 		<label><input type="radio" name="auth" value="A"> 담당자 </label>	
-		<br>
-		<input type="text" id="inputId" name="id" placeholder="아이디를 입력하세요" required="required" >
-		<span id="idresult"></span><br>
-		<input type="password" id="inputPw" name="pw" placeholder="비밀번호를 입력하세요" required="required" >
-		<br>
-		<input type="button" value="로그인" onclick="loginCheck()">
-		
+		<div class="form-group">
+			<input class="form-control" type="text" id="inputId" name="id" placeholder="아이디를 입력하세요" required="required" >
+			<div class="valid-feedback">	유효한 아이디</div>
+			<div class="invalid-feedback">	유효하지 않은 아이디</div>
+		</div>
+		<div class="form-group">
+			<input class="form-control" type="password" id="inputPw" name="pw" placeholder="비밀번호를 입력하세요" required="required" >
+		</div>
+		<div>
+			<input style="width: 300px;" class="btn btn-outline-success" type="button" value="로그인" onclick="loginCheck()">
+		</div>
 		<!-- 비밀번호 찾기 버튼 추가 예정 --> 
-		<a href="./findPwForm.do">비밀번호 찾기</a>
+		<div align="right">
+			<a href="./findPwForm.do">비밀번호 찾기</a>
+		</div>
 	</form>
 
 
@@ -86,16 +95,16 @@ $(function(){
 
 		// 공백여부 검사 및 업주(정규표현식), 담당자(정규표현식) 검사
 		if(id.indexOf(" ") != -1){
-			$("#idresult").html("아이디를 확인해 주세요");
+			$("#inputId").attr("class","form-control is-invalid");
 			$("#chkVal").val("0");
 		} else if(auth[0].checked && id.match(ownRegex)!=null){
-			$("#idresult").html("업주 유효값 확인");
+			$("#inputId").attr("class","form-control is-valid");
 			$("#chkVal").val("1");
 		} else if(auth[1].checked && id.match(admRegex)!=null){
-			$("#idresult").html("담당자 유효값 확인");
+			$("#inputId").attr("class","form-control is-valid");
 			$("#chkVal").val("1");
 		} else {
-			$("#idresult").html("아이디를 확인해 주세요");
+			$("#inputId").attr("class","form-control is-invalid");
 			$("#chkVal").val("0");
 		}
 	});
@@ -103,6 +112,7 @@ $(function(){
 	// 담당자/업주 선택 변경 시 값 초기화
 	$("input:radio[name=auth]").click(function(){
 		$("#inputId").val("");
+		$("#inputId").attr("class","form-control");
 		$("#inputPw").val("");
 	});
 		
