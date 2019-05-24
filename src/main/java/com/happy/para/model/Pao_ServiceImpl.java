@@ -36,6 +36,13 @@ public class Pao_ServiceImpl implements Pao_IService {
 		return pao_IDao.paoSelectStatusDate(map);
 	}
 
+	// 업주 : 발주 상세보기
+	@Override
+	public List<ItemDto> paoDetail(String pao_seq) {
+		logger.info("paoDetail : {}", pao_seq);
+		return pao_IDao.paoDetail(pao_seq);
+	}
+	
 	// 업주 : 발주 신청 시 재고 목록 조회
 	@Override
 	public List<StockDto> paoStockList(String store_code) {
@@ -64,6 +71,7 @@ public class Pao_ServiceImpl implements Pao_IService {
 		
 		return isc;
 	}
+
 
 
 }

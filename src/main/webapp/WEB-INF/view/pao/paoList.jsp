@@ -155,7 +155,7 @@
 									<c:forEach var="dto" items="${paoLists}">
 										<tr>
 											<td>${dto.pao_seq}</td>
-											<td>${dto.store_name}</td>
+											<td><a href="./paoDetailOpen.do?pao_seq=${dto.pao_seq}">${dto.store_name}</a></td>
 											<td>${dto.ps_name}</td>
 											<td>${dto.pao_date}</td>
 										</tr>

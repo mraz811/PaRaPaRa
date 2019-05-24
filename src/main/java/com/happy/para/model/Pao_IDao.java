@@ -18,6 +18,9 @@ public interface Pao_IDao {
 	// 업주 : 발주 신청 시 재고 목록 조회
 	public List<StockDto> paoStockList(String store_code);
 	
+	// 업주 : 발주 상세보기
+	public List<ItemDto> paoDetail(String pao_seq);
+	
 	// 업주 : 발주 신청(발주 테이블 INSERT)
 	public boolean paoInsert(Map<String, String> map);
 	

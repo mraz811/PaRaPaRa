@@ -84,6 +84,19 @@ public class PaoCtrl {
 		
 		return obj.toString();
 	}
+	
+	@RequestMapping(value="/paoDetailOpen.do", method=RequestMethod.GET)
+	public String paoDetailView(String pao_seq, Model model){
+		//System.out.println("=== 넘겨받은 발주Dto === : "+paoDto);
+		System.out.println("=== 넘겨받은 발주번호 === : "+pao_seq);
+		
+		List<ItemDto> piLists = paoService.paoDetail(pao_seq);
+		System.out.println(piLists);
+		
+		//model.addAttribute("paoDto", paoDto);
+		model.addAttribute("piLists", piLists);
+		return "/pao/paoDetail";
+	}
 		
 	// 업주 : 발주 신청 시 재고 목록 조회
 	@RequestMapping(value="/paoRequestOpen.do", method=RequestMethod.GET, produces="application/text; charset=UTF-8")
