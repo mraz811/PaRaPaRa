@@ -67,6 +67,10 @@
 	#checkbox{
 		float: left;
 	}
+	#cancelMenu{
+		width: 120px;
+		height: 40px;
+	}
 </style>
 </head>
 <script type="text/javascript">
@@ -167,6 +171,9 @@ function drinkMenu(){
 		}
 	})
 }
+function ownerAllMenuList(){
+	location.href="./ownerAllMenuList.do";
+}
 
 </script>
 <body>
@@ -183,7 +190,7 @@ function drinkMenu(){
     			 <a class="nav-link" data-toggle="tab" href="#">판매 메뉴</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="./ownerAllMenuList.do">전체 메뉴</a>
+    			 <a class="nav-link" data-toggle="tab" onclick="ownerAllMenuList()" >전체 메뉴</a>
   				</li>
 			</ul>
 			<input id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()"/>

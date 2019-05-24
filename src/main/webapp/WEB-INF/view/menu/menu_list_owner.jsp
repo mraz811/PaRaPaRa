@@ -176,6 +176,9 @@ function drinkMenu(){
 		}
 	})
 }
+function ownerMenuList(){
+	location.href="./ownerMenuList.do";
+}
 
 </script>
 <body>
@@ -189,7 +192,7 @@ function drinkMenu(){
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="./ownerMenuList.do">판매 메뉴</a>
+    			 <a class="nav-link" data-toggle="tab" onclick="ownerMenuList()" >판매 메뉴</a>
   				</li>
   				<li class="nav-item">
     			 <a class="nav-link" data-toggle="tab" href="#">전체 메뉴</a>

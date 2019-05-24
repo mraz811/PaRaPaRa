@@ -36,6 +36,11 @@
 	}
 </style>
 </head>
+<script type="text/javascript">
+	function selRequestStatus(){
+		location.href="./selRequestStatus.do";
+	}
+</script>
 <body>
 	<div id="container">
 	<%@include file="../header.jsp" %>
@@ -47,7 +52,7 @@
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="./selRequestStatus.do">주문현황</a>
+    			 <a class="nav-link" data-toggle="tab" onclick="selRequestStatus()">주문현황</a>
   				</li>
   				<li class="nav-item">
     			 <a class="nav-link" data-toggle="tab" href="#">주문내역</a>
