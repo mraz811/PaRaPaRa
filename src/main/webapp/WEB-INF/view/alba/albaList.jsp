@@ -41,7 +41,7 @@
     			 <a class="nav-link" data-toggle="tab" id="timesheet">TimeSheet</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#profile">아르바이트</a>
+    			 <a class="nav-link" data-toggle="tab" href="#home">아르바이트</a>
   				</li>
   				<li class="nav-item">
     			 <a class="nav-link" data-toggle="tab" href="#profile">급여</a>
@@ -134,7 +134,7 @@
 // 알바 등록 폼으로
 var toAlbaRegi = function(){
 	window.open("./albaRegiForm.do", "아르바이트 등록",
-			"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes");
+			"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
 // 	location.href="./albaRegiForm.do";	
 };
 

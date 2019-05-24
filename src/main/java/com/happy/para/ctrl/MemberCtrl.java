@@ -25,8 +25,9 @@ import net.sf.json.JSONObject;
 
 @Controller
 public class MemberCtrl {
-	//***************** 조민지 - 회원(업주,담당자)관리를 위한 컨트롤러 ***************// 
-
+	//**********************************************************//	
+	//				조민지 - 회원(업주,담당자)관리를 위한 컨트롤러				// 
+	//**********************************************************//	
 		@Autowired
 		private Member_IService memService;
 		
@@ -42,6 +43,9 @@ public class MemberCtrl {
 			return "main";
 		}
 		
+	//**********************************************************//	
+	//						로그인/로그아웃							//
+	//**********************************************************//
 		// 로그인 페이지로 보내주는 메소드
 		@RequestMapping(value="/loginForm.do", method=RequestMethod.GET)
 		public String loginForm() {
@@ -96,7 +100,10 @@ public class MemberCtrl {
 			}
 			return "redirect:/loginForm.do";
 		}
-		
+	
+	//**********************************************************//	
+	//						담당자/업주 회원등록						//
+	//**********************************************************//	
 		// 담당자 회원 등록 페이지로 보내주는 메소드
 		@RequestMapping(value="adminRegiForm.do", method=RequestMethod.GET)
 		public String adminRegiForm() {
@@ -143,6 +150,26 @@ public class MemberCtrl {
 //			
 			return (n>0)? "성공":"실패";
 		}
+	
+		// 담당자 회원 등록시 ajax를 통한 아이디 중복 검사
+		@RequestMapping(value="/admIdChk.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
+		public String admIdChk(String admin_id) {
+			int n = memService.adminIdDupleChk(admin_id);
+			return (n==0)? "사용 가능한 아이디":"사용 불가능한 아이디";
+		}
+		
+		// 업주 회원 등록시 ajax를 통한 아이디 중복 검사
+		@RequestMapping(value="/ownIdChk.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
+		public String ownIdChk(String owner_id) {
+			int n = memService.ownerIdDupleChk(owner_id);
+			return (n==0)? "사용 가능":"사용 불가능";
+		}	
+				
+	//**********************************************************//
+	//						마이페이지 및 정보수정						//	
+	//**********************************************************//	
 		
 		// 마이페이지 로그인 페이지로
 		@RequestMapping(value="/pwCheckForm.do", method=RequestMethod.GET)
@@ -202,13 +229,17 @@ public class MemberCtrl {
 			return "redirect:/logout.do?auth=U";
 		}
 		
+		//**********************************************************//	
+		//					비밀번호 찾기 후 이메일전송						//
+		//**********************************************************//	
+		
 		// 비밀번호 찾기 (아이디, 이메일 입력) 페이지로 보냄
 		@RequestMapping(value="/findPwForm.do", method=RequestMethod.GET)
 		public String findPwForm() {
 			return "/member/findPwForm";
 		}
 		
-		// 아이디, 이메일을 받아서 비밀번호 임시 생성 후 이메일로 보내주는 메서드
+		// 아이디, 이메일을 받아서 비밀번호 임시 생성 후 이메일로 보내주는 메소드
 		@RequestMapping(value="/findPw.do", method=RequestMethod.POST)
 		public String findPw(String auth, String id, String email) {
 			System.out.printf("입력받은 값: auth %s, id %s, email %s",auth, id, email);
@@ -238,25 +269,11 @@ public class MemberCtrl {
 			return "redirect:/loginForm.do";
 		}
 		
-		// 담당자 회원 등록시 ajax를 통한 아이디 중복 검사
-		@RequestMapping(value="/admIdChk.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
-		@ResponseBody
-		public String admIdChk(String admin_id) {
-			int n = memService.adminIdDupleChk(admin_id);
-			return (n==0)? "사용 가능한 아이디":"사용 불가능한 아이디";
-		}
+		//**********************************************************//	
+		//				담당자 조회 페이징(ajax)-지역별 + 퇴사자 조회				//
+		//**********************************************************//
 		
-		// 업주 회원 등록시 ajax를 통한 아이디 중복 검사
-		@RequestMapping(value="/ownIdChk.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
-		@ResponseBody
-		public String ownIdChk(String owner_id) {
-			int n = memService.ownerIdDupleChk(owner_id);
-			return (n==0)? "사용 가능":"사용 불가능";
-		}
-		
-		// --------------- 조회, 삭제 추가 필요 -------------- //
-		
-		// 페이징 ajax처리 추후 화면작업 시 필요 ******************************수정 필요
+		// 담당자 페이징
 		@RequestMapping(value="/adminPaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 		@ResponseBody
 		public String adminPaging(Model model, String chkCons , PagingDto pageDto) {
@@ -267,20 +284,20 @@ public class MemberCtrl {
 				map.put("start", pageDto.getStart()+"");
 				map.put("end", pageDto.getEnd()+"");
 				map.put("admin_delflag", chkCons);
-				json = objectJson(memService.adminList(map), pageDto);
+				json = adminJson(memService.adminList(map), pageDto);
 			} else { 
 				pageDto.setTotal(memService.adminLocListRow(chkCons));
 				map.put("start", pageDto.getStart()+"");
 				map.put("end", pageDto.getEnd()+"");
 				map.put("loc_sido", chkCons);
-				json = objectJson(memService.adminLocList(map), pageDto);
+				json = adminJson(memService.adminLocList(map), pageDto);
 			}
-			
+			System.out.println(json.toString());
 			return json.toString();
 		}
 		
 		// JSONArray 형태로 페이징 처리된 담당자 리스트를 담을 예정
-		private JSONObject objectJson(List<AdminDto> adLists, PagingDto pDto) {
+		private JSONObject adminJson(List<AdminDto> adLists, PagingDto pDto) {
 			JSONObject json = new JSONObject(); // 최종 담을 애
 			JSONArray jLists = new JSONArray(); // arraylist 담을 애
 			JSONObject jList = null; // 그냥 제이슨 타입으로
@@ -312,7 +329,6 @@ public class MemberCtrl {
 			return json;
 			
 		}
-		
 		
 		// 담당자 전체 조회 (페이징 사용)
 		@RequestMapping(value="/selAdminList.do", method=RequestMethod.GET)
@@ -371,6 +387,10 @@ public class MemberCtrl {
 			}
 		}
 		
+		//**********************************************************//	
+		//						업주 조회 페이징(ajax)						//
+		//**********************************************************//		
+		
 		// 업주 전체 조회 (페이징 사용)
 		@RequestMapping(value="/selOwnerList.do", method=RequestMethod.GET)
 		public String selOwnerList(HttpSession session, Model model, String loc_code) {
@@ -393,6 +413,12 @@ public class MemberCtrl {
 			
 			return "/member/ownerList";
 		}
+		
+		
+		
+		//**********************************************************//	
+		//			삭제 -  담당자(delflag)/업주(계약종료일) update				//
+		//**********************************************************//		
 		
 		// 담당자 삭제 메소드 delflag->Y
 		@RequestMapping(value="/delAdmin.do", method=RequestMethod.POST)
