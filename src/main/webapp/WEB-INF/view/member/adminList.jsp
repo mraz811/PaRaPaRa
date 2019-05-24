@@ -23,6 +23,7 @@
 </style>
 </head>
 <script type="text/javascript" src="./js/paging.js"></script>
+<script type="text/javascript" src="./js/admin.js"></script>
 <body>
 <div id="container">
 	<%@include file="../header.jsp"%>
@@ -157,38 +158,42 @@
 	
 	<%-- 		${adminRow.index} ${adminRow.pageNum} ${adminRow.listNum} ${adminRow.count} --%>
 	
+		
 			<!-- 페이징 처리 기능은 화면 템플릿 추가 후 추가할 예정 -->
-			<input type="hidden" name="index" id="index" value="${adminRow.index}">
-			<input type="hidden" name="pageNum" id="pageNum" value="${adminRow.pageNum}"> 
-			<input type="hidden" name="listNum"	id="listNum" value="${adminRow.listNum}">
-	
-			<div class="center">
-				<ul class="pagination">
-					<li class="page-item">
-					 <a class="page-link" href="#" onclick="pageFirst(${adminRow.pageList},${adminRow.pageList})">&laquo;</a>
-					</li>
-					<li class="page-item">
-					 <a class="page-link" href="#" onclick="pagePre(${adminRow.pageNum},${adminRow.pageList})">&lsaquo;</a>
-					</li>
-	
-					<c:forEach var="i" begin="${adminRow.pageNum}" end="${adminRow.count}" step="1">
+			<form action="#" id="pagingForm" method="post">
+				<input type="hidden" name="index" id="index" value="${adminRow.index}">
+				<input type="hidden" name="pageNum" id="pageNum" value="${adminRow.pageNum}"> 
+				<input type="hidden" name="listNum"	id="listNum" value="${adminRow.listNum}">
+				<input type="hidden" name="chkCons" value="${chkCons}">
+				<div class="center">
+					<ul class="pagination">
 						<li class="page-item">
-						 <a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a>
+						 <a class="page-link" href="#" onclick="pageFirst(${adminRow.pageList},${adminRow.pageList})">&laquo;</a>
 						</li>
-					</c:forEach>
-	
-					<li class="page-item">
-					 <a class="page-link" href="#" onclick="pageNext(${adminRow.pageNum},${adminRow.total},${adminRow.listNum},${adminRow.pageList})">&rsaquo;</a>
-					</li>
-					<li class="page-item">
-					 <a class="page-link" href="#" onclick="pageLast(${adminRow.pageNum},${adminRow.total},${adminRow.listNum},${adminRow.pageList})">&raquo;</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+						<li class="page-item">
+						 <a class="page-link" href="#" onclick="pagePre(${adminRow.pageNum},${adminRow.pageList})">&lsaquo;</a>
+						</li>
+		
+						<c:forEach var="i" begin="${adminRow.pageNum}" end="${adminRow.count}" step="1">
+							<li class="page-item">
+							 <a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a>
+							</li>
+						</c:forEach>
+		
+						<li class="page-item">
+						 <a class="page-link" href="#" onclick="pageNext(${adminRow.pageNum},${adminRow.total},${adminRow.listNum},${adminRow.pageList})">&rsaquo;</a>
+						</li>
+						<li class="page-item">
+						 <a class="page-link" href="#" onclick="pageLast(${adminRow.pageNum},${adminRow.total},${adminRow.listNum},${adminRow.pageList})">&raquo;</a>
+						</li>
+					</ul>
+				</div>
+			</form>
+				
+			</div><!-- tap content -->
 		
 		
-	</div> <!-- twoDepth -->
+		</div> <!-- twoDepth -->
 
 	</div>	<!-- bodyfixed -->
 	</div>
