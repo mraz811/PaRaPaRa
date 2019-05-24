@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.happy.para.dto.RequestDto;
 
+
 @Service
 public class Request_ServiceImpl implements Request_IService{
 
@@ -73,5 +74,16 @@ public class Request_ServiceImpl implements Request_IService{
 		logger.info("requestMenuName Service : {} ", map);
 		return request_IDao.requestMenuName(map);
 	}
-
+	
+	//페이징
+	@Override
+	public List<RequestDto> requestListPaging(Map<String, String> map) {
+		return request_IDao.requestListPaging(map);
+	}
+	
+	//전체 주문 갯수
+	@Override
+	public int selectTotalRequest(String store_code) {
+		return request_IDao.selectTotalRequest(store_code);
+	}
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.happy.para.dto.MenuDto;
 import com.happy.para.dto.RequestDto;
 
+
 @Repository
 public class Request_DaoImpl implements Request_IDao{
 	
@@ -69,5 +70,16 @@ public class Request_DaoImpl implements Request_IDao{
 			menuName[i] = lists.get(i).getMenu_name()+" ";
 		}
 		return menuName;
+	}
+	//페이징
+	@Override
+	public List<RequestDto> requestListPaging(Map<String, String> map) {
+		return sqlSession.selectList(NS+"requestListPaging", map);
+	}
+	
+	//전체 주문 갯수
+	@Override
+	public int selectTotalRequest(String store_code) {
+		return sqlSession.selectOne(NS+"selectTotalRequest",store_code);
 	}
 }
