@@ -20,13 +20,10 @@
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">
 	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" href="#home">일정관리</a>
+	    			 <a class="nav-link" data-toggle="tab" href="./selStoreList.do">매장 정보</a>
 	  				</li>
 	  				<li class="nav-item">
 	    			 <a class="nav-link" data-toggle="tab" href="#profile">발주</a>
-	  				</li>
-	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" href="#profile">재고</a>
 	  				</li>
 				</ul>
 				<div class="tab-content">

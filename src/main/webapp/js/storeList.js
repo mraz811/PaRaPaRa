@@ -163,7 +163,7 @@ var pageAjax = function(){
 	
 }
 function insertStore() {
-	window.open("http://localhost:8091/PaRaPaRa/regiStoreForm.do","_blank","width=400, height=500");
+	window.open("./regiStoreForm.do","_blank","width=400, height=500, left=500, top=200");
 }
 
 // 매장 등록 모달 form

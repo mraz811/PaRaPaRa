@@ -52,7 +52,7 @@ public class ItemCtrl {
 			System.out.println("insert 실패");
 		}
 		
-		return "";
+		return "redirect:/selItemList.do";
 	}
 	
 	@RequestMapping(value="/itemModi.do", method=RequestMethod.GET)
