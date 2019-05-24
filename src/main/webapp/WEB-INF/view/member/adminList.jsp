@@ -22,11 +22,11 @@
 }
 </style>
 </head>
-<script type="text/javascript" src="./js/paging.js"></script>
-<script type="text/javascript" src="./js/admin.js"></script>
 <body>
 <div id="container">
 	<%@include file="../header.jsp"%>
+	<script type="text/javascript" src="./js/paging.js"></script>
+	<script type="text/javascript" src="./js/admin.js"></script>
 <%-- 	<br> 페이징dto : ${row} --%>
 <%-- 	<br> 담당자 리스트 : ${adminList} --%>
 <%-- 	<br> loc입력시 리스트 :${adminLocList} --%>
@@ -41,39 +41,52 @@
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#home">담당자</a>
+    			 <a class="nav-link" data-toggle="tab" id="selAdminList">담당자</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#profile">퇴사자</a>
+    			 <a class="nav-link" data-toggle="tab" id="leftOnes">퇴사자</a>
   				</li>
 			</ul>
+				<script type="text/javascript">
+				$(function(){
+					$("#leftOnes").click(function(){
+						location.href="./selAdminList.do?delflag=Y";						
+					});
+					
+					$("#selAdminList").click(function(){
+						location.href="./selAdminList.do";
+					});
+					
+				});
+				</script>
 			<div align="right">
 				<select class="form-control" onchange="selectToAdList(this.value)" style="width: 150px; margin: 10px 10px 0px;" >
 					<option>지역선택</option>
+			<c:if test="${adminList ne null || adminLocList ne null}">	
 					<option value="ALL">전 체</option>
 					<option value="SEOUL">서울시</option>
 					<option value="INCHEON">인천시</option>
+			</c:if>
 				</select>
 			</div>
-			
 			<div class="tab-content" align="center">
 			<!-- 담당자 전체 조회 -->
 			<c:if test="${adminList ne null}">
 				<form action="" method="post">
 					<div class="admin_table">
 						<table class="table table-hover" id="adminList">
-							<tr class="table-secondary">
-								<th></th>
-								<th>사번</th>
-								<th>담당자명</th>
-								<th>전화번호</th>
-								<th>이메일</th>
-								<th>지역명</th>
+							<tr class="table-primary">
+								<th width="80px;"></th>
+								<th width="120px;">사번</th>
+								<th width="130px;">담당자명</th>
+								<th width="200px;">전화번호</th>
+								<th width="300px;">이메일</th>
+								<th width="180px;">지역명</th>
 							</tr>
 	
 							<c:forEach var="ad" items="${adminList}" varStatus="vs">
 								<tr>
-									<td><input type="radio" name="admin_id"	value="${ad.admin_id}"></td>
+									<td align="center"><input type="radio" name="admin_id"	value="${ad.admin_id}"></td>
 									<td>${ad.admin_id}</td>
 									<td>${ad.admin_name}</td>
 									<td>${ad.admin_phone}</td>
@@ -98,18 +111,18 @@
 				<form action="" method="post">
 					<div class="admin_table">
 						<table class="table table-hover">
-							<tr class="table-secondary">
-								<th></th>
-								<th>사번</th>
-								<th>담당자명</th>
-								<th>전화번호</th>
-								<th>이메일</th>
-								<th>지역명</th>
+							<tr class="table-primary">
+								<th width="80px;"></th>
+								<th width="120px;">사번</th>
+								<th width="130px;">담당자명</th>
+								<th width="200px;">전화번호</th>
+								<th width="300px;">이메일</th>
+								<th width="180px;">지역명</th>
 							</tr>
 	
 							<c:forEach var="ad" items="${adminLocList}" varStatus="vs">
 								<tr>
-									<td><input type="radio" name="admin_id" value="${ad.admin_id}"></td>
+									<td align="center"><input type="radio" name="admin_id" value="${ad.admin_id}"></td>
 									<td>${ad.admin_id}</td>
 									<td>${ad.admin_name}</td>
 									<td>${ad.admin_phone}</td>
@@ -133,16 +146,18 @@
 			<c:if test="${delAdminList ne null}">
 				<div class="admin_table">
 					<table class="table table-hover">
-						<tr class="table-secondary">
-							<th>사번</th>
-							<th>담당자명</th>
-							<th>전화번호</th>
-							<th>이메일</th>
-							<th>지역명</th>
+						<tr class="table-primary">
+							<th width="80px;"></th>
+							<th width="120px;">사번</th>
+							<th width="130px;">담당자명</th>
+							<th width="200px;">전화번호</th>
+							<th width="300px;">이메일</th>
+							<th width="180px;">지역명</th>
 						</tr>
 	
 						<c:forEach var="ad" items="${delAdminList}" varStatus="vs">
 							<tr>
+								<td></td>
 								<td>${ad.admin_id}</td>
 								<td>${ad.admin_name}</td>
 								<td>${ad.admin_phone}</td>
@@ -164,7 +179,7 @@
 				<input type="hidden" name="index" id="index" value="${adminRow.index}">
 				<input type="hidden" name="pageNum" id="pageNum" value="${adminRow.pageNum}"> 
 				<input type="hidden" name="listNum"	id="listNum" value="${adminRow.listNum}">
-				<input type="hidden" name="chkCons" value="${chkCons}">
+				<input type="hidden" id="chkCons" name="chkCons" value="${chkCons}">
 				<div class="center">
 					<ul class="pagination">
 						<li class="page-item">
@@ -200,11 +215,12 @@
 	<%@include file="../footer.jsp"%>
 </div>
 </body>
+
 <script type="text/javascript">
 // 담당자 등록 폼으로
 var toAdminRegi = function(){
 	window.open("./adminRegiForm.do","담당자 등록", 
-			"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes");
+			"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
 };
 
 
