@@ -8,6 +8,7 @@
 </head>
 <body>
 parapara메인<br>
+<jsp:forward page="./loginForm.do"/>
 
 <a href="./selPaoList.do?store_code=SEOUL01_06">업주 발주 리스트</a><br>
 
