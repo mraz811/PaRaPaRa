@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.dto.ItemDto;
+import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.PaoDto;
 import com.happy.para.dto.StockDto;
 import com.happy.para.model.Pao_IService;
@@ -27,63 +30,50 @@ public class PaoCtrl {
 	
 	// 업주 : 발주 리스트 조회
 	@RequestMapping(value="/selPaoList.do", method=RequestMethod.GET)
-	public String paoList(String store_code, Model model) {
+	public String paoList(Model model, HttpSession session) {
+		OwnerDto lDto = (OwnerDto) session.getAttribute("loginDto");	// 세션 정보 받아옴
+		String store_code = lDto.getStore_code();	// 로그인한 사용자의 매장코드
+		
 		System.out.println("=== 넘겨받은 매장코드 === : "+store_code);
-		List<PaoDto> paoLists = paoService.paoList(store_code);
+		
+		List<PaoDto> paoLists = paoService.paoList(store_code);	// 발주내역
 		System.out.println(paoLists);
 		
 		model.addAttribute("paoLists", paoLists);
 		return "pao/paoList";
 	}
 	
-	// 업주 : 발주 상태 선택 조회
+	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회
 	@RequestMapping(value="/paoStatusAjax.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
-	public String paoSelectStatus(String store_code, String status, Model model) {
+	public String paoSelectStatus(String store_code, String status, String startDate, String endDate, Model model) {
 		System.out.println("=== 넘겨받은 매장코드 === : "+store_code);
 		System.out.println("=== 넘겨받은 발주 상태 코드 === : "+status);
+		System.out.println("=== 넘겨받은 발주 시작일 === : "+startDate);
+		System.out.println("=== 넘겨받은 발주 종료일 === : "+endDate);
 		
 		Map<String, Object> map = new HashMap<>();
 		
 		String[] statusLists = status.split(",");
 		
-		map.put("store_code", store_code);
-		map.put("status_list", statusLists);
-		List<PaoDto> paoLists = paoService.paoSelectStatus(map);
-		System.out.println(paoLists);
-		
-		JSONObject obj = new JSONObject();
-		//obj.putAll(map);
-		obj.put("paoLists", paoLists);
-		
-		model.addAttribute("paoLists", paoLists);
-		
-		return obj.toString();
-	}
-	
-	// 업주 : 매장 발주 날짜 선택 조회
-	@RequestMapping(value="/paoDateAjax.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
-	@ResponseBody
-	public String paoSelectDate(String store_code, String startDate, String endDate, Model model) {
-		System.out.println("=== 넘겨받은 매장코드 === : "+store_code);
-		System.out.println("=== 넘겨받은 발주 시작일 === : "+startDate);
-		System.out.println("=== 넘겨받은 발주 종료일 === : "+endDate);
-
-		Map<String, String> map = new HashMap<>();
-		
 		// 시작날짜를 선택하지 않았을 때
 		if(startDate.equals("") || startDate==null) {
-			startDate = "2019-01-01";
+			startDate = "1000-01-01";
 		}
 		// 종료날짜를 선택하지 않았을 때
 		if(endDate.equals("") || endDate==null) {
 			endDate = "9999-12-31";
 		}
+		if( (startDate.equals("") || startDate==null) && (endDate.equals("") || endDate==null)) {
+			startDate = "1000-01-01";
+			endDate = "9999-12-31";
+		}
 		
 		map.put("store_code", store_code);
+		map.put("status_list", statusLists);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
-		List<PaoDto> paoLists = paoService.paoSelectDate(map);
+		List<PaoDto> paoLists = paoService.paoSelectStatusDate(map);
 		System.out.println(paoLists);
 		
 		JSONObject obj = new JSONObject();
@@ -94,7 +84,7 @@ public class PaoCtrl {
 		
 		return obj.toString();
 	}
-	
+		
 	// 업주 : 발주 신청 시 재고 목록 조회
 	@RequestMapping(value="/paoRequestOpen.do", method=RequestMethod.GET, produces="application/text; charset=UTF-8")
 	public String paoStockList(String store_code, Model model) {
