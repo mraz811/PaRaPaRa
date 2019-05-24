@@ -35,35 +35,35 @@
 	}
 	#making{
 		width: 140px;
-		height: 40px;
+		height: 20px;
 		margin: 10px auto 10px 10px;
 	}
 	#waiting{
 		width: 140px;
-		height: 40px;
+		height: 20px;
 		margin: 10px 360px 10px auto;
 	}
 	#makingList{
 		width: 490px;
-		height: 245px;
+		height: 255px;
 		overflow: scroll;
 	}
 	#waitingList{
 		width: 490px;
-		height: 245px;
+		height: 255px;
 		overflow: scroll;
 	}
 	#makingDetail{
 		width:510px;
 		height: 130px;
-		top: 420px;
+		top: 430px;
 		position: absolute;
 	}
 	#waitingDetail{
 		width:510px;
 		height: 130px;
 		left : 550px;
-		top: 420px;
+		top: 430px;
 		position: absolute;
 	}
 </style>
@@ -132,6 +132,9 @@
 			}
 		})
 	}
+	function selRequestList(){
+		location.href="./selRequestList.do";
+	}
 </script>
 <body>
 	<div id="container">
@@ -147,7 +150,7 @@
     			 <a class="nav-link" data-toggle="tab" href="#">주문현황</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="./selRequestList.do">주문내역</a>
+    			 <a class="nav-link" data-toggle="tab" onclick="selRequestList()" >주문내역</a>
   				</li>
 			</ul>
 		<div id="make">
@@ -223,7 +226,6 @@
 			</div>
 		</div>
 		<div id="waitingDetail">
-		<a href="${loginDto.auth eq 'A'?'./ownerMenuList.do':'./adminAllMenuList.do'}">헤더에서 메뉴 1depth 이동에 쓸꺼임</a>
 		</div>
 			</div>
 	</div>
