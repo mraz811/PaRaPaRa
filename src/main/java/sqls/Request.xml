@@ -72,4 +72,27 @@
 		#{menu_seq}
 	</foreach>
 	</select>
+	
+	<!-- 페이징 -->
+	<select id="requestListPaging" parameterType="java.util.Map" resultType="RequestDto">
+		SELECT REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
+				REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
+		FROM(
+			SELECT ROWNUM RNUM, REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
+					REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
+				FROM
+				(SELECT REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
+						REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
+					FROM REQUEST 
+						WHERE (OS_CODE=3 OR OS_CODE=0) AND STORE_CODE=#{store_code}
+							AND (REQUEST_TIME BETWEEN #{dayStart} AND #{dayEnd})
+					ORDER BY REQUEST_TIME DESC)
+			)
+		WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
+	</select>
+	
+	<!-- 전체 주문 갯수 -->
+	<select id="selectTotalRequest" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM REQUEST WHERE STORE_CODE = #{store_code}
+	</select>
 </mapper>

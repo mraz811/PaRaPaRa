@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.happy.para.dto.RequestDto;
 
+
 public interface Request_IService {
 
 	//주문 상태 업데이트
@@ -30,5 +31,11 @@ public interface Request_IService {
 	
 	//메뉴 번호에 따른 메뉴이름 찾기
 	public String[] requestMenuName(Map<String, Object> map);
+	
+	//페이징
+	public List<RequestDto> requestListPaging(Map<String, String> map);
+	
+	//전체 주문 갯수
+	public int selectTotalRequest(String store_code);
 	
 }

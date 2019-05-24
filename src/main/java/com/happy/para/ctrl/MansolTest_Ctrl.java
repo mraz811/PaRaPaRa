@@ -25,6 +25,7 @@ import com.happy.para.dto.FileDto;
 import com.happy.para.dto.GoogleChartDTO;
 import com.happy.para.dto.MenuDto;
 import com.happy.para.dto.OwnerDto;
+import com.happy.para.dto.PagingDto;
 import com.happy.para.dto.RequestDto;
 import com.happy.para.dto.StoreDto;
 import com.happy.para.model.Menu_IService;
@@ -519,7 +520,7 @@ public class MansolTest_Ctrl {
 	@Autowired
 	private Request_IService request_IService;
 	
-	//만드는중
+	//업주 : 주문 상태 변경
 	@RequestMapping(value="/updateOrderState.do",method=RequestMethod.POST, produces = "application/text; charset=UTF-8")
 	@ResponseBody
 	public String updateOscode(String request_seq,String os_code,HttpSession session) {
@@ -534,9 +535,10 @@ public class MansolTest_Ctrl {
 		System.out.println("주문 상태 코드 업데이트 성공 ? : "+isc);
 		return isc?"성공":"실패";
 	}
-	// 업주 : 주문 완료, 환불 내역 조회 20190522:날짜 집어넣는거 해야뎀
+	// 업주 : 주문 완료, 환불 내역 조회 
 	@RequestMapping(value="/selRequestList.do",method=RequestMethod.GET)
 	public String requestList(HttpSession session,Model model) {
+		PagingDto rowDto = null;
 		Map<String, String> map = new HashMap<String,String>();
 		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
 		String store_code = oDto.getStore_code();
@@ -552,10 +554,91 @@ public class MansolTest_Ctrl {
 		int a = Integer.parseInt(tempEnd)+1;
 		String end = Integer.toString(a);
 		System.out.println("@@@@종료일@@@@"+end);
+		
+		if(session.getAttribute("requestRow")==null) {
+			rowDto = new PagingDto();
+		}else {
+			rowDto = (PagingDto) session.getAttribute("requestRow");
+		}
+		rowDto.setTotal(request_IService.selectTotalRequest(store_code));
 		map.put("store_code", store_code);
 		map.put("start", start);
 		map.put("end", end);
+		map.put("dayStart", start);
+		map.put("dayEnd", end);
+		map.put("pageStart", rowDto.getStart()+"");
+		map.put("pageEnd", rowDto.getEnd()+"");
 		List<RequestDto> lists = request_IService.requestList(map);
+		System.out.println("주문 완료,환불 : "+lists);
+		System.out.println("주문 완료,환불 크기 : "+lists.size());
+		
+		
+		
+		Map<String, Object> map1 = new HashMap<>();
+		
+		for (int i = 0; i < lists.size(); i++) { //1:2,2:1,3:2,4:3,5:4
+			String temp = lists.get(i).getRequest_menu();
+			int tempLen = temp.length();
+			int templenChange = temp.replaceAll(",","").length();
+			int arraySize = tempLen-templenChange;
+			
+			String[] menu = new String[arraySize];
+			String[] cnt = new String[arraySize];
+			StringTokenizer temp1 = new StringTokenizer(temp,",");
+			int num = 0;
+			while(temp1.hasMoreTokens()) { 
+				String str1 = temp1.nextToken();
+				int idx = str1.indexOf(":");
+				menu[num] = str1.substring(0,idx);
+				cnt[num] = str1.substring(idx+1);
+				num++;
+			}
+			String[] menu_name = new String[menu.length];
+			map1.put("menu_seq_", menu);
+			menu_name = request_IService.requestMenuName(map1);
+			String request_menu = "";
+			for (int j = 0; j < menu_name.length; j++) {
+				request_menu += menu_name[j]+cnt[j]+",";
+			}
+			lists.get(i).setMenu_name(request_menu.substring(0, request_menu.lastIndexOf(",")));
+			System.out.println(lists.get(i));
+			System.out.println(Arrays.toString(menu) +"메뉴");
+			System.out.println(Arrays.toString(cnt)+"갯수");
+		}
+		
+		
+		
+		model.addAttribute("requestList",lists);
+		model.addAttribute("requestRow", rowDto);
+		return "/request/request_list";
+	}
+	// 업주 : 주문 완료,환불 내역 조회 페이징
+	@RequestMapping(value="/selRequestListPaging.do",method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String requestPaging(HttpSession session,Model model,PagingDto pDto) {
+		JSONObject json = null;
+		Map<String, String> map = new HashMap<String,String>();
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		String store_code = oDto.getStore_code();
+		String start1 = oDto.getOwner_start();
+		String start2 = start1.substring(0, 4);
+		String start3 = start1.substring(5,7);
+		String start4 = start1.substring(8,10);
+		String start = start2+start3+start4;
+		System.out.println("@@@@시작일@@@@"+start);
+		Date date = new Date();
+		SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
+		String tempEnd = day.format(date);
+		int a = Integer.parseInt(tempEnd)+1;
+		String end = Integer.toString(a);
+		System.out.println("@@@@종료일@@@@"+end);
+		pDto.setTotal(request_IService.selectTotalRequest(store_code));
+		map.put("store_code", store_code);
+		map.put("dayStart", start);
+		map.put("dayEnd", end);
+		map.put("pageStart", pDto.getStart()+"");
+		map.put("pageEnd", pDto.getEnd()+"");
+		List<RequestDto> lists = request_IService.requestListPaging(map);
 		System.out.println("주문 완료,환불 : "+lists);
 		System.out.println("주문 완료,환불 크기 : "+lists.size());
 		
@@ -590,9 +673,49 @@ public class MansolTest_Ctrl {
 			System.out.println(Arrays.toString(menu) +"메뉴");
 			System.out.println(Arrays.toString(cnt)+"갯수");
 		}
-		model.addAttribute("requestList",lists);
-		return "/request/request_list";
+		json = objectJsonPaging(lists, pDto);
+		session.removeAttribute("requestRow");
+		session.setAttribute("requestRow", pDto);
+		return json.toString();
 	}
+	
+	// JSONArray 형태로 페이징 처리된 매장 리스트를 담을 예정
+	@SuppressWarnings("unchecked")
+	private JSONObject objectJsonPaging(List<RequestDto> lists , PagingDto requestRow) {
+		JSONObject json = new JSONObject(); // 최종적으로 담는애는 여긴데
+		JSONArray jLists = new JSONArray(); // 어레이리스트를 담을때는 여기에
+		JSONObject jList = null; // 그냥 얘는 제이슨 타입으로
+		
+		for (RequestDto dto : lists) {
+			jList = new JSONObject();
+			jList.put("", dto.getRequest_seq());
+			jList.put("", dto.getRequest_menu());
+			jList.put("", dto.getRequest_price());
+			jList.put("", dto.getRequest_time());
+			jList.put("", dto.getRequest_bank());
+			jList.put("", dto.getRequest_account());
+			jList.put("", dto.getStore_code());
+			jList.put("", dto.getOs_code());
+			
+			jLists.add(jList);
+		}
+		
+		jList = new JSONObject();
+		jList.put("pageList",requestRow.getPageList());
+		jList.put("index",requestRow.getIndex());
+		jList.put("pageNum",requestRow.getPageNum());
+		jList.put("listNum",requestRow.getListNum());
+		jList.put("total",requestRow.getTotal());
+		jList.put("count",requestRow.getCount());
+		
+		json.put("requestList", jLists);
+		json.put("requestRow", jList);
+		
+		return json;
+	}
+
+
+	
 	//업주 : 주문 현황 페이지
 	@RequestMapping(value="/selRequestStatus.do",method=RequestMethod.GET)
 	public String requestListStatus(HttpSession session,Model model) {
