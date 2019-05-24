@@ -35,4 +35,7 @@ public interface Menu_IService {
 	// 담당자 메뉴 삭제
 	public boolean deleteMenu(String menu_seq);
 	
+	//전체 메뉴 조회
+	public List<Integer> selAllMenu();
+	
 }

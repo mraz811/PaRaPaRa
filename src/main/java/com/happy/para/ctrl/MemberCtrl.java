@@ -18,6 +18,7 @@ import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.PagingDto;
 import com.happy.para.model.Member_IService;
+import com.happy.para.model.Menu_IService;
 
 @Controller
 public class MemberCtrl {
@@ -25,6 +26,9 @@ public class MemberCtrl {
 
 		@Autowired
 		private Member_IService memService;
+		
+		@Autowired
+		private Menu_IService menu_IService;
 		
 		@Autowired
 		private TempKey tempKey;
@@ -124,11 +128,17 @@ public class MemberCtrl {
 		@ResponseBody
 		public String ownerRegi(Model model, OwnerDto oDto, String loc_code) {
 			System.out.println(oDto);
+			List<Integer> owner_menu = menu_IService.selAllMenu();
+			System.out.println(owner_menu);
+			String owner_menuInput = ""; // [1, 2, 3, 4, 5, 6, 7, 8, 9, 101]
+			for (int i = 0; i < owner_menu.size(); i++) {
+				owner_menuInput += owner_menu.get(i)+",";
+			}
+			System.out.println(owner_menuInput + "_______fot문 밖"); 
+			oDto.setOwner_menu(owner_menuInput);
 			int n = memService.ownerRegister(oDto);
-			
+//			
 			return (n>0)? "성공":"실패";
-//			model.addAttribute("loc_code", loc_code);
-//			return "redirect:/selOwnerList.do";
 		}
 		
 		// 마이페이지 로그인 페이지로

@@ -82,5 +82,12 @@ public class Menu_ServiceImpl implements Menu_IService{
 		return menu_IDao.deleteMenu(menu_seq);
 	}
 	
+	//전체 메뉴 조회
+	@Override
+	public List<Integer> selAllMenu(){
+		logger.info("selAllMenu Service");
+		return menu_IDao.selAllMenu();
+	}
+	
 	
 }

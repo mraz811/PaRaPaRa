@@ -92,6 +92,10 @@
 	WHERE MENU_SEQ=#{menu_seq}
 	</update>
 	
+	<!-- 메뉴 전체 조회 -->
+	<select id="selAllMenu" resultType="java.lang.Integer">
+		SELECT MENU_SEQ FROM MENU
+	</select>
 	
 	
 
