@@ -29,18 +29,11 @@ public class Pao_ServiceImpl implements Pao_IService {
 		return pao_IDao.paoList(store_code);
 	}
 
-	// 업주 : 발주 상태 선택 조회
+	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회
 	@Override
-	public List<PaoDto> paoSelectStatus(Map<String, Object> map) {
-		logger.info("paoSelectStatus : {}", map);
-		return pao_IDao.paoSelectStatus(map);
-	}
-	
-	// 업주 : 매장 발주 날짜 선택 조회
-	@Override
-	public List<PaoDto> paoSelectDate(Map<String, String> map) {
-		logger.info("paoSelectDate : {}", map);
-		return pao_IDao.paoSelectDate(map);
+	public List<PaoDto> paoSelectStatusDate(Map<String, Object> map) {
+		logger.info("paoSelectStatusDate : {}", map);
+		return pao_IDao.paoSelectStatusDate(map);
 	}
 
 	// 업주 : 발주 신청 시 재고 목록 조회

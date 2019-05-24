@@ -98,7 +98,7 @@
         // 키를 눌렀을 때 해당 key의 코드를 받아옴 
         var keyValue = event.keyCode;
         
-     // 숫자, BackSpace(8), delete(46)를 입력했을 때
+     	// 숫자, BackSpace(8), delete(46)를 입력했을 때
         if( ((keyValue >= 96) && (keyValue <= 105)) || ((keyValue >= 48) && (keyValue <= 57)) || keyValue==8 || keyValue==46 ){
         	// 합계금액을 변경
     		var price = Number(document.getElementsByName("pi_price")[idx].value);
@@ -131,11 +131,23 @@
     		totalPiPrice = Number(sumPrice);
     		$('input[name=totalPiPrice]').val(totalPiPrice);
     		
-        }if( ((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 문자 및 특수문자, 스페이스바를 입력했을 때
+        }
+     	if( ((keyValue >= 65) && (keyValue <= 90)) || ((keyValue >= 97) && (keyValue <= 122)) ){	// 문자를 입력했을 때 
+     		alert("숫자만 입력해주세요!!");
+    		$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
+     	}
+     	/* 
+     	if( ((keyValue >= 33) && (keyValue <= 47)) || ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 58) && (keyValue <= 64)) || ((keyValue >= 91) && (keyValue <= 96)) || ((keyValue >= 123) && (keyValue <= 126)) ){
+     		alert("숫자만 입력해주세요!!");
+    		$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
+     	}
+     	 */
+     	 
+     	if( ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 특수문자, 스페이스바(32)를 입력했을 때
         	alert("숫자만 입력해주세요!!");
     		$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
         }
-        
+         
 	}
 	
 	// 재고 목록에서 해당 품목 추가를 했을 때 재고 목록에서는 사라지고 발주 품목에 추가되는 이벤트 
@@ -270,6 +282,11 @@
 				alert((i+1)+"번째 발주 품목 [ "+piNames[i].value+" ]의 수량이 0 입니다.");
 				return false;
 			}
+			// 발주 품목 중 수량이 숫자가 아닌 품목이 있을 때
+			if(isNaN(piQtys[i])){
+				alert((i+1)+"번째 발주 품목 [ "+piNames[i].value+" ]의 수량을 확인해주세요.");
+				return false;
+			}
 		}
 		
 		if(piSeqs == 0){	// 발주할 품목이 존재하지 않을 때
@@ -323,9 +340,7 @@
 		border-collapse: collapse;
 		text-align: center;
 	}
-	tbody{
-		height: 110px;
-	}
+	
 	tr{
 		height: 26px;
 	}
@@ -352,18 +367,31 @@
 	}
 	/* 
 	#stockList thead, #paoList thead{
-		/* position: absolute; */
+		position: absolute;
 		display: table;
-		/* margin-bottom: 26px; */ 
+		margin-bottom: 26px; 
 	}
 	tbody{display: block; overflow-y:scroll; float:left; width:880px; max-height:110px;} */
- */
+	
+	/* 
+ 	div#stockList{position: relative;padding-top:30px;width:820px;height: 140px;overflow: hidden; margin-bottom: 100px;}
+	div#stockList > div {height: 140px;overflow: auto; border: none;}
+	table{width: 800px}
+	thead tr{position: absolute;top: 0;display: block;background-color: #DEDEDE;width: 800px;}
+	thead th{width: 200px}
+	tbody{display: block;height: 300px;}
+	tbody tr{height: auto;}
+	tbody td{width: 200px;text-align: center;}
+ 	
+ 	div#paoList{position: relative;padding-top:30px;width:850px;height: 140px;overflow: hidden;}
+	div#paoList > div {height: 140px;overflow: auto;}
+	 */
 </style>
 </head>
 <body>
-
+	<h3>■ 재고</h3>
 	<div id="stockList">
-		<h3>■ 재고</h3>
+		<div>
 		<table>
 			<colgroup>
 				<col width="50px;"><col style="width:150px;"><col width="50px;"><col width="150px;"><col width="100px;">
@@ -373,11 +401,12 @@
 					<th>재고번호</th><th>재고명</th><th>수량</th><th>가격</th><th>추가</th>
 				</tr>
 			</thead>
+
 			<tbody id="sbody">		
 				<c:choose>
 					<c:when test="${empty stockLists}">
 						<tr>
-							<td id="noList" colspan="5">-- 작성된 글이 없습니다 --</td>
+							<td id="noList" colspan="5">-- 재고 목록이 없습니다. --</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
@@ -404,12 +433,14 @@
 				</c:choose>
 			</tbody>
 		</table>
+		</div>
 	</div>
 	
 	<form action="./paoRequest.do" method="post" onsubmit="return reqPao();">
 		<input type='hidden' name='store_code' id='store_code' value='${stockLists[0].store_code}'>
+		<h3>■ 발주 품목</h3>
 		<div id="paoList">
-			<h3>■ 발주 품목</h3>
+		<div>
 			<table>
 				<thead>
 					<tr>
@@ -422,6 +453,7 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
 		</div>
 		
 		<div id="resultDiv">
