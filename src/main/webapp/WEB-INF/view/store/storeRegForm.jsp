@@ -66,7 +66,7 @@
 					type: "success"
 				},
 				function(){ 
-					location.reload();
+					opener.parent.location.reload();
 					regiCancel();
 				});
 			},error:function(){

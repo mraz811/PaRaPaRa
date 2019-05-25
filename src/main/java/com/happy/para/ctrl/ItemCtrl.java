@@ -9,9 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.dto.ItemDto;
 import com.happy.para.model.Item_IService;
+
+import net.sf.json.JSONObject;
 
 @Controller
 public class ItemCtrl {
@@ -30,12 +33,13 @@ public class ItemCtrl {
 		return "item/itemList";
 	}
 	
-	@RequestMapping()
+	@RequestMapping(value="/regItem.do", method=RequestMethod.GET)
 	public String addToItemForm() {
 		return "item/itemRegForm";
 	}
 	
-	@RequestMapping(value="/addItem.do", method=RequestMethod.GET)
+	@RequestMapping(value="/addItem.do", method=RequestMethod.POST)
+	@ResponseBody
 	public String addToItem(String item_name, String item_price) {
 		
 		logger.info("Add Item Controller : {}, {}",item_name,item_price);
@@ -46,13 +50,14 @@ public class ItemCtrl {
 		dto.setItem_price(Integer.parseInt(item_price));
 		logger.info("Add Item Controller setDto : {}",dto);
 		boolean isc = itemService.itemInsert(dto);
-		if (isc) {
-			System.out.println("insert 완료");
+		JSONObject json = new JSONObject();
+		if(isc) {
+			json.put("isc", "true");
 		}else {
-			System.out.println("insert 실패");
+			json.put("isc", "false");
 		}
+		return json.toString();
 		
-		return "redirect:/selItemList.do";
 	}
 	
 	@RequestMapping(value="/itemModi.do", method=RequestMethod.GET)

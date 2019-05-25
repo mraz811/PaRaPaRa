@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -13,15 +13,15 @@
 	<div class="bodyFrame">
 	<div class="bodyfixed">
 		<div class="oneDepth">
-			<!-- oneDepthø° ¿˚»˙ ≥ªøÎ¿Ã µÈæÓ∞® ex)∏≈¿Â∞¸∏Æ -->
-			<p class="text-primary" style="font-size: 40px;">√§∆√</p>
+			<!-- oneDepthÏóê Ï†ÅÌûê ÎÇ¥Ïö©Ïù¥ Îì§Ïñ¥Í∞ê ex)Îß§Ïû•Í¥ÄÎ¶¨ -->
+			<p class="text-primary" style="font-size: 40px;">Ï±ÑÌåÖ</p>
 			
 		</div> <!-- div class=oneDepth -->
 		<div class="twoDepth">
-			<!-- onDepth æ»ø° ¿÷¥¬ twoDepth∞° µÈæÓ∞® ex)1depth∞° ∏≈¿Â∞¸∏Æ¿œ ∞ÊøÏ a ≈¬±◊ø° ¿˚»˙ ≥ªøÎ¿∫ ¿œ¡§∞¸∏Æ, ¿Á∞Ì, πﬂ¡÷ µÓ  -->
+			<!-- onDepth ÏïàÏóê ÏûàÎäî twoDepthÍ∞Ä Îì§Ïñ¥Í∞ê ex)1depthÍ∞Ä Îß§Ïû•Í¥ÄÎ¶¨Ïùº Í≤ΩÏö∞ a ÌÉúÍ∑∏Ïóê Ï†ÅÌûê ÎÇ¥Ïö©ÏùÄ ÏùºÏ†ïÍ¥ÄÎ¶¨, Ïû¨Í≥†, Î∞úÏ£º Îì±  -->
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#home">√§∆√∏Ò∑œ</a>
+    			 <a class="nav-link" data-toggle="tab" href="#home">Ï±ÑÌåÖÎ™©Î°ù</a>
   				</li>
 			</ul>
 			<div class="tab-content">
