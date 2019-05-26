@@ -166,6 +166,22 @@ function insertStore() {
 	window.open("./regiStoreForm.do","_blank","width=400, height=500, left=500, top=200");
 }
 
+function storeDetail(sc){
+	var store_code = sc;
+	window.open("./selStoreDetail.do?store_code="+store_code, "_blank","width=400, height=500, left=500, top=100");
+}
+
+function selStoreList(){
+	location.href="./selStoreList.do";
+}
+
+function selPaoList() {
+//	location.href="./selPaoList.do";
+}
+function selItemList(){
+	location.href="./selItemList.do";
+	
+}
 // 매장 등록 모달 form
 //function insertStore(){
 //	alert("하이여");

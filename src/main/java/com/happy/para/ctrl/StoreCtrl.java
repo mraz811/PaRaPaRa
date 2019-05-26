@@ -187,14 +187,23 @@ public class StoreCtrl {
 		return "store/storeModForm";
 	}
 	
-	@RequestMapping(value="/storeModi.do", method=RequestMethod.POST)
+	@RequestMapping(value="/storeModi.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
 	public String modStore(StoreDto sDto, Model model) {
 		logger.info("modify Store Controller : {}", sDto);
 		boolean isc = storeService.storeModify(sDto);
 		System.out.println("매장 수정완료 : " + isc);
 		StoreDto dto = storeService.storeDetail(sDto.getStore_code());
-		model.addAttribute("dto", dto);
-		return "store/storeDetail";
+		JSONObject json = new JSONObject();
+		json.put("store_name", dto.getStore_name());
+		json.put("store_code", dto.getStore_code());
+		json.put("loc_code", dto.getLoc_code());
+		json.put("store_phone", dto.getStore_phone());
+		json.put("store_address", dto.getStore_address());
+		json.put("admin_id", dto.getAdmin_id());
+//		model.addAttribute("dto", dto);
+		System.out.println("수정된 매장 : " + json.toString());
+		return json.toString();
 	}
 	
 	//delStore.do

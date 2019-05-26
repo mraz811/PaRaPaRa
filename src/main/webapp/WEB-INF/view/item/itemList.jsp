@@ -20,7 +20,7 @@
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">
 	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" href="./selStoreList.do">매장 정보</a>
+	    			 <a class="nav-link" data-toggle="tab" onclick="selStoreList()" href="./selStoreList.do">매장 정보</a>
 	  				</li>
 	  				<li class="nav-item">
 	    			 <a class="nav-link" data-toggle="tab" href="#profile">발주</a>
@@ -46,6 +46,8 @@
 								<c:otherwise>
 									<c:forEach items="${itemLists}" var="itemDto">
 										<tr>
+											
+										
 											<td>${itemDto.item_seq}</td>
 											<td>${itemDto.item_name}</td>
 											<td>${itemDto.item_price}</td>
@@ -73,6 +75,9 @@
 	var regItem = function() {
 		window.open("./regItem.do","_blank","width=400, height=500, left=500, top=200");
 // 		location.href = "./regItem.do";
+	}
+	function selStoreList(){
+		location.href="./selStoreList.do";
 	}
 </script>
 
