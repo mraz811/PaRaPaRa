@@ -10,7 +10,7 @@
 <body>
 <div id="container">
 <%@include file="../header.jsp" %>
-<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" src="./js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="./js/storeList.js"></script>
 	<div class="bodyFrame">
 		<div class="bodyfixed">
@@ -20,10 +20,13 @@
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">
 	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" href="./selStoreList.do">매장 정보</a>
+	    			 <a class="nav-link" data-toggle="tab" onclick="selStoreList()" href="#">매장 정보</a>
 	  				</li>
 	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" href="#profile">발주</a>
+	    			 <a class="nav-link" data-toggle="tab" onclick="selPaoList()" href="#">발주</a>
+	  				</li>
+	  				<li class="nav-item">
+	    			 <a class="nav-link" data-toggle="tab" onclick="selItemList()" href="#">품목</a>
 	  				</li>
 				</ul>
 				<div class="tab-content">
@@ -49,7 +52,7 @@
 										<c:forEach items="${lists}" var="storeDto">
 											<tr>
 												<td>${storeDto.store_code}</td>
-												<td><a href="./selStoreDetail.do?store_code=${storeDto.store_code}">${storeDto.store_name}</a></td>
+												<td><a href="#" onclick="storeDetail('${storeDto.store_code}')">${storeDto.store_name}</a></td>
 												<td>${storeDto.store_address}</td>
 												<td>${storeDto.store_phone}</td>
 											</tr>

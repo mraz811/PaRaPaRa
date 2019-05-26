@@ -6,54 +6,119 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script type="text/javascript">
-	function modiStore() {
-		var code = document.getElementById("storeCode").value;
-		location.href = "./storeModiForm.do?store_code="+code;
-	}
-	
-	function delStore(){
-		var code = document.getElementById("storeCode").value;
-		location.href = "./delStore.do?store_code="+code;
-	}
-</script>
+<link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+<script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="./js/sweetalert.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap.js"></script>
 <body>
 	<div id="container">
-		<input type="hidden" id="storeCode" value="${dto.store_code}">
-		<table>
-			<thead>
-				<tr>
-					<th colspan="2">${dto.store_name}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th>매장코드</th>
-					<td>${dto.store_code}</td>
-				</tr>
-				<tr>
-					<th>지역코드</th>
-					<td>${dto.loc_code}</td>
-				</tr>
-				<tr>
-					<th>매장전화번호</th>
-					<td>${dto.store_phone}</td>
-				</tr>
-				<tr>
-					<th>매장주소</th>
-					<td>${dto.store_address}</td>
-				</tr>
-				<tr>
-					<th>사번</th>
-					<td>${dto.admin_id}</td>
-				</tr>
-			</tbody>
-		</table>
-		<div>
-			<input type="button" value="수정" onclick="modiStore()">
-			<input type="button" value="삭제" onclick="delStore()">
-			<input type="button" value="닫기" onclick="close()">
-		</div>
+		<form action="#" id="frm" method="post">
+			<fieldset id="detailStore">
+				<div class="form-group">
+					<label>매장명</label>
+					<input class="form-control" type="text" readonly="readonly" id="store_name" name="store_name" value="${dto.store_name}">
+				</div>
+				<div class="form-group">
+					<label>매장코드</label>
+					<input class="form-control" type="text" readonly="readonly" id="store_code" name="store_code" value="${dto.store_code}">
+				</div>
+				<div class="form-group">
+					<label>지역코드</label>
+					<input class="form-control" type="text" readonly="readonly" id="loc_code" name="loc_code" value="${dto.loc_code}">
+				</div>
+				<div class="form-group">
+					<label>매장전화번호</label>
+					<input class="form-control" type="text" readonly="readonly" id="store_phone" name="store_phone" value="${dto.store_phone}">
+				</div>
+				<div class="form-group">
+					<label>매장주소</label>
+					<input class="form-control" type="text" readonly="readonly" id="store_address" name="store_address" value="${dto.store_address}" >
+				</div>
+				<div class="form-group">
+					<label>사번</label>
+					<input class="form-control" type="text" readonly="readonly" id="admin_id" name="admin_id" value="${dto.admin_id}">
+				</div>
+				<div id="btnDiv" align="right">
+					<input type="button" class="btn btn-outline-success" id="modiForm" value="수정" onclick="modiStoreForm()">
+					<input type="button" class="btn btn-outline-success" id="deleteStore" value="삭제" onclick="delStore()">
+					<input type="button" class="btn btn-outline-success" id="close" value="닫기" onclick="modiCancel()">
+				</div>
+			</fieldset>
+		</form>
 	</div>
+	<script type="text/javascript">
+		function modiStoreForm() {
+			$("#store_name").removeAttr("readonly");
+			$("#store_phone").removeAttr("readonly");
+			$("#store_address").removeAttr("readonly");
+			$("#admin_id").removeAttr("readonly");
+			var htmlBtn = "";
+			htmlBtn += "<input type='button' class='btn btn-outline-success' id='modi' value='수정완료' onclick='modiStore()'>"
+					+ "<input type='button' class='btn btn-outline-success' id='close' value='닫기' onclick='close()'>";
+// 		 	alert(htmlBtn);
+			$("#btnDiv").html(htmlBtn);
+		}
+		function modiStore(){
+			$.ajax({
+				url : "./storeModi.do",
+				type : "post",
+				async : true,
+				data : $("#frm").serialize(),
+				dataType:"json",
+				success : function(msg){
+					alert("왜안되야");
+					swal({
+						title: "수정 완료", 
+						text: "매장 수정이 완료되었습니다", 
+						type: "success"
+					},
+					function(){ 
+// 						opener.parent.location.reload();
+// 						modiCancel();
+						var htmlDetail = "";
+						htmlDetail += 	"<div class='form-group'>"
+											+"<label>매장명</label>"
+											+"<input class='form-control' type='text' readonly='readonly' id='store_name' name='store_name' value='"+msg.store_name+"'>"
+										+"</div>"
+										+"<div class='form-group'>"
+											+"<label>매장코드</label>"
+											+"<input class='form-control' type='text' readonly='readonly' id='store_code' name='store_code' value='"+msg.store_code+"'>"
+										+"</div>"
+										+"<div class='form-group'>"
+											+"<label>지역코드</label>"
+											+"<input class='form-control' type='text' readonly='readonly' id='loc_code' name='loc_code' value='"+msg.loc_code+"'>"
+										+"</div>"
+										+"<div class='form-group'>"
+											+"<label>매장전화번호</label>"
+											+"<input class='form-control' type='text' readonly='readonly' id='store_phone' name='store_phone' value='"+msg.store_phone+"'>"
+										+"</div>"
+										+"<div class='form-group'>"
+											+"<label>매장주소</label>"
+											+"<input class='form-control' type='text' readonly='readonly' id='store_address' name='store_address' value='"+msg.store_address+"'>"
+										+"</div>"
+										+"<div class='form-group'>"
+											+"<label>사번</label>"
+											+"<input class='form-control' type='text' readonly='readonly' id='admin_id' name='admin_id' value='"+msg.admin_id+"'>"
+										+"</div>"
+										+"<div id='btnDiv' align='right'>"
+											+"<input type='button' class='btn btn-outline-success' id='modiForm' value='수정' onclick='modiStoreForm()'>"
+											+"<input type='button' class='btn btn-outline-success' id='deleteStore' value='삭제' onclick='delStore()'>"
+											+"<input type='button' class='btn btn-outline-success' id='close' value='닫기' onclick='modiCancel()'>"
+										+"</div>";
+						$("#detailStore").html(htmlDetail);
+						
+					});
+				},error:function(){
+//	 				alert("실패");
+					swal("수정 에러", "수정 중 문제가 발생하였습니다.", "error");
+				}
+			});
+		}
+		var modiCancel = function(){
+			self.close();
+		}
+	</script>
 </body>
 </html>
