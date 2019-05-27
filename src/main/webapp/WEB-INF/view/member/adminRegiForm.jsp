@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
-<script type="text/javascript" src="./js/validationChk.js"></script>
+<script type="text/javascript" src="./js/member/validationChk.js"></script>
 <script type="text/javascript">
 //등록 취소 버튼클릭 시 실행할 함수
 function adRegiCancel(){

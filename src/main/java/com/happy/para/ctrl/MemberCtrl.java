@@ -390,7 +390,60 @@ public class MemberCtrl {
 		//**********************************************************//	
 		//						업주 조회 페이징(ajax)						//
 		//**********************************************************//		
+		@RequestMapping(value="/ownerPaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
+		public String ownerPaging(HttpSession session, PagingDto pagingDto, String loc_code) {
+			if(loc_code==null) {
+				AdminDto ad = (AdminDto) session.getAttribute("loginDto");
+				loc_code = ad.getLoc_code();
+			}
+			JSONObject json = null;
+			Map<String, String> map = new HashMap<String, String>();
+			pagingDto.setTotal(memService.ownerListRow(loc_code));
+			map.put("start", pagingDto.getStart()+"");
+			map.put("end", pagingDto.getEnd()+"");
+			map.put("loc_code", loc_code);
+			json = ownerJson(memService.ownerList(map),pagingDto);
+			json.put("listSize", pagingDto.getTotal());
+			
+			System.out.println(json.toString());
+			return json.toString();
+		}
 		
+		private JSONObject ownerJson(List<OwnerDto> ownerList, PagingDto pDto) {
+			JSONObject json = new JSONObject();
+			JSONArray jLists = new JSONArray();
+			JSONObject jList = null;
+			
+			for (OwnerDto dto : ownerList) {
+				jList = new JSONObject();
+				jList.put("owner_seq", dto.getOwner_seq());
+				jList.put("owner_id", dto.getOwner_id());
+				jList.put("owner_name", dto.getOwner_name());
+				jList.put("owner_phone", dto.getOwner_phone());
+				jList.put("owner_email", dto.getOwner_email());
+				jList.put("store_code", dto.getStore_code());
+				jList.put("owner_start", dto.getOwner_start());
+				jList.put("owner_end", dto.getOwner_end());
+//				jList.put("listSize", ownerList.size());
+				jLists.add(jList);
+			}
+			
+			jList = new JSONObject();
+			jList.put("pageList",pDto.getPageList());
+			jList.put("index",pDto.getIndex());
+			jList.put("pageNum",pDto.getPageNum());
+			jList.put("listNum",pDto.getListNum());
+			jList.put("total",pDto.getTotal());
+			jList.put("count",pDto.getCount());
+			
+			json.put("owLists", jLists);
+			json.put("owPaging", jList);
+//			json.put("listSize", ownerList.size());
+			
+			return json;
+		}
+
 		// 업주 전체 조회 (페이징 사용)
 		@RequestMapping(value="/selOwnerList.do", method=RequestMethod.GET)
 		public String selOwnerList(HttpSession session, Model model, String loc_code) {
@@ -413,7 +466,6 @@ public class MemberCtrl {
 			
 			return "/member/ownerList";
 		}
-		
 		
 		
 		//**********************************************************//	

@@ -23,7 +23,8 @@
 }
 </style>
 </head>
-<script type="text/javascript" src="./js/paging.js"></script>
+<script type="text/javascript" src="./js/member/paging.js"></script>
+<script type="text/javascript" src="./js/member/owner.js"></script>
 
 <body>
 <div id="container">
@@ -45,7 +46,7 @@
 			</ul>
 			
 			<div class="tab-content" align="center">
-				<div class="owner_table">
+				<div id="owner_table" class="owner_table">
 				<table id="ownerList" class="table table-hover" style="margin-bottom: 0px;">
 					<tr class="table-primary">
 						<th width="110px">사업자번호</th>
@@ -64,7 +65,7 @@
 				
 				<c:forEach var="ow" items="${ownerlist}" varStatus="vs">
 		
-				<form action="#" method="post" >
+				<form action="#" method="post" id="form${ow.owner_seq}" >
 				<input type="hidden" name="owner_seq" value="${ow.owner_seq}">
 				<table class="table table-hover" style="margin-bottom: 0px; height: 59px;">
 					<tr>
@@ -76,8 +77,8 @@
 						<td width="115px">${ow.store_code}</td>
 						<td width="120px">${fn:substring(ow.owner_start,0,10)}</td>
 						<c:if test="${ow.owner_end eq null}">
-							<td width="165px"><input id="owner_end${vs.index}" name="owner_end" type="date"></td>
-							<td width="100px"><input class="btn btn-secondary" type="button" value="계약종료" onclick="finContract('${vs.index}','${ow.owner_start}')"></td>	
+							<td width="165px"><input id="owner_end${ow.owner_seq}" name="owner_end" type="date"></td>
+							<td width="100px"><input class="btn btn-secondary" type="button" value="계약종료" onclick="finContract('${ow.owner_seq}','${ow.owner_start}')"></td>	
 						</c:if>
 						<c:if test="${ow.owner_end ne null}">
 							<td width="165px">${fn:substring(ow.owner_end,0,10)}</td>
@@ -96,7 +97,8 @@
 				</div>
 		
 		
-				<!-- 페이징 처리 기능은 화면 템플릿 추가 후 추가할 예정 -->
+				<!-- 페이징 처리 -->
+			<form action="#" id="pagingForm" method="post">
 				<input type="hidden" name="index" id="index" value="${ownerRow.index}">
 				<input type="hidden" name="pageNum" id="pageNum" value="${ownerRow.pageNum}"> 
 				<input type="hidden" name="listNum"	id="listNum" value="${ownerRow.listNum}">
@@ -124,7 +126,8 @@
 						</li>
 					</ul>
 				</div>
-
+			</form>
+			
 			</div><!-- tab-content -->
 
 		</div> <!-- twoDepth -->
@@ -159,7 +162,8 @@ var finContract = function(frmNo, start){
 		// 계약종료일 등록 완료 시
 		var isc = confirm("계약 종료 시 되돌릴 수 없습니다.");
 		if(isc){
-			var frm = document.forms[frmNo];
+// 			var frm = document.forms[frmNo];
+			var frm = document.getElementById("form"+frmNo);
 			frm.action = "./delOwner.do";
 			frm.methd = "post";
 			frm.submit();
