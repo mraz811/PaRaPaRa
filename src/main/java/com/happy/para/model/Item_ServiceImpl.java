@@ -40,6 +40,12 @@ public class Item_ServiceImpl implements Item_IService {
 		logger.info("delete Item : {}",item_seq);
 		return item_IDao.itemDelete(item_seq);
 	}
+
+	@Override
+	public ItemDto itemDetail(String item_seq) {
+		logger.info("detail Item service : {}" + item_seq);
+		return item_IDao.itemDetail(item_seq);
+	}
 	
 	
 	

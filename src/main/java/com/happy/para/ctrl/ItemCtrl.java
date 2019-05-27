@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.happy.para.dto.ItemDto;
 import com.happy.para.model.Item_IService;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -38,7 +39,7 @@ public class ItemCtrl {
 		return "item/itemRegForm";
 	}
 	
-	@RequestMapping(value="/addItem.do", method=RequestMethod.POST)
+	@RequestMapping(value="/addItem.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String addToItem(String item_name, String item_price) {
 		
@@ -60,7 +61,19 @@ public class ItemCtrl {
 		
 	}
 	
-	@RequestMapping(value="/itemModi.do", method=RequestMethod.GET)
+	@RequestMapping(value="/itemModiForm.do", method=RequestMethod.GET)
+	public String modItemForm(String item_seq, Model model) {
+		logger.info("Modify Item Controller : {}", item_seq);
+		
+		ItemDto dto = itemService.itemDetail(item_seq);
+		System.out.println("품목 상세 조회 : " + dto);
+		model.addAttribute("dto", dto);
+		
+		return "item/itemModForm";
+	}
+	
+	@RequestMapping(value="/itemModi.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
 	public String modItem(String item_seq, String item_price, String item_name) {
 		ItemDto dto = new ItemDto();
 		dto.setItem_seq(Integer.parseInt(item_seq));
@@ -79,7 +92,8 @@ public class ItemCtrl {
 		return "";
 	}
 	
-	@RequestMapping(value="/delItem.do", method=RequestMethod.GET)
+	@RequestMapping(value="/delItem.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
 	public String deleteItem(String item_seq) {
 		logger.info("delete Item Controller : {}",item_seq);
 		
@@ -89,8 +103,20 @@ public class ItemCtrl {
 		}else {
 			System.out.println("delete 완료");
 		}
-		
-		return "";
+		JSONObject json = new JSONObject();
+		JSONArray jLists = new JSONArray();
+		JSONObject jList = null;
+		List<ItemDto> lists = itemService.itemList();
+		for (ItemDto dto : lists) {
+			jList = new JSONObject();
+			jList.put("item_seq", dto.getItem_seq());
+			jList.put("item_name", dto.getItem_name());
+			jList.put("item_price", dto.getItem_price());
+			
+			jLists.add(jList);
+		}
+		json.put("lists", jLists);
+		return json.toString();
 	}
 	
 	

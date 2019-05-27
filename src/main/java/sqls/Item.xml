@@ -23,4 +23,11 @@
 		WHERE ITEM_SEQ=#{item_seq}
 	</delete>
 	
+	<select id="itemDetail" parameterType="java.lang.String" resultType="ItemDto">
+		SELECT ITEM_SEQ, ITEM_NAME, ITEM_PRICE
+		FROM ITEM
+		WHERE ITEM_SEQ = #{item_seq}
+		ORDER BY ITEM_SEQ
+	</select>
+	
 </mapper>
