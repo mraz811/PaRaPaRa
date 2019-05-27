@@ -48,14 +48,16 @@
 
 #makingList {
 	width: 490px;
-	height: 255px;
-	overflow: scroll;
+	height: 270px;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 #waitingList {
 	width: 490px;
-	height: 255px;
-	overflow: scroll;
+	height: 270px;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 #makingDetail {
