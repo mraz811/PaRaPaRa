@@ -4,7 +4,7 @@
 
 <!-- 댓글 조회 -->
 	<select id="replyList" parameterType="java.lang.String" resultType="ReplyDto">
-		SELECT REPLY_SEQ, NOTICE_SEQ, REPLY_ID, TO_CHAR(REPLY_REGDATE,'YYYY/MM/dd') AS REPLY_REGDATE, REPLY_CONTENT
+		SELECT REPLY_SEQ, NOTICE_SEQ, REPLY_ID, REPLY_NAME, TO_CHAR(REPLY_REGDATE,'YYYY/MM/dd') AS REPLY_REGDATE, REPLY_CONTENT
 			FROM REPLY
 				WHERE NOTICE_SEQ = #{notice_seq}
 					ORDER BY REPLY_SEQ DESC
@@ -12,8 +12,8 @@
 
 <!-- 댓글 입력 -->
 	<insert id="replyWrite" parameterType="ReplyDto">
-		INSERT INTO REPLY(REPLY_SEQ, NOTICE_SEQ, REPLY_ID, REPLY_REGDATE, REPLY_CONTENT)
-			VALUES(REPLY_SEQ.NEXTVAL, #{notice_seq}, #{reply_id}, SYSDATE, #{reply_content})
+		INSERT INTO REPLY(REPLY_SEQ, NOTICE_SEQ, REPLY_ID, REPLY_NAME, REPLY_REGDATE, REPLY_CONTENT)
+			VALUES(REPLY_SEQ.NEXTVAL, #{notice_seq}, #{reply_id}, #{reply_name}, SYSDATE, #{reply_content})
 	</insert>
 
 <!-- 댓글 삭제 -->

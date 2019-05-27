@@ -8,9 +8,12 @@ public class NoticeDto implements Serializable {
 	 * 공지사항 DTO
 	 */
 	private static final long serialVersionUID = -998168435916756534L;
+	
+	private String rnum;
 	private String notice_seq;
 	private String notice_title;
 	private String notice_id;
+	private String notice_name;
 	private String notice_regdate;
 	private String notice_content;
 	private String notice_delflag;
@@ -18,15 +21,26 @@ public class NoticeDto implements Serializable {
 	public NoticeDto() {
 	}
 
-	public NoticeDto(String notice_seq, String notice_title, String notice_id, String notice_regdate,
-			String notice_content, String notice_delflag) {
+	public NoticeDto(String notice_seq, String notice_title, String notice_id, String notice_name,
+			String notice_regdate, String notice_content, String notice_delflag) {
 		super();
 		this.notice_seq = notice_seq;
 		this.notice_title = notice_title;
 		this.notice_id = notice_id;
+		this.notice_name = notice_name;
 		this.notice_regdate = notice_regdate;
 		this.notice_content = notice_content;
 		this.notice_delflag = notice_delflag;
+	}
+
+	
+	
+	public String getRnum() {
+		return rnum;
+	}
+
+	public void setRnum(String rnum) {
+		this.rnum = rnum;
 	}
 
 	public String getNotice_seq() {
@@ -53,6 +67,14 @@ public class NoticeDto implements Serializable {
 		this.notice_id = notice_id;
 	}
 
+	public String getNotice_name() {
+		return notice_name;
+	}
+
+	public void setNotice_name(String notice_name) {
+		this.notice_name = notice_name;
+	}
+
 	public String getNotice_regdate() {
 		return notice_regdate;
 	}
@@ -77,16 +99,14 @@ public class NoticeDto implements Serializable {
 		this.notice_delflag = notice_delflag;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	@Override
 	public String toString() {
-		return "NoticeDto [notice_seq=" + notice_seq + ", notice_title=" + notice_title + ", notice_id=" + notice_id
-				+ ", notice_regdate=" + notice_regdate + ", notice_content=" + notice_content + ", notice_delflag="
-				+ notice_delflag + "]";
+		return "NoticeDto [rnum=" + rnum + ", notice_seq=" + notice_seq + ", notice_title=" + notice_title
+				+ ", notice_id=" + notice_id + ", notice_name=" + notice_name + ", notice_regdate=" + notice_regdate
+				+ ", notice_content=" + notice_content + ", notice_delflag=" + notice_delflag + "]";
 	}
+
+	
 
 	
 	

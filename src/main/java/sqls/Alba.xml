@@ -44,7 +44,7 @@
 
 <!-- 아르바이트 조회(Timesheet에 사용) -->
 <select id="albaTimeSheet" parameterType="java.lang.String" resultType="AlbaDto">
-	SELECT ALBA_SEQ, ALBA_NAME 
+	SELECT ALBA_SEQ, ALBA_NAME, ALBA_PHONE, ALBA_ADDRESS, ALBA_TIMESAL, ALBA_BANK, ALBA_ACCOUNT, ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE
 	FROM ALBA 
 	WHERE STORE_CODE=#{store_code}	
 </select>

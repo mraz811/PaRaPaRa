@@ -6,8 +6,11 @@ gVal.DIV_TIME = null;
 gVal.SHIFT = null;
 gVal.OPTION = null;
 gVal.SELECTOR = null;
+
+
 // Class for calculation
 class CalculationT{
+	
     /**
     * Convert time working time into minutes
     * If ending time passes 00:00, add 1440(24H) to returning minutes.
@@ -568,9 +571,9 @@ class UtilT extends CalculationT{
         this.v = new ValidationT();
     }
     /*
-    Generator to return color, startTime, endTime as variable
+    Generator to return color, , endTime as variable
     @param {obj} obj : color and time Object
-    @example :{1:[{color:1,startTime:600,endTime:1200},{color:..}], 2:{...}}
+    @example :{1:[{color:1,:600,endTime:1200},{color:..}], 2:{...}}
     @return {int} index : index
     {int} color : color
     {int} s : startTime
@@ -781,6 +784,9 @@ class UtilT extends CalculationT{
         });
         return index;
     }
+    
+    
+    
     /**
      * [refreshWorkTime description]
      */
@@ -794,6 +800,7 @@ class UtilT extends CalculationT{
                 target = $(elem).attr("id");
             }
             let time = this.getTotalShiftTime(target, this.v.shiftTime);
+           
             $(elem).find(".js-workTime").html(time);
         });
     }
@@ -989,6 +996,7 @@ class TimeTable{    // eslint-disable-line no-unused-vars
         selectTag = selectTag + str + "</select>";
         return selectTag;
     }
+    
     /**
     * setWorkTimeColumn - description
     */
@@ -1005,7 +1013,8 @@ class TimeTable{    // eslint-disable-line no-unused-vars
                 target = $(elem).attr("id");
             }
             let time = this.c.getTotalShiftTime(target, this.v.shiftTime);
-            $(elem).append(`<td class="TimeTable__worktime js-workTime">${time}</td>`);
+//            alert("히히"+time);
+            $(elem).append(`<td id="getWT" class="TimeTable__worktime js-workTime">${time}</td>`);
         });
     }
     /**
@@ -1063,7 +1072,7 @@ class TimeTable{    // eslint-disable-line no-unused-vars
             let _this = this;
             let id = $(_this).attr("data-nameid");
             if($(".js-tdata").length > 1){
-            	
+
                 $("#timeTableToolTip").remove();
                 if(id){
                     $(`#${id}`).remove();
@@ -1121,7 +1130,7 @@ class TimeTable{    // eslint-disable-line no-unused-vars
         }
         this.deleteRow();
         this.u.refreshWorkTime();
-
+        alert("worktime");
         this.refreshCanvas();
     }
     /**
@@ -1523,7 +1532,7 @@ class CanvasT extends CalculationT{
     */
     deleteShiftData(time, index){
     	alert("삭제????");
-    	alert(time); // 07:00-11:00
+//    	alert(time); // 07:00-11:00
     	alert(index); // 알바 seq
     	
     	var currentDate = document.getElementById("currentDate").value;
@@ -1575,8 +1584,6 @@ class CanvasT extends CalculationT{
     */
     addShiftData(color){
     	
-    	
-    	
         // Data to insert
         let index = this.startCoordinate.index;
         let sTime = super.int2Time(this.startCoordinate.time);
@@ -1610,13 +1617,14 @@ class CanvasT extends CalculationT{
      // 날짜! ts_date
 //    	document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
     	var ts_date = document.getElementById('currentDate').value;
+//    	var getWT = document.getElementById('getWT').innerHTML;
 
         alert(index);
         alert(name);
         alert(sTime);
         alert(eTime);
         alert(ts_date);
-//        alert(typeof shift);
+//        alert("getWT"+getWT);
 
         $.ajax({
 			url: "regiTimeSheet.do", //요청 url
@@ -1653,3 +1661,5 @@ class CanvasT extends CalculationT{
         this.stageUpdate();
     }
 }
+
+
