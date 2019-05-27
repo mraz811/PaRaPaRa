@@ -36,11 +36,11 @@
 		<table>
 			<tr>
 				<td>제목</td>
-				<td><input name="notice_title" type="text"></td>
+				<td><input name="notice_title" type="text" placeholder="${dto.notice_title}"></td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<textarea name="notice_content" rows="10" cols="30" style="overflow-y:scroll"></textarea>
+					<textarea name="notice_content" rows="10" cols="30" style="overflow-y:scroll" placeholder="${dto.notice_content}"></textarea>
 				</td>
 			</tr>
 		</table>

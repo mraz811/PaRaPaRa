@@ -10,17 +10,7 @@
 <link rel="stylesheet" type="text/css" href="css/TimeTable.css"/>
 </head>
 <body>
-<%-- 
-${objWW}
-<hr>
-${objLists}
-<hr>
-${today}
-<hr>
-${lists}
- 
- --%>
-  
+
  		<div id="container">
 		<%@include file="../header.jsp"%>
 		<div class="bodyFrame">
@@ -40,7 +30,7 @@ ${lists}
 		    			 <a class="nav-link" data-toggle="tab" id="albaLists">아르바이트</a>
 		  				</li>
 		  				<li class="nav-item">
-		    			 <a class="nav-link" data-toggle="tab" href="#profile">급여</a>
+		    			 <a class="nav-link" data-toggle="tab" id="salary">급여</a>
 		  				</li>
 					</ul>
 					<div class="tab-content">
@@ -50,20 +40,25 @@ $(function(){
 	$("#albaLists").click(function(){
 		location.href="./selAlbaList.do";
 	});
+	$("#salary").click(function(){
+		location.href="./salary.do";
+	});	
 });
 
 </script> 
 
-	<form action="#" method="post">
+	<form action="#" method="get">
 
+<%-- 	<input type="date" id='currentDate' name="ts_date" value="${today}"> --%>
 	<input type="date" id='currentDate' name="ts_date" value="${today}">
+	<button onclick="changheDate()">날짜 변경</button>
 
 	</form>
 
     <div id="test"></div>
-    <button id="addRow">AddRow</button>
-    <button id="colorChange">Change Random Color</button>
-    <button id="getData">getData</button>
+<!--     <button id="addRow">AddRow</button> -->
+<!--     <button id="colorChange">Change Random Color</button> -->
+<!--     <button id="getData">getData</button> -->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/createjs.min.js"></script>
     <script src="js/TimeTable.js"></script>
@@ -77,10 +72,35 @@ $(function(){
 		<%@include file="../footer.jsp"%>
 	</div>
 	
-	
 </body>
 
 <script type="text/javascript">
+
+// document.getElementById("currentDate").value = new Date().toISOString().substring(0, 10);
+
+function changheDate() {
+	
+	var ts_date = document.getElementById("currentDate").value;
+	alert(ts_date);
+	/* 
+	var frm = document.forms[0];
+	frm.action = "./selTimeSheet.do";
+	frm.submit();
+	*/
+	$.ajax({
+		url: "selTimeSheet.do", //요청 url
+		type: "get", // 전송 처리방식
+		asyn: false, // true 비동기 false 동기
+// 		data: { 'ts_date' : ts_date }, // 서버 전송 파라메터 
+		data: "ts_date="+ts_date, // 서버 전송 파라메터 
+		success: function(msg){
+			alert("성공");
+		}, error : function() {
+			alert("실패");
+		}
+	});	
+	
+}
 
 var shiftObj = ${timeArr};
 
@@ -88,7 +108,7 @@ let obj = {
   // Beginning Time
   startTime: "01:00",
   // Ending Time
-  endTime: "25:00",
+  endTime: "24:00",
   // Time to divide(minute)
   divTime: "30",
   // Time Table
@@ -107,7 +127,7 @@ let obj = {
 //Call Time Table
 var instance = new TimeTable(obj);
 console.time("time"); // eslint-disable-line
-instance.init("#test");
+instance.init("#test");  
 console.timeEnd("time");// eslint-disable-line
 
  </script>

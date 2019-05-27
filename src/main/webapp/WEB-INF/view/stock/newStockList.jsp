@@ -73,7 +73,6 @@ $(function(){
 	$("#calendar").click(function(){
 		location.href="./selCal.do";
 	});
-	
 })
 </script>
 

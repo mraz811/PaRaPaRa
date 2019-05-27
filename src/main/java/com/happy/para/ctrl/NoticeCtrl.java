@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.NoticeDto;
+import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.PagingDto;
 import com.happy.para.dto.ReplyDto;
 import com.happy.para.model.Calendar_IService;
@@ -32,17 +34,19 @@ public class NoticeCtrl {
 	@RequestMapping(value="/selNoticeList.do", method=RequestMethod.GET)
 	public String noticeList(HttpSession session, Model model) {
 		
+		System.out.println("selNoticeList 접속");
+		
 		PagingDto rowDto = null;
 		List<NoticeDto> lists = null;
-		
+
 		if(session.getAttribute("noticRow")== null) {
 			rowDto = new PagingDto();
 		}else {
 			rowDto = (PagingDto) session.getAttribute("noticRow");
 		}
-		
-		rowDto.setTotal(noticeSer.noticeListRow());
 
+		rowDto.setTotal(noticeSer.noticeListRow());
+		
 		lists = noticeSer.noticeList(rowDto);
 		
 		model.addAttribute("lists", lists);
@@ -50,25 +54,52 @@ public class NoticeCtrl {
 		
 		return "notice/noticeList";
 	}
-	
+
 	@RequestMapping(value="/regiNoticeForm.do", method=RequestMethod.GET)
 	public String noticeWriteForm() {
 		return "notice/noticeWriteForm";
 	}
 	
 	@RequestMapping(value="/regiNotice.do", method=RequestMethod.POST)
-	public String noticeWrite(NoticeDto dto) {
-		dto.setNotice_id("작성자2"); // 나중에 세션으로 가져올거임
+	public String noticeWrite(NoticeDto dto, String loginDtoAuth, Model model, HttpSession session) {
+		
+		if(loginDtoAuth.equalsIgnoreCase("A")) { // 담당자
+			AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
+			dto.setNotice_id(aDto.getAdmin_id()+"");
+			dto.setNotice_name(aDto.getAdmin_name());
+		}
+		
+		/*
+		else { // 업주
+			OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");			
+			dto.setNotice_id(oDto.getOwner_id());
+			dto.setNotice_name(oDto.getOwner_name());
+		}
+		*/
+		
 		boolean isc = noticeSer.noticeWrite(dto);
 		
 		return isc? "redirect:/selNoticeList.do" : "notice/noticeWriteForm";
 	}
 	
 	@RequestMapping(value="/selNoticeDetail.do", method=RequestMethod.GET)
-	public String noticeDetail(Model model, String notice_seq) {
+	public String noticeDetail(Model model, String notice_seq, HttpSession session, String loginDtoAuth) {
 		
 		NoticeDto dto = noticeSer.noticeDetail(notice_seq);
 		List<ReplyDto> Rlists = noticeSer.replyList(notice_seq);
+		
+		System.out.println("loginDtoAuth?!!!!!!!!"+loginDtoAuth);
+		
+		// loginDtoAuth A or U 접속 ID 받고, ID에 따른 수정, 삭제 버튼 화면에 띄워주기
+		
+		if(loginDtoAuth.equalsIgnoreCase("A")) { // 담당자
+			AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
+			model.addAttribute("admin_id", aDto.getAdmin_id()+"");
+			System.out.println("admin_id"+aDto.getAdmin_id()+"");
+		}else { // 업주
+			OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");			
+			model.addAttribute("owner_id", oDto.getOwner_id()+"");
+		}
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("Rlists", Rlists);
@@ -78,12 +109,12 @@ public class NoticeCtrl {
 	
 	@RequestMapping(value="/noticeModifyForm.do", method=RequestMethod.POST)
 	public String noticeModifyForm(Model model, NoticeDto dto) {
-		
+
 		String notice_seq = dto.getNotice_seq();
-		
+
 		NoticeDto Ndto = noticeSer.noticeDetail(notice_seq);
 		model.addAttribute("dto", Ndto);
-		
+
 		return "notice/noticeModifyForm";
 	}
 	
@@ -102,35 +133,51 @@ public class NoticeCtrl {
 		
 		return isc? "redirect:/selNoticeList.do" : "notice/noticeList";
 	}
-	
+
 	@RequestMapping(value="/replyWrite.do", method=RequestMethod.POST)
-	public String replyWrite(ReplyDto dto) {
+	public String replyWrite(ReplyDto dto, HttpSession session, Model model, String loginDtoAuth) {
 
 //		System.out.println(dto.getNotice_seq());
 //		System.out.println(dto.getReply_content());
 
+		System.out.println("loginDtoAuth? : "+loginDtoAuth);
+
 		String notice_seq = dto.getNotice_seq();
 		
-		dto.setReply_id("임시작성자"); // 세션으로 받을거
+		if(loginDtoAuth.equalsIgnoreCase("A")) { // 담당자
+			AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
+			dto.setReply_id(aDto.getAdmin_id()+"");
+			dto.setReply_name(aDto.getAdmin_name());
+			model.addAttribute("admin_id", aDto.getAdmin_id());
+			
+		}
+		
+		if (loginDtoAuth.equalsIgnoreCase("U")){ // 업주
+			OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");			
+			dto.setReply_id(oDto.getOwner_id());
+			dto.setReply_name(oDto.getOwner_name());
+			model.addAttribute("owner_id", oDto.getOwner_id()+"");
+		}
+		
 		
 		noticeSer.replyWrite(dto);
 		
-		return "redirect:/selNoticeDetail.do?notice_seq="+notice_seq;
+		return "redirect:/selNoticeDetail.do?notice_seq="+notice_seq+"&loginDtoAuth="+loginDtoAuth;
 		
 	}
 
 	@RequestMapping(value="/replyDel.do", method = RequestMethod.GET)
-	public String replyDel(ReplyDto dto) {
-		
+	public String replyDel(ReplyDto dto, String loginDtoAuth) {
+
 		String reply_seq = dto.getReply_seq();
 		String notice_seq = dto.getNotice_seq();
-		
+
 		System.out.println(reply_seq);
 		System.out.println(notice_seq);
 		
 		noticeSer.replyDelete(reply_seq);
 	
-		return "redirect:/selNoticeDetail.do?notice_seq="+notice_seq;
+		return "redirect:/selNoticeDetail.do?notice_seq="+notice_seq+"&loginDtoAuth="+loginDtoAuth;
 	}
 	
 	@RequestMapping(value="/noticePaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
@@ -144,6 +191,7 @@ public class NoticeCtrl {
 		
 		session.removeAttribute("noticRow");
 		session.setAttribute("noticRow", pDto);
+		System.out.println("json.toString() : "+json.toString());
 		return json.toString();
 	}
 
@@ -157,12 +205,12 @@ public class NoticeCtrl {
 		// 게시글에 관련
 		for (NoticeDto dto : lists) {
 			jList = new JSONObject();
+			jList.put("rnum",dto.getRnum());
 			jList.put("seq",dto.getNotice_seq());
 			jList.put("id",dto.getNotice_id());
+			jList.put("name",dto.getNotice_name());
 			jList.put("title",dto.getNotice_title());
-			jList.put("content",dto.getNotice_content());
 			jList.put("regdate",dto.getNotice_regdate());
-			jList.put("delflag",dto.getNotice_delflag());
 
 			jLists.add(jList);
 		}          
