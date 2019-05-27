@@ -31,7 +31,6 @@
 #detailMenu{
 	cursor: pointer;
 }
-
 </style>
 <link rel="stylesheet" href="./css/requestList.css">
 </head>
@@ -147,7 +146,12 @@
 														<td style="width: 100px;">${request.request_bank}</td>
 														<td style="width: 180px;">${request.request_account}</td>
 														<td style="width: 50px;">${request.os_code eq 3?'완료':'환불'}</td>
-														<td style="width: 45px;"><input type="button" value="환불" onclick="changeStatusCode0(${request.request_seq})"/></td>
+														<c:if test="${request.os_code eq 3}">
+															<td style="width: 45px; padding: 5px 0px;"><input style=" width:45px; height: 30px;" class="btn btn-outline-warning" type="button" value="환불" onclick="changeStatusCode0(${request.request_seq})"/></td>
+														</c:if>
+														<c:if test="${request.os_code eq 0}">
+															<td style="width: 45px;"></td>
+														</c:if>
 													</tr>
 												</c:when>
 												<c:otherwise>
@@ -159,7 +163,12 @@
 														<td style="width: 100px;">${request.request_bank}</td>
 														<td style="width: 180px;">${request.request_account}</td>
 														<td style="width: 50px;">${request.os_code eq 3?'완료':'환불'}</td>
-														<td style="width: 45px;"><input type="button" value="환불" onclick="changeStatusCode0(${request.request_seq})"/></td>
+														<c:if test="${request.os_code eq 3}">
+															<td style="width: 45px; padding: 5px 0px;"><input style=" width:45px; height: 30px;" class="btn btn-outline-warning" type="button" value="환불" onclick="changeStatusCode0(${request.request_seq})"/></td>
+														</c:if>
+														<c:if test="${request.os_code eq 0}">
+															<td style="width: 45px;"></td>
+														</c:if>
 													</tr>
 												</c:otherwise>
 											</c:choose>
