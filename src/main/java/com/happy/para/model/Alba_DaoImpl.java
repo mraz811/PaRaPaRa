@@ -41,5 +41,10 @@ public class Alba_DaoImpl implements Alba_IDao {
 	public int albaDelete(String alba_seq) {
 		return sqlSession.update(ALNS+"albaDelete", alba_seq);
 	}
+
+	@Override
+	public AlbaDto getAlbaDetail(String alba_seq) {
+		return sqlSession.selectOne(ALNS+"selOneAlba", alba_seq);
+	}
 	
 }

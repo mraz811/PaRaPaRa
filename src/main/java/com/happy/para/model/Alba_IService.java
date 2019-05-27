@@ -21,4 +21,8 @@ public interface Alba_IService {
 	
 	// 아르바이트 삭제 (Delflag->Y)
 	public int albaDelete(String alba_seq);
+	
+	// 아르바이트 상세조회
+	public AlbaDto getAlbaDetail(String alba_seq);
+
 }

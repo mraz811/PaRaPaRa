@@ -75,8 +75,21 @@ public class AlbaCtrl {
 		return "redirect:/selAlbaList.do";
 	}
 	
-	// 아르바이트 정보 수정
+	// 아르바이트 정보 수정 폼으로
+	@RequestMapping(value="/albaModiForm.do", method=RequestMethod.GET)
+	public String albaModiForm(String alba_seq, Model model) {
+		AlbaDto albaDetail = alService.getAlbaDetail(alba_seq);
+		model.addAttribute("alba", albaDetail);
+		return "/alba/albaModiForm";
+	}
 	
+	// 아르바이트 정보 수정
+	@RequestMapping(value ="/albaModi.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public void albaModi(AlbaDto aDto) {
+		System.out.println(aDto);
+		alService.albaModify(aDto);
+	}
 	
 	
 }
