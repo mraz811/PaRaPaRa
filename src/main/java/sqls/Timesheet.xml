@@ -6,7 +6,7 @@
 	<select id="tsListAll" resultType="TimeDto">
 		SELECT TS_SEQ, ALBA_SEQ, TS_DATE, TS_DATETIME, TS_WORKHOUR
 			FROM TIMESHEET
-<!-- 				WHERE STORE_CODE = #{store_code} -->
+				WHERE STORE_CODE = #{store_code}
 	</select>
 
 <!-- timeSheet 알바별 조회  -->
@@ -16,7 +16,7 @@
 	<!-- 테스트 중!!!! -->
 				WHERE ALBA_SEQ = #{alba_seq}
 				AND TS_DATE = #{ts_date}
-	<!-- 		WHERE ALBA_SEQ IN ( SELECT ALBA_SEQ FROM ALBA WHERE STORE_CODE = #{store_code}) -->
+<!-- 		 		AND ALBA_SEQ IN ( SELECT ALBA_SEQ FROM ALBA WHERE STORE_CODE = #{store_code}) -->
 	</select>
 
 <!-- 일별 알바별 datetime list로 가져오기 -->
@@ -50,6 +50,15 @@
 					AND TS_DATETIME = #{ts_datetime}
 	</delete>
 	
-	
+<!-- 급여 조회 -->
+	<!-- <select id="">
+		SELECT ALBA_SEQ, TS_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_WORKHOUR, ALBA_NAME, ALBA_PHONE, ALBA_ADDRESS, 
+			ALBA_TIMESAL, ALBA_BANK, ALBA_ACCOUNT, ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE
+				FROM TIMESHEET JOIN ALBA
+					USING(ALBA_SEQ)
+						WHERE SUBSTR(TS_DATE, 0, 7) = #{ts_date}
+							AND STORE_CODE = #{store_code}
+	</select>
+	 -->
 	
 </mapper>

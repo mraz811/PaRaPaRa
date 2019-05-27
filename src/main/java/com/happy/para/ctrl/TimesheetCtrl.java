@@ -68,6 +68,7 @@ public class TimesheetCtrl {
 			JSONArray timeAr = new JSONArray();
 
 			dto.setAlba_seq(albaLists.get(i).getAlba_seq());
+			
 			if(ts_date == null) {
 				dto.setTs_date(sdf.format(getDate));				
 				model.addAttribute("today", sdf.format(getDate));
@@ -130,6 +131,8 @@ public class TimesheetCtrl {
 		model.addAttribute("timeArr", timeArr);
 		System.out.println("timeArr : "+timeArr);
 
+		System.out.println("로그인 업주의 albaLists : "+albaLists);
+		
 		return "timesheet/timeSheetList";
 	}
 
@@ -217,7 +220,7 @@ public class TimesheetCtrl {
 	}
 
 	@RequestMapping(value="/salary.do", method=RequestMethod.GET)
-	public String salary(HttpSession session, Model model) {
+	public String salary(HttpSession session, TimeDto dto, Model model) {
 		
 		System.out.println("salary");
 
@@ -232,7 +235,19 @@ public class TimesheetCtrl {
 		
 //		albaLists.get(0).getAlba_bank()		
 //		albaLists.get(0).getAlba_account()
-		
+
+		for (int i = 0; i < albaLists.size(); i++) {
+
+			JSONArray timeAr = new JSONArray();
+
+			dto.setAlba_seq(albaLists.get(i).getAlba_seq());
+			
+			// timesheet 의 TS_DATE 중 화면의 월과 같은 애들만
+			dto.setTs_date("2019-05");
+			
+			List<TimeDto> lists = timeSer.tsList(dto);
+		}
+			
 		return "salary/salaryList";
 	}
 
