@@ -28,6 +28,13 @@ public class Pao_ServiceImpl implements Pao_IService {
 		logger.info("paoList Service : {} ", store_code);
 		return pao_IDao.paoList(store_code);
 	}
+	
+	// 담당주 : 발주 리스트 조회
+	@Override
+	public List<PaoDto> adminPaoList(String store_code) {
+		logger.info("adminPaoList Service : {} ", store_code);
+		return pao_IDao.adminPaoList(store_code);
+	}
 
 	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회
 	@Override
@@ -35,12 +42,20 @@ public class Pao_ServiceImpl implements Pao_IService {
 		logger.info("paoSelectStatusDate : {}", map);
 		return pao_IDao.paoSelectStatusDate(map);
 	}
-
-	// 업주 : 발주 상세보기
+	
+	// 업주 : 발주 상세보기(발주)
 	@Override
-	public List<ItemDto> paoDetail(String pao_seq) {
-		logger.info("paoDetail : {}", pao_seq);
-		return pao_IDao.paoDetail(pao_seq);
+	public PaoDto paoDetail(Map<String, String> map) {
+		logger.info("paoDetail : {}", map);
+		return pao_IDao.paoDetail(map);
+	}
+
+
+	// 업주 : 발주 상세보기(발주품목)
+	@Override
+	public List<ItemDto> paoPiDetail(String pao_seq) {
+		logger.info("paoPiDetail : {}", pao_seq);
+		return pao_IDao.paoPiDetail(pao_seq);
 	}
 	
 	// 업주 : 발주 신청 시 재고 목록 조회
@@ -72,6 +87,14 @@ public class Pao_ServiceImpl implements Pao_IService {
 		return isc;
 	}
 
+	// 담당자 : 발주 대기 승인
+	@Override
+	public boolean approvePao(String pao_seq) {
+		logger.info("approvePao : {}", pao_seq);
+		boolean isc = pao_IDao.approvePao(pao_seq);	// 발주 테이블의 발주상태코드 UPDATE
+		
+		return isc;
+	}
 
 
 }

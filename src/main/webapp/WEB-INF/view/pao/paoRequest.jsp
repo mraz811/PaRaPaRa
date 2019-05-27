@@ -195,7 +195,7 @@
 		var stockInfo = info.split(",");
 		
 		var stockTr_id = stockInfo[0];	// 해당 <tr>의 id
-		var stockSeq = stockInfo[1];	// 재고번호
+		var itemSeq = stockInfo[1];	// 품목번호
 		var piSeq = cnt++;	// 발주품목 번호
 		var piName = stockInfo[2];;	// 발주품목 품목명
 		var piQty = 1;	// 처음 발주품목 수량
@@ -216,7 +216,7 @@
 		noListTr.style.display = "none";
 		
 		pbody.appendChild(newTr).innerHTML = "<td>" +
-												"<input type='hidden' name='item_seq' value='"+stockSeq+"'>" +
+												"<input type='hidden' name='item_seq' value='"+itemSeq+"'>" +
 												"<input type='text' class='txt' name='pi_seq' value='"+piSeq+"' readonly='readonly'>" +
 											  "</td>" +
 											  "<td>" +
@@ -437,7 +437,7 @@
 			</colgroup>
 			<thead>
 				<tr>
-					<th>재고번호</th><th>재고명</th><th>수량</th><th>가격</th><th>추가</th>
+					<th>번호</th><th>재고명</th><th>수량</th><th>가격</th><th>추가</th>
 				</tr>
 			</thead>
 
@@ -452,7 +452,8 @@
 						<c:forEach var="dto" items="${stockLists}" varStatus="status">
 							<tr id="stockLine${status.count}">
 								<td>
-									<input type="text" class="txt" name="stock_seq" value="${dto.stock_seq}" readonly="readonly">
+									<input type="hidden" class="txt" name="item_seq" value="${dto.itemDto.item_seq}" readonly="readonly">
+									<input type="text" class="txt" name="seq" value="${status.count}" readonly="readonly">
 								</td>
 								<td>
 									<input type="text" class="txt" name="stock_name" value="${dto.stock_name}" readonly="readonly">
@@ -464,7 +465,7 @@
 									<input type="text" class="txt" name="stock_seq" value="${dto.itemDto.item_price}" readonly="readonly">
 								</td>
 								<td>
-									<input type="button" class="addBtn" value="추가" onclick="addStock('stockLine${status.count},${dto.stock_seq},${dto.stock_name},${dto.itemDto.item_price}')">
+									<input type="button" class="addBtn" value="추가" onclick="addStock('stockLine${status.count},${dto.itemDto.item_seq},${dto.stock_name},${dto.itemDto.item_price}')">
 								</td>
 							</tr>
 						</c:forEach>
