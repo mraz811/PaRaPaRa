@@ -27,7 +27,16 @@
 				AND (REQUEST_TIME BETWEEN #{start} AND #{end})
 				ORDER BY REQUEST_TIME) ORDER BY REQUEST_TIME DESC
 	</select>
-
+	
+	<!-- 주문 완료,환불 내역 상세 조회 -->
+	<select id="requestDetail" parameterType="RequestDto" resultType="RequestDto">
+	SELECT REQUEST_SEQ,REQUEST_MENU,REQUEST_PRICE,REQUEST_TIME,
+				REQUEST_BANK,REQUEST_ACCOUNT,STORE_CODE,OS_CODE
+				FROM REQUEST 
+				WHERE STORE_CODE=#{store_code} AND 
+				OS_CODE=#{os_code} AND REQUEST_SEQ = #{request_seq}
+	</select>
+				
 	<!-- 주문상태가 대기 중인 주문 조회 -->
 	<select id="requestListWait" parameterType="java.util.Map" resultType="RequestDto">
 	SELECT RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 

@@ -135,7 +135,7 @@ var pageAjax = function(){
 						if(menuLen > 27){
 						htmlTable +="<tr>" +
 								"<td style=\"width: 50px;\">"+fri.rnum+"</td>" +
-								"<td style=\"width: 300px;\">"+subMenu+"..."+"</td>" +
+								"<td id=\"detailMenu\" style=\"width: 300px;\" onclick=\"menuDetail("+fri.request_seq+","+fri.os_code+")\">"+subMenu+"..."+"</td>" +
 								"<td style=\"width: 100px;\">"+fri.request_price+"원"+"</a></td>" +
 								"<td style=\"width: 100px;\">"+requestTime+"</td>+" +
 								"<td style=\"width: 100px;\">"+fri.request_bank+"</td>+" +
@@ -145,7 +145,7 @@ var pageAjax = function(){
 						}else{
 						htmlTable +="<tr>" +
 								"<td style=\"width: 50px;\">"+fri.rnum+"</td>" +
-								"<td style=\"width: 300px;\">"+fri.menu_name+"</td>" +
+								"<td id=\"detailMenu\" style=\"width: 300px;\" onclick=\"menuDetail("+fri.request_seq+","+fri.os_code+")\">"+fri.menu_name+"</td>" +
 								"<td style=\"width: 100px;\">"+fri.request_price+"원"+"</a></td>" +
 								"<td style=\"width: 100px;\">"+requestTime+"</td>+" +
 								"<td style=\"width: 100px;\">"+fri.request_bank+"</td>+" +

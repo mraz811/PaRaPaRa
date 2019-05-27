@@ -24,6 +24,14 @@
 	height: 40px;
 	margin-left: 838px;
 }
+
+#requestStatus{
+	cursor: pointer;
+}
+#detailMenu{
+	cursor: pointer;
+}
+
 </style>
 <link rel="stylesheet" href="./css/requestList.css">
 </head>
@@ -53,6 +61,21 @@
 			}
 		})
 	}
+	function menuDetail(request_seq,os_code){
+		var detailMenu = document.getElementById("detailMenu");
+		$.ajax({
+			url : "./selRequestDetail.do",
+			type : "post",
+			async : true,
+			data : {"request_seq":request_seq,"os_code":os_code},
+			dataType : "json",
+			success : function(obj){
+				swal(obj.menu.menu_name,"가격 : "+obj.menu.request_price+"원");
+			},error : function(obj){
+				alert("관리자에게 문의해 주세요"); 
+			}
+		})
+	}
 </script>
 <body>
 	<div id="container">
@@ -64,10 +87,8 @@
 				</div>
 				<div class="twoDepth">
 					<ul class="nav nav-tabs">
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							onclick="selRequestStatus()">주문현황</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							href="#">주문내역</a></li>
+						<li class="nav-item"><a id="requestStatus" class="nav-link" data-toggle="tab" onclick="selRequestStatus()">주문현황</a></li>
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#">주문내역</a></li>
 					</ul>
 				<form id="selectBoxFrm" action="#" method="post">
 					<div id="selectStatus">
@@ -120,7 +141,7 @@
 												<c:when test="${fn:length(request.menu_name) > 27}">
 													<tr>
 														<td style="width: 50px;">${request.rnum}</td>
-														<td style="width: 300px;">${fn:substring(request.menu_name,0,27)}...</td>
+														<td id="detailMenu" style="width: 300px;" onclick="menuDetail(${request.request_seq},${request.os_code})">${fn:substring(request.menu_name,0,27)}...</td>
 														<td style="width: 100px;">${request.request_price}원</td>
 														<td style="width: 100px;">${fn:substring(request.request_time,0,10)}</td>
 														<td style="width: 100px;">${request.request_bank}</td>
@@ -132,7 +153,7 @@
 												<c:otherwise>
 													<tr>
 														<td style="width: 50px;">${request.rnum}</td>
-														<td style="width: 300px;">${request.menu_name}</td>
+														<td id="detailMenu" style="width: 300px;" onclick="menuDetail(${request.request_seq},${request.os_code})">${request.menu_name}</td>
 														<td style="width: 100px;">${request.request_price}원</td>
 														<td style="width: 100px;">${fn:substring(request.request_time,0,10)}</td>
 														<td style="width: 100px;">${request.request_bank}</td>

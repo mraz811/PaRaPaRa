@@ -72,6 +72,12 @@
 	top: 430px;
 	position: absolute;
 }
+#waitMenu,#makeMenu{
+	cursor: pointer;
+}
+#requestlist{
+	cursor: pointer;
+}
 </style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
@@ -89,7 +95,7 @@
 										  +"<div>"+obj.makeMenu.request_time+"</div>"
 										  +"<div>"+obj.makeMenu.menu_name+"</div>";
 			},error : function(obj){
-				alert("등록에 실패하였습니다."); //성공햇는데 error로 넘어옴 ㅡㅡ; producer 없애고 JSONObject로 던져서 해결함
+				alert("관리자에게 문의해주세요"); 
 			}
 		})
 	}
@@ -106,7 +112,7 @@
 										  +"<div>"+obj.makeMenu.request_time+"</div>"
 										  +"<div>"+obj.makeMenu.menu_name+"</div>";
 			},error : function(obj){
-				alert("등록에 실패하였습니다."); //성공햇는데 error로 넘어옴 ㅡㅡ; producer 없애고 JSONObject로 던져서 해결함
+				alert("관리자에게 문의해주세요"); 
 			}
 		})
 	}
@@ -120,7 +126,7 @@
 			success : function(obj){
 				location.reload();
 			},error : function(obj){
-				alert(obj); 
+				alert("관리자에게 문의해주세요"); 
 			}
 		})
 	}
@@ -134,7 +140,7 @@
 			success : function(obj){
 				location.reload();
 			},error : function(obj){
-				alert(obj); 
+				alert("관리자에게 문의해주세요"); 
 			}
 		})
 	}
@@ -148,7 +154,7 @@
 			success : function(obj){
 				location.reload();
 			},error : function(obj){
-				alert(obj); 
+				alert("관리자에게 문의해주세요"); 
 			}
 		})
 	}
@@ -164,10 +170,8 @@
 				<div class="oneDepth">주문</div>
 				<div class="twoDepth">
 					<ul class="nav nav-tabs">
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							href="#">주문현황</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							onclick="selRequestList()">주문내역</a></li>
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#">주문현황</a></li>
+						<li class="nav-item"><a id="requestlist" class="nav-link" data-toggle="tab" onclick="selRequestList()">주문내역</a></li>
 					</ul>
 					<div id="make">
 						<div id="making">제조중</div>
@@ -181,8 +185,8 @@
 								</tr>
 								<c:forEach begin="0" end="${fn:length(makeLists)}" items="${makeLists}" var="make" varStatus="vs">
 									<tr>
-										<td style="width: 60px; height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">${make.rnum}</td>
-										<td style="width: 270px; height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">
+										<td style="width: 60px; height: 28px" >${make.rnum}</td>
+										<td id="makeMenu" style="width: 270px; height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">
 											<c:choose>
 												<c:when test="${fn:length(make.menu_name) > 20}">
 													${fn:substring(make.menu_name,0,20)}...
@@ -192,7 +196,7 @@
 												</c:otherwise>
 											</c:choose>
 										</td>
-										<td style="width: 100px; height: 28px" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">${fn:substring(make.request_time,11,19)}</td>
+										<td style="width: 100px; height: 28px" >${fn:substring(make.request_time,11,19)}</td>
 										<td style="width: 55px; height: 28px"><input type="button" value="완료" onclick="changeStatusCode3(${make.request_seq})" /></td>
 									</tr>
 								</c:forEach>
@@ -214,8 +218,8 @@
 								</tr>
 								<c:forEach begin="0" end="${fn:length(waitLists)}" items="${waitLists}" var="wait" varStatus="vs">
 									<tr>
-										<td style="width: 60px; height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">${wait.rnum}</td>
-										<td style="width: 220px; height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">
+										<td style="width: 60px; height: 28px" >${wait.rnum}</td>
+										<td id="waitMenu" style="width: 220px; height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">
 											<c:choose>
 												<c:when test="${fn:length(wait.menu_name) > 16}">
 													${fn:substring(wait.menu_name,0,16)}...
@@ -225,7 +229,7 @@
 												</c:otherwise>
 											</c:choose>
 										</td>
-										<td style="width: 100px; height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">${fn:substring(wait.request_time,11,19)}</td>
+										<td style="width: 100px; height: 28px" >${fn:substring(wait.request_time,11,19)}</td>
 										<td style="width: 40px; height: 28px"><input type="button" value="제조" onclick="changeStatusCode2(${wait.request_seq})" /></td>
 										<td style="width: 40px; height: 28px"><input type="button" value="환불" onclick="changeStatusCode0(${wait.request_seq})"/></td>
 									</tr>

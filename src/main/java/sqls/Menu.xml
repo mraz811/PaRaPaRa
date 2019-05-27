@@ -46,7 +46,7 @@
 	<!-- 전체 메뉴 조회 -->
 	<select id="allMenu" parameterType="MenuDto" resultMap="MenuResultMap">
 	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, 
-	MENU_SEQ,MENU_NAME,MENU_PRICE,MENU_CATEGORY
+	MENU_SEQ,MENU_NAME,MENU_PRICE,MENU_CATEGORY,MENU_DELFLAG
  	FROM MENU JOIN FILE_LIST USING (MENU_SEQ)
  	<if test="menu_category != null">
  		WHERE MENU_CATEGORY = #{menu_category}

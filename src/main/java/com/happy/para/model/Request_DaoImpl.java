@@ -31,6 +31,12 @@ public class Request_DaoImpl implements Request_IDao{
 		return sqlSession.selectList(NS+"requestList", map);
 	}
 	
+	//주문 완료,환불 내역 상세 조회
+	@Override
+	public RequestDto requestDetail(RequestDto dto) {
+		return sqlSession.selectOne(NS+"requestDetail", dto);
+	}
+	
 	//주문상태가 대기 중인 주문 조회
 	@Override
 	public List<RequestDto> requestListWait(Map<String, String> map){
