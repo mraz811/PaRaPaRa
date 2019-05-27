@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.happy.para.dto.FileDto;
 import com.happy.para.dto.MenuDto;
@@ -48,31 +49,29 @@ public class Menu_ServiceImpl implements Menu_IService{
 	}
 	
 	//담당자 메뉴 등록
-	@Override
-	public boolean insertMenu(MenuDto dto) {
-		logger.info("insertMenu Service : {} ", dto);
-		return menu_IDao.insertMenu(dto);
-	}
-	
 	//담당자 메뉴 이미지(파일) 등록
+	@Transactional
 	@Override
-	public boolean insertMenuFile(FileDto dto) {
-		logger.info("insertMenuFile Service : {} ", dto);
-		return menu_IDao.insertMenuFile(dto);
+	public boolean insertMenu(MenuDto mDto,FileDto fDto) {
+		logger.info("insertMenu Service : {}{} ", mDto,fDto);
+		boolean isc = menu_IDao.insertMenu(mDto);
+		if(isc) {
+			isc = menu_IDao.insertMenuFile(fDto);
+		}
+		return isc;
 	}
 	
 	//담당자 메뉴 수정
-	@Override
-	public boolean modifyMenu(MenuDto dto) {
-		logger.info("modifyMenu Service : {} ", dto);
-		return menu_IDao.modifyMenu(dto);
-	}
-	
 	//담당자 메뉴 이미지(파일) 수정
+	@Transactional
 	@Override
-	public boolean modifyMenuFile(FileDto dto) {
-		logger.info("modifyMenuFile Service : {} ", dto);
-		return menu_IDao.modifyMenuFile(dto);
+	public boolean modifyMenu(MenuDto mDto,FileDto fDto) {
+		logger.info("modifyMenu Service : {}{} ", mDto,fDto);
+		boolean isc = menu_IDao.modifyMenu(mDto);
+		if(isc) {
+			isc = menu_IDao.modifyMenuFile(fDto);
+		}
+		return isc;
 	}
 	
 	//담당자 메뉴 삭제

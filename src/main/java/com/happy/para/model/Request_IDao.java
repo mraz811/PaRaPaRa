@@ -13,6 +13,9 @@ public interface Request_IDao {
 
 	// 주문 완료,환불 내역 전체 조회
 	public List<RequestDto> requestList(Map<String, String> map);
+	
+	//주문 완료,환불 내역 상세 조회
+	public RequestDto requestDetail(RequestDto dto);
 
 	// 주문상태가 대기 중인 주문 조회
 	public List<RequestDto> requestListWait(Map<String, String> map);

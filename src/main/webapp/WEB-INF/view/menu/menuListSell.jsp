@@ -121,7 +121,7 @@ function mainMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-			alert(obj); 
+			alert("관리자에게 문의해주세요"); 
 		}
 	})
 }
@@ -144,7 +144,7 @@ function sideMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-			alert(obj); 
+			alert("관리자에게 문의해주세요"); 
 		}
 	})
 }
@@ -167,7 +167,7 @@ function drinkMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-			alert(obj); 
+			alert("관리자에게 문의해주세요"); 
 		}
 	})
 }
@@ -177,43 +177,38 @@ function ownerAllMenuList(){
 
 </script>
 <body>
-<div id="container">
-<%@include file="../header.jsp" %>
-	<div class="bodyFrame">
-	<div class="bodyfixed">
-		<div class="oneDepth">
-		메뉴
+	<div id="container">
+		<%@include file="../header.jsp"%>
+		<div class="bodyFrame">
+			<div class="bodyfixed">
+				<div class="oneDepth">메뉴</div>
+				<div class="twoDepth">
+					<ul class="nav nav-tabs">
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#">판매 메뉴</a></li>
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab" onclick="ownerAllMenuList()">전체 메뉴</a></li>
+					</ul>
+						<input id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()" />
+						<input id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()" /> 
+						<input id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()" />
+					<div id="insert">
+						<input type="checkbox" onclick="checkAllDel(this.checked)" />전체선택
+						<input id="cancelMenu" type="button" value="판매 메뉴에서 삭제" onclick="cancelMenu()" />
+					</div>
+					<form id="frm" action="./menuCancel.do" method="post" onsubmit="return cancelMenu()">
+						<div id="menuList">
+							<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
+								<div class="menu">
+									<input id="checkbox" name="cancel_menu_seq" type="checkbox" value="${menu.menu_seq}" />
+									<img class="menuImg" src="./masolimg/img.png" alt="" /><br>
+									${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}
+								</div>
+							</c:forEach>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
-		<div class="twoDepth">
-			<ul class="nav nav-tabs">
-  				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#">판매 메뉴</a>
-  				</li>
-  				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" onclick="ownerAllMenuList()" >전체 메뉴</a>
-  				</li>
-			</ul>
-			<input id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()"/>
-			<input id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()"/>
-			<input id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()"/>
-		<div id="insert">
-				<input type="checkbox" onclick="checkAllDel(this.checked)" />전체선택
-				<input id="cancelMenu" type="button" value="판매 메뉴에서 삭제" onclick="cancelMenu()"/>
-		</div>
-	<form id="frm" action="./menuCancel.do" method="post" onsubmit="return cancelMenu()">
-		<div id="menuList">
-			<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
-					<div class="menu"><input id="checkbox" name="cancel_menu_seq" type="checkbox" value="${menu.menu_seq}"/><img class="menuImg" src="./masolimg/img.png" alt=""/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
-			</c:forEach>
-		</div>
-	</form>
-	<div id="paging">
-	
+		<%@include file="../footer.jsp"%>
 	</div>
-	</div>
-	</div>
-	</div>
-<%@include file="../footer.jsp" %>
-</div>
 </body>
 </html>

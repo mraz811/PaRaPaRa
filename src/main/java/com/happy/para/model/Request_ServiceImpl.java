@@ -32,6 +32,12 @@ public class Request_ServiceImpl implements Request_IService{
 		logger.info("requestList Service : {} ", map);
 		return request_IDao.requestList(map);
 	}
+	
+	//주문 완료,환불 내역 상세 조회
+	@Override
+	public RequestDto requestDetail(RequestDto dto) {
+		return request_IDao.requestDetail(dto);
+	}
 
 	// 주문상태가 대기 중인 주문 조회
 	@Override

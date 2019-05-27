@@ -21,16 +21,12 @@ public interface Menu_IService {
 	public MenuDto detailMenu(String menu_seq);
 	
 	// 담당자 메뉴 등록
-	public boolean insertMenu(MenuDto dto);
-
 	// 담당자 메뉴 이미지(파일) 등록
-	public boolean insertMenuFile(FileDto dto);
+	public boolean insertMenu(MenuDto mDto,FileDto fDto);
 
 	// 담당자 메뉴 수정
-	public boolean modifyMenu(MenuDto dto);
-
 	// 담당자 메뉴 이미지(파일) 수정
-	public boolean modifyMenuFile(FileDto dto);
+	public boolean modifyMenu(MenuDto mDto,FileDto fDto);
 
 	// 담당자 메뉴 삭제
 	public boolean deleteMenu(String menu_seq);
