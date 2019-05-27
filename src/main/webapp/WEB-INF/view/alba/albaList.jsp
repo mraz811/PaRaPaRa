@@ -87,7 +87,7 @@
 							<td>${alba.alba_bank}</td>
 							<td>${alba.alba_account}</td>
 							<td>${fn:substring(alba.alba_regdate,0,10)}</td>
-							<td><input class="btn btn-secondary" type="button" value="수정하기" onclick="modiAlba('${alba_seq}')"></td>
+							<td><input class="btn btn-secondary" type="button" value="수정하기" onclick="modiAlba('${alba.alba_seq}')"></td>
 						</tr>
 						</c:forEach>
 					</table>
@@ -141,7 +141,10 @@ var toAlbaRegi = function(){
 };
 
 // 알바 수정하기
-var modiAlba = function(){
+var modiAlba = function(seq){
+// 	alert(seq);
+	window.open("./albaModiForm.do?alba_seq="+seq, "아르바이트 정보 수정",
+			"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
 	
 }
 

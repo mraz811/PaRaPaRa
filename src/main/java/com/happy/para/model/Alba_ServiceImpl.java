@@ -38,6 +38,10 @@ public class Alba_ServiceImpl implements Alba_IService {
 	public int albaDelete(String alba_seq) {
 		return alba_IDao.albaDelete(alba_seq);
 	}
-	
-	
+
+	@Override
+	public AlbaDto getAlbaDetail(String alba_seq) {
+		return alba_IDao.getAlbaDetail(alba_seq);
+	}
+	 
 }
