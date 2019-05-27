@@ -207,7 +207,8 @@ public class StoreCtrl {
 	}
 	
 	//delStore.do
-	@RequestMapping(value="/delStore.do", method=RequestMethod.GET)
+	@RequestMapping(value="/delStore.do", method=RequestMethod.POST)
+	@ResponseBody
 	public String deleteStore(String store_code) {
 		logger.info("delete Store Controller : {}", store_code);
 		boolean isc = storeService.storeDelete(store_code);
@@ -217,7 +218,7 @@ public class StoreCtrl {
 		System.out.println("매장삭제 시 삭제된 매장의 재고 삭제 : " + delStock);
 		
 		
-		return "redirect:/selStoreList.do";
+		return delStock+"";
 	}
 	
 	@RequestMapping(value="/storePaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
