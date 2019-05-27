@@ -65,12 +65,21 @@
 		
 	}
 
+	function paoDetail(el) {
+		var store_code = document.getElementById("store_code").value;
+		
+		var idx = $('tbody').children('tr').index(el);
+		var pao_seq = document.getElementsByName("pao_seq")[idx].value;
+		
+        //alert(paoSeq);
+		window.open("./paoDetailOpen.do?store_code="+store_code+"&pao_seq="+pao_seq, "발주 상세조회", "width=880, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+	}
+	
 	// 발주 신청 버튼 이벤트
 	function paoRequest() {
-		//alert("dd");
 		var store_code = document.getElementById("store_code").value;
+		
 		window.open("./paoRequestOpen.do?store_code="+store_code, "발주신청", "width=880, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
-		//location.href = "./paoRequest.do?store_code="+store_code;
 	}
 	
 	
@@ -93,89 +102,94 @@
 
 <%@include file="../header.jsp" %>
 	<div class="bodyFrame">
-	<div class="bodyfixed">
-		<div class="oneDepth">
-			<p class="text-primary" style="font-size: 30px; background-color: RGB(21,140,186); color: white;">아르바이트</p>
-		</div>
-		<div class="twoDepth">
-			<ul class="nav nav-tabs">
-  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" id="calendar">Calendar</a>
-	  				</li>
+		<div class="bodyfixed">
+			<div class="oneDepth">
+				<p class="text-primary" style="font-size: 30px; background-color: RGB(21,140,186); color: white;">아르바이트</p>
+			</div>
+			<div class="twoDepth">
+				<ul class="nav nav-tabs">
 	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a>
-	  				</li>
-	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" id="stock">재고</a>
-	  				</li>
-			</ul>
-			<script type="text/javascript">
-				$(function() {
-					$("#calendar").click(function() {
-						location.href="./selCal.do";
-					});
-				})
-				
-				$(function() {
-					$("#stock").click(function() {
-						location.href="./selStock.do";
-					});
-				})
-			</script>
-			<div class="tab-content" align="center">
-			<!-- 각자 내용들.. -->
-				<div id="selectDate">
-					<select name="paoStatus" onchange="selectStatusDate()">
-						<option value="1,2,3,0">발주전체조회</option>
-						<option value="1">발주대기</option>
-						<option value="2">발주승인</option>
-						<option value="3">발주완료</option>			
-						<option value="0">발주취소</option>			
-					</select>
+		    			 <a class="nav-link" data-toggle="tab" id="calendar">Calendar</a>
+		  				</li>
+		  				<li class="nav-item">
+		    			 <a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a>
+		  				</li>
+		  				<li class="nav-item">
+		    			 <a class="nav-link" data-toggle="tab" id="stock">재고</a>
+		  				</li>
+				</ul>
+				<script type="text/javascript">
+					$(function() {
+						$("#calendar").click(function() {
+							location.href="./selCal.do";
+						});
+					})
 					
-					날짜 선택 <input type="date" id="startDate"> ~ <input type="date" id="endDate"> <input type="button" value="검색" onclick="selectStatusDate()">
-				</div>
-				
-				<div id="paoList">
-					<input type='hidden' id='store_code' value='${paoLists[0].store_code}'>
-					<table class="table table-hover">
-						<thead>
-							<tr class="table-primary">
-								<th>발주번호</th><th>매장명</th><th>발주상태</th><th>날짜</th>
-							</tr>
-						</thead>
-						<tbody>		
-							<c:choose>
-								<c:when test="${empty paoLists}">
-									<tr>
-										<td id="noList" colspan="4">-- 작성된 글이 없습니다 --</td>
-									</tr>
-								</c:when>
-								<c:otherwise>
-									<c:forEach var="dto" items="${paoLists}">
-										<tr>
-											<td>${dto.pao_seq}</td>
-											<td><a href="./paoDetailOpen.do?pao_seq=${dto.pao_seq}">${dto.store_name}</a></td>
-											<td>${dto.ps_name}</td>
-											<td>${dto.pao_date}</td>
-										</tr>
-									</c:forEach>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-				</div>
-				
-				<div id="paoButton">
-					페이징
-					<input type="button" class="btn btn-outline-success" value="발주신청" onclick="paoRequest()">
+					$(function() {
+						$("#stock").click(function() {
+							location.href="./selStock.do";
+						});
+					})
+				</script>
+				<div class="tab-content" align="center">
+				<!-- 각자 내용들.. -->
+					<div id="selectDate">
+						<select name="paoStatus" onchange="selectStatusDate()">
+							<option value="1,2,3,0">발주전체조회</option>
+							<option value="1">발주대기</option>
+							<option value="2">발주승인</option>
+							<option value="3">발주완료</option>			
+							<option value="0">발주취소</option>			
+						</select>
 						
-				</div>
-	
-			</div> <!-- tab-content -->
-				
+						날짜 선택 <input type="date" id="startDate"> ~ <input type="date" id="endDate"> <input type="button" value="검색" onclick="selectStatusDate()">
+					</div>
+					
+					<div id="paoList">
+						<input type='hidden' id='store_code' value='${paoLists[0].store_code}'>
+						<table class="table table-hover">
+							<thead>
+								<tr class="table-primary">
+									<th>발주번호</th><th>매장명</th><th>발주상태</th><th>날짜</th>
+								</tr>
+							</thead>
+							<tbody>		
+								<c:choose>
+									<c:when test="${empty paoLists}">
+										<tr>
+											<td id="noList" colspan="4">-- 작성된 글이 없습니다 --</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach var="dto" items="${paoLists}">
+											<tr onclick="paoDetail(this)">
+												<td>
+													${dto.pao_seq}
+													<input type="hidden" class="pao_seq" name="pao_seq" value="${dto.pao_seq}">
+												</td>
+												<%-- <td><a href="./paoDetailOpen.do?store_code=${dto.store_code}&pao_seq=${dto.pao_seq}">${dto.store_name}</a></td> --%>
+												<td>${dto.store_name}</td>
+												<td>${dto.ps_name}</td>
+												<td>${dto.pao_date}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
+						</table>
+					</div>
+					
+					<div id="paoButton">
+						페이징
+						<c:if test="${loginDto.auth eq 'U'}">
+							<input type="button" class="btn btn-outline-success" value="발주신청" onclick="paoRequest()">
+						</c:if>
+					</div>
+		
+				</div> <!-- tab-content -->
+					
+			</div>
 		</div>
-	</div>
 	</div>
 	<%@include file="../footer.jsp" %>
 	

@@ -25,6 +25,12 @@ public class Pao_DaoImpl implements Pao_IDao {
 	public List<PaoDto> paoList(String store_code) {
 		return sqlSession.selectList(NS+"paoList", store_code);
 	}
+	
+	// 담당주 : 발주 리스트 조회
+	@Override
+	public List<PaoDto> adminPaoList(String store_code) {
+		return sqlSession.selectList(NS+"adminPaoList", store_code);
+	}
 
 	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회
 	@Override
@@ -32,12 +38,17 @@ public class Pao_DaoImpl implements Pao_IDao {
 		return sqlSession.selectList(NS+"paoSelectStatusDate", map);
 	}
 	
-	// 업주 : 발주 상세보기
+	// 업주 : 발주 상세보기(발주)
 	@Override
-	public List<ItemDto> paoDetail(String pao_seq) {
-		return sqlSession.selectList(NS+"paoDetail", pao_seq);
+	public PaoDto paoDetail(Map<String, String> map) {
+		return sqlSession.selectOne(NS+"paoDetail", map);
 	}
-
+	
+	// 업주 : 발주 상세보기(발주품목)
+	@Override
+	public List<ItemDto> paoPiDetail(String pao_seq) {
+		return sqlSession.selectList(NS+"paoPiDetail", pao_seq);
+	}
 	
 	// 업주 : 발주 신청 시 재고 목록 조회
 	@Override
@@ -57,6 +68,11 @@ public class Pao_DaoImpl implements Pao_IDao {
 		// TODO Auto-generated method stub
 		return (sqlSession.insert(NS+"piInsert", map) == 1) ? true : false;
 	}
-	
+
+	// 담당자 : 발주 대기 승인
+	@Override
+	public boolean approvePao(String pao_seq) {
+		return (sqlSession.update(NS+"approvePao", pao_seq) == 1) ? true : false;
+	}
 
 }

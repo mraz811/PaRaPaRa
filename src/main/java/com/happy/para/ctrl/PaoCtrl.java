@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.ItemDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.PaoDto;
@@ -31,17 +32,37 @@ public class PaoCtrl {
 	// 업주 : 발주 리스트 조회
 	@RequestMapping(value="/selPaoList.do", method=RequestMethod.GET)
 	public String paoList(Model model, HttpSession session) {
-		OwnerDto lDto = (OwnerDto) session.getAttribute("loginDto");	// 세션 정보 받아옴
-		String store_code = lDto.getStore_code();	// 로그인한 사용자의 매장코드
+		OwnerDto loginDto = (OwnerDto) session.getAttribute("loginDto");	// 세션 정보 받아옴
+		String store_code = loginDto.getStore_code();	// 로그인한 업주의 매장코드
 		
 		System.out.println("=== 넘겨받은 매장코드 === : "+store_code);
 		
 		List<PaoDto> paoLists = paoService.paoList(store_code);	// 발주내역
+
 		System.out.println(paoLists);
 		
 		model.addAttribute("paoLists", paoLists);
+		model.addAttribute("loginDto", loginDto);
 		return "pao/paoList";
 	}
+	
+	// 업주 : 발주 리스트 조회
+	@RequestMapping(value="/selAdminPaoList.do", method=RequestMethod.GET)
+	public String adminPaoList(Model model, HttpSession session) {
+		AdminDto loginDto = (AdminDto) session.getAttribute("loginDto");	// 세션 정보 받아옴
+		String store_code = loginDto.getLoc_code();	// 로그인한 담당자의 지역코드
+			
+		System.out.println("=== 넘겨받은 지역코드 === : "+store_code);
+			
+		List<PaoDto> paoLists = paoService.adminPaoList(store_code);	// 발주내역
+
+		System.out.println(paoLists);
+			
+		model.addAttribute("paoLists", paoLists);
+		model.addAttribute("loginDto", loginDto);
+		return "pao/paoList";
+	}
+
 	
 	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회
 	@RequestMapping(value="/paoStatusAjax.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
@@ -85,16 +106,24 @@ public class PaoCtrl {
 		return obj.toString();
 	}
 	
+	// 업주 : 발주 상세조회
 	@RequestMapping(value="/paoDetailOpen.do", method=RequestMethod.GET)
-	public String paoDetailView(String pao_seq, Model model){
-		//System.out.println("=== 넘겨받은 발주Dto === : "+paoDto);
+	public String paoDetailView(String store_code, String pao_seq, Model model){
+		System.out.println("=== 넘겨받은 매장코드 === : "+store_code);
 		System.out.println("=== 넘겨받은 발주번호 === : "+pao_seq);
 		
-		List<ItemDto> piLists = paoService.paoDetail(pao_seq);
+		Map<String, String> map = new HashMap<>();
+		map.put("store_code", store_code);		
+		map.put("pao_seq", pao_seq);
+		
+		PaoDto paoDto = paoService.paoDetail(map);	// 발주
+		
+		List<ItemDto> piLists = paoService.paoPiDetail(pao_seq);	// 발주품목
 		System.out.println(piLists);
 		
-		//model.addAttribute("paoDto", paoDto);
+		model.addAttribute("paoDto", paoDto);
 		model.addAttribute("piLists", piLists);
+		
 		return "/pao/paoDetail";
 	}
 		
@@ -135,6 +164,15 @@ public class PaoCtrl {
 		}
 		
 		
+	}
+	
+	// 담당자 : 발주 대기 승인
+	@RequestMapping(value="/approvePao.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public void adminApprovePao(String pao_seq) {
+		System.out.println("=== 넘겨받은 발주번호 === : "+pao_seq);
+		
+		boolean isc = paoService.approvePao(pao_seq);
 	}
 	
 	

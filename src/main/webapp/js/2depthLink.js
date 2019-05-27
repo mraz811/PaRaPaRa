@@ -11,3 +11,6 @@ function selStoreList(){
 function selItemList(){
 	location.href="./selItemList.do";
 }
+function selPaoList() {
+	location.href="./selAdminPaoList.do";
+}
