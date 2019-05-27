@@ -48,6 +48,10 @@ $(function(){
 
 <%-- ${albaLists} --%>
 
+<button id="prev">◀</button>
+<input id="viewMonth" type="month" value="2019-05"/>
+<button id="next">▶</button>
+
 <table class="table table-hover">
 	<tr>
 		<th>No.</th><th>이름</th><th>근무 시간 (주간)</th><th>근무 시간(야간,추가)</th>
@@ -58,8 +62,8 @@ $(function(){
 		<tr>
 			<td>${vs.count}</td>
 			<td>${dto.alba_name}</td>
-			<td>-</td>			
-			<td>-</td>			
+			<td>-</td>
+			<td>-</td>
 			<td>${dto.alba_timesal}</td>			
 			<td>-</td>			
 			<td>${dto.alba_bank}</td>			
@@ -77,4 +81,16 @@ $(function(){
 	</div>
 
 </body>
+<script type="text/javascript">
+
+// 일단 테스트 달 박고 시작 하고 나중에 고치장...
+// document.getElementById("viewMonth").value = new Date().toISOString().substring(0, 6);;
+
+</script>
+
 </html>
+
+
+
+
+
