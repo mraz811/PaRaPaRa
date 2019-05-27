@@ -25,8 +25,8 @@
 <body>
 <div id="container">
 	<%@include file="../header.jsp"%>
-	<script type="text/javascript" src="./js/paging.js"></script>
-	<script type="text/javascript" src="./js/admin.js"></script>
+	<script type="text/javascript" src="./js/member/paging.js"></script>
+	<script type="text/javascript" src="./js/member/admin.js"></script>
 <%-- 	<br> 페이징dto : ${row} --%>
 <%-- 	<br> 담당자 리스트 : ${adminList} --%>
 <%-- 	<br> loc입력시 리스트 :${adminLocList} --%>
@@ -180,7 +180,7 @@
 	<%-- 		${adminRow.index} ${adminRow.pageNum} ${adminRow.listNum} ${adminRow.count} --%>
 	
 		
-			<!-- 페이징 처리 기능은 화면 템플릿 추가 후 추가할 예정 -->
+			<!-- 페이징 처리 -->
 			<form action="#" id="pagingForm" method="post">
 				<input type="hidden" name="index" id="index" value="${adminRow.index}">
 				<input type="hidden" name="pageNum" id="pageNum" value="${adminRow.pageNum}"> 

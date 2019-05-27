@@ -26,7 +26,7 @@
 <div id="container">
 	<!-- 아르바이트 등록 form -->
 	<div class="fullCtrl">
-	<form name="albaFrm" action="" method="post" onsubmit="regiChk()">
+	<form name="albaFrm" action="#" method="post">
 	  <fieldset>
 		<div class="form-group">
       		<label for="alba_name">이름</label>
@@ -57,7 +57,7 @@
 			<input type="date" class="form-control" name="alba_regdate" placeholder="근무시작일" required="required">
 		</div>
 		<div>	
-			<input style="width: 123px;" class="btn btn-outline-success" type="submit" value="등　록">
+			<input style="width: 123px;" class="btn btn-outline-success" type="button" value="등　록" onclick="regiChk()">
 			<input style="width: 123px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="regiCancel()">
 		</div>
 		</fieldset>
@@ -68,31 +68,35 @@
 </body>
 <script type="text/javascript">
 
-//등록 취소 버튼클릭 시 실행할 함수
-var regiCancel = function(){
-	self.close();
-};
-
 // 제출 시
-var regiChk = function(){
+function regiChk(){
 	var albadata = $("form").serialize();
 // 	alert(albadata);
 	
 	$.ajax({
 		url : "./albaRegi.do",
-		type: "POST",
+		type: "post",
 		data: albadata,
 		async: false,
 		success: function(){
-// 			swal("등록 완료", "등록되었습니다.");
-			opener.parent.location.reload();
-			regiCancel();
-		},
-		error: function(){
-			swal("등록 실패", "등록이 실패되었습니다.","error");
+			swal({
+				title: "등록 완료",
+				text: "아르바이트 등록이 완료되었습니다",
+				type: "success"
+			},
+			function(){
+				opener.parent.location.reload();
+				regiCancel();
+			});
+		}, error: function(){
+			swal("등록 실패", "정보를 모두 입력해주세요","error");
 		}
 	});
 }
 
+//등록 취소 버튼클릭 시 실행할 함수
+var regiCancel = function(){
+	self.close();
+};
 </script>
 </html>
