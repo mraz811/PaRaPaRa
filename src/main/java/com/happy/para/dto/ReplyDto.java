@@ -11,17 +11,20 @@ public class ReplyDto implements Serializable {
 	private String reply_seq;
 	private String notice_seq;
 	private String reply_id;
+	private String reply_name;
 	private String reply_regdate;
 	private String reply_content;
 	
 	public ReplyDto() {
 	}
 
-	public ReplyDto(String reply_seq, String notice_seq, String reply_id, String reply_regdate, String reply_content) {
+	public ReplyDto(String reply_seq, String notice_seq, String reply_id, String reply_name, String reply_regdate,
+			String reply_content) {
 		super();
 		this.reply_seq = reply_seq;
 		this.notice_seq = notice_seq;
 		this.reply_id = reply_id;
+		this.reply_name = reply_name;
 		this.reply_regdate = reply_regdate;
 		this.reply_content = reply_content;
 	}
@@ -50,6 +53,14 @@ public class ReplyDto implements Serializable {
 		this.reply_id = reply_id;
 	}
 
+	public String getReply_name() {
+		return reply_name;
+	}
+
+	public void setReply_name(String reply_name) {
+		this.reply_name = reply_name;
+	}
+
 	public String getReply_regdate() {
 		return reply_regdate;
 	}
@@ -73,8 +84,11 @@ public class ReplyDto implements Serializable {
 	@Override
 	public String toString() {
 		return "ReplyDto [reply_seq=" + reply_seq + ", notice_seq=" + notice_seq + ", reply_id=" + reply_id
-				+ ", reply_regdate=" + reply_regdate + ", reply_content=" + reply_content + "]";
+				+ ", reply_name=" + reply_name + ", reply_regdate=" + reply_regdate + ", reply_content=" + reply_content
+				+ "]";
 	}
 
+	
+	
 	
 }

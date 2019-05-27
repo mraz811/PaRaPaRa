@@ -40,4 +40,9 @@ public class Item_DaoImpl implements Item_IDao {
 		return sqlSession.delete(NS+"itemDelete", item_seq) > 0 ? true:false;
 	}
 
+	@Override
+	public ItemDto itemDetail(String item_seq) {
+		return sqlSession.selectOne(NS+"itemDetail", item_seq);
+	}
+
 }

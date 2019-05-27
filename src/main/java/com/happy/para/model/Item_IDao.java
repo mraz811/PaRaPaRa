@@ -18,4 +18,6 @@ public interface Item_IDao {
 	// 품목 삭제
 	public boolean itemDelete(String item_seq);
 	
+	// 품목 상세 조회
+	public ItemDto itemDetail(String item_seq);
 }

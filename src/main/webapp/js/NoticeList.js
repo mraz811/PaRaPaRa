@@ -10,7 +10,6 @@ function pageList(){
 	listNum.value = document.getElementById("list").value;
 	
 	pageAjax();
-
 }
 
 // 페이지 숫자 눌렀을때
@@ -19,7 +18,7 @@ function pageIndex(pageNum){
 	var index = document.getElementById("index");
 	index.value = pageNum-1;
 //	alert(index.value);
-	
+
 //	$("#index").val(pageNum-1);
 	pageAjax();
 }
@@ -117,30 +116,35 @@ var pageAjax = function(){
 		success: function(msg){
 //			alert(msg.lists[0].seq);
 //			alert(msg.row.total);
+			
+			var loginDtoAuth = document.getElementsByName("loginDtoAuth")[0].value;
+//			alert(loginDtoAuth);
+			
 			$.each(msg,function(key,value){
 				var htmlTable = "";
 				var n = $(".table tr:eq(0) th").length;
 //				alert(n);
 				
 				if(key=="lists"){ // table을 만들어 줌
-					
-					htmlTable += "<tr>"+
+//					alert(value);
+					htmlTable += "<tr class='table-primary'>"+
 					"<th>NO.</th>"+
 					"<th>제목</th>"+
 					"<th>작성자</th>"+
 					"<th>등록일</th></tr>";
 		
-			// 내용을 출력해 준다(lists:[{key,value},{},{}])
-			$.each(value,function(key,fri){
-				
-				var regdate = fri.regdate.substring(0,fri.regdate.indexOf(" "));
-				
-				htmlTable +="<tr>" +
-						"<td>"+fri.seq+"</td>" +
-						"<td><a href='./selNoticeDetail.do?notice_seq="+fri.seq+"'>"+fri.title+"</a></td>" +
-						"<td>"+fri.id+"</td>+" +
-						"<td>"+regdate+"</td></tr>";
-			});
+					// 내용을 출력해 준다(lists:[{key,value},{},{}])
+					$.each(value,function(key,fri){
+//						alert(fri.rnum);
+//						var regdate = fri.regdate.substring(0,fri.regdate.indexOf(" "));
+						
+						htmlTable +="<tr>" +
+								"<td>"+fri.rnum+"</td>" +
+								"<td><a href='./selNoticeDetail.do?notice_seq="+fri.seq+"&loginDtoAuth="+loginDtoAuth+"'>"+fri.title+"</a></td>" +
+								"<td>"+fri.name+"</td>" +
+								"<td>"+fri.regdate+"</td></tr>";
+//						alert(htmlTable);
+					});
 
 				}else{ // key=row는 paging를 만들어 줌
 
@@ -155,10 +159,12 @@ var pageAjax = function(){
 					htmlTable +="<li><a href='#' onclick='pageLast("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&raquo;</a></li>";
 				}
 
-//				alert(htmlTable);
 				
 				if(key=="lists"){
-					$(".table > tbody").html(htmlTable);
+//					alert(htmlTable);
+					$("#noticeTable").html(htmlTable);
+					var noTable = document.getElementById("noticeTable").innerHTML;
+//					alert(noTable);
 				}else{
 					$(".pagination").html(htmlTable);
 				}

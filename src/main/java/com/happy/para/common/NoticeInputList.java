@@ -18,7 +18,6 @@ public class NoticeInputList {
 		
 		System.out.println(date);
 		
-		
 		return date.substring(0, date.indexOf(" "));
 	}
 	
@@ -32,15 +31,14 @@ public class NoticeInputList {
 	}
 	
 	private String listFormat(NoticeDto dto) {
-		
+
 		StringBuffer sb = new StringBuffer();
-		
-//		sb.append("<tr><td>"+dto.getNotice_seq()+"</td>");
-		sb.append("<tr><td>"+1+"</td>");
+
+		sb.append("<tr><td>"+dto.getNotice_seq()+"</td>");
 		sb.append("<td><a href='./selNoticeDetail.do?notice_seq="+dto.getNotice_seq()+"'>"+dto.getNotice_title()+"</a></td>");
 		sb.append("<td>"+dto.getNotice_id()+"</td>");
 		sb.append("<td>"+dateFormat(dto.getNotice_regdate())+"</td></tr>");
-				
+
 		return sb.toString();
 	}
 	

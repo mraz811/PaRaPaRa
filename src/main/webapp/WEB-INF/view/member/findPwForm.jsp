@@ -40,6 +40,7 @@
 		<input style="width: 198px;" class="btn btn-outline-success" type="submit" value="email로 임시 비밀번호 받기" >
 		<input style="width: 98px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="location.href='./loginForm.do'">
 	</div>
+	<hr>
 	</form>
 </div>
 

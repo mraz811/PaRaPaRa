@@ -76,10 +76,12 @@
 					});
 					</script>
 
-					<div id="menu">
-							<p id="now"></p>
-							<button id="prev">◀</button>
-							<button id="next">▶</button>
+						<div id="menu">
+				
+						<button id="prev">◀</button>
+						<a id="now"></a>
+						<button id="next">▶</button>
+							
 						</div>
 
 						<input name="title" type="hidden"> <input

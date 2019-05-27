@@ -39,8 +39,7 @@
 	<div>
 		
 		<form role="form" action="./regiNotice.do" method="post">
-<!-- 			<input type="hidden" name="id" value=""> session 에 아이디 정보 담겨있어서 컨트롤러로 보낼 필요 없고,
-										컨트롤러에서 바로 세션에서 가져오면 됨.  -->
+		<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
 			
 			<div>
 				<label>제목</label>

@@ -12,6 +12,7 @@
 <%@include file="../header.jsp" %>
 <!-- <script type="text/javascript" src="./js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="./js/storeList.js"></script>
+<script type="text/javascript" src="./js/2depthLink.js"></script>
 	<div class="bodyFrame">
 		<div class="bodyfixed">
 			<div class="oneDepth">
@@ -20,7 +21,7 @@
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">
 	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" onclick="selStoreList()" href="#">매장 정보</a>
+	    			 <a class="nav-link active" data-toggle="tab" onclick="selStoreList()" href="#">매장 정보</a>
 	  				</li>
 	  				<li class="nav-item">
 	    			 <a class="nav-link" data-toggle="tab" onclick="selPaoList()" href="#">발주</a>
@@ -32,9 +33,9 @@
 				<div class="tab-content">
 					<!-- 각자 내용들.. -->
 					<form action="#" id="frm" method="post">
-						<table class="table">
+						<table class="table table-hover">
 							<thead>
-								<tr>
+								<tr class="table-primary">
 									<th>매장코드</th>
 									<th>매장명</th>
 									<th>주소</th>
