@@ -42,7 +42,7 @@
 				</div>
 				<div id="btnDiv" align="right">
 					<input type="button" class="btn btn-outline-success" id="modiForm" value="수정" onclick="modiStoreForm()">
-					<input type="button" class="btn btn-outline-success" id="deleteStore" value="삭제" onclick="delStore()">
+					<input type="button" class="btn btn-outline-success" id="deleteStore" value="삭제" onclick="delStore('${dto.store_code}')">
 					<input type="button" class="btn btn-outline-success" id="close" value="닫기" onclick="modiCancel()">
 				</div>
 			</fieldset>
@@ -68,7 +68,7 @@
 				data : $("#frm").serialize(),
 				dataType:"json",
 				success : function(msg){
-					alert("왜안되야");
+// 					alert("왜안되야");
 					swal({
 						title: "수정 완료", 
 						text: "매장 수정이 완료되었습니다", 
@@ -104,7 +104,7 @@
 										+"</div>"
 										+"<div id='btnDiv' align='right'>"
 											+"<input type='button' class='btn btn-outline-success' id='modiForm' value='수정' onclick='modiStoreForm()'>"
-											+"<input type='button' class='btn btn-outline-success' id='deleteStore' value='삭제' onclick='delStore()'>"
+											+"<input type='button' class='btn btn-outline-success' id='deleteStore' value='삭제' onclick='delStore(\""+msg.store_code+"\")'>"
 											+"<input type='button' class='btn btn-outline-success' id='close' value='닫기' onclick='modiCancel()'>"
 										+"</div>";
 						$("#detailStore").html(htmlDetail);
@@ -118,6 +118,48 @@
 		}
 		var modiCancel = function(){
 			self.close();
+		}
+		
+		var delStore = function(storeCode){
+			swal({
+				title: "삭제 확인",
+				text: "정말 삭제하시겠습니까?",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "lightgray",
+				confirmButtonText: "취 소",
+				cancelButtonText: "확 인",
+				closeOnConfirm: false,
+				closeOnCancel: false
+			},
+			function(isConfirm){
+				if(isConfirm){ // confirmButtonText
+					swal("취소", "매장 정보 삭제가 취소 되었습니다.", "error");
+//		 			return false;
+				} else{ // cancelButtonText
+					// 확인 했을 때
+					$.ajax({
+						type: "post",
+						url: "./delStore.do",
+						data: "store_code="+storeCode,
+						async : false,
+						success: function (data) {
+				        	swal({
+								title: "삭제 완료", 
+								text: "매장 정보 삭제가 완료되었습니다", 
+								type: "success"
+							},
+							function(){ 
+								opener.parent.location.reload();
+								modiCancel();
+							});
+						},
+				        error: function (data) {
+				        	swal("삭제 에러", "삭제 중 문제가 발생하였습니다.", "error");
+				        }
+					});
+				}
+			});
 		}
 	</script>
 </body>
