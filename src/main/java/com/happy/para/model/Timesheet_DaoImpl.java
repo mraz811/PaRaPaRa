@@ -18,8 +18,8 @@ public class Timesheet_DaoImpl implements Timesheet_IDao {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public List<TimeDto> tsListAll() {
-		return sqlSession.selectList("para.timesheet.tsListAll");
+	public List<TimeDto> tsListAll(Map<String, String> map) {
+		return sqlSession.selectList("para.timesheet.tsListAll", map);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class Timesheet_DaoImpl implements Timesheet_IDao {
 	}
 
 	@Override
-	public List<String> tsDatetimeList(TimeDto dto) {
+	public List<TimeDto> tsDatetimeList(TimeDto dto) {
 		return sqlSession.selectList("para.timesheet.tsDatetimeList", dto);
 	}
 

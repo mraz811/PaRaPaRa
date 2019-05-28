@@ -12,12 +12,12 @@ public class TimeDto implements Serializable {
 	private int alba_seq           ;
 	private String ts_date            ;
 	private String ts_datetime        ;
-	private String ts_workhour        ;
+	private Double ts_workhour        ;
 	
 	public TimeDto() {
 	}
 
-	public TimeDto(String ts_seq, int alba_seq, String ts_date, String ts_datetime, String ts_workhour) {
+	public TimeDto(String ts_seq, int alba_seq, String ts_date, String ts_datetime, Double ts_workhour) {
 		super();
 		this.ts_seq = ts_seq;
 		this.alba_seq = alba_seq;
@@ -58,11 +58,11 @@ public class TimeDto implements Serializable {
 		this.ts_datetime = ts_datetime;
 	}
 
-	public String getTs_workhour() {
+	public Double getTs_workhour() {
 		return ts_workhour;
 	}
 
-	public void setTs_workhour(String ts_workhour) {
+	public void setTs_workhour(Double ts_workhour) {
 		this.ts_workhour = ts_workhour;
 	}
 
@@ -76,6 +76,7 @@ public class TimeDto implements Serializable {
 				+ ts_datetime + ", ts_workhour=" + ts_workhour + "]";
 	}
 
+	
 	
 	
 	

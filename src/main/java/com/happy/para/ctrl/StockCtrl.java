@@ -122,14 +122,16 @@ public class StockCtrl {
 	}
 	
 	@RequestMapping(value="/delStock.do", method=RequestMethod.GET)
-	public String stockDel(StockDto dto, String stock_seq) {
+	public String stockDel(String stock_seq, String store_code) {
 		
-		String store_code = dto.getStore_code();
+//		String store_code = dto.getStore_code();
 		
 		stockSer.stockDelete(stock_seq);
 		
+		System.out.println("delStock_store_code : "+store_code);
+
 		return "redirect:/selStockOne.do?store_code="+store_code;
 	}
 
-	
+
 }
