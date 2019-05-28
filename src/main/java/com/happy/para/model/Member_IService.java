@@ -64,4 +64,10 @@ public interface Member_IService {
 	
 	// 업주 등록시 사업자 번호 중복 검사
 	public int ownerIdDupleChk(String owner_id);
+	
+	// 비밀번호 찾기 시 아이디, 이메일 정보 유효한지 ajax
+	public int findPwChkAdmin(Map<String, String> map);
+		
+	// 비밀번호 찾기 시 아이디, 이메일 정보 유효한지 ajax
+	public int findPwChkOwner(Map<String, String> map);
 }

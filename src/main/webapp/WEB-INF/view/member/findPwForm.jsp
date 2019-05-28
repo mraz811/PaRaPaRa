@@ -37,8 +37,8 @@
 		<input class="form-control" type="text" id="inputEmail" name="email" placeholder="이메일을 입력하세요" required="required" >
 	</div>
 	<div>
-		<input style="width: 198px;" class="btn btn-outline-success" type="submit" value="email로 임시 비밀번호 받기" >
-		<input style="width: 98px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="location.href='./loginForm.do'">
+		<input style="width: 198px; height: 40px;" class="btn btn-outline-success" type="button" value="email로 임시 비밀번호 받기"  onclick="findpwchk()">
+		<input style="width: 98px; height: 40px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="location.href='./loginForm.do'">
 	</div>
 	<hr>
 	</form>
@@ -135,6 +135,39 @@ $(function(){
 	});
 	
 });
+
+
+var findpwchk = function(){
+	var id = $("#inputId").val();
+	var email = $("#inputEmail").val();
+	var findPwForm = $("#findPwForm");
+	
+// 	alert(id+":"+email);
+	
+	if(id=="" || email==""){
+		swal("비밀번호 찾기", "입력값을 확인해 주세요");
+	} else {
+		$.ajax({
+			url : "./findPwChk.do",
+			type: "post",
+			data: findPwForm.serialize(),
+			success: function(msg){
+				if(msg=="성공"){
+					findPwForm.submit();
+					swal("이메일 확인", "임시 비밀번호로 로그인 해주세요","success");
+				}else{
+					swal("비밀번호 찾기","아이디와 이메일을 확인해 주세요", "error");
+				}
+				
+			}, error: function(msg){
+				swal("비밀번호 찾기","아이디와 이메일을 확인해 주세요", "error");
+			}
+		});
+	}
+	
+	
+	
+};
 
 // 폼 제출 전 확인
 var chkVal = function(){

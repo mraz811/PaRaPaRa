@@ -14,7 +14,7 @@
 <select id="ownerLogin" parameterType="OwnerDto" resultType="OwnerDto">
 	SELECT OWNER_SEQ, OWNER_ID, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, OWNER_START, OWNER_MENU, ADMIN_ID 
 	FROM OWNER
-	WHERE OWNER_ID= #{owner_id} AND OWNER_PW= #{owner_pw}
+	WHERE OWNER_ID= #{owner_id} AND OWNER_PW= #{owner_pw} AND OWNER_END IS NULL
 </select>
 
 <!-- 로그인 시 Spring security의 match 사용을 위한 담당자 비밀번호 가져오기  -->
@@ -159,6 +159,20 @@
 	 SELECT COUNT(OWNER_ID) 
 	 FROM OWNER 
 	 WHERE OWNER_ID = #{owner_id}
+</select>
+
+<!-- 담당자: 비밀번호 찾기에 사용할 아이디/이메일 해당하는 계정 존재 여부 검증 -->
+<select id="findPwChkAdmin" parameterType="java.util.Map" resultType="java.lang.Integer">
+	SELECT COUNT(*) 
+	FROM ADMIN 
+	WHERE ADMIN_ID=#{admin_id} AND ADMIN_EMAIL=#{admin_email}
+</select>
+
+<!-- 업주: 비밀번호 찾기에 사용할 아이디/이메일 해당하는 계정 존재 여부 검증  -->
+<select id="findPwChkOwner" parameterType="java.util.Map" resultType="java.lang.Integer">
+	SELECT COUNT(*) 
+	FROM OWNER 
+	WHERE OWNER_ID=#{owner_id} AND OWNER_EMAIL=#{owner_email}
 </select>
 
 </mapper>
