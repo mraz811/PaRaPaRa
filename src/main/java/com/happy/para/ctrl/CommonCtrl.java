@@ -36,8 +36,8 @@ public class CommonCtrl {
 	private Chat_IService chatService;
 	
 	
-	@Resource(name="uploadPath")
-	private String uploadPath;
+	@Resource(name="chatUploadPath")
+	private String chatUploadPath;
 	
 	@RequestMapping(value="/chatList.do", method=RequestMethod.GET)
 	public String selectChatList(String auth, Model model, HttpSession session) {
@@ -132,8 +132,8 @@ public class CommonCtrl {
 			// 이름이 겹치지 않기위해 랜덤 생성
 			UUID uuid = UUID.randomUUID();
 			savedName = uuid.toString()+"_"+originalName;
-			File dir = new File(uploadPath);
-			File target = new File(uploadPath, savedName);
+			File dir = new File(chatUploadPath);
+			File target = new File(chatUploadPath, savedName);
 			// 폴더가 없다면 폴더를 생성
 			if(!dir.exists()) {
 				dir.mkdirs();
@@ -148,7 +148,7 @@ public class CommonCtrl {
 			isc = chatService.uploadFile(dto);
 			System.out.println("파일업로드 성공 : " + isc);
 		}
-		return uploadPath + "\\" + originalName;
+		return chatUploadPath + "\\" + originalName;
 	}
 	
 }
