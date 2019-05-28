@@ -1,10 +1,15 @@
 package com.happy.para.ctrl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -12,9 +17,12 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.happy.para.dto.FileDto;
 import com.happy.para.dto.MenuDto;
@@ -451,6 +459,9 @@ public class MenuCtrl {
 		return json;
 	}
 
+	@Resource(name="menuUploadPath")
+	private String menuUploadPath;
+	
 	// 담당자 : 메뉴 등록 폼 이동
 	@RequestMapping(value = "/menuRegiForm.do", method = RequestMethod.GET)
 	public String menuList() {
@@ -460,9 +471,37 @@ public class MenuCtrl {
 	// 담당자 : 메뉴 등록
 	@RequestMapping(value = "/regiNewMenu.do", method = RequestMethod.POST, produces = "application/text; charset=UTF-8")
 	@ResponseBody
-	public String insertMenu(MenuDto mDto,FileDto fDto) {
-		boolean isc = menu_IService.insertMenu(mDto,fDto);
-		System.out.println("담당자 메뉴 등록 성공? : " + isc);
+	public String insertMenu(MenuDto mDto,FileDto fDto,MultipartHttpServletRequest mtsRequest) throws IOException {
+		boolean isc = false;
+		Iterator<String> itr = mtsRequest.getFileNames();
+		System.out.println("파일이름 : " + itr);
+		String originalName = null;
+		while(itr.hasNext()) {
+			MultipartFile file = mtsRequest.getFile(itr.next());
+			originalName = file.getOriginalFilename();
+			String savedName = "";
+			System.out.println("Orginal Name : " + originalName);
+			// 이름이 겹치지 않기위해 랜덤 생성
+			UUID uuid = UUID.randomUUID();
+			savedName = uuid.toString()+"_"+originalName;
+			File dir = new File(menuUploadPath);
+			File target = new File(menuUploadPath, savedName);
+			// 폴더가 없다면 폴더를 생성
+			if(!dir.exists()) {
+				dir.mkdirs();
+			}
+			
+			// 파일을 서버에 저장
+			FileCopyUtils.copy(file.getBytes(), target);
+			
+			// argument로 받아온 dto에 파일 이름이 들어가 있지 않아서 직접 set
+			fDto.setFile_rname(originalName);
+			fDto.setFile_tname(savedName);
+		
+		
+			isc = menu_IService.insertMenu(mDto,fDto);
+			System.out.println("담당자 메뉴 등록 성공? : " + isc);
+		}
 		return isc?"성공":"실패";
 	}
 
