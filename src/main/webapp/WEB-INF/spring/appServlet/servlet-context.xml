@@ -78,7 +78,7 @@
 		<property name="maxInMemorySize" value="100000000"></property>
 	</bean>
 	
-	<bean class="java.lang.String" name="uploadPath">
+	<bean class="java.lang.String" name="chatUploadPath">
 		<constructor-arg value="C:\HappyClipse\workspace_para\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\PaRaPaRa\resources" />
 	</bean>
 	
@@ -87,6 +87,11 @@
 	</bean>
 	
 	<bean class="com.happy.para.common.DownloadView" id="download" />
+	
+	<bean class="java.lang.String" name="menuUploadPath">
+		<constructor-arg value="C:\HappyClipse\workspace_para\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\PaRaPaRa\resources"/>
+	</bean>
+	
 </beans>
 
 

@@ -184,8 +184,8 @@ function ownerAllMenuList(){
 				<div class="oneDepth">메뉴</div>
 				<div class="twoDepth">
 					<ul class="nav nav-tabs">
-						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#">판매 메뉴</a></li>
-						<li class="nav-item"><a class="nav-link active" data-toggle="tab" onclick="ownerAllMenuList()">전체 메뉴</a></li>
+						<li class="nav-item"><a class="nav-link  active" data-toggle="tab" href="#">판매 메뉴</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab" onclick="ownerAllMenuList()">전체 메뉴</a></li>
 					</ul>
 						<input id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()" />
 						<input id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()" /> 
