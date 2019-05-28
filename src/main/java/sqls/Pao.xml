@@ -18,19 +18,56 @@
 
 	
 	<!-- 업주 : 매장 발주 내역 조회 -->
+	<!-- 
 	<select id="paoList" parameterType="java.lang.String" resultType="PaoDto">
 		SELECT PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
 		FROM PAOINFO
 		WHERE STORE_CODE = #{store_code}
 		ORDER BY (CASE PS_NAME WHEN '발주 승인' THEN 1 WHEN '발주 대기' THEN 2 WHEN '발주 취소' THEN 3 ELSE 4 END), PAO_SEQ DESC
 	</select>
+	 -->
+	 
+	<!-- 업주 : 매장 발주 내역 조회(페이징) -->
+	<select id="paoList" parameterType="java.util.Map" resultType="PaoDto">
+		SELECT RNUM, PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
+		FROM(SELECT ROW_NUMBER() OVER(ORDER BY (CASE PS_NAME WHEN '발주 승인' THEN 1 WHEN '발주 대기' THEN 2 WHEN '발주 취소' THEN 3 ELSE 4 END), PAO_SEQ DESC) RNUM, PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
+	 		 FROM PAOINFO
+	 		 WHERE STORE_CODE = #{store_code}
+			)
+		WHERE RNUM BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 업주 : 매장 발주 내역 갯수(페이징) -->
+	<select id="paoListRow" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) 
+		FROM PAOINFO
+		WHERE STORE_CODE = #{store_code}
+	</select>
 	
 	<!-- 담당자 : 매장 발주 내역 조회 -->
+	<!-- 
 	<select id="adminPaoList" parameterType="java.lang.String" resultType="PaoDto">
 		SELECT PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
 		FROM PAOINFO
 		WHERE SUBSTR(STORE_CODE, 1, INSTR(STORE_CODE, '_', 1)-1) = #{store_code}
 		ORDER BY (CASE PS_NAME WHEN '발주 대기' THEN 1 WHEN '발주 승인' THEN 2 WHEN '발주 취소' THEN 3 ELSE 4 END), PAO_SEQ DESC
+	</select>
+	 -->
+	<!-- 담당자 : 담장 지역의 매장 발주 내역 조회(페이징) -->
+	<select id="adminPaoList" parameterType="java.util.Map" resultType="PaoDto">
+		SELECT RNUM, PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
+		FROM(SELECT ROW_NUMBER() OVER(ORDER BY (CASE PS_NAME WHEN '발주 대기' THEN 1 WHEN '발주 승인' THEN 2 WHEN '발주 취소' THEN 3 ELSE 4 END), PAO_SEQ DESC) RNUM, PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
+	 		 FROM PAOINFO
+	 		 WHERE SUBSTR(STORE_CODE, 1, INSTR(STORE_CODE, '_', 1)-1) = #{store_code}
+			 )
+		WHERE RNUM BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 담당자 : 담당 지역의 매장 발주 내역 갯수(페이징) -->
+	<select id="adminPaoListRow" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) 
+		FROM PAOINFO
+		WHERE SUBSTR(STORE_CODE, 1, INSTR(STORE_CODE, '_', 1)-1) = #{store_code}
 	</select>
 	
 	<!-- 업주 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회-->
@@ -81,10 +118,24 @@
  		INSERT INTO PAO_ITEM(PI_SEQ, ITEM_SEQ, PI_QTY, PAO_SEQ) VALUES(PI_SEQ.NEXTVAL, #{item_seq}, #{pi_qty}, PAO_SEQ.CURRVAL)
   	</insert>
   	
-  	<!-- 담당자 : 발주 대기 승인 -->
+  	<!-- 담당자 : 발주 대기 승인 처리 -->
   	<update id="approvePao" parameterType="java.lang.String">
   		UPDATE PAO
 		SET PS_CODE = '2'
+		WHERE PAO_SEQ = #{pao_seq}
+  	</update>
+  	
+  	<!-- 업주 : 발주 승인 완료 처리 -->
+  	<update id="completePao" parameterType="java.lang.String">
+  		UPDATE PAO
+		SET PS_CODE = '3'
+		WHERE PAO_SEQ = #{pao_seq}
+  	</update>
+  	
+  	<!-- 업주 : 발주 대기 취소 처리 -->
+  	<update id="canclePao" parameterType="java.lang.String">
+  		UPDATE PAO
+		SET PS_CODE = '0'
 		WHERE PAO_SEQ = #{pao_seq}
   	</update>
   	

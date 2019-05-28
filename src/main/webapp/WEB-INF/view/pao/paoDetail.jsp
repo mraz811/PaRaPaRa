@@ -37,12 +37,62 @@
 					window.close();	// 발주 상세내역 창 닫음
 					
 				}, error : function() {
-					alert("발주 승인이 실패했습니다. 다시 신청해주세요.");
+					alert("발주 승인 처리를 실패했습니다. 다시 처리해주세요.");
 				}
 			});
 			 
 		}
 		
+	}
+	
+	// 담당자가 승인 처리를 한 발주를 업주가 발주 상세내역에서 발주 완료 처리 시 발생하는 이벤트
+	function complete() {
+		var pao_seq = document.getElementById("pao_seq").value;
+		var isc = confirm("해당 발주를 완료하시겠습니까??");
+		
+		if(isc){
+			
+			$.ajax({
+				url : "./completePao.do",	// 요청 URL
+				type : "post",	// 전송 처리 방식
+				asyn : false,	// trun 비동기식, false 동기식
+				data : "pao_seq="+pao_seq,	// 서버 전송 파라미터(매장코드, 재고번호, 수량)
+				success : function() {
+					alert("발주가 최종적으로 완료되었습니다!");
+					opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
+					window.close();	// 발주 상세내역 창 닫음
+					
+				}, error : function() {
+					alert("발주 완료 처리를 실패했습니다. 다시 처리해주세요.");
+				}
+			});
+			 
+		}
+	}
+	
+	// 대기중인 발주를 업주가 발주 상세내역에서 발주 취소 처리 시 발생하는 이벤트
+	function cancle() {
+		var pao_seq = document.getElementById("pao_seq").value;
+		var isc = confirm("해당 발주를 취소하시겠습니까??");
+		
+		if(isc){
+			
+			$.ajax({
+				url : "./canclePao.do",	// 요청 URL
+				type : "post",	// 전송 처리 방식
+				asyn : false,	// trun 비동기식, false 동기식
+				data : "pao_seq="+pao_seq,	// 서버 전송 파라미터(매장코드, 재고번호, 수량)
+				success : function() {
+					alert("발주가 취소되었습니다!");
+					opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
+					window.close();	// 발주 상세내역 창 닫음
+					
+				}, error : function() {
+					alert("발주 취소 처리를 실패했습니다. 다시 처리해주세요.");
+				}
+			});
+			 
+		}
 	}
 </script>
 <style type="text/css">
@@ -159,9 +209,15 @@
 					<tr>
 						<td>
 							<c:if test="${loginDto.auth eq 'A' and paoDto.ps_name eq '발주 대기'}">
-								<input type="button" class="approveBtn" value="발주승인" onclick="approve()">
+								<input type="button" class="btn" value="발주승인" onclick="approve()">
 							</c:if>
-								<input type="button" class="closeBtn" value="닫기" onclick="javascript:window.close()">
+							<c:if test="${loginDto.auth eq 'U' and paoDto.ps_name eq '발주 승인'}">
+								<input type="button" class="btn" value="발주완료" onclick="complete()">
+							</c:if>
+							<c:if test="${loginDto.auth eq 'U' and paoDto.ps_name eq '발주 대기'}">
+								<input type="button" class="btn" value="발주취소" onclick="cancle()">
+							</c:if>
+								<input type="button" class="btn" value="닫기" onclick="javascript:window.close()">
 						</td>
 					</tr>
 				</tbody>

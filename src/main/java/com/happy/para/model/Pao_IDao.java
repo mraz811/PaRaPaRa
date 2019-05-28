@@ -4,16 +4,23 @@ import java.util.List;
 import java.util.Map;
 
 import com.happy.para.dto.ItemDto;
+import com.happy.para.dto.PagingDto;
 import com.happy.para.dto.PaoDto;
 import com.happy.para.dto.StockDto;
 
 public interface Pao_IDao {
 
 	// 업주 : 발주 리스트 조회
-	public List<PaoDto> paoList(String store_code);
+	public List<PaoDto> paoList(Map<String, Object> map);
 	
-	// 담당주 : 발주 리스트 조회
-	public List<PaoDto> adminPaoList(String store_code);	
+	// 업주 : 발주 리스트 갯수
+	public int paoListRow(String store_code);
+	
+	// 담당주 : 담당 지역의 매장 발주 리스트 조회
+	public List<PaoDto> adminPaoList(Map<String, Object> map);	
+	
+	// 업주 : 담당 지역의 매장 발주 리스트 갯수
+	public int adminPaoListRow(String store_code);
 	
 	// 업주 : 발주 상태 선택 조회 및  매장 발주 날짜 선택 조회
 	public List<PaoDto> paoSelectStatusDate(Map<String, Object> map);
@@ -33,6 +40,12 @@ public interface Pao_IDao {
 	// 업주 : 발주 신청(발주 품목 테이블 INSERT)
 	public boolean piInsert(Map<String, String> map);
 	
-	// 담당자 : 발주 대기 승인
+	// 담당자 : 발주 대기 승인 처리
 	public boolean approvePao(String pao_seq);
+	
+	// 업주 : 발주 승인 완료 처리
+	public boolean completePao(String pao_seq);
+	
+	// 업주 : 발주 대기 취소 처리
+	public boolean canclePao(String pao_seq);
 }
