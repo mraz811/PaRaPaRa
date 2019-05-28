@@ -10,13 +10,13 @@ import com.happy.para.dto.TimeDto;
 public interface Timesheet_IService {
 
 	// 전체 timesheet 조회 // 파라미터값 추후 수정 필요
-	public List<TimeDto> tsListAll();
+	public List<TimeDto> tsListAll(Map<String, String> map);
 
 	// 매장별, 알바별 timesheet 조회
 	public List<TimeDto> tsList(TimeDto dto);
 
 	// 일별 알바별 datetime list로 가져오기
-	public List<String> tsDatetimeList(TimeDto dto);
+	public List<TimeDto> tsDatetimeList(TimeDto dto);
 	
 	// timesheet 추가
 	public boolean tsRegister(TimeDto dto);

@@ -16,8 +16,8 @@ public class Timesheet_ServiceImpl implements Timesheet_IService {
 	private Timesheet_IDao timeDao;
 
 	@Override
-	public List<TimeDto> tsListAll() {
-		return timeDao.tsListAll();
+	public List<TimeDto> tsListAll(Map<String, String> map) {
+		return timeDao.tsListAll(map);
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class Timesheet_ServiceImpl implements Timesheet_IService {
 	}
 	
 	@Override
-	public List<String> tsDatetimeList(TimeDto dto) {
+	public List<TimeDto> tsDatetimeList(TimeDto dto) {
 		return timeDao.tsDatetimeList(dto);
 	}
 

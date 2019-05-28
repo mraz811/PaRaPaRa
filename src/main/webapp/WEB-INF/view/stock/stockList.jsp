@@ -30,6 +30,8 @@
 			for (var i = 1; i < qty.length + 1; i++) {
 				document.getElementsByName("Slists[" + i + "].stock_qty")[0]
 						.removeAttribute("readonly");
+ 				document.getElementsByName("Slists[" + i + "].stock_qty")[0]
+						.style.border = "2px solid #ff0000";
 
 			}
 		} else {
@@ -107,7 +109,7 @@
 	
 											<c:if test="${empty dto.item_name}">
 												<td>
-													<input type="button" onclick="location.href='./delStock.do?stock_seq=${dto.stock_seq}'" value="삭제" />
+													<input type="button" onclick="location.href='./delStock.do?stock_seq=${dto.stock_seq}&store_code=${store_code}'" value="삭제" />
 												</td>
 											</c:if>
 	

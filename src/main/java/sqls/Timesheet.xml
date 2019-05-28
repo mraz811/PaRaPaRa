@@ -3,10 +3,11 @@
 <mapper namespace="para.timesheet">
 
 <!--추후 추가 해야됨!!!!! timeSheet 매장별 조회  -->
-	<select id="tsListAll" resultType="TimeDto">
-		SELECT TS_SEQ, ALBA_SEQ, TS_DATE, TS_DATETIME, TS_WORKHOUR
+	<select id="tsListAll" parameterType="java.util.Map" resultType="TimeDto">
+		SELECT TS_SEQ, ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DATETIME, TS_WORKHOUR
 			FROM TIMESHEET
-				WHERE STORE_CODE = #{store_code}
+				WHERE ALBA_SEQ IN (SELECT ALBA_SEQ FROM ALBA WHERE STORE_CODE = #{store_code})
+				AND SUBSTR(TS_DATE, 0, 7) = #{ts_date}
 	</select>
 
 <!-- timeSheet 알바별 조회  -->
@@ -16,20 +17,16 @@
 	<!-- 테스트 중!!!! -->
 				WHERE ALBA_SEQ = #{alba_seq}
 				AND TS_DATE = #{ts_date}
-<!-- 		 		AND ALBA_SEQ IN ( SELECT ALBA_SEQ FROM ALBA WHERE STORE_CODE = #{store_code}) -->
 	</select>
 
 <!-- 일별 알바별 datetime list로 가져오기 -->
-<!-- 	<select id="tsDatetimeList" parameterType="TimeDto" resultType="java.util.HashMap"> -->
-	<select id="tsDatetimeList" parameterType="TimeDto" resultType="java.lang.String">
-		SELECT TS_DATETIME
+	<select id="tsDatetimeList" parameterType="TimeDto" resultType="TimeDto">
+		SELECT ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DATETIME
 			FROM TIMESHEET
 				WHERE ALBA_SEQ = #{alba_seq}
-				AND TS_DATE = #{ts_date}
-	<!-- 		WHERE ALBA_SEQ IN ( SELECT ALBA_SEQ FROM ALBA WHERE STORE_CODE = #{store_code}) -->
+				AND SUBSTR(TS_DATE, 0, 7) = #{ts_date}
 	</select>
 	
-
 <!-- timeSheet 등록  -->
 	<insert id="tsRegister" parameterType="TimeDto">
 		INSERT INTO TIMESHEET(TS_SEQ, ALBA_SEQ, TS_DATE, TS_DATETIME, TS_WORKHOUR)
@@ -49,10 +46,10 @@
 				AND TS_DATE = #{ts_date}
 					AND TS_DATETIME = #{ts_datetime}
 	</delete>
-	
+
 <!-- 급여 조회 -->
-	<!-- <select id="">
-		SELECT ALBA_SEQ, TS_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_WORKHOUR, ALBA_NAME, ALBA_PHONE, ALBA_ADDRESS, 
+	<!-- <select id="salaryList" parameterType="java.lang.String" resultType="TimeDto">
+		SELECT ALBA_SEQ, TS_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_WORKHOUR, ALBA_NAME,
 			ALBA_TIMESAL, ALBA_BANK, ALBA_ACCOUNT, ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE
 				FROM TIMESHEET JOIN ALBA
 					USING(ALBA_SEQ)
