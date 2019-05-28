@@ -21,6 +21,24 @@
 	margin-bottom: 40px;
 }
 </style>
+<script type="text/javascript">
+$(function(){
+	$("input[name=alba_timesal]").keyup(function(){
+		var inputLen = $(this).val().length;
+		var ts = $(this).val();
+		var regex = /^[0-9]*$/;
+
+		if(ts.indexOf(" ") != -1){
+			$("input[name=alba_timesal]").attr("class","form-control is-invalid");
+		} else if(inputLen>3&& ts.match(regex)!=null){
+			$("input[name=alba_timesal]").attr("class","form-control is-valid");
+		} else{
+			$("input[name=alba_timesal]").attr("class","form-control is-invalid");
+		}
+	});
+	
+});
+</script>
 </head>
 <body>
 <div id="container">
@@ -42,7 +60,7 @@
 		</div>
 		<div class="form-group">	
 			<label>시급</label>	
-			<input type="text" class="form-control" name="alba_timesal" placeholder="시급" required="required" maxlength="10">
+			<input type="text" class="form-control" name="alba_timesal" placeholder="숫자만 입력해주세요" required="required" maxlength="10">
 		</div>
 		<div class="form-group">
 			<label>은행명</label>
@@ -89,7 +107,7 @@ function regiChk(){
 				regiCancel();
 			});
 		}, error: function(){
-			swal("등록 실패", "정보를 모두 입력해주세요","error");
+			swal("등록 실패", "입력된 정보를 확인해주세요","error");
 		}
 	});
 }

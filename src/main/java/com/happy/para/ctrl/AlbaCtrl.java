@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.dto.AlbaDto;
 import com.happy.para.dto.OwnerDto;
-import com.happy.para.dto.PagingDto;
 import com.happy.para.model.Alba_IService;
+import com.happy.para.model.Timesheet_IService;
 
 @Controller
 public class AlbaCtrl {
 
 	@Autowired
 	private Alba_IService alService;
+	
+	@Autowired
+	private Timesheet_IService tsService;
 	
 	// 아르바이트 등록 폼으로 
 	@RequestMapping(value="/albaRegiForm.do", method=RequestMethod.GET)
@@ -41,27 +44,38 @@ public class AlbaCtrl {
 		alService.albaRegister(albaDto);
 	}
 	
-	// 아르바이트 전체 조회
+	// 아르바이트 전체 조회 (페이징) - 사용안함
+//	@RequestMapping(value="/selAlbaList.do", method=RequestMethod.GET)
+//	public String selAlbaList(HttpSession session, Model model) {
+//		OwnerDto ownDto = (OwnerDto) session.getAttribute("loginDto");
+//		String store_code = ownDto.getStore_code();
+//		
+//		PagingDto pagingDto = new PagingDto();
+//		Map<String, String> albamap = new HashMap<String,String>();
+//		albamap.put("store_code", store_code);
+//		albamap.put("alba_delflag", "N");
+//		pagingDto.setTotal(alService.albaListRow(albamap));
+//		
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("start", pagingDto.getStart()+"");
+//		map.put("end", pagingDto.getEnd()+"");
+//		map.put("store_code", store_code);
+//		map.put("alba_delflag", "N");
+//		
+//		List<AlbaDto> albaList =  alService.albaList(map);
+//		model.addAttribute("albaList", albaList);
+//		model.addAttribute("albaRow", pagingDto);
+//		
+//		return "/alba/albaList";
+//	}
 	@RequestMapping(value="/selAlbaList.do", method=RequestMethod.GET)
 	public String selAlbaList(HttpSession session, Model model) {
 		OwnerDto ownDto = (OwnerDto) session.getAttribute("loginDto");
 		String store_code = ownDto.getStore_code();
-		
-		PagingDto pagingDto = new PagingDto();
-		Map<String, String> albamap = new HashMap<String,String>();
-		albamap.put("store_code", store_code);
-		albamap.put("alba_delflag", "N");
-		pagingDto.setTotal(alService.albaListRow(albamap));
-		
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("start", pagingDto.getStart()+"");
-		map.put("end", pagingDto.getEnd()+"");
-		map.put("store_code", store_code);
-		map.put("alba_delflag", "N");
-		
-		List<AlbaDto> albaList =  alService.albaList(map);
-		model.addAttribute("albaList", albaList);
-		model.addAttribute("albaRow", pagingDto);
+
+		List<AlbaDto> alists = tsService.tsAlba(store_code);
+		System.out.println(alists);
+		model.addAttribute("albaList", alists);
 		
 		return "/alba/albaList";
 	}
