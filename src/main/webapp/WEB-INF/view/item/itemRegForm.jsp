@@ -14,55 +14,106 @@
 <script type="text/javascript" src="./js/bootstrap.js"></script>
 <body>
 	<div id="container">
-		<form action="#" id="frm" method="post">
+		<form action="#" id="frm" method="post" onsubmit="return regItem()">
 			<fieldset>
 			
 <%-- 			<input type="hidden" name="loc_code" value="${loginDto.loc_code}"> --%>
 <%-- 				<input type="hidden" naSme="admin_id" value="${loginDto.admin_id}"> --%>
-				
+				<input type="hidden" value="0" id="nameChkVal">
 				<div class="form-group">
 					<label>품목명</label>
-					<input class="form-control" type="text" placeholder="ex)양념소스" required="required" name="item_name">
+					<input class="form-control" type="text" id="item_name" placeholder="ex)양념소스" required="required" name="item_name">
+					<div class="valid-feedback">사용 가능한 품목명</div>
+					<div class="invalid-feedback">사용 불가능한 품목명</div>
 				</div>
 				<div class="form-group">
 					<label>가격</label>
-					<input class="form-control" type="text" name="item_price" placeholder="ex)10000" required="required">
+					<input class="form-control" type="text" id="item_price" name="item_price" onkeyup="numberOnly()" placeholder="ex)10000, 숫자만 입력하세요" required="required">
 				</div>
 				<div align="right">
-					<input type="button" style="width: 123px;" class="btn btn-outline-success" value="등록" onclick="regItem()">
-					<input type="button" style="width: 123px;" class="btn btn-outline-warning" value="취소" onclick="regiCasncel()">
+					<input type="submit" style="width: 123px;" class="btn btn-outline-success" value="등록" >
+					<input type="button" style="width: 123px;" class="btn btn-outline-warning" value="취소" onclick="regiCancel()">
 				</div>
 			</fieldset>
 		</form>
 	</div>
 <script type="text/javascript">
-	function regItem() {
-		$.ajax({
-			url :"./addItem.do",
-			type: "post",
-			async:true,
-			data:$("#frm").serialize(),
-			dataType:"json",
-			success:function(msg){
-// 				alert(msg.isc);
-				swal({
-					title: "등록 완료", 
-					text: "품목 등록이 완료되었습니다", 
-					type: "success"
-				},
-				function(){ 
-					opener.parent.location.reload();
-					regiCancel();
-				});
-			},error:function(){
-// 				alert("실패");
-				swal("등록 에러", "등록 중 문제가 발생하였습니다.", "error");
-			}
+
+	// 품목 등록 시 중복되는 품목명을 판단해주기 위하여
+	$(function() {
+		$("#item_name").keyup(function() {
+			var iName = $(this).val(); // 품목명 등록 input tag의 값
+// 			alert(iName);
+			$.ajax({
+				url : "./itemValid.do",
+				type : "post",
+				data : "item_name="+iName,
+				async : true,
+				success:function(msg){
+					if(msg.substr(0,5)=="사용 가능"){
+						$("#item_name").attr("class","form-control is-valid");
+						$("#nameChkVal").val("1");						
+					} else{
+						$("#item_name").attr("class","form-control is-invalid");
+						$("#nameChkVal").val("0");
+					}
+				},error : function() {
+					alert("what?");
+				}
+			});
+			
 		});
+		
+		
+	});
+		
+	function numberOnly(){
+		var iPrice = $("#item_price").val();
+		var keyValue = event.keyCode;
+		if( ((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){
+			swal("등록 에러", "숫자만 입력해주세요.", "error");
+			$("#item_price").val(iPrice.substring(0,iPrice.length-1));
+		}
+	}
+	var regItem = function () {
+		var chkVal = $("#nameChkVal").val();
+		alert("이거 두번도는거 같아여");
+		if(chkVal == '1'){
+			$.ajax({
+				url :"./addItem.do",
+				type: "post",
+				async:true,
+				data:$("#frm").serialize(),
+				dataType:"json",
+				success:function(msg){
+	// 				alert(msg.isc);
+					swal({
+						title: "등록 완료", 
+						text: "품목 등록이 완료되었습니다", 
+						type: "success"
+					},
+					function(){ 
+						opener.parent.location.reload();
+						regiCancel();
+					});
+				},error:function(){
+					alert("실패");
+					return false;
+				}
+			});
+			
+		}else{
+			swal("등록 에러", "등록 중 문제가 발생하였습니다.", "error");
+			return false;
+		}
+		return false;
+		
 	}
 	var regiCancel = function(){
 		self.close();
 	}
+	
+
 	
 </script>
 </body>

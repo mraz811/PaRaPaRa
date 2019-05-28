@@ -25,7 +25,7 @@ public class ItemCtrl {
 	@Autowired
 	private Item_IService itemService;
 	
-	
+	// 품목 전체 조회
 	@RequestMapping(value="/selItemList.do", method=RequestMethod.GET)
 	public String itemList(Model model) {
 		List<ItemDto> lists = itemService.itemList();
@@ -34,11 +34,13 @@ public class ItemCtrl {
 		return "item/itemList";
 	}
 	
+	// 품목 등록 창으로 이동
 	@RequestMapping(value="/regItem.do", method=RequestMethod.GET)
 	public String addToItemForm() {
 		return "item/itemRegForm";
 	}
 	
+	// 품목이 등록되었을 때 새 창을 닫고 품목 전체 조회창을 새로고침하기 때문에 ajax처리 
 	@RequestMapping(value="/addItem.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String addToItem(String item_name, String item_price) {
@@ -61,6 +63,7 @@ public class ItemCtrl {
 		
 	}
 	
+	// 품목 수정 창을 띄워줌, 수정할 품목의 정보를 가져가기 위한 쿼리를 실행
 	@RequestMapping(value="/itemModiForm.do", method=RequestMethod.GET)
 	public String modItemForm(String item_seq, Model model) {
 		logger.info("Modify Item Controller : {}", item_seq);
@@ -72,6 +75,7 @@ public class ItemCtrl {
 		return "item/itemModForm";
 	}
 	
+	// 품목이 수정된 후 띄워진 창을 닫고 전체조회 페이지를 새로고침하기위해 ajax 처리
 	@RequestMapping(value="/itemModi.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String modItem(String item_seq, String item_price, String item_name) {
@@ -92,6 +96,7 @@ public class ItemCtrl {
 		return "";
 	}
 	
+	// 품목이 삭제된 후 품목 전체를 다시 화면에 출력해주기 위한 ajax 처리
 	@RequestMapping(value="/delItem.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String deleteItem(String item_seq) {
@@ -118,6 +123,39 @@ public class ItemCtrl {
 		json.put("lists", jLists);
 		return json.toString();
 	}
+	
+	
+	@RequestMapping(value="/searchItem.do", method=RequestMethod.GET, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String searchItemList(String item_name) {
+		logger.info("search item List controller : {}" + item_name);
+		JSONObject json = new JSONObject();
+		JSONArray jLists = new JSONArray();
+		JSONObject jList = null;
+		List<ItemDto> lists = itemService.itemSearchList(item_name);
+		int countList = lists.size();
+		System.out.println(lists);
+		for (ItemDto dto : lists) {
+			jList = new JSONObject();
+			jList.put("item_seq", dto.getItem_seq());
+			jList.put("item_name", dto.getItem_name());
+			jList.put("item_price", dto.getItem_price());
+			
+			jLists.add(jList);
+		}
+		json.put("lists", jLists);
+		json.put("count", countList);
+		return json.toString();
+	}
+	
+	
+	@RequestMapping(value="/itemValid.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String itemNameChk(String item_name) {
+		int n = itemService.itemNameChk(item_name);
+		return (n==0)? "사용 가능":"사용 불가능";
+	}
+	
 	
 	
 }
