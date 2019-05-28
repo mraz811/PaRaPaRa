@@ -20,4 +20,10 @@ public interface Item_IDao {
 	
 	// 품목 상세 조회
 	public ItemDto itemDetail(String item_seq);
+	
+	// 품목명 중복 체크를 위한 품목명 조회
+	public int itemNameChk(String item_name);
+	
+	// 품목 검색
+	public List<ItemDto> itemSearchList(String item_name);
 }

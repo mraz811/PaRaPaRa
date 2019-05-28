@@ -45,4 +45,14 @@ public class Item_DaoImpl implements Item_IDao {
 		return sqlSession.selectOne(NS+"itemDetail", item_seq);
 	}
 
+	@Override
+	public int itemNameChk(String item_name) {
+		return sqlSession.selectOne(NS+"itemNameChk", item_name);
+	}
+
+	@Override
+	public List<ItemDto> itemSearchList(String item_name) {
+		return sqlSession.selectList(NS+"itemSearchList", item_name);
+	}
+
 }

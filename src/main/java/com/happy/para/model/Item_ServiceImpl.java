@@ -43,8 +43,20 @@ public class Item_ServiceImpl implements Item_IService {
 
 	@Override
 	public ItemDto itemDetail(String item_seq) {
-		logger.info("detail Item service : {}" + item_seq);
+		logger.info("detail Item service : {}", item_seq);
 		return item_IDao.itemDetail(item_seq);
+	}
+
+	@Override
+	public int itemNameChk(String item_name) {
+		logger.info("select Item Name service : {}", item_name);
+		return item_IDao.itemNameChk(item_name);
+	}
+
+	@Override
+	public List<ItemDto> itemSearchList(String item_name) {
+		logger.info("search Item List Service : {}", item_name);
+		return item_IDao.itemSearchList(item_name);
 	}
 	
 	

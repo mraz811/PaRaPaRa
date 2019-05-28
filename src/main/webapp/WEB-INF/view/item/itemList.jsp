@@ -6,6 +6,19 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="./css/storeList.css">
+<style type="text/css">
+	#item_bottom{
+		position: relative;
+	}
+	#searchBtn{
+		left: 400px;
+		position: absolute;
+	}
+	#regBtn{
+		right: 10px;
+		position: absolute;
+	}
+</style>
 </head>
 <body>
 <div id="container">
@@ -30,7 +43,7 @@
 	    				<a class="nav-link active" data-toggle="tab" onclick="selItemList()" href="#">품목</a>
 	  				</li>
 				</ul>
-				<div class="tab-content" style="overflow: auto; height: 300px;">
+				<div class="tab-content" style="overflow: auto; height: 350px;">
 					<!-- 각자 내용들.. -->
 					<table class="table table-hover" >
 						<thead>
@@ -65,8 +78,14 @@
 						</tbody>
 					</table>
 				</div>
-				<div align="right">
-					<input type="button" class="btn btn-primary" id="btn" value="품목등록" onclick="regItem()">
+				<div id="item_bottom">
+					<div id="searchBtn">
+						<input type="text" id="searchItem" width="400px;">
+						<input type="button" class="btn btn-outline-primary" value="검색" onclick="searchItemList()">
+					</div>
+					<div id="regBtn">
+						<input type="button" class="btn btn-primary" id="btn" value="품목등록" onclick="regItem()">
+					</div>
 				</div>
 					
 			</div>
@@ -85,6 +104,62 @@
 	
 	var modItem = function(itemSeq){
 		window.open("./itemModiForm.do?item_seq="+itemSeq, "_blank","width=400, height=500, left=500, top=200");
+	}
+	
+	var searchItemList = function(){
+		var searchVal = document.getElementById("searchItem").value;
+		$.ajax({
+			post : "get",
+			url : "./searchItem.do",
+			data : "item_name="+searchVal,
+			dataType : "json",
+			async : false,
+			success: function (data) {
+// 				alert(typeof data.count);
+				if(data.count == 0){
+					swal({
+						title: "", 
+						text: "검색된 항목이 존재하지 않습니다.", 
+						type: "warning"
+					},function(){
+						var htmlTable="";
+						htmlTable += 	"<tr>"
+											+"<th colspan='5'>등록된 품목이 없습니다.</th>"
+										+"</tr>";
+					$(".table > tbody").html(htmlTable);
+					});
+				}else{
+		        	swal({
+						title: "조회 완료", 
+						text: "품목 조회가 완료되었습니다", 
+						type: "success"
+					},
+					function(){ 
+						var htmlTable = "";
+						$.each(data, function(key,value){
+							if(key=="lists"){
+								$.each(value,function(key, val){
+									htmlTable += 	"<tr>"
+														+"<td>"+val.item_seq+"</td>"
+														+"<td>"+val.item_name+"</td>"
+														+"<td>"+val.item_price+"</td>"
+														+"<td><input type='button' class='btn btn-secondary' value='품목수정' onclick='modItem(\""+val.item_seq+"\")'></td>"
+														+"<td><input type='button' class='btn btn-warning' value='품목삭제' onclick='delItem(\""+val.item_seq+"\")'></td>"
+												+	"</tr>";
+									
+									
+								}); // itemList를 뿌려주기 위한 value의 key val function
+							} // key == lists
+	//							alert(htmlTable);
+						}); // data의 key value로 나눈 each문
+						$(".table > tbody").html(htmlTable);
+					}); //swal 뒤 function
+				}
+			},
+	        error: function (data) {
+	        	swal("조회 에러", "조회 중 문제가 발생하였습니다.", "error");
+	        }
+		});
 	}
 	
 	var delItem = function(itemSeq) {
@@ -127,7 +202,7 @@
 															+"<td>"+val.item_seq+"</td>"
 															+"<td>"+val.item_name+"</td>"
 															+"<td>"+val.item_price+"</td>"
-															+"<td><input type='button' class='btn btn-secondary' value='품목등록' onclick='modItem(\""+val.item_seq+"\")'></td>"
+															+"<td><input type='button' class='btn btn-secondary' value='품목수정' onclick='modItem(\""+val.item_seq+"\")'></td>"
 															+"<td><input type='button' class='btn btn-warning' value='품목삭제' onclick='delItem(\""+val.item_seq+"\")'></td>"
 													+	"</tr>";
 										
