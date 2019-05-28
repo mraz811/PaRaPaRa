@@ -190,5 +190,15 @@ public class Member_ServiceImpl implements Member_IService {
 	public int ownerIdDupleChk(String owner_id) {
 		return member_IDao.ownerIdDupleChk(owner_id);
 	}
+
+	@Override
+	public int findPwChkAdmin(Map<String, String> map) {
+		return member_IDao.findPwChkAdmin(map);
+	}
+
+	@Override
+	public int findPwChkOwner(Map<String, String> map) {
+		return member_IDao.findPwChkOwner(map);
+	}
 	
 }

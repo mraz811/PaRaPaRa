@@ -55,7 +55,7 @@ function pageAjax(){
 							}
 							if(val.owner_end != null){
 								htmlTable += "<td width='165px'>"+(val.owner_end).substr(0, 10)+"</td>"+
-								"<td width='100px'></td>";
+								"<td width='100px'><input class='btn btn-secondary' type='button' value='계약연장' onclick='reCon(\""+val.owner_seq+"\")'></td>";
 							}
 						
 						htmlTable += "</tr></table></form>";

@@ -82,7 +82,7 @@
 						</c:if>
 						<c:if test="${ow.owner_end ne null}">
 							<td width="165px">${fn:substring(ow.owner_end,0,10)}</td>
-							<td width="100px"></td>	
+							<td width="100px"><input class="btn btn-secondary" type="button" value="계약연장" onclick="reCon('${ow.owner_seq}')"></td>	
 						</c:if>
 					</tr>
 				</table>
@@ -160,14 +160,28 @@ var finContract = function(frmNo, start){
 		swal("계약 종료 실패", "종료일은 계약일이전일 수 없습니다..");
 	} else {
 		// 계약종료일 등록 완료 시
-		var isc = confirm("계약 종료 시 되돌릴 수 없습니다.");
-		if(isc){
-// 			var frm = document.forms[frmNo];
-			var frm = document.getElementById("form"+frmNo);
-			frm.action = "./delOwner.do";
-			frm.methd = "post";
-			frm.submit();
-		}
+// 		var isc = confirm("계약 종료 시 되돌릴 수 없습니다.");
+		swal({
+			title: "계약 종료",
+			text: "계약을 종료하시겠습니까?",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "lightgray",
+			confirmButtonText: "취 소",
+			cancelButtonText: "확 인",
+			closeOnConfirm: false,
+			closeOnCancel: false
+		},
+		function(isConfirm){
+			if(isConfirm){ // confirmButtonText
+				swal("취소", "계약 종료가 취소 되었습니다.");
+			} else{
+				var frm = document.getElementById("form"+frmNo);
+				frm.action = "./delOwner.do";
+				frm.methd = "post";
+				frm.submit();
+			}
+		});
 	}
 };
 
@@ -188,6 +202,47 @@ function compareDate(start, end){
 // 	alert(owner_end - owner_start > 0);
 	
 	return owner_end - owner_start > 0;
+}
+
+// 업주 계약종료 취소
+function reCon(seq){
+	swal({
+		title: "계약 연장",
+		text: "계약 종료일을 삭제하시겠습니까?",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "lightgray",
+		confirmButtonText: "취 소",
+		cancelButtonText: "확 인",
+		closeOnConfirm: false,
+		closeOnCancel: false
+	},
+	function(isConfirm){
+		if(isConfirm){ // confirmButtonText
+			swal("취소", "계약 연장이 취소 되었습니다.");
+// 			return false;
+		} else{ // cancelButtonText
+			// 확인 했을 때 ./cancelDelOwner.do
+			$.ajax({
+				url: "./cancelDelOwner.do",
+				data: "owner_seq="+seq,
+				type: "post",
+				async: false,
+				success: function(){
+					swal({
+						title: "계약 연장 완료", 
+						text: "계약종료일 삭제가 완료되었습니다", 
+						type: "success"
+					},
+					function(){ 
+						location.reload();
+					});
+				}, error: function(){
+					swal("계약 연장 실패", "계약 종료일 삭제가 실패하였습니다", "error");
+				}
+			});
+		}
+	});
 }
 
 </script>

@@ -21,7 +21,7 @@
 
 
 <div id="container">
-	<form id="loginform" method="post">
+	<form id="loginform" method="post" action="./login.do">
 		<input type="hidden" value="0" id="chkVal">
 		<h2 align="center">파라파라 로그인</h2>
 		<hr>
@@ -33,10 +33,10 @@
 			<div class="invalid-feedback">	유효하지 않은 아이디</div>
 		</div>
 		<div class="form-group">
-			<input class="form-control" type="password" id="inputPw" name="pw" placeholder="비밀번호를 입력하세요" required="required" >
+			<input onkeyup="enterkey();" class="form-control" type="password" id="inputPw" name="pw" placeholder="비밀번호를 입력하세요" required="required" >
 		</div>
 		<div>
-			<input style="width: 300px;" class="btn btn-outline-success" type="button" value="로그인" onclick="loginCheck()">
+			<input style="width: 300px; height: 40px;" class="btn btn-outline-success" type="button" value="로그인" onclick="loginCheck()">
 		</div>
 		<hr>
 		<div align="right">
@@ -52,26 +52,52 @@
 
 <script type="text/javascript">
 
+function enterkey() {
+    if (window.event.keyCode == 13) {
+         // 엔터키가 눌렸을 때 실행할 내용
+         loginCheck();
+    }
+}
+
+
 // 로그인 버튼 클릭 시 작동되는 함수
 	var loginCheck = function(){
 // 		var auth = document.getElementsByName("auth");
-		var id = document.getElementById("inputId").value;
-		var pw = document.getElementById("inputPw").value;
+		var id = $("#inputId").val();
+		var pw = $("#inputPw").val();
 // 		alert(id+":"+pw);
 // 		alert(auth[0].checked); // true/false 반환
 // 		alert(auth[1].checked); // 담당자
 		
-		var chkVal = document.getElementById("chkVal").value;
-		var loginForm = document.forms[0];
+		var chkVal = $("#chkVal").val();
+		var logAjax = $("#loginform").serialize();
+// 		alert(logAjax);
 		
+		var loginForm = $("#loginform");
+
 		if(id==null || id=="" || pw==null || pw==""){
-			swal("로그인","아이디와 비밀번호를 확인해 주세요");
+			swal("로그인 실패","아이디와 비밀번호를 확인해 주세요");
 		} else if(chkVal==1){
-			loginForm.action = "./login.do";
-			loginForm.submit();
-			return true;
+			$.ajax({
+				url : "./loginChk.do",
+				type: "post",
+				data: logAjax,
+				success: function(msg){
+					if(msg=="성공"){
+						loginForm.submit();
+					}else{
+						swal("로그인 실패", "아이디와 비밀번호를 확인해 주세요");
+					}
+					
+				}, error: function(msg){
+					swal("로그인 실패", "아이디와 비밀번호를 확인해 주세요");
+				}
+				
+			});
+			
 		} else{
-			swal("로그인", "아이디와 비밀번호를 확인해 주세요");
+			// 유효값 
+			swal("로그인 실패", "아이디와 비밀번호를 확인해 주세요");
 			return false;
 		}
 		

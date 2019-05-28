@@ -51,7 +51,24 @@ public class MemberCtrl {
 		public String loginForm() {
 			return "/member/loginForm";
 		}
-	
+
+		// 로그인 실행 전 ajax를 이용한 로그인 가능성 여부 검토
+		@RequestMapping(value="/loginChk.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
+		public String loginChk(String id, String pw, String auth){
+			System.out.println("들어옴"+id+":"+pw+":"+auth);
+			if(auth.equalsIgnoreCase("U")) {
+				OwnerDto oDto = new OwnerDto(id,pw);
+				OwnerDto owner = memService.ownerLogin(oDto);
+				return (owner==null)? "실패":"성공";
+			} else {
+				AdminDto aDto = new AdminDto(Integer.parseInt(id),pw);
+				AdminDto admin = memService.adminLogin(aDto);
+				return (admin==null)? "실패":"성공";
+			}
+			
+		}
+		
 		// 아이디, 비밀번호, 권한(관리자/업주)를 받아와서 로그인을 실행시켜주는 메소드
 		@RequestMapping(value="/login.do", method=RequestMethod.POST)
 		public String login(String id, String pw, String auth, HttpSession session) {
@@ -67,8 +84,8 @@ public class MemberCtrl {
 					return "redirect:/main.do";
 				}
 				
-			} else if(auth.equalsIgnoreCase("A")) { 
-				//관리자 권한 로그인 시
+			} else if(auth.equalsIgnoreCase("A") || auth.equalsIgnoreCase("S")) { 
+				//담당자 권한 로그인 시
 				AdminDto admin = new AdminDto(Integer.parseInt(id), pw);
 				AdminDto adminDto = memService.adminLogin(admin);
 				System.out.println(adminDto);
@@ -85,7 +102,7 @@ public class MemberCtrl {
 		@RequestMapping(value="/logout.do", method=RequestMethod.GET)
 		public String logout(HttpSession session, String auth) {
 			// 화면에서 auth 값을 받아와서 
-			if(auth.equalsIgnoreCase("A")) { // 담당자 권한 로그아웃
+			if(auth.equalsIgnoreCase("A") || auth.equalsIgnoreCase("S")) { // 담당자 권한 로그아웃
 				AdminDto aDto = (AdminDto) session.getAttribute("loginDto");
 				if(aDto!=null) {
 					session.removeAttribute("loginDto");
@@ -237,6 +254,29 @@ public class MemberCtrl {
 		@RequestMapping(value="/findPwForm.do", method=RequestMethod.GET)
 		public String findPwForm() {
 			return "/member/findPwForm";
+		}
+		
+		// 비밀번호 아이디/이메일 유효 검사 (ajax)
+		@RequestMapping(value="/findPwChk.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
+		public String findPwChk(String id, String email, String auth) {
+			//findPwChkAdmin	//findPwChkOwner
+			System.out.println(id+"///"+email+"////"+auth);
+			
+			if(auth.equalsIgnoreCase("U")) {
+				Map<String, String> owmap = new HashMap<String, String>();
+				owmap.put("owner_id", id);
+				owmap.put("owner_email", email);
+				int n = memService.findPwChkOwner(owmap);
+				return (n>0)? "성공":"실패";
+			} else {
+				Map<String, String> admap = new HashMap<String, String>();
+				admap.put("admin_id", id);
+				admap.put("admin_email", email);
+				int n= memService.findPwChkAdmin(admap);
+				return (n>0)? "성공":"실패";
+			}
+			
 		}
 		
 		// 아이디, 이메일을 받아서 비밀번호 임시 생성 후 이메일로 보내주는 메소드
@@ -406,6 +446,9 @@ public class MemberCtrl {
 			json = ownerJson(memService.ownerList(map),pagingDto);
 			json.put("listSize", pagingDto.getTotal());
 			
+			session.removeAttribute("ownerRow");
+			session.setAttribute("ownerRow", pagingDto);
+			
 			System.out.println(json.toString());
 			return json.toString();
 		}
@@ -452,8 +495,15 @@ public class MemberCtrl {
 				AdminDto ad = (AdminDto) session.getAttribute("loginDto");
 				loc_code = ad.getLoc_code();
 			}
+			PagingDto pagingDto = null;
 			
-			PagingDto pagingDto = new PagingDto();
+//			// 주석 풀면 SESSION에 페이지 정보 저장 가능하지만 그냥 첫페이지로 보냅니다.
+//			if(session.getAttribute("ownerRow")==null) {
+				pagingDto = new PagingDto();
+//			}else {
+//				pagingDto = (PagingDto) session.getAttribute("ownerRow");
+//			}
+			
 			pagingDto.setTotal(memService.ownerListRow(loc_code));
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("start", pagingDto.getStart()+"");
@@ -480,7 +530,7 @@ public class MemberCtrl {
 		}
 		
 		// 업주 삭제 메소드 (계약종료일 업데이트)
-		@RequestMapping(value="/delOwner.do", method=RequestMethod.POST)
+		@RequestMapping(value="/delOwner.do", method= RequestMethod.POST)
 		public String delOwner(HttpSession session, String owner_end, String owner_seq) {
 //			session에서 loc_code받아오기
 			AdminDto ad = (AdminDto) session.getAttribute("loginDto");
@@ -490,6 +540,17 @@ public class MemberCtrl {
 			
 			memService.ownerDelete(map);
 			return "redirect:/selOwnerList.do?loc_code="+ad.getLoc_code();
+		}
+		
+		// 업주 계약 연장 메소드 (계약종료일 초기화)
+		@RequestMapping(value="/cancelDelOwner.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
+		public void cancelDelOwner(String owner_seq) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("owner_seq", owner_seq);
+			map.put("owner_end", "");
+//			System.out.println(map);
+			memService.ownerDelete(map);
 		}
 		
 }
