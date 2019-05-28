@@ -45,6 +45,8 @@
 		<div class="form-group">	
 			<label>시급</label>	
 			<input type="text" class="form-control" name="alba_timesal" placeholder="시급" required="required" maxlength="10" value="${alba.alba_timesal}">
+			<div class="valid-feedback"></div>
+			<div class="invalid-feedback">숫자만 입력해주세요</div>
 		</div>
 		<div class="form-group">
 			<label>은행명</label>

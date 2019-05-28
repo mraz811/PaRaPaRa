@@ -11,14 +11,17 @@
 	position: relative;
 }
 .regianddel{
-	width: 160px;
+	width: 80px;
 	float: right;
+	margin-top: 8px;
+	margin-right: 16px;
 	position: relative;
 }
 .alba_table{
-	margin: 10px 0px;
+	margin: 5px 0px;
 	width: 1010px;
-	height: 340px;
+	height: 350px;
+	overflow: auto;
 }
 
 </style>
@@ -43,10 +46,10 @@
     			 <a class="nav-link" data-toggle="tab" id="timesheet">TimeSheet</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link active" data-toggle="tab" href="#home">아르바이트</a>
+    			 <a class="nav-link active" data-toggle="tab">아르바이트</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#profile">급여</a>
+    			 <a class="nav-link" data-toggle="tab" id="salary">급여</a>
   				</li>
 			</ul>
 			
@@ -55,6 +58,10 @@
 					$("#timesheet").click(function() {
 						location.href="./selTimeSheet.do";
 					});
+					
+					$("#salary").click(function(){
+						location.href="./salary.do";
+					});	
 				});
 				</script>
 				
@@ -72,14 +79,15 @@
 							<th>은행명</th>
 							<th>계좌번호</th>
 							<th>근무시작일</th>
-							<th></th>
+							<th width="70px;"></th>
+							<th width="70px;"></th>
 						</tr>
 						<c:if test="${empty albaList}">
 							<tr><td colspan="9" style="color: red; text-align: center;">등록된 아르바이트가 없습니다.</td></tr>
 						</c:if>
 						<c:forEach var="alba" items="${albaList}" varStatus="vs">
 						<tr>
-							<td><input type="radio" name="alba_seq" value="${alba.alba_seq}"></td>
+							<td><input type="hidden" name="alba_seq" value="${alba.alba_seq}"></td>
 							<td>${alba.alba_name}</td>
 							<td>${alba.alba_phone}</td>
 							<td>${alba.alba_address}</td>
@@ -87,40 +95,17 @@
 							<td>${alba.alba_bank}</td>
 							<td>${alba.alba_account}</td>
 							<td>${fn:substring(alba.alba_regdate,0,10)}</td>
-							<td><input class="btn btn-secondary" type="button" value="수정하기" onclick="modiAlba('${alba.alba_seq}')"></td>
+							<td><input style="height: 30px;" class="btn btn-secondary" type="button" value="수정" onclick="modiAlba('${alba.alba_seq}')"></td>
+							<td><input style="height: 30px;" class="btn btn-outline-warning" type="button" value="삭제" onclick="confrmDel('${alba.alba_seq}')"></td>
 						</tr>
 						</c:forEach>
 					</table>
 				</div>
 				<div class="regianddel">
-					<input class="btn btn-outline-success" type="button" value="등　록" onclick="toAlbaRegi()">
-					<input class="btn btn-outline-warning" type="button" value="삭　제" onclick="delAlba()">
+					<input style="width: 74px;" class="btn btn-outline-success" type="button" value="등　록" onclick="toAlbaRegi()">
+<!-- 					<input class="btn btn-outline-warning" type="button" value="삭　제" onclick="delAlba()"> -->
 				</div>
 				</form>
-				
-				<div class="center">
-					<ul class="pagination">
-						<li class="page-item">
-						 <a class="page-link" href="#" onclick="pageFirst(${albaRow.pageList},${albaRow.pageList})">&laquo;</a>
-						</li>
-						<li class="page-item">
-						 <a class="page-link" href="#" onclick="pagePre(${albaRow.pageNum},${albaRow.pageList})">&lsaquo;</a>
-						</li>
-		
-						<c:forEach var="i" begin="${albaRow.pageNum}" end="${albaRow.count}" step="1">
-							<li class="page-item">
-							 <a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a>
-							</li>
-						</c:forEach>
-		
-						<li class="page-item">
-						 <a class="page-link" href="#" onclick="pageNext(${albaRow.pageNum},${albaRow.total},${albaRow.listNum},${albaRow.pageList})">&rsaquo;</a>
-						</li>
-						<li class="page-item">
-						 <a class="page-link" href="#" onclick="pageLast(${albaRow.pageNum},${albaRow.total},${albaRow.listNum},${albaRow.pageList})">&raquo;</a>
-						</li>
-					</ul>
-				</div>
 			
 			</div> <!-- tab-content -->
 			
@@ -148,25 +133,29 @@ var modiAlba = function(seq){
 	
 }
 
-// 알바 삭제하기
-var delAlba = function(){
-	var chk = $("input:radio[name=alba_seq]");
-	var val = false;
+// var delEachAlba = function(seq){
+// 	confrmDel(seq);
+// }
+
+// 알바 삭제하기(table 밖에서 삭제 했을 때 사용했음)
+// var delAlba = function(){
+// 	var chk = $("input:radio[name=alba_seq]");
+// 	var val = false;
 	
-// 	alert(chk.length); 5
-	var chkVal = null;
-	for (var i = 0; i < chk.length; i++) {
-		if(chk[i].checked){
-			chkVal = chk[i].value;
-		}
-	}	
-// 	alert(chkVal);
-	if(chkVal==null){
-		swal("삭제 실패", "선택된 아르바이트가 없습니다.");
-	}else{
-		val = confrmDel(chkVal);
-	}
-};
+// // 	alert(chk.length); 5
+// 	var chkVal = null;
+// 	for (var i = 0; i < chk.length; i++) {
+// 		if(chk[i].checked){
+// 			chkVal = chk[i].value;
+// 		}
+// 	}	
+// // 	alert(chkVal);
+// 	if(chkVal==null){
+// 		swal("삭제 실패", "선택된 아르바이트가 없습니다.");
+// 	}else{
+// 		val = confrmDel(chkVal);
+// 	}
+// };
 
 function confrmDel(chkVal){
 	swal({
