@@ -199,7 +199,7 @@ function ownerAllMenuList(){
 							<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
 								<div class="menu">
 									<input id="checkbox" name="cancel_menu_seq" type="checkbox" value="${menu.menu_seq}" />
-									<img class="menuImg" src="./masolimg/img.png" alt="" /><br>
+									<img class="menuImg" src="${fn:substring}" alt="" /><br>
 									${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}
 								</div>
 							</c:forEach>

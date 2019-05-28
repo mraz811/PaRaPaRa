@@ -53,8 +53,9 @@ public class Menu_ServiceImpl implements Menu_IService{
 	@Transactional
 	@Override
 	public boolean insertMenu(MenuDto mDto,FileDto fDto) {
-		logger.info("insertMenu Service : {}{} ", mDto,fDto);
+		logger.info("insertMenu Service : {}{}", mDto,fDto);
 		boolean isc = menu_IDao.insertMenu(mDto);
+		fDto.setMenu_seq(mDto.getMenu_seq());
 		if(isc) {
 			isc = menu_IDao.insertMenuFile(fDto);
 		}
@@ -68,6 +69,7 @@ public class Menu_ServiceImpl implements Menu_IService{
 	public boolean modifyMenu(MenuDto mDto,FileDto fDto) {
 		logger.info("modifyMenu Service : {}{} ", mDto,fDto);
 		boolean isc = menu_IDao.modifyMenu(mDto);
+		fDto.setMenu_seq(mDto.getMenu_seq());
 		if(isc) {
 			isc = menu_IDao.modifyMenuFile(fDto);
 		}

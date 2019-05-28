@@ -14,16 +14,41 @@ public class FileDto implements Serializable {
 	private String file_regdate;
 	private int file_size;
 	private int chat_seq;
+	private String file_aurl;
+	private String file_rurl;
 	
 	public FileDto() {
 		// TODO Auto-generated constructor stub
 	}
 
+	
 	@Override
 	public String toString() {
 		return "FileDto [file_seq=" + file_seq + ", file_tname=" + file_tname + ", file_rname=" + file_rname
-				+ ", file_regdate=" + file_regdate + ", file_size=" + file_size + ", chat_seq=" + chat_seq + "]";
+				+ ", file_regdate=" + file_regdate + ", file_size=" + file_size + ", chat_seq=" + chat_seq
+				+ ", file_aurl=" + file_aurl + ", file_rurl=" + file_rurl + ", menu_seq=" + menu_seq + "]";
 	}
+
+
+	public String getFile_aurl() {
+		return file_aurl;
+	}
+
+
+	public void setFile_aurl(String file_aurl) {
+		this.file_aurl = file_aurl;
+	}
+
+
+	public String getFile_rurl() {
+		return file_rurl;
+	}
+
+
+	public void setFile_rurl(String file_rurl) {
+		this.file_rurl = file_rurl;
+	}
+
 
 	public int getFile_seq() {
 		return file_seq;
