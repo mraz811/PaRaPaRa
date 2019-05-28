@@ -89,7 +89,7 @@
 	<bean class="com.happy.para.common.DownloadView" id="download" />
 	
 	<bean class="java.lang.String" name="menuUploadPath">
-		<constructor-arg value="C:\HappyClipse\workspace_para\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\PaRaPaRa\resources"/>
+		<constructor-arg value="C:\HappyClipse\workspace_para\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\PaRaPaRa"/>
 	</bean>
 	
 </beans>

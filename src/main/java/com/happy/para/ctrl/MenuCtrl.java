@@ -1,15 +1,13 @@
 package com.happy.para.ctrl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -17,16 +15,15 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.happy.para.dto.FileDto;
 import com.happy.para.dto.MenuDto;
 import com.happy.para.dto.OwnerDto;
+import com.happy.para.model.FileUploadService;
 import com.happy.para.model.Menu_IService;
 
 @Controller
@@ -55,6 +52,12 @@ public class MenuCtrl {
 			map.put("menu_category", menu_category);
 			List<MenuDto> lists = menu_IService.ownerMenuList(map);
 			System.out.println("업주가 선택한 메뉴 : " + lists.toString());
+			for (int i = 0; i < lists.size(); i++) {
+				String rurl = lists.get(i).getFileDto().getFile_rurl();
+				System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+				lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+				System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
+			}
 			model.addAttribute("menuList", lists);
 		} else {
 			System.out.println("owner_menu 세션에 값 있을때");
@@ -70,6 +73,12 @@ public class MenuCtrl {
 			map.put("menu_category", menu_category);
 			List<MenuDto> lists = menu_IService.ownerMenuList(map);
 			System.out.println("업주가 선택한 메뉴 : " + lists.toString());
+			for (int i = 0; i < lists.size(); i++) {
+				String rurl = lists.get(i).getFileDto().getFile_rurl();
+				System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+				lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+				System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
+			}
 			model.addAttribute("menuList", lists);
 		}
 		return "/menu/menuListSell";
@@ -94,6 +103,12 @@ public class MenuCtrl {
 			map.put("menu_seq_", menu_seq);
 			map.put("menu_category", menu_category);
 			List<MenuDto> lists = menu_IService.ownerMenuList(map);
+			for (int i = 0; i < lists.size(); i++) {
+				String rurl = lists.get(i).getFileDto().getFile_rurl();
+				System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+				lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+				System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
+			}
 			System.out.println("업주가 선택한 메뉴 : " + lists.toString());
 			json = objectJson(lists);
 		} else {
@@ -108,6 +123,12 @@ public class MenuCtrl {
 			map.put("menu_seq_", menu_seq);
 			map.put("menu_category", menu_category);
 			List<MenuDto> lists = menu_IService.ownerMenuList(map);
+			for (int i = 0; i < lists.size(); i++) {
+				String rurl = lists.get(i).getFileDto().getFile_rurl();
+				System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+				lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+				System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
+			}
 			System.out.println("업주가 선택한 메뉴 : " + lists.toString());
 			json = objectJson(lists);
 		}
@@ -121,9 +142,11 @@ public class MenuCtrl {
 		JSONObject jList = null;
 		for (int i = 0; i < lists.size(); i++) {
 			jList = new JSONObject();
-//				jList.put("file_seq", lists.get(i).getFileDto().getFile_seq());
-//				jList.put("file_tname", lists.get(i).getFileDto().getFile_tname());
-//				jList.put("file_rname", lists.get(i).getFileDto().getFile_rname());
+			jList.put("file_seq", lists.get(i).getFileDto().getFile_seq());
+			jList.put("file_tname", lists.get(i).getFileDto().getFile_tname());
+			jList.put("file_rname", lists.get(i).getFileDto().getFile_rname());
+			jList.put("file_aurl", lists.get(i).getFileDto().getFile_aurl());
+			jList.put("file_rurl", lists.get(i).getFileDto().getFile_rurl());
 			jList.put("menu_seq", lists.get(i).getMenu_seq());
 			jList.put("menu_name", lists.get(i).getMenu_name());
 			jList.put("menu_price", lists.get(i).getMenu_price());
@@ -267,6 +290,12 @@ public class MenuCtrl {
 		MenuDto dto = new MenuDto();
 		dto.setMenu_category(menu_category);
 		List<MenuDto> lists = menu_IService.allMenu(dto);
+		for (int i = 0; i < lists.size(); i++) {
+			String rurl = lists.get(i).getFileDto().getFile_rurl();
+			System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+			lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+			System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
+		}
 		System.out.println("전체 메뉴 조회 : " + lists);
 		model.addAttribute("menuList", lists);
 		return "/menu/menuListOwner";
@@ -279,6 +308,12 @@ public class MenuCtrl {
 		MenuDto dto = new MenuDto();
 		dto.setMenu_category(menu_category);
 		List<MenuDto> lists = menu_IService.allMenu(dto);
+		for (int i = 0; i < lists.size(); i++) {
+			String rurl = lists.get(i).getFileDto().getFile_rurl();
+			System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+			lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+			System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
+		}
 		System.out.println("전체 메뉴 조회 : " + lists);
 		JSONObject json = null;
 		json = objectJson(lists);
@@ -441,6 +476,12 @@ public class MenuCtrl {
 		MenuDto dto = new MenuDto();
 		dto.setMenu_category(menu_category);
 		List<MenuDto> lists = menu_IService.allMenu(dto);
+		for (int i = 0; i < lists.size(); i++) {
+			String rurl = lists.get(i).getFileDto().getFile_rurl();
+			System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+			lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+			System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
+		}
 		System.out.println("전체 메뉴 조회 : " + lists);
 		model.addAttribute("menuList", lists);
 		return "/menu/menuListAdmin";
@@ -453,6 +494,12 @@ public class MenuCtrl {
 		MenuDto dto = new MenuDto();
 		dto.setMenu_category(menu_category);
 		List<MenuDto> lists = menu_IService.allMenu(dto);
+		for (int i = 0; i < lists.size(); i++) {
+			String rurl = lists.get(i).getFileDto().getFile_rurl();
+			System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+			lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+			System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
+		}
 		System.out.println("전체 메뉴 조회 : " + lists);
 		JSONObject json = null;
 		json = objectJson(lists);
@@ -462,6 +509,9 @@ public class MenuCtrl {
 	@Resource(name="menuUploadPath")
 	private String menuUploadPath;
 	
+	@Autowired
+	private FileUploadService fileUploadService;
+	
 	// 담당자 : 메뉴 등록 폼 이동
 	@RequestMapping(value = "/menuRegiForm.do", method = RequestMethod.GET)
 	public String menuList() {
@@ -469,39 +519,24 @@ public class MenuCtrl {
 	}
 
 	// 담당자 : 메뉴 등록
-	@RequestMapping(value = "/regiNewMenu.do", method = RequestMethod.POST, produces = "application/text; charset=UTF-8")
-	@ResponseBody
-	public String insertMenu(MenuDto mDto,FileDto fDto,MultipartHttpServletRequest mtsRequest) throws IOException {
+	@RequestMapping(value = "/regiNewMenu.do", method = RequestMethod.POST)
+	public String insertMenu(MenuDto mDto,MultipartFile file1, HttpServletRequest request) throws IOException {
 		boolean isc = false;
-		Iterator<String> itr = mtsRequest.getFileNames();
-		System.out.println("파일이름 : " + itr);
-		String originalName = null;
-		while(itr.hasNext()) {
-			MultipartFile file = mtsRequest.getFile(itr.next());
-			originalName = file.getOriginalFilename();
-			String savedName = "";
-			System.out.println("Orginal Name : " + originalName);
-			// 이름이 겹치지 않기위해 랜덤 생성
-			UUID uuid = UUID.randomUUID();
-			savedName = uuid.toString()+"_"+originalName;
-			File dir = new File(menuUploadPath);
-			File target = new File(menuUploadPath, savedName);
-			// 폴더가 없다면 폴더를 생성
-			if(!dir.exists()) {
-				dir.mkdirs();
-			}
-			
-			// 파일을 서버에 저장
-			FileCopyUtils.copy(file.getBytes(), target);
-			
-			// argument로 받아온 dto에 파일 이름이 들어가 있지 않아서 직접 set
-			fDto.setFile_rname(originalName);
-			fDto.setFile_tname(savedName);
+		FileDto fDto = new FileDto();
 		
+		String relativePath = request.getSession().getServletContext().getRealPath("/");
+		System.out.println("파일 상대 경로 : "+relativePath);
 		
-			isc = menu_IService.insertMenu(mDto,fDto);
-			System.out.println("담당자 메뉴 등록 성공? : " + isc);
-		}
+		Map<String,String> map = fileUploadService.restore(file1,relativePath);
+		fDto.setFile_aurl(map.get("file_aurl")); //절대 경로
+		fDto.setFile_rurl(map.get("file_rurl")); //상대 경로
+		fDto.setFile_tname(map.get("file_tname"));
+		fDto.setFile_rname(map.get("file_rname"));
+		fDto.setFile_size(Integer.parseInt(map.get("file_size")));
+		fDto.setMenu_seq(mDto.getMenu_seq());
+		
+		isc = menu_IService.insertMenu(mDto,fDto);
+		System.out.println("담당자 메뉴 등록 성공? : " + isc);
 		return isc?"성공":"실패";
 	}
 
@@ -509,6 +544,10 @@ public class MenuCtrl {
 	@RequestMapping(value = "/modifyMenuForm.do", method = RequestMethod.GET)
 	public String detailMenu(Model model, String menu_seq) {
 		MenuDto dto = menu_IService.detailMenu(menu_seq);
+		String rurl=  dto.getFileDto().getFile_rurl();
+		System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+		dto.getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+		System.out.println("업주 파일의 상대경로 자르기 후 : "+dto.getFileDto().getFile_rurl());
 		model.addAttribute("menuDto", dto);
 		return "/menu/menuModiForm";
 	}
@@ -522,6 +561,10 @@ public class MenuCtrl {
 		boolean isc = menu_IService.modifyMenu(mDto,fDto);
 		System.out.println("담당자 메뉴 수정 성공? : " + isc);
 		MenuDto dto = menu_IService.detailMenu(Integer.toString(mDto.getMenu_seq()));
+		String rurl=  dto.getFileDto().getFile_rurl();
+		System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+		dto.getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+		System.out.println("업주 파일의 상대경로 자르기 후 : "+dto.getFileDto().getFile_rurl());
 		json.put("detailMenu", dto);
 		return json;
 	}
@@ -536,6 +579,12 @@ public class MenuCtrl {
 		MenuDto dto = new MenuDto();
 		dto.setMenu_category(menu_category);
 		List<MenuDto> lists = menu_IService.allMenu(dto);
+		for (int i = 0; i < lists.size(); i++) {
+			String rurl = lists.get(i).getFileDto().getFile_rurl();
+			System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+			lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+			System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
+		}
 		System.out.println("전체 메뉴 조회 : " + lists);
 		model.addAttribute("menuList", lists);
 		return "/menu/menuListAdmin";

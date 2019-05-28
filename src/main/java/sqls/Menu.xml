@@ -18,12 +18,14 @@
 		<result property="file_regdate" column="FILE_REGDATE"/>
 		<result property="file_size" column="FILE_SIZE"/>
 		<result property="chat_seq" column="CHAT_SEQ"/>
+		<result property="file_aurl" column="FILE_AURL"/>
+		<result property="file_rurl" column="FILE_RURL"/>
 	
 	</resultMap>
 	
 	<!-- 업주 선택 메뉴 조회 -->
-	<select id="ownerMenuList" parameterType="java.util.Map" resultType="MenuDto">
-	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, 
+	<select id="ownerMenuList" parameterType="java.util.Map" resultMap="MenuResultMap">
+	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME,  FILE_AURL, FILE_RURL,
 	MENU_SEQ,MENU_NAME,MENU_PRICE,MENU_CATEGORY
     FROM MENU JOIN FILE_LIST USING (MENU_SEQ)
     WHERE MENU_SEQ IN 
@@ -45,7 +47,7 @@
 	
 	<!-- 전체 메뉴 조회 -->
 	<select id="allMenu" parameterType="MenuDto" resultMap="MenuResultMap">
-	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, 
+	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, FILE_AURL, FILE_RURL,
 	MENU_SEQ,MENU_NAME,MENU_PRICE,MENU_CATEGORY,MENU_DELFLAG
  	FROM MENU JOIN FILE_LIST USING (MENU_SEQ)
  	<if test="menu_category != null">
@@ -55,8 +57,8 @@
 	</select>
 	
 	<!-- 메뉴 상세 조회(수정시 사용) -->
-	<select id="detailMenu" parameterType="java.lang.String" resultType="MenuDto">
-	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, 
+	<select id="detailMenu" parameterType="java.lang.String" resultMap="MenuResultMap">
+	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME,  FILE_AURL, FILE_RURL,
 	MENU_SEQ,MENU_NAME,MENU_PRICE,MENU_CATEGORY
  	FROM MENU JOIN FILE_LIST USING (MENU_SEQ)
  	WHERE MENU_SEQ=#{menu_seq}
@@ -64,14 +66,17 @@
 	
 	<!-- 담당자 메뉴 등록 -->
 	<insert id="insertMenu" parameterType="MenuDto">
+ 	<selectKey keyProperty="menu_seq" order="BEFORE" resultType="java.lang.Integer">
+ 	 select MENU_SEQ.NEXTVAL as MENU_SEQ from dual
+ 	</selectKey>
 	INSERT INTO MENU (MENU_SEQ, MENU_NAME, MENU_PRICE, MENU_CATEGORY,MENU_DELFLAG)
- 	VALUES(MENU_SEQ.NEXTVAL, #{menu_name}, #{menu_price}, #{menu_category},'N')
+ 	VALUES(#{menu_seq}, #{menu_name}, #{menu_price}, #{menu_category},'N')
 	</insert>
 	
 	<!-- 담당자 메뉴 이미지(파일) 등록 -->
 	<insert id="insertMenuFile" parameterType="FileDto">
-	INSERT INTO FILE_LIST (FILE_SEQ, FILE_TNAME, FILE_RNAME, FILE_REGDATE, FILE_SIZE, MENU_SEQ)
- 	VALUES(FILE_SEQ.NEXTVAL,#{file_tname},#{file_rname},SYSDATE,#{file_size},#{menu_seq})
+	INSERT INTO FILE_LIST (FILE_SEQ, FILE_TNAME, FILE_RNAME, FILE_REGDATE, FILE_SIZE, MENU_SEQ,  FILE_AURL, FILE_RURL)
+ 	VALUES(FILE_SEQ.NEXTVAL,#{file_tname},#{file_rname},SYSDATE,#{file_size},#{menu_seq},#{file_aurl},#{file_rurl})
 	</insert>
 	
 	<!-- 담당자 메뉴 수정 -->
@@ -82,7 +87,7 @@
 	
 	<!-- 담당자 메뉴 이미지(파일) 수정 -->
 	<update id="modifyMenuFile" parameterType="FileDto">
-	UPDATE FILE_LIST SET FILE_TNAME =#{file_tname}, FILE_RNAME=#{file_rname}, FILE_REGDATE=#{file_regdate}, FILE_SIZE=#{file_size}
+	UPDATE FILE_LIST SET FILE_TNAME =#{file_tname}, FILE_RNAME=#{file_rname}, FILE_REGDATE=#{file_regdate}, FILE_SIZE=#{file_size},FILE_ARUL = #{file_aurl},FILE_RURL = #{file_rurl}
 	WHERE MENU_SEQ=#{menu_seq}
 	</update>
 	
