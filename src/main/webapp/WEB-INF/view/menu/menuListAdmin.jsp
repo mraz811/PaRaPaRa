@@ -122,9 +122,9 @@ function menuDel(menu_seq){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
 						if(menu.menu_delflag == 'N'){
-							htmlText += "<div class=\"sell\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class=\"sell\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 						}else{
-							htmlText += "<div class=\"notSell\">판매 중지<img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class=\"notSell\">판매 중지<img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 						}
 					});
 				}
@@ -149,9 +149,9 @@ function sideMenu(){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
 						if(menu.menu_delflag == 'N'){
-							htmlText += "<div class=\"sell\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class=\"sell\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 						}else{
-							htmlText += "<div class=\"notSell\">판매 중지<img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class=\"notSell\">판매 중지<img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 						}
 					}); 
 				}
@@ -176,9 +176,9 @@ function drinkMenu(){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
 						if(menu.menu_delflag == 'N'){
-							htmlText += "<div class=\"sell\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class=\"sell\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 						}else{
-							htmlText += "<div class=\"notSell\"><span>판매 중지</span><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class=\"notSell\"><span>판매 중지</span><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 						}
 					});
 				}
@@ -214,10 +214,10 @@ function drinkMenu(){
 			<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
 				<c:choose>
 					<c:when test="${menu.menu_delflag eq 'N'}">
-						<div class="sell"><input id="modiMenu" type="button" value="수정" onclick="menuModiForm(${vs.current.menu_seq})"/><img class="menuImg" src="./masolimg/img.png" alt=""/><input id="delMenu" type="button" value="삭제" onclick="menuDel(${vs.current.menu_seq})"/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
+						<div class="sell"><input id="modiMenu" type="button" value="수정" onclick="menuModiForm(${vs.current.menu_seq})"/><img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/><input id="delMenu" type="button" value="삭제" onclick="menuDel(${vs.current.menu_seq})"/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
 					</c:when>
 					<c:otherwise>
-						<div class="notSell">판매 중지<img class="menuImg" src="./masolimg/img.png" alt=""/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
+						<div class="notSell">판매 중지<img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>

@@ -26,6 +26,15 @@ public interface Menu_IDao {
 	//담당자 메뉴 이미지(파일) 등록
 	public boolean insertMenuFile(FileDto dto);
 	
+	// 담당자 메뉴 이미지(파일) 임시 등록
+	public boolean insertMenuTempFile(FileDto fDto);
+	
+	// 담당자 메뉴 이미지(파일) 임시 등록된거 상세조회
+	public FileDto selTempFile(int file_seq);
+		
+	// 담당자 메뉴 이미지(파일) 임시 등록된거 삭제, 스케줄러로 하루에 한번 실행 시킬꺼
+	public boolean deleteMenuTempFile();
+	
 	//담당자 메뉴 수정
 	public boolean modifyMenu(MenuDto dto);
 	

@@ -15,6 +15,8 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -112,8 +114,12 @@ public class RequestCtrl {
 			menu_name = request_IService.requestMenuName(map1);
 			String request_menu = "";
 			for (int j = 0; j < menu_name.length; j++) {
+				System.out.println("메뉴명"+menu_name[j]);
 				request_menu += menu_name[j] + cnt[j] + ",";
 			}
+			System.out.println(request_menu);
+			System.out.println(request_menu.length());
+			System.out.println(request_menu.lastIndexOf(","));
 			lists.get(i).setMenu_name(request_menu.substring(0, request_menu.lastIndexOf(",")));
 			System.out.println(lists.get(i));
 			System.out.println(Arrays.toString(menu) + "메뉴");
@@ -502,9 +508,11 @@ public class RequestCtrl {
 		JSONObject jList = null;
 		for (int i = 0; i < lists.size(); i++) {
 			jList = new JSONObject();
-//				jList.put("file_seq", lists.get(i).getFileDto().getFile_seq());
-//				jList.put("file_tname", lists.get(i).getFileDto().getFile_tname());
-//				jList.put("file_rname", lists.get(i).getFileDto().getFile_rname());
+			jList.put("file_seq", lists.get(i).getFileDto().getFile_seq());
+			jList.put("file_tname", lists.get(i).getFileDto().getFile_tname());
+			jList.put("file_rname", lists.get(i).getFileDto().getFile_rname());
+			jList.put("file_rurl", lists.get(i).getFileDto().getFile_rurl());
+			jList.put("file_aurl", lists.get(i).getFileDto().getFile_aurl());
 			jList.put("menu_seq", lists.get(i).getMenu_seq());
 			jList.put("menu_name", lists.get(i).getMenu_name());
 			jList.put("menu_price", lists.get(i).getMenu_price());
@@ -519,14 +527,15 @@ public class RequestCtrl {
 	}
 	
 	//주문 수량 및 종류 추가 할때
-	@RequestMapping(value="/addMenu.do", method=RequestMethod.POST, produces = "application/text; charset=UTF-8")
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/addMenu.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> addMenu(String menu_seq) {
+	public JSONObject addMenu(String menu_seq) {
 		System.out.println("넘겨받은 menu_seq : "+menu_seq);
-		Map<String, Object> map = new HashMap<String,Object>();
 		MenuDto dto = menu_IService.detailMenu(menu_seq);
 		System.out.println("넘겨줄 menu_name : "+dto.getMenu_name());
-		map.put("menu_name", dto.getMenu_name());
-		return map;
+		JSONObject json = new JSONObject();
+		json.put("mDto", dto);
+		return json;
 	}
 }

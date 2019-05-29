@@ -120,7 +120,7 @@ function mainMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"><input name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\"><input name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -143,7 +143,7 @@ function sideMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\" ><input name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\" ><input name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -166,7 +166,7 @@ function drinkMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"><input name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\"><input name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -203,7 +203,7 @@ function ownerMenuList(){
 						<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
 							<div class="menu">
 								<input name="menu_seq" type="checkbox" value="${menu.menu_seq}" />
-								<img class="menuImg" src="./masolimg/img.png" alt="" /><br>
+								<img class="menuImg" src="${menu.fileDto.file_rurl}" alt="" /><br>
 								${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}
 							</div>
 							<c:if test="${vs.count mod 4 eq 0}">
