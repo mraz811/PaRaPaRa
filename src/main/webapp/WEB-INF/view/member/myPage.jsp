@@ -178,7 +178,7 @@ var modiChkad = function(){
 						if(msg=="성공"){
 							swal({
 								title: "수정 완료", 
-								text: "담당자 정보 수정이 완료되었습니다\n다시 로그인해주세요", 
+								text: "정보 수정이 완료되었습니다\n다시 로그인해주세요", 
 								type: "success"
 							},
 							function(){ 
@@ -231,7 +231,7 @@ var modiChkow = function(){
 						if(msg=="성공"){
 							swal({
 								title: "수정 완료", 
-								text: "담당자 정보 수정이 완료되었습니다\n다시 로그인해주세요", 
+								text: "정보 수정이 완료되었습니다\n다시 로그인해주세요", 
 								type: "success"
 							},
 							function(){ 
@@ -251,9 +251,6 @@ var modiChkow = function(){
 		swal("수정 실패","입력 값을 확인해 주세요","error");
 	}
 } // 업주 수정
-
-
-
 
 var backToMain = function(){
 	location.href="./main.do" ;

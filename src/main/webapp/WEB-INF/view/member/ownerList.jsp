@@ -8,18 +8,23 @@
 <style type="text/css">
 .owner_table{
 	margin: 5px 0px 10px 0px;
-	width: 1010px;
+	width: 1018px;
 	height: 350px;
 }
 .center{
 	width: 330px;
 	position: relative;
 }
+
 .regianddel{
+	position : absolute;
+	margin-bottom: 16px;
+	bottom: 5px;
 	width: 80px;
-	float: right;
-	position: relative;
 	margin-right: 16px;
+	right: 19px;
+/* 	float: right; */
+/* 	position: relative; */
 }
 </style>
 </head>
