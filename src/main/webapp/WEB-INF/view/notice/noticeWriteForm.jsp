@@ -6,7 +6,40 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>noticeWriteForm</title>
+<style type="text/css">
+
+#backBtn{
+	position : absolute;
+	right : 30px;
+	bottom : 339px;
+}
+
+#subBtn{
+	position : absolute;
+	right : 110px;
+	bottom : 339px;
+}
+
+#titleWrite{
+	position : absolute;
+	left : 300px;
+	bottom : 340px;
+}
+
+th{
+	width: 250px;
+	height : 45px;
+}
+
+td{
+	width: 250px;
+	height : 45px;
+}
+
+
+</style>
 </head>
 <script type="text/javascript">
 	function listMove() {
@@ -41,19 +74,31 @@
 		<form role="form" action="./regiNotice.do" method="post">
 		<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
 			
-			<div>
-				<label>제목</label>
-				<input type="text" placeholder="제목을 입력하세요" name="notice_title" required="required">
-			</div>
-			
-			<div>
-				<textarea rows="10" cols="28" name="notice_content" placeholder="내용을 입력하세요"></textarea>
-			</div>
-			
-			<div>
-				<input type="submit" value="글 등록">
-				<input type="button" value="목록이동" onclick="listMove()">
-			</div>			
+			<table class="table table-hover" style="margin: 0px;">
+			<tr>
+				<th class="table-primary">작　성　자</th>
+				<td>${dto.notice_name}</td>
+				<th class="table-primary">작　성　일</th>
+				<td>${dto.notice_regdate}</td>
+			</tr>
+			<tr>
+				<th class="table-primary">제　　　목</th>
+			</tr>
+		</table>
+				<input id="titleWrite" type="text" placeholder="제목을 입력하세요" name="notice_title" required="required" />
+				<input id="subBtn" class="btn btn-outline-success" type="submit"value="등　록">
+				<input id="backBtn" class="btn btn-outline-primary" type="button" onclick="listMove()" value="목　록">
+		<table>
+			<tr>		
+				<td style="padding: 2px; width: 1100px;">
+					<div class="form-group">
+					  <textarea class="form-control" rows="15" id="comment" name="notice_content" placeholder="내용을 입력하세요"></textarea>
+					</div>
+				</td>
+			</tr>
+		</table>
+	
+
 
 		</form>
 	</div>

@@ -92,7 +92,6 @@
 									<th>삭제</th>
 								</tr>
 								
-
 								<c:forEach var="dto" items="${lists}" varStatus="vs">
 									<%-- 		<c:forEach var="dto" items="${listsOne}" varStatus="vs"> --%>
 										
@@ -104,7 +103,7 @@
 													style="border:none; background-color: none;" />
 											</td>
 											<td>
-												<input type="number" name="Slists[${vs.count}].stock_qty" value="${dto.stock_qty}" readonly="readonly" />
+												<input type="number" maxlength="5" name="Slists[${vs.count}].stock_qty" value="${dto.stock_qty}" readonly="readonly" />
 											</td>
 	
 											<c:if test="${empty dto.item_name}">

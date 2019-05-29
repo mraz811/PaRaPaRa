@@ -271,8 +271,10 @@ public class TimesheetCtrl {
 		
 		
 		
-		String aaa = "22:00-02:30"; // 이것도 됨
-		Double workT = 4.5;
+//		String aaa = "22:00-02:30"; // 이것도 됨 night 4.5
+//		String aaa = "23:00-02:30"; // night 4.5 day -1.0
+		String aaa = "20:00-02:30"; // 
+		Double workT = 6.5;
 		
 		int aaaHH = Integer.parseInt(aaa.substring(0, 2)); //20
 		int aaaMM = Integer.parseInt(aaa.substring(3, 5)); // 0
@@ -335,10 +337,11 @@ public class TimesheetCtrl {
 				Double DayTimeExNightTime = workT-nightTime;
 				System.out.println("nigthTime 있을시 dayTime : "+DayTimeExNightTime);				
 			}
-			
-			
+		
 		}
 
+		Double min2222 = (((0.04167/1000*60)/60)/60*60)/60;
+		System.out.println("min2222"+min2222);
 		
 		return "salary/salaryList";
 	}

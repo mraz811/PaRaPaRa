@@ -18,7 +18,15 @@
 <link rel="stylesheet" href="./css/NoticeList.css">
 <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="./js/NoticeList.js"></script>
+<style type="text/css">
 
+#writeBtn {
+	position : absolute;
+	right : 30px;
+	bottom : 83px;
+}
+
+</style>
 </head>
 <body>
 <%-- ${lists.get(0)} --%>
@@ -66,7 +74,6 @@
 									<tr>
 										<td>${vs.count}</td>
 										
-<%-- 									<td><a href="./selNoticeDetail.do?notice_seq="+${dto.notice_seq}+"&loginDtoAuth="+${loginDto.auth}>${dto.notice_title}</a></td> --%>
 										<td><a href="./selNoticeDetail.do?notice_seq=${dto.notice_seq}&loginDtoAuth=${loginDto.auth}">${dto.notice_title}</a></td>
 										<td>${dto.notice_name}</td>
 										<td>${dto.notice_regdate}</td>
@@ -77,7 +84,6 @@
 								</div>
 
 								<!-- 현재 페이지, 인덱스, 출력 갯수 -->
-<%-- 								${noticRow.index} ${noticRow.pageNum} ${noticRow.listNum} ${noticRow.count} --%>
 								<input type="hidden" id="index" name="index" value="${noticRow.index}">
 								<input type="hidden" id="pageNum" name="pageNum" value="${noticRow.pageNum}">
 								<input type="hidden" id="listNum" name="listNum" value="${noticRow.listNum}">
@@ -100,7 +106,7 @@
 
 								<c:if test="${loginDto.auth eq 'A'}">
 									<div>
-										<input type="button" value="글쓰기" onclick="location.href='./regiNoticeForm.do'">
+										<input type="button" class="btn btn-outline-success" id="writeBtn" value="게시글 등록" onclick="location.href='./regiNoticeForm.do'">
 									</div>
 								</c:if>
 						</form>
