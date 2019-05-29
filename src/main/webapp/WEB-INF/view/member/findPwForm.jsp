@@ -34,7 +34,7 @@
 		<div class="invalid-feedback">유효하지 않은 아이디</div>
 	</div>
 	<div class="form-group">
-		<input class="form-control" type="text" id="inputEmail" name="email" placeholder="이메일을 입력하세요" required="required" >
+		<input onkeyup="enterkey();" class="form-control" type="text" id="inputEmail" name="email" placeholder="이메일을 입력하세요" required="required" >
 	</div>
 	<div>
 		<input style="width: 198px; height: 40px;" class="btn btn-outline-success" type="button" value="email로 임시 비밀번호 받기"  onclick="findpwchk()">
@@ -48,6 +48,13 @@
 
 </body>
 <script type="text/javascript">
+
+function enterkey() {
+    if (window.event.keyCode == 13) {
+         // 엔터키가 눌렸을 때 실행할 내용
+         findpwchk();
+    }
+}
 
 $(function(){
 

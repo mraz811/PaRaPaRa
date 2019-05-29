@@ -71,7 +71,6 @@
 				<div class="alba_table">
 					<table class="table table-hover">
 						<tr class="table-primary">
-							<th></th>
 							<th>이름</th>
 							<th>전화번호</th>
 							<th>주소</th>
@@ -86,8 +85,8 @@
 							<tr><td colspan="9" style="color: red; text-align: center;">등록된 아르바이트가 없습니다.</td></tr>
 						</c:if>
 						<c:forEach var="alba" items="${albaList}" varStatus="vs">
+						<input type="hidden" name="alba_seq" value="${alba.alba_seq}">
 						<tr>
-							<td><input type="hidden" name="alba_seq" value="${alba.alba_seq}"></td>
 							<td>${alba.alba_name}</td>
 							<td>${alba.alba_phone}</td>
 							<td>${alba.alba_address}</td>
