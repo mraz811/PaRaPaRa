@@ -22,39 +22,53 @@ public class Pao_ServiceImpl implements Pao_IService {
 	@Autowired
 	private Pao_IDao pao_IDao;
 	
-	// 업주 : 발주 리스트 조회
+	// 업주 : 발주 리스트 조회(페이징)
 	@Override
 	public List<PaoDto> paoList(Map<String, Object> map) {
 		logger.info("paoList Service : {} ", map);
 		return pao_IDao.paoList(map);
 	}
 	
-	// 업주 : 발주 리스트 갯수
+	// 업주 : 발주 리스트 갯수(페이징)
 	@Override
 	public int paoListRow(String store_code) {
 		logger.info("paoListRow Service : {} ", store_code);
 		return pao_IDao.paoListRow(store_code);
 	}
 	
-	// 담당주 : 담당 지역의 매장 발주 리스트 조회
+	// 담당주 : 담당 지역의 매장 발주 리스트 조회(페이징)
 	@Override
 	public List<PaoDto> adminPaoList(Map<String, Object> map) {
 		logger.info("adminPaoList Service : {} ", map);
 		return pao_IDao.adminPaoList(map);
 	}
 	
-	// 업주 : 담당 지역의 매장 발주 리스트 갯수
+	// 업주 : 담당 지역의 매장 발주 리스트 갯수(페이징)
 	@Override
 	public int adminPaoListRow(String store_code) {
 		logger.info("adminPaoListRow Service : {} ", store_code);
 		return pao_IDao.adminPaoListRow(store_code);
 	}
 
-	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회
+	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회(페이징)
 	@Override
 	public List<PaoDto> paoSelectStatusDate(Map<String, Object> map) {
 		logger.info("paoSelectStatusDate : {}", map);
 		return pao_IDao.paoSelectStatusDate(map);
+	}
+	
+	// 업주 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회한 발주 내역 갯수(페이징)
+	@Override
+	public int paoStatusListRow(Map<String, Object> map) {
+		logger.info("paoStatusListRow : {}", map);
+		return pao_IDao.paoStatusListRow(map);
+	}
+	
+	// 담당자 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회한 발주 내역 갯수(페이징)
+	@Override
+	public int adminPaoStatusListRow(Map<String, Object> map) {
+		logger.info("adminPaoStatusListRow : {}", map);
+		return pao_IDao.adminPaoStatusListRow(map);
 	}
 	
 	// 업주 : 발주 상세보기(발주)

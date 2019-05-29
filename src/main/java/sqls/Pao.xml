@@ -71,6 +71,7 @@
 	</select>
 	
 	<!-- 업주 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회-->
+	<!-- 
 	<select id="paoSelectStatusDate" parameterType="java.util.Map" resultType="PaoDto">
 		SELECT PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
 		FROM PAOINFO
@@ -84,7 +85,54 @@
 	        	PAO_DATE >= #{startDate} AND PAO_DATE <= #{endDate}
 	    	]]>
 	</select>
+	 -->
+	 <select id="paoSelectStatusDate" parameterType="java.util.Map" resultType="PaoDto">
+		SELECT RNUM, PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
+		FROM(SELECT ROW_NUMBER() OVER(ORDER BY PAO_SEQ DESC) RNUM, PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
+			 FROM PAOINFO
+			 WHERE STORE_CODE = #{store_code} AND
+				 PS_CODE IN
+				 <foreach collection="status_list" item="status" separator="," open="(" close=")">
+					 #{status}
+				 </foreach>
+				 AND
+				 <![CDATA[
+		        	 PAO_DATE >= #{startDate} AND PAO_DATE <= #{endDate}
+		    	 ]]>
+		    )
+		WHERE RNUM BETWEEN #{start} AND #{end}
+	</select>
 	
+	<!-- 업주 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회한 발주 내역 갯수(페이징) -->
+	<select id="paoStatusListRow" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(*) 
+		FROM PAOINFO
+		WHERE STORE_CODE = #{store_code} AND
+				 PS_CODE IN
+				 <foreach collection="status_list" item="status" separator="," open="(" close=")">
+					 #{status}
+				 </foreach>
+				 AND
+				 <![CDATA[
+		        	 PAO_DATE >= #{startDate} AND PAO_DATE <= #{endDate}
+		    	 ]]>
+	</select>
+	
+	<!-- 담당자 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회한 발주 내역 갯수(페이징) -->
+	<select id="adminPaoStatusListRow" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(*) 
+		FROM PAOINFO
+		WHERE SUBSTR(STORE_CODE, 1, INSTR(STORE_CODE, '_', 1)-1) = #{store_code} AND
+				 PS_CODE IN
+				 <foreach collection="status_list" item="status" separator="," open="(" close=")">
+					 #{status}
+				 </foreach>
+				 AND
+				 <![CDATA[
+		        	 PAO_DATE >= #{startDate} AND PAO_DATE <= #{endDate}
+		    	 ]]>
+	</select>
+	 
 	<!-- 업주 : 발주 상세보기(발주) -->
 	<select id="paoDetail" parameterType="java.util.Map" resultType="PaoDto">
 		SELECT PAO_SEQ, STORE_CODE, STORE_NAME, PS_NAME, PAO_DATE
