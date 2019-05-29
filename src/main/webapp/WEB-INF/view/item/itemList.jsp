@@ -43,9 +43,10 @@
 	    				<a class="nav-link active" data-toggle="tab" onclick="selItemList()" href="#">품목</a>
 	  				</li>
 				</ul>
-				<div class="tab-content" style="overflow: auto; height: 350px;">
+				<div class="tab-content" style="overflow: auto; height: 360px;">
 					<!-- 각자 내용들.. -->
-					<table class="table table-hover" >
+<!-- 					<table class="table table-hover" > -->
+					<table class="table" >
 						<thead>
 							<tr class="table-primary">
 								<th>품목번호</th>
@@ -84,7 +85,8 @@
 						<input type="button" class="btn btn-outline-primary" value="검색" onclick="searchItemList()">
 					</div>
 					<div id="regBtn">
-						<input type="button" class="btn btn-primary" id="btn" value="품목등록" onclick="regItem()">
+						<input type="button" class="btn btn-outline-primary" id="btn" value="전체품목" onclick="selItemList()">
+						<input type="button" class="btn btn-outline-success" id="btn" value="품목등록" onclick="regItem()">
 					</div>
 				</div>
 					
@@ -122,38 +124,32 @@
 						text: "검색된 항목이 존재하지 않습니다.", 
 						type: "warning"
 					},function(){
-						var htmlTable="";
-						htmlTable += 	"<tr>"
-											+"<th colspan='5'>등록된 품목이 없습니다.</th>"
-										+"</tr>";
-					$(".table > tbody").html(htmlTable);
+// 						var htmlTable="";
+// 						htmlTable += 	"<tr>"
+// 											+"<th colspan='5'>등록된 품목이 없습니다.</th>"
+// 										+"</tr>";
+// 						$(".table > tbody").html(htmlTable);
+						selItemList();
 					});
 				}else{
-		        	swal({
-						title: "조회 완료", 
-						text: "품목 조회가 완료되었습니다", 
-						type: "success"
-					},
-					function(){ 
-						var htmlTable = "";
-						$.each(data, function(key,value){
-							if(key=="lists"){
-								$.each(value,function(key, val){
-									htmlTable += 	"<tr>"
-														+"<td>"+val.item_seq+"</td>"
-														+"<td>"+val.item_name+"</td>"
-														+"<td>"+val.item_price+"</td>"
-														+"<td><input type='button' class='btn btn-secondary' value='품목수정' onclick='modItem(\""+val.item_seq+"\")'></td>"
-														+"<td><input type='button' class='btn btn-warning' value='품목삭제' onclick='delItem(\""+val.item_seq+"\")'></td>"
-												+	"</tr>";
-									
-									
-								}); // itemList를 뿌려주기 위한 value의 key val function
-							} // key == lists
-	//							alert(htmlTable);
-						}); // data의 key value로 나눈 each문
-						$(".table > tbody").html(htmlTable);
-					}); //swal 뒤 function
+					var htmlTable = "";
+					$.each(data, function(key,value){
+						if(key=="lists"){
+							$.each(value,function(key, val){
+								htmlTable += 	"<tr>"
+													+"<td>"+val.item_seq+"</td>"
+													+"<td>"+val.item_name+"</td>"
+													+"<td>"+val.item_price+"</td>"
+													+"<td><input type='button' class='btn btn-secondary' value='품목수정' onclick='modItem(\""+val.item_seq+"\")'></td>"
+													+"<td><input type='button' class='btn btn-warning' value='품목삭제' onclick='delItem(\""+val.item_seq+"\")'></td>"
+											+	"</tr>";
+								
+								
+							}); // itemList를 뿌려주기 위한 value의 key val function
+						} // key == lists
+	//						alert(htmlTable);
+					}); // data의 key value로 나눈 each문
+					$(".table > tbody").html(htmlTable);
 				}
 			},
 	        error: function (data) {

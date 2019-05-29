@@ -80,7 +80,7 @@
 									<li><a href="#" onclick="pageNext(${storeRow.pageNum},${storeRow.total},${storeRow.listNum},${storeRow.pageList})">&rsaquo;</a></li>
 									<li><a href="#" onclick="pageLast(${storeRow.pageNum},${storeRow.total},${storeRow.listNum},${storeRow.pageList})">&raquo;</a></li>
 								</ul>
-								<input type="button" id="addStoreBtn" value="매장등록" class="btn btn-outline-primary" onclick="insertStore()">
+								<input type="button" id="addStoreBtn" value="매장등록" class="btn btn-outline-success" onclick="insertStore()">
 							</div>
 						</div>
 					</form>
