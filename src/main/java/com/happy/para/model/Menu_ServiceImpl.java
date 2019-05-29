@@ -62,6 +62,22 @@ public class Menu_ServiceImpl implements Menu_IService{
 		return isc;
 	}
 	
+	// 담당자 메뉴 이미지(파일) 임시 등록
+	@Override
+	public FileDto insertMenuTempFile(FileDto fDto) {
+		boolean isc = menu_IDao.insertMenuTempFile(fDto);
+		if(isc) {
+			fDto = menu_IDao.selTempFile(fDto.getFile_seq());
+		}
+		return fDto;
+	};
+		
+	// 담당자 메뉴 이미지(파일) 임시 등록된거 삭제, 스케줄러로 하루에 한번 실행 시킬꺼
+	@Override
+	public boolean deleteMenuTempFile() {
+		return menu_IDao.deleteMenuTempFile();
+	};
+	
 	//담당자 메뉴 수정
 	//담당자 메뉴 이미지(파일) 수정
 	@Transactional
@@ -74,6 +90,16 @@ public class Menu_ServiceImpl implements Menu_IService{
 			isc = menu_IDao.modifyMenuFile(fDto);
 		}
 		return isc;
+	}
+	
+	// 담당자 메뉴 이미지(파일) 임시 수정
+	@Override
+	public FileDto modifyMenuTempFile(FileDto fDto) {
+		boolean isc = menu_IDao.modifyMenuFile(fDto);
+		if(isc) {
+			fDto = menu_IDao.selTempFile(fDto.getFile_seq());
+		}
+		return fDto;
 	}
 	
 	//담당자 메뉴 삭제

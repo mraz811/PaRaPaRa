@@ -24,9 +24,18 @@ public interface Menu_IService {
 	// 담당자 메뉴 이미지(파일) 등록
 	public boolean insertMenu(MenuDto mDto,FileDto fDto);
 	
+	// 담당자 메뉴 이미지(파일) 임시 등록
+	public FileDto insertMenuTempFile(FileDto fDto);
+	
+	// 담당자 메뉴 이미지(파일) 임시 등록된거 삭제, 스케줄러로 하루에 한번 실행 시킬꺼
+	public boolean deleteMenuTempFile();
+	
 	// 담당자 메뉴 수정
 	// 담당자 메뉴 이미지(파일) 수정
 	public boolean modifyMenu(MenuDto mDto,FileDto fDto);
+	
+	// 담당자 메뉴 이미지(파일) 임시 수정
+	public FileDto modifyMenuTempFile(FileDto fDto);
 	
 	// 담당자 메뉴 삭제
 	public boolean deleteMenu(String menu_seq);

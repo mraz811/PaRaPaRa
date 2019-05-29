@@ -76,8 +76,28 @@
 	<!-- 담당자 메뉴 이미지(파일) 등록 -->
 	<insert id="insertMenuFile" parameterType="FileDto">
 	INSERT INTO FILE_LIST (FILE_SEQ, FILE_TNAME, FILE_RNAME, FILE_REGDATE, FILE_SIZE, MENU_SEQ,  FILE_AURL, FILE_RURL)
- 	VALUES(FILE_SEQ.NEXTVAL,#{file_tname},#{file_rname},SYSDATE,#{file_size},#{menu_seq},#{file_aurl},#{file_rurl})
+ 	VALUES(#{file_seq},#{file_tname},#{file_rname},SYSDATE,#{file_size},#{menu_seq},#{file_aurl},#{file_rurl})
 	</insert>
+	
+	<!-- 담당자 메뉴 이미지(파일) 임시 등록 -->
+	<insert id="insertMenuTempFile" parameterType="FileDto">
+	<selectKey keyProperty="file_seq" order="BEFORE" resultType="java.lang.Integer">
+ 	 select TEMP_FILE_SEQ.NEXTVAL as FILE_SEQ from dual
+ 	</selectKey>
+	INSERT INTO TEMP_FILE_LIST (FILE_SEQ, FILE_TNAME, FILE_RNAME, FILE_REGDATE, FILE_SIZE,   FILE_AURL, FILE_RURL)
+ 	VALUES(#{file_seq},#{file_tname},#{file_rname},SYSDATE,#{file_size},#{file_aurl},#{file_rurl})
+	</insert>
+	
+	<!-- 담당자 메뉴 이미지(파일) 임시 상세 조회 -->
+	<select id="selTempFile" parameterType="java.lang.Integer" resultType="FileDto">
+	SELECT FILE_SEQ, FILE_TNAME, FILE_RNAME, FILE_REGDATE, FILE_SIZE,   FILE_AURL, FILE_RURL
+	FROM TEMP_FILE_LIST WHERE FILE_SEQ=#{file_seq}
+	</select>
+	
+	<!-- 담당자 메뉴 이미지(파일) 임시 등록된거 삭제 -->
+	<delete id="deleteMenuTempFile">
+	DELETE FROM TEMP_FILE_LIST
+	</delete>
 	
 	<!-- 담당자 메뉴 수정 -->
 	<update id="modifyMenu" parameterType="MenuDto">
@@ -87,7 +107,7 @@
 	
 	<!-- 담당자 메뉴 이미지(파일) 수정 -->
 	<update id="modifyMenuFile" parameterType="FileDto">
-	UPDATE FILE_LIST SET FILE_TNAME =#{file_tname}, FILE_RNAME=#{file_rname}, FILE_REGDATE=#{file_regdate}, FILE_SIZE=#{file_size},FILE_ARUL = #{file_aurl},FILE_RURL = #{file_rurl}
+	UPDATE FILE_LIST SET FILE_TNAME =#{file_tname}, FILE_RNAME=#{file_rname}, FILE_REGDATE=SYSDATE, FILE_SIZE=#{file_size},FILE_AURL = #{file_aurl},FILE_RURL = #{file_rurl}
 	WHERE MENU_SEQ=#{menu_seq}
 	</update>
 	

@@ -54,6 +54,24 @@ public class Menu_DaoImpl implements Menu_IDao{
 		return sqlSession.insert(NS+"insertMenuFile", dto)>0?true:false;
 	}
 	
+	// 담당자 메뉴 이미지(파일) 임시 등록
+	@Override
+	public boolean insertMenuTempFile(FileDto fDto) {
+		return sqlSession.insert(NS+"insertMenuTempFile", fDto)>0?true:false;
+	};
+			
+	// 담당자 메뉴 이미지(파일) 임시 등록된거 상세조회
+	@Override
+	public FileDto selTempFile(int file_seq) {
+		return sqlSession.selectOne(NS+"selTempFile", file_seq);
+	};
+	
+	// 담당자 메뉴 이미지(파일) 임시 등록된거 삭제, 스케줄러로 하루에 한번 실행 시킬꺼
+	@Override
+	public boolean deleteMenuTempFile() {
+		return sqlSession.delete(NS+"deleteMenuTempFile")>0?true:false;
+	};
+	
 	//담당자 메뉴 수정
 	@Override
 	public boolean modifyMenu(MenuDto dto) {

@@ -21,14 +21,14 @@
 		text-align: center;
 	}
 	#menuList{
-		width: 720px;
+		width: 500px;
 		height : 390px;
 		margin-top : 40px;
 		overflow: scroll;
 		float: left;
 	}
 	#requestStatus{
-		width: 320px;
+		width: 500px;
 		height: 380px;
 		float: left;
 		overflow: scroll;
@@ -72,7 +72,7 @@ function mainMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"\"><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -95,7 +95,7 @@ function sideMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"\"><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -118,7 +118,7 @@ function drinkMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"\"><img class=\"menuImg\" src=\"./masolimg/img.png\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -128,30 +128,38 @@ function drinkMenu(){
 		}
 	})
 }
-function addMenu(menu_seq){
-	$.ajax({
-		url : "./addMenu.do",
-		type : "post",
-		async : true,
-		data : {"menu_seq":menu_seq},
-		success : function(obj){
-			var htmlTable = "";
-			$.each(obj,function(key,value){
-				if(key=="menu_name"){
-					htmlTable += "<tr>"
-									+"<td style=\"width: 100px\">후라이드치킨</td>"
-									+"<td style=\"width: 50px\">10</td>"
-									+"<td style=\"width: 140px;\">180000원</td>"
-								+"</tr>";
-				}
-			});
-			$(".table > tbody").html(htmlTable);
-		},error : function(obj){
-			alert(obj); 
-		}
-	})
+function addMenu(menu){
+	
+	var menuInfo = menu.split(",");
+	var newTr_id = menuInfo[0];
+	var menu_seq = menuInfo[1]; //주문 메뉴 번호
+	var menu_name = menuInfo[2]; //주문 메뉴 이름
+	var menu_qty = 1; //처음 주문 메뉴 수량
+	var menu_price = menuInfo[3]; //주문 메뉴 가격
+	var sum_price = menuInfo[3]; //주문 메뉴 가격 합계
+	var file_rurl = menuInfo[4]; //이미지 파일 링크
+	
+	var newTr = document.createElement("tr"); //새로운 div 생성
+    newTr.setAttribute("id", newTr_id);
+	
+	var mBody = document.getElementById("mBody");
+	
+	mBody.appendChild(newTr).innerHTML = "<td>"
+											+"<img class=\"menuImg\" src=\"\" alt=\"\"/>"
+										+"</td>"
+										+"<td>"
+											+"<input type=\"hidden\" name=\"menu_seq\" value=\"\"/>"
+											+"<input type=\"text\" name=\"menu_name\" value=\"\"/>"
+										+"</td>"
+										+"<td>"
+											+"<input type=\"button\" class=\"downBtn\" value=\"-\" onclick=\"minus(this)\">"
+											+"<input type=\"text\" name=\"menu_cnt\" value=\"\"/>"
+											+"<input type=\"button\" class=\"upBtn\" value=\"+\" onclick=\"plus(this)\">"
+										+"</td>"
+										+"<td>"
+											+"<input type=\"text\" name=\"menu_price\" value=\"\"/>"
+										+"</td>";
 }
-
 </script>
 <body>
 	<div id="container">
@@ -169,23 +177,41 @@ function addMenu(menu_seq){
 					<div class="tab-content">
 						<div id="menuList" >
 							<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
-								<div class="menu"><img class="menuImg" src="./masolimg/img.png" alt=""/><input type="button" value="추가" onclick="addMenu(${menu.menu_seq})"/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
+								<div class="menu">
+									<img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/>
+									<input type="button" value="추가" onclick="addMenu('menu${vs.count},${menu.menu_seq},${menu.menu_name},${menu.menu_price},${menu.fileDto.file_rurl}')"/>
+									<br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
 							</c:forEach>
 						</div>
-						<div id="requestStatus">
-							<table class="table">
+							<table>
 								<thead>
 									<tr>
-										<td style="width: 150px">메뉴</td>
-										<td style="width: 60px">수량</td>
-										<td style="width: 100px;">가격</td>
+										<td>메뉴 이미지</td>
+										<td>메뉴명</td>
+										<td>수량</td>
+										<td>가격</td>
 									</tr>
 								</thead>
-								<tbody>
+							</table>
+						<div id="requestStatus">
+							<table>
+								<tbody id="mBody">
 									<tr>
-										<td style="width: 100px">후라이드치킨</td>
-										<td style="width: 50px">10</td>
-										<td style="width: 140px;">180000원</td>
+										<td>
+											<img class="menuImg" src="" alt=""/>
+										</td>
+										<td>
+											<input type="hidden" name="menu_seq" value=""/>
+											<input type="text" name="menu_name" value=""/>
+										</td>
+										<td>
+											<input type="button" class="downBtn" value="-" onclick="minus(this)">
+											<input type="text" name="menu_cnt" value=""/>
+											<input type="button" class="upBtn" value="+" onclick="plus(this)">
+										</td>
+										<td>
+											<input type="text" name="menu_price" value=""/>
+										</td>
 									</tr>
 								</tbody>
 							</table>
