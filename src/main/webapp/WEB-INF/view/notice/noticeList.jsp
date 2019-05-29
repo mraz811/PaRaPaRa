@@ -52,7 +52,7 @@
 						<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
 
 							<div>
-								<div style="height:300px;">
+								<div style="height:350px;">
 								<table id="noticeTable" class="table table-hover">
 								
 									<tr class="table-primary">
