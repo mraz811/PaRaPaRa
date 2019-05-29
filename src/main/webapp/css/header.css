@@ -49,17 +49,37 @@
 }
 
 .oneDepth{
-	border: 1px dotted gray;
+/* 	border: 1px dotted gray; */
 	width: 1020px;
 	height: 50px; 
 	margin: 10px 20px;
 }
 
+.oneDepth>p{
+	width: 170px; 
+	font-size: 30px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
+}
+
 .twoDepth{
-	border: 1px dotted red;
+	border-bottom: 1px dotted gray;
 	width: 1020px;
 	height: 460px;
 	margin: 10px 20px;
+}
+
+.tab-content{
+}
+
+#pagingForm{
+	position: absolute;
+	bottom: 5px;
+	left: 35%;
 }
 
 .headConts{

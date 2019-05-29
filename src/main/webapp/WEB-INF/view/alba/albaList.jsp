@@ -17,12 +17,18 @@
 	margin-right: 16px;
 	position: relative;
 }
-.alba_table{
-	margin: 5px 0px;
-	width: 1010px;
-	height: 350px;
+.alba_table_bdy{
+	width: 1019px;
+	height: 305px;
+	margin: 1px 0px;
 	overflow: auto;
+/* 	border: 1px solid gray; */
 }
+.alba_table{
+	width: 1019px;
+	height: 45px;
+}
+
 
 </style>
 </head>
@@ -36,7 +42,8 @@
 	<div class="bodyFrame">
 	<div class="bodyfixed">
 		<div class="oneDepth">
-			<p style="width: 170px; font-size: 30px; background-color: RGB(21,140,186); color:white; font-weight: bold; padding: 0px 10px; text-align: center; ">
+<!-- 			<p style="width: 170px; font-size: 30px; background-color: RGB(21,140,186); color:white; font-weight: bold; padding: 0px 10px; text-align: center;"> -->
+			<p>
 				아르바이트
 			</p>
 		</div>
@@ -71,31 +78,41 @@
 				<div class="alba_table">
 					<table class="table table-hover">
 						<tr class="table-primary">
-							<th>이름</th>
-							<th>전화번호</th>
-							<th>주소</th>
-							<th>시급</th>
-							<th>은행명</th>
-							<th>계좌번호</th>
-							<th>근무시작일</th>
-							<th width="70px;"></th>
-							<th width="70px;"></th>
+							<th width="100px;">이름</th>
+							<th width="130px;">전화번호</th>
+							<th width="180px;">주소</th>
+							<th width="95px;">시급</th>
+							<th width="130px;">은행명</th>
+							<th width="135px;">계좌번호</th>
+							<th width="100px;">근무시작일</th>
+							<th></th>
 						</tr>
-						<c:if test="${empty albaList}">
+					</table>
+				</div>
+				<div class="alba_table_bdy">
+					<c:if test="${empty albaList}">
+						<table class="table table-hover">
 							<tr><td colspan="9" style="color: red; text-align: center;">등록된 아르바이트가 없습니다.</td></tr>
-						</c:if>
+						</table>
+					</c:if>
+					<table class="table table-hover">
 						<c:forEach var="alba" items="${albaList}" varStatus="vs">
 						<input type="hidden" name="alba_seq" value="${alba.alba_seq}">
 						<tr>
-							<td>${alba.alba_name}</td>
-							<td>${alba.alba_phone}</td>
-							<td>${alba.alba_address}</td>
-							<td>${alba.alba_timesal}</td>
-							<td>${alba.alba_bank}</td>
-							<td>${alba.alba_account}</td>
-							<td>${fn:substring(alba.alba_regdate,0,10)}</td>
-							<td><input style="height: 30px;" class="btn btn-secondary" type="button" value="수정" onclick="modiAlba('${alba.alba_seq}')"></td>
-							<td><input style="height: 30px;" class="btn btn-outline-warning" type="button" value="삭제" onclick="confrmDel('${alba.alba_seq}')"></td>
+							<td width="100px;">${alba.alba_name}</td>
+							<td width="130px;">${alba.alba_phone}</td>
+							<c:if test="${fn:length(alba.alba_address) > 12}">
+								<td width="185px;">${fn:substring(alba.alba_address,0,12)}..</td>
+							</c:if>
+							<c:if test="${fn:length(alba.alba_address) <= 12}">
+								<td width="185px;">${alba.alba_address}</td>
+							</c:if>
+							<td width="90px;">${alba.alba_timesal}</td>
+							<td width="130px;">${alba.alba_bank}</td>
+							<td width="140px;">${alba.alba_account}</td>
+							<td width="100px;">${fn:substring(alba.alba_regdate,0,10)}</td>
+							<td width="135px;"><input style="height: 30px;" class="btn btn-secondary" type="button" value="수정" onclick="modiAlba('${alba.alba_seq}')">&nbsp;
+							<input style="height: 30px;" class="btn btn-outline-warning" type="button" value="삭제" onclick="confrmDel('${alba.alba_seq}')"></td>
 						</tr>
 						</c:forEach>
 					</table>

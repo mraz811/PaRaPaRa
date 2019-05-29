@@ -8,17 +8,22 @@
 <style type="text/css">
 .admin_table{
 	margin: 5px 0px 10px 0px;
-	width: 1010px;
+	width: 1018px;
 	height: 280px;
 }
 .center{
 	width: 330px;
 	position: relative;
 }
+
 .regianddel{
+	position : absolute;
+	margin-bottom: 16px;
+	bottom: 5px;
 	width: 160px;
-	float: right;
-	position: relative;
+	right: 10px;
+/* 	float: right; */
+/* 	position: relative; */
 }
 </style>
 </head>
@@ -35,7 +40,7 @@
 	<div class="bodyFrame">
 	<div class="bodyfixed">
 		<div class="oneDepth">
-			<p style="width: 170px; font-size: 30px; background-color: RGB(21,140,186); color:white; font-weight: bold; padding: 0px 10px; text-align: center; ">
+			<p>
 				회원관리
 			</p>
 		</div>
@@ -62,7 +67,7 @@
 				});
 				</script>
 			<div align="right">
-				<select class="form-control" onchange="selectToAdList(this.value)" style="width: 150px; margin: 10px 10px 0px;" >
+				<select class="form-control" onchange="selectToAdList(this.value)" style="width: 150px; margin: 5px 1px 0px;" >
 					<option>지역선택</option>
 			<c:if test="${adminList ne null || adminLocList ne null}">	
 					<option value="ALL">전 체</option>

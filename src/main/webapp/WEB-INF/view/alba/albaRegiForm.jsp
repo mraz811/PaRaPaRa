@@ -60,7 +60,7 @@ $(function(){
 		</div>
 		<div class="form-group">	
 			<label>시급</label>	
-			<input type="text" class="form-control" name="alba_timesal" placeholder="숫자만 입력해주세요" required="required" maxlength="10">
+			<input type="text" class="form-control" name="alba_timesal" placeholder="숫자만 입력해주세요" required="required" maxlength="5">
 		</div>
 		<div class="form-group">
 			<label>은행명</label>
