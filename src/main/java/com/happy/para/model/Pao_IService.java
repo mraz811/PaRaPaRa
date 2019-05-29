@@ -9,20 +9,26 @@ import com.happy.para.dto.StockDto;
 
 public interface Pao_IService {
 
-	// 업주 : 발주 리스트 조회
+	// 업주 : 발주 리스트 조회(페이징)
 	public List<PaoDto> paoList(Map<String, Object> map);
 	
-	// 업주 : 발주 리스트 갯수
+	// 업주 : 발주 리스트 갯수(페이징)
 	public int paoListRow(String store_code);
 	
-	// 담당주 : 담당 지역의 매장 발주 리스트 조회
+	// 담당주 : 담당 지역의 매장 발주 리스트 조회(페이징)
 	public List<PaoDto> adminPaoList(Map<String, Object> map);
 	
-	// 업주 : 지역의 매장 발주 리스트 갯수
+	// 업주 : 지역의 매장 발주 리스트 갯수(페이징)
 	public int adminPaoListRow(String store_code);
 	
-	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회
+	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회(페이징)
 	public List<PaoDto> paoSelectStatusDate(Map<String, Object> map);
+	
+	// 업주 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회한 발주 내역 갯수(페이징)
+	public int paoStatusListRow(Map<String, Object> map);
+	
+	// 담당자 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회한 발주 내역 갯수(페이징)
+	public int adminPaoStatusListRow(Map<String, Object> map);
 
 	// 업주 : 발주 상세보기(발주)
 	public PaoDto paoDetail(Map<String, String> map);

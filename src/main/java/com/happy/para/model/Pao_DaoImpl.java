@@ -21,34 +21,46 @@ public class Pao_DaoImpl implements Pao_IDao {
 	
 	private final String NS = "para.pao.";
 	
-	// 업주 : 발주 리스트 조회
+	// 업주 : 발주 리스트 조회(페이징)
 	@Override
 	public List<PaoDto> paoList(Map<String, Object> map) {
 		return sqlSession.selectList(NS+"paoList", map);
 	}
 	
-	// 업주 : 발주 리스트 갯수
+	// 업주 : 발주 리스트 갯수(페이징)
 	@Override
 	public int paoListRow(String store_code) {
 		return sqlSession.selectOne(NS+"paoListRow", store_code);
 	}
 	
-	// 담당주 : 담당지역의 매장 발주 리스트 조회
+	// 담당주 : 담당지역의 매장 발주 리스트 조회(페이징)
 	@Override
 	public List<PaoDto> adminPaoList(Map<String, Object> map) {
 		return sqlSession.selectList(NS+"adminPaoList", map);
 	}
 	
-	// 업주 : 담당 지역의 매장 발주 리스트 갯수
+	// 업주 : 담당 지역의 매장 발주 리스트 갯수(페이징)
 	@Override
 	public int adminPaoListRow(String store_code) {
 		return sqlSession.selectOne(NS+"adminPaoListRow", store_code);
 	}
 
-	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회
+	// 업주 : 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회(페이징)
 	@Override
 	public List<PaoDto> paoSelectStatusDate(Map<String, Object> map) {
 		return sqlSession.selectList(NS+"paoSelectStatusDate", map);
+	}
+	
+	// 업주 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회한 발주 내역 갯수(페이징)
+	@Override
+	public int paoStatusListRow(Map<String, Object> map) {
+		return sqlSession.selectOne(NS+"paoStatusListRow", map);
+	}
+	
+	// 담당자 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회한 발주 내역 갯수(페이징)
+	@Override
+	public int adminPaoStatusListRow(Map<String, Object> map) {
+		return sqlSession.selectOne(NS+"adminPaoStatusListRow", map);
 	}
 	
 	// 업주 : 발주 상세보기(발주)
@@ -99,6 +111,7 @@ public class Pao_DaoImpl implements Pao_IDao {
 	public boolean canclePao(String pao_seq) {
 		return (sqlSession.update(NS+"canclePao", pao_seq) == 1) ? true : false;
 	}
+
 
 
 }
