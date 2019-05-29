@@ -37,7 +37,7 @@
 	    				<a class="nav-link" data-toggle="tab" onclick="selStoreList()" href="#">매장 정보</a>
 	  				</li>
 	  				<li class="nav-item">
-	    				<a class="nav-link" data-toggle="tab" href="#profile">발주</a>
+	    				<a class="nav-link" data-toggle="tab" onclick="selPaoList()" href="#">발주</a>
 	  				</li>
 	  				<li class="nav-item">
 	    				<a class="nav-link active" data-toggle="tab" onclick="selItemList()" href="#">품목</a>
