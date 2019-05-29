@@ -26,7 +26,7 @@ function modifyBtn() {
 		
 		for (var i = 1; i < qty.length+1; i++) {
 			document.getElementsByName("Slists["+i+"].stock_qty")[0].removeAttribute("readonly");
-		
+			document.getElementsByName("Slists[" + i + "].stock_qty")[0].style.border = "2px solid #ff0000";
 		}
 	}else{
 		modiQty.value=="수정 하기"
@@ -79,7 +79,14 @@ $(function(){
 <form action="#" method="post">
 <input type="text" name="store_code" value="${store_code}"/>
 
-	<table>
+	<table class="table table-hover">
+	
+		<tr class="table-primary">
+			<td>재고 번호<td>
+			<td>재고명</td>
+			<td>재고수량</td>
+		</tr>
+	
 		<c:forEach var="dto" items="${itemList}" varStatus="vs">
 			<tr>
 				<td>
@@ -89,7 +96,7 @@ $(function(){
 					<input name="Ilists[${vs.count}].item_name" value="${dto.item_name}" />
 				</td>
 				<td>
-					<input type="number" name="Slists[${vs.count}].stock_qty" value="0" readonly="readonly" />
+					<input type="number" maxlength="5" name="Slists[${vs.count}].stock_qty" value="0" readonly="readonly" />
 				</td>
 			</tr>
 		</c:forEach>

@@ -18,15 +18,16 @@
 -
 
  .in-line {
-	width: 700px;
+	width: 1100px;
 	height: 40px;
 /* 	text-align: left; */
 }
 
 
 a[id="replyName"] {
-	width: 15%;
+	width: 20%;
 	height: 100%;
+/* 	left : 20px; */
 	border: none;
 	font-size: 14px;
  	padding-left: 5px; 
@@ -40,7 +41,7 @@ a[id="replyName"] {
 }
 
 input[id="text"] {
-	width: 60%;
+	width: 55%;
 	height: 100%;
 	border: none;
 	font-size:  14px;
@@ -70,11 +71,13 @@ a[id="replyRegdate"] {
 input[id=del] {
 	width: 10%;
 	height: 105%;
+	right : 50px;
 	background-color: lightgray;
 	border: none;
 	background-color: white;
 	font-size:  14px;
-	color: #042AaC;
+/* 	color: #042AaC; */
+	color: red;
 	outline: none;
 	display: inline;
 	margin-left: 3px;
@@ -85,26 +88,38 @@ input[id=del]:hover {
 	background-color: lightgray;
 }
 
-.modiBtn{
+#modify{
 	position : absolute;
-	right : 172px;
-	bottom : 333px;
+	right : 192px;
+	bottom : 339px;
 }
 
-.delBtn{
+#delete{
 	position : absolute;
-	right : 90px;
-	bottom : 333px;
+	right : 110px;
+	bottom : 339px;
 }
 
-.backBtn{
+#backBtn{
 	position : absolute;
-	right : 10px;
-	bottom : 333px;
+	right : 30px;
+	bottom : 339px;
 }
 
 th{
-	text-align: center;
+	width: 250px;
+	height : 45px;
+}
+
+td{
+	width: 250px;
+	height : 45px;
+}
+
+#replyBtn{
+	position : absolute;
+	right : 25px;
+	bottom : 78px;
 }
 
 </style>
@@ -136,44 +151,38 @@ th{
 		<input type="hidden" id="notice_seq" name="notice_seq" value="${dto.notice_seq}">
 		<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
 
-		<table>
+		<table class="table table-hover">
 			<tr>
-				<th>작성자</th>
-				<td>${dto.notice_id}</td>
-				<th>작성일</th>
+				<th class="table-primary">작　성　자</th>
+				<td>${dto.notice_name}</td>
+				<th class="table-primary">작　성　일</th>
 				<td>${dto.notice_regdate}</td>
 			</tr>
 			<tr>
-				<th>제목</th>
-				<td>${dto.notice_title}</td>
-				
-				<!-- 세션 id와 작성자의 일치 여부 판단 -->
-			<!-- loginDtoAuth 값이 A 면 으로 c:if 로 바깥에 묶어준다.  -->
-				
-<%-- 			<c:if test="${loginDto.admin_id eq dto.notice_id}"> --%>
-			<c:if test="${admin_id eq dto.notice_id}">
-				<td class="modiBtn"><input class="btn btn-outline-success" type="submit" id="modify" value="수　정"></td>
-			</c:if>
-
-				<!-- 세션 id와 작성자의 일치 여부 판단 -->
-			<c:if test="${admin_id eq dto.notice_id}">
-				<td class="delBtn"><input class="btn btn-outline-warning" type="button" id="delete" value="삭　제" ></td>
-			</c:if>
-
-				<td class="backBtn"><input class="btn btn-outline-warning" type="button" onclick="listMove()" value="목　록"></td>
-
+				<th class="table-primary">제　　　목</th>
+				<td colspan="2">${dto.notice_title}</td>
 			</tr>
+
 			<tr>
 				<td colspan="4" style="width:780px; height:200px; border:1px solid pink;">
-					${dto.notice_content}
-				</td>
-
+					${dto.notice_content}</td>
 			</tr>
+			
 		</table>
 
+			<!-- 세션 id와 작성자의 일치 여부 판단 -->
+			<c:if test="${admin_id eq dto.notice_id}">
+				<input class="btn btn-outline-success" type="submit" id="modify" value="수　정" />
+			</c:if>
+			
+			<c:if test="${admin_id eq dto.notice_id}">
+				<input class="btn btn-outline-warning" type="button" id="delete" value="삭　제" />
+			</c:if>
+				<input class="btn btn-outline-primary" type="button" onclick="listMove()" id="backBtn" value="목　록" />
+
 		<div>
-			<input type="text" name="reply_content" id="reply_content" />
-			<input type="button" value="댓글 입력" id="replyBtn" onclick="replyBtn()" />
+			<input type="text" name="reply_content" id="reply_content" class="form-control form-control" size="35" />
+			<input type="button" class="btn btn-link" value="댓글 입력" id="replyBtn" onclick="replyBtn()" />
 		</div>
 
 <!-- 		<a id="view">댓글 펼치기</a> -->
@@ -181,7 +190,7 @@ th{
 		<div class="allReply">
 			<c:choose>
 				<c:when test="${empty Rlists}">
-
+					<span style="color:gray;">　작성된 댓글이 없습니다. 첫 번째 댓글을 달아주세요!　:)</span>
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="i" begin="0" end="${fn:length(Rlists)}" step="1">
