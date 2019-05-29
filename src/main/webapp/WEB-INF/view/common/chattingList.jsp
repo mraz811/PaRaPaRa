@@ -6,6 +6,29 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	#chatList{
+		margin-left: 300px;
+		border: 2px solid black;
+		width: 420px;
+		height: 395px;
+		overflow: auto;
+	}
+	.chatTarget{
+		margin-left: 12px;
+		margin-top: 10px;
+		height: 70px;
+		width: 380px;		
+		border: 1px solid blue;
+		text-align: center;
+		
+	}
+	.chatClick{
+		margin-top: 18px;
+		font-size: x-large;
+		
+	}
+</style>
 </head>
 <body>
 <div id="container">
@@ -25,16 +48,26 @@
   				</li>
 			</ul>
 			<div class="tab-content">
-	<c:if test="${loginDto.auth eq 'A'}">
-		<c:forEach items="${lists}" var="list">	
-			<a href="./socketOpen.do?id=${list.owner_id}&auth=${loginDto.auth}&store_code=${list.store_code}">${list.owner_id}</a>
-		</c:forEach>
-	</c:if>
-	<c:if test="${loginDto.auth eq 'U'}">
-		<a href="./socketOpen.do?id=${adminDto.admin_id}&auth=${loginDto.auth}">${adminDto.admin_id}</a>
-	</c:if>
-	</div> <!-- div class=tab-content -->
-</div> <!-- div class twoDepth -->
+				<div id="chatList">
+					<c:if test="${loginDto.auth eq 'A'}">
+						<c:forEach items="${lists}" var="list">
+							<div class="chatTarget">	
+								<div class="chatClick">
+									<a href="./socketOpen.do?id=${list.owner_id}&auth=${loginDto.auth}&store_code=${list.store_code}">${list.owner_id}</a>
+								</div>								
+							</div>
+						</c:forEach>
+					</c:if>
+					<c:if test="${loginDto.auth eq 'U'}">
+						<div class="chatTarget">
+							<div class="chatClick">
+								<a class="chatClick" href="./socketOpen.do?id=${adminDto.admin_id}&auth=${loginDto.auth}">${adminDto.admin_id}</a>
+							</div>
+						</div>
+					</c:if>
+				</div>
+			</div> <!-- div class=tab-content -->
+		</div> <!-- div class twoDepth -->
 	</div> <!-- div class=bodyfixed -->
 	</div> <!-- div class=bodyFrame -->
 <%@include file="../footer.jsp" %>

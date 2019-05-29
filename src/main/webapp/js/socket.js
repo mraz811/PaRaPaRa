@@ -36,11 +36,11 @@ function handleFileUpload(files) {
 function sendText() {
 	// Construct a msg object containing the data the server needs to process
 	// the message from the chat client.
-	alert("sendText() 실행");
+//	alert("sendText() 실행");
 	var reciver = $('#targetId').val();
 	var curAuth = $('#auth').val();
-	alert(reciver);
-	alert(curAuth);
+//	alert(reciver);
+//	alert(curAuth);
 	var msg = {
 		type : "message",
 		text : $("#chat").val(),
@@ -50,7 +50,7 @@ function sendText() {
 		auth : curAuth
 //		date : currentDate()
 	};
-	alert(msg.text);
+//	alert(msg.text);
 	$("#chat").val('');
 	$("#chat").focus();
 	ws.send(JSON.stringify(msg));
@@ -64,7 +64,7 @@ $(document)
 .ready(
 		function() {
 			
-//			var curAuth = $('#auth').val();
+			var curAuth = $('#auth').val();
 			
 			var chatTitle = $('#storeCode').val();
 //			alert("업데이트를 위한 고유값 : " + chatTitle);
@@ -72,7 +72,8 @@ $(document)
 			alert(mySessionId);
 			var targetId = $('#targetId').val();
 //			$("#nickName").focus();
-
+			var chatMsgBox = document.getElementById("chatMsgBox");
+			chatMsgBox.scrollTop = chatMsgBox.scrollHeight;
 //			if ($("#nickName").val() == '') {
 //				alert("닉네임을 입력하세요!!");
 //				$("#nickName").focus();
@@ -87,7 +88,7 @@ $(document)
 			// 웹소켓 객체를 만들기 위해 매개변수로 url을 넣어 접속할 서버를 지정해준다.
 			// 파라미터로 내 아이디를 보내준다.
 			ws = new WebSocket(
-					"ws://192.168.10.22:8091/PaRaPaRa/wsChat.do?id="
+					"ws://192.168.4.19:8091/PaRaPaRa/wsChat.do?id="
 							+ mySessionId + "&target=" + targetId);
 			ws.binaryType = "arraybuffer";
 			
@@ -113,17 +114,25 @@ $(document)
 					console.log("메시지 입력 입장");
 					console.log(msg);
 					console.log("append가 수행된다.");
-
 					viewMsg = "<div class='clear'></div>";
-					viewMsg += "<div> <p>" + msg.view + "</p></div>";
+					if (msg.auth == curAuth) {
+						viewMsg += "<div class='form-me'><p>" + msg.view + "</p></div>";
+					}else if(msg.auth == "enterChat"){
+						viewMsg += "<div class='enter'><p>" + msg.view + "</p></div>";
+					}else{
+						viewMsg += "<div class='form-other'><p>" + msg.view + "</p></div>";
+					}
 //					alert(viewMsg);
 					
 //					console.log(viewMsg);
 					$("#chatMsgBox").append(viewMsg);
+					chatMsgBox.scrollTop = chatMsgBox.scrollHeight;
 					allContent = $("#chatMsgBox").html();
-					alert(allContent);
+//					alert(allContent);
+				}else{
+					$("#receive_msg").append(event.data + "<br/>");
 				}
-				alert("if문 다음에 : " + allContent);
+//				alert("if문 다음에 : " + allContent);
 				$.ajax({
 					url : "./chatContentUpdate.do",
 					type : "post",	

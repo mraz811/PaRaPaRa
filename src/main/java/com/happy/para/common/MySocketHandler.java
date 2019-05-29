@@ -62,9 +62,12 @@ public class MySocketHandler extends TextWebSocketHandler{
 				WebSocketDto dto = map.get(initMsg);
 				System.out.println("WebSocketDto : " + dto);
 				rstJson.put("view", "<font color='green' size='4px'>" + initMsg + "님이 입장하였습니다. </font>");
+				rstJson.put("auth", "enterChat");
+				
 				if(map.get(dto.getReciver())== null) {
 					System.out.println("행");
 					session.sendMessage(new TextMessage(rstJson.toJSONString()));
+					dto.setChatTarget(dto.getReciver());
 				}else {
 					System.out.println("헤");
 					WebSocketDto rDto = map.get(dto.getReciver());
@@ -116,8 +119,11 @@ public class MySocketHandler extends TextWebSocketHandler{
 					System.out.println("targetDto 입니다 : " + targetDto);
 					System.out.println("메시지에용" + sendMessage);
 					rstJson.put("view", sendMessage);
+					rstJson.put("auth", senderAuth);
+					
 					sendSession.sendMessage(new TextMessage(rstJson.toString()));
 					if(targetDto != null) {
+						System.out.println("if문 안에서의 targerDto 값 : " + targetDto);
 						String chatTarget = targetDto.getChatTarget();
 						System.out.println("업주가 채팅 쳤을 시 chatTarget : " + chatTarget);
 						System.out.println("내 아이디 : " + myId);
@@ -133,6 +139,7 @@ public class MySocketHandler extends TextWebSocketHandler{
 					System.out.println("보낸 사람이 담당자일 때 받는 사람은 업주 : " + target);
 					
 					rstJson.put("view", sendMessage);
+					rstJson.put("auth", senderAuth);
 					if(map.get(target) == null) {
 						System.out.println("상대방이 접속하지 않음");
 						sendSession.sendMessage(new TextMessage(rstJson.toString()));
