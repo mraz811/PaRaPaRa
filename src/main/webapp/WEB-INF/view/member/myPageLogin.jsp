@@ -35,34 +35,41 @@
 			<!-- 관리자/담당자 -->
 			<c:if test="${loginDto.auth eq 'A' || loginDto.auth eq 'S'}">
 				<form action="./toMypage.do" method="post">
-					<input type="hidden" name="auth" value="${loginDto.auth}">
-					<input type="hidden" name="id" value="${loginDto.admin_id}">
+				<input type="hidden" name="auth" value="${loginDto.auth}">
+				<input type="hidden" name="id" value="${loginDto.admin_id}">
+<!-- 				<h4>비밀번호 확인</h4> -->
+				<hr>
 				<div class="form-group">
-<!-- 					<h2>아이디</h2> -->
-<%-- 					${loginDto.admin_id}<br> --%>
-					<h2>비밀번호 확인</h2>
+					<input class="form-control" style="width: 250px;" readonly="readonly" value="${loginDto.admin_id}"> 
+				</div>
+				<div class="form-group">
 					<input class="form-control" style="width: 250px;" type="password" id="inputPw" name="pw" placeholder="비밀번호를 입력하세요" required="required" >
 				</div>
-				<div>
+				<div style="margin-top: 20px;">
 					<input style="width: 123px;" class="btn btn-outline-success" type="submit" value="확　인">
 					<input style="width: 123px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="backToMain()">
 				</div>
+				<hr>
 				</form>
 			</c:if>
 					
 			<c:if test="${loginDto.auth eq 'U'}">
 				
 				<form action="./toMypage.do" method="post">
-					<input type="hidden" name="auth" value="${loginDto.auth}">
-					<input type="hidden" name="id" value="${loginDto.owner_id}">
+				<input type="hidden" name="auth" value="${loginDto.auth}">
+				<input type="hidden" name="id" value="${loginDto.owner_id}">
+				<hr>
 				<div class="form-group">
-					<h2>비밀번호 확인</h2>
-					<input class="form-control" type="password" id="inputPw" name="pw" placeholder="비밀번호를 입력하세요" required="required" >
+					<input class="form-control" style="width: 250px;" readonly="readonly" value="${loginDto.owner_id}"> 
 				</div>
 				<div class="form-group">
+					<input class="form-control" type="password" id="inputPw" name="pw" placeholder="비밀번호를 입력하세요" required="required" >
+				</div>
+				<div style="margin-top: 20px;">
 					<input style="width: 123px;" class="btn btn-outline-success" type="submit" value="확　인">
 					<input style="width: 123px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="backToMain()">
 				</div>
+				<hr>
 				</form>
 			
 			</c:if>

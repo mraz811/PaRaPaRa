@@ -156,12 +156,12 @@ public class MemberCtrl {
 		public String ownerRegi(Model model, OwnerDto oDto, String loc_code) {
 			System.out.println(oDto);
 			List<Integer> owner_menu = menu_IService.selAllMenu();
-			System.out.println(owner_menu);
-			String owner_menuInput = ""; // [1, 2, 3, 4, 5, 6, 7, 8, 9, 101]
+//			System.out.println(owner_menu);
+			String owner_menuInput = ""; 
 			for (int i = 0; i < owner_menu.size(); i++) {
 				owner_menuInput += owner_menu.get(i)+",";
 			}
-			System.out.println(owner_menuInput + "_______fot문 밖"); 
+//			System.out.println(owner_menuInput + "_______fot문 밖"); 
 			oDto.setOwner_menu(owner_menuInput);
 			int n = memService.ownerRegister(oDto);
 //			
@@ -221,29 +221,32 @@ public class MemberCtrl {
 		}
 		
 		// 마이페이지에서 수정된 정보만 수정해 줍니다		
-		@RequestMapping(value="/adminModi.do", method=RequestMethod.POST)
+		@RequestMapping(value="/adminModi.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
 		public String adminModi(AdminDto aDto) {
 			System.out.println("입력 받은 값 : "+aDto);
 			// 비밀번호를 입력받지 않은 경우 비밀번호를 null 처리 해준다. 
 			if(aDto.getAdmin_pw()==""){
 				aDto.setAdmin_pw(null);
 			}
-			memService.adminModify(aDto);
+			int n = memService.adminModify(aDto);
 			// 수정 후에 세션 값이 변경이 되지 않기 때문에 로그아웃 후 재로그인 합니다.
-			return "redirect:/logout.do?auth=A";
+//			return "redirect:/logout.do?auth=A";
+			return (n>0)?"성공":"실패";
 		}
 		
 		// 마이페이지에서 수정된 정보만 수정해 줍니다		
-		@RequestMapping(value="/ownerModi.do", method=RequestMethod.POST)
+		@RequestMapping(value="/ownerModi.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+		@ResponseBody
 		public String ownerModi(OwnerDto oDto) {
 			System.out.println("입력 받은 값: "+oDto);
 			
 			if(oDto.getOwner_pw()=="") {
 				oDto.setOwner_pw(null);
 			}
-			memService.ownerModify(oDto);
-			
-			return "redirect:/logout.do?auth=U";
+			int n = memService.ownerModify(oDto);
+//			return "redirect:/logout.do?auth=U";
+			return (n>0)?"성공":"실패";
 		}
 		
 		//**********************************************************//	
@@ -310,7 +313,7 @@ public class MemberCtrl {
 		}
 		
 		//**********************************************************//	
-		//				담당자 조회 페이징(ajax)-지역별 + 퇴사자 조회				//
+		//				담당자 조회 페이징(ajax)-지역별 + 퇴사자 조회			//
 		//**********************************************************//
 		
 		// 담당자 페이징
