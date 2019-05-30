@@ -91,35 +91,44 @@ input[id=del]:hover {
 #modify{
 	position : absolute;
 	right : 192px;
-	bottom : 339px;
+	bottom : 383px;
 }
 
 #delete{
 	position : absolute;
 	right : 110px;
-	bottom : 339px;
+	bottom : 383px;
 }
 
 #backBtn{
 	position : absolute;
 	right : 30px;
-	bottom : 339px;
-}
-
-th{
-	width: 250px;
-	height : 45px;
-}
-
-td{
-	width: 250px;
-	height : 45px;
+	bottom : 383px;
 }
 
 #replyBtn{
 	position : absolute;
 	right : 25px;
-	bottom : 78px;
+	bottom : 94px;
+}
+.allReply{
+	height:86px;
+	overflow-y: scroll;
+}
+
+table{
+	text-align: center;
+}
+
+th{
+	width: 120px;
+	height : 45px;
+	padding : 0px;
+}
+
+td{
+	height : 45px;
+	padding : 5px;
 }
 
 </style>
@@ -134,8 +143,7 @@ td{
 		<div class="bodyFrame">
 			<div class="bodyfixed">
 				<div class="oneDepth">
-					<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
-				
+					<p>공지사항</p>
 				</div>
 				<!-- div class=oneDepth -->
 				<div class="twoDepth">
@@ -146,25 +154,25 @@ td{
 					</ul>
 					<div class="tab-content">
 
-		<form action="#" method="post">
+		<form action="#" method="post" id="frm">
 		
 		<input type="hidden" id="notice_seq" name="notice_seq" value="${dto.notice_seq}">
 		<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
 
-		<table class="table table-hover">
-			<tr>
+		<table>
+			<tr style="border:1px solid lightgray;">
 				<th class="table-primary">작　성　자</th>
-				<td>${dto.notice_name}</td>
+				<td style="text-align: left; width: 265px;">${dto.notice_name}</td>
 				<th class="table-primary">작　성　일</th>
-				<td>${dto.notice_regdate}</td>
+				<td style="text-align: left;">${dto.notice_regdate}</td>
 			</tr>
 			<tr>
 				<th class="table-primary">제　　　목</th>
-				<td colspan="2">${dto.notice_title}</td>
+				<td style="text-align: left;" colspan="4">${dto.notice_title}</td>
 			</tr>
 
 			<tr>
-				<td colspan="4" style="width:780px; height:200px; border:1px solid pink;">
+				<td colspan="4" style="width:1017px; height:200px; border:1px solid pink; text-align: left; overflow-y: scroll;">
 					${dto.notice_content}</td>
 			</tr>
 			
@@ -181,11 +189,9 @@ td{
 				<input class="btn btn-outline-primary" type="button" onclick="listMove()" id="backBtn" value="목　록" />
 
 		<div>
-			<input type="text" name="reply_content" id="reply_content" class="form-control form-control" size="35" />
-			<input type="button" class="btn btn-link" value="댓글 입력" id="replyBtn" onclick="replyBtn()" />
+			<input type="text" name="reply_content" id="reply_content" class="form-control form-control"  maxlength="65"/>
+			<input type="button" class="btn btn-link" value="댓글 입력" id="replyBtn" />
 		</div>
-
-<!-- 		<a id="view">댓글 펼치기</a> -->
 
 		<div class="allReply">
 			<c:choose>
@@ -198,23 +204,17 @@ td{
 						<c:if test="${null ne Rlists[i].reply_content}">
 
 							<div class="in-line">
-							
-									<a id="replyName">${Rlists[i].reply_name}</a>
-									<input type="hidden" name="reply_seq" value="${Rlists[i].reply_seq}" />
-									<input id="text" name="name" readonly="readonly" value="${Rlists[i].reply_content}"/>
-									
-									<a id="replyRegdate">${Rlists[i].reply_regdate}</a>
-								
+								<a id="replyName">${Rlists[i].reply_name}</a>
+								<input id="text" name="name" readonly="readonly" value="${Rlists[i].reply_content}"/>
+								<a id="replyRegdate">${Rlists[i].reply_regdate}</a>
+
 								<!-- 세션 id와 작성자의 일치 여부 판단 -->
-							<c:if test="${admin_id eq Rlists[i].reply_id}">
-									<input type="button" id="del" name="name" value="삭제"
-											onclick="location='./replyDel.do?reply_seq=${Rlists[i].reply_seq}&notice_seq=${Rlists[i].notice_seq}&loginDtoAuth=${loginDto.auth}'"/>
-							</c:if>
-							<c:if test="${owner_id eq Rlists[i].reply_id}">
-									<input type="button" id="del" name="name" value="삭제"
-											onclick="location='./replyDel.do?reply_seq=${Rlists[i].reply_seq}&notice_seq=${Rlists[i].notice_seq}&loginDtoAuth=${loginDto.auth}'"/>
-							</c:if>
-							
+								<c:if test="${admin_id eq Rlists[i].reply_id}">
+										<input type="button" id="del" name="reply_seq" value="삭제" onclick="delReply('${Rlists[i].reply_seq}')"/>
+								</c:if>
+								<c:if test="${owner_id eq Rlists[i].reply_id}">
+										<input type="button" id="del" name="reply_seq" value="삭제" onclick="delReply('${Rlists[i].reply_seq}')"/>
+								</c:if>
 							</div>
 
 						</c:if>
@@ -257,26 +257,45 @@ td{
 		});
 	});
 
+
 	$(function() {
 		$("#replyBtn").click(function() {
 			var loginDtoAuth = document.getElementsByName("loginDtoAuth")[0].value;
 			var reply_content = document.getElementsByName("reply_content");
 			var notice_seq = document.getElementsByName("notice_seq");
-			
-			var frm = document.forms[0];
-			
+
 			if(reply_content[0].value == ""){
 				alert("작성된 댓글이 없습니다.");
 			}else{
 				var frm = document.forms[0];
 				frm.action = "./replyWrite.do";
-				frm.submit();			
+				frm.submit();
 			}
 		});
 	});
+	
+	 
+	function delReply(aa){
+		
+		var reply_seq = new String(aa);
+		
+		var frm = document.forms[0];
+		frm.action = "./replyDel.do?reply_seq="+reply_seq;
+		frm.method = "POST";
+		frm.submit();
+		
+	}
 
+	
 	function listMove() {
 		location.href="./selNoticeList.do";
+	}
+	
+	function replyAjax() {
+		
+		replyforajax = "";
+		
+		
 	}
 	
 </script>

@@ -13,7 +13,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
 
+table{
+	margin: 0px;
+}
+
+</style>
 <script type="text/javascript">
 	function modifyBtn() {
 		var modiQty = document.getElementById('modifyQty');
@@ -82,16 +88,18 @@
 						</script>
 
 						<form action="#" method="post">
-							<input type="text" name="store_code" value="${store_code}" />
+						<input type="text" name="store_code" value="${store_code}" />
 
 							<table class="table table-hover">
 								<tr class="table-primary">
-									<th>재고 번호<th>
+									<th>재고 번호</th>
 									<th>재고명</th>
 									<th>재고수량</th>
-									<th>삭제</th>
 								</tr>
-								
+							</table>	
+							
+							<div style="overflow-y: auto; height: 300px;">
+							<table class="table table-hover">
 								<c:forEach var="dto" items="${lists}" varStatus="vs">
 									<%-- 		<c:forEach var="dto" items="${listsOne}" varStatus="vs"> --%>
 										
@@ -103,20 +111,19 @@
 													style="border:none; background-color: none;" />
 											</td>
 											<td>
-												<input type="number" maxlength="5" name="Slists[${vs.count}].stock_qty" value="${dto.stock_qty}" readonly="readonly" />
+												<input type="number" min="0" max="1000" name="Slists[${vs.count}].stock_qty" value="${dto.stock_qty}" readonly="readonly" />
 											</td>
-	
 											<c:if test="${empty dto.item_name}">
 												<td>
 													<input type="button" onclick="location.href='./delStock.do?stock_seq=${dto.stock_seq}&store_code=${store_code}'" value="삭제" />
 												</td>
 											</c:if>
 	
-										</tr>
-										
+										</tr>										
 								</c:forEach>
-								
 							</table>
+							</div>
+							
 
 							<input type="button" id="modifyQty" value="수정 하기"
 								onclick="modifyBtn()">

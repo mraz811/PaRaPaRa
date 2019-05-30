@@ -9,7 +9,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
 
+table{
+	margin: 0px;
+}
+
+#replyDiv{
+	position: relative;
+}
+
+#modifyQty{
+ 	position : absolute;
+	right : 30px;
+/* 	bottom : 15px; */
+}
+
+</style>
 <script type="text/javascript">
 
 function modifyBtn() {
@@ -45,7 +61,6 @@ function modifyBtn() {
 <body>
 
 <%-- ${itemList} --%>
-<hr>
 
 <div id="container">
 		<%@include file="../header.jsp"%>
@@ -77,32 +92,41 @@ $(function(){
 </script>
 
 <form action="#" method="post">
-<input type="text" name="store_code" value="${store_code}"/>
-
-	<table class="table table-hover">
+<input type="hidden" name="store_code" value="${store_code}"/>
 	
-		<tr class="table-primary">
-			<td>재고 번호<td>
-			<td>재고명</td>
-			<td>재고수량</td>
-		</tr>
-	
-		<c:forEach var="dto" items="${itemList}" varStatus="vs">
-			<tr>
-				<td>
-					${vs.count}
-				</td>
-				<td>
-					<input name="Ilists[${vs.count}].item_name" value="${dto.item_name}" />
-				</td>
-				<td>
-					<input type="number" maxlength="5" name="Slists[${vs.count}].stock_qty" value="0" readonly="readonly" />
-				</td>
+	<div style="height: 45px;">
+		<table class="table table-hover">
+			<tr class="table-primary">
+				<th>재고 번호</th>
+				<th>재고명</th>
+				<th>재고수량</th>
 			</tr>
-		</c:forEach>
-	</table>
+		</table>
+	</div>
 	
-	<input type="button" id="modifyQty" value="수정 하기" onclick="modifyBtn()">
+	<div style="overflow-y: auto; height: 320px;">
+		<table class="table table-hover">
+			<c:forEach var="dto" items="${itemList}" varStatus="vs">
+				<tr>
+					<td>
+						${vs.count}
+					</td>
+					<td>
+						<input name="Ilists[${vs.count}].item_name" value="${dto.item_name}" readonly="readonly"
+													style="border:none; background-color: none;"/>
+					</td>
+					<td>
+						<input type="number" min="1" max="1000" name="Slists[${vs.count}].stock_qty" value="0" readonly="readonly" />
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+	
+	<div id="replyDiv">
+		<input type="button" class="btn btn-outline-success" id="modifyQty" value="수정 하기" onclick="modifyBtn()">
+	</div>
+
 
 </form>
 

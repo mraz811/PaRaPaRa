@@ -12,36 +12,30 @@
 <head>
 <meta charset="UTF-8">
 <title>calendar</title>
+<style type="text/css">
+
+#calAll{
+	position: relative;
+}
+
+#cal{
+	position: absolute;
+	left: 60px;
+	top: 25px;
+}
+
+#menu{
+	position: absolute;
+	width: 1020px;
+	text-align: center;
+}
+
+</style>
 </head>
 
  <%
  	List<CalDto> lists = (List<CalDto>) request.getAttribute("lists"); 
  %>
-<link rel="stylesheet" type="text/css"
-	href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css"
-	href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
-<link rel="stylesheet" type="text/css"
-	href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
-
-<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script> -->
-<script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
-<script type="text/javascript"
-	src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
-<script type="text/javascript"
-	src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
-<script
-	src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
 
 <body>
 
@@ -51,7 +45,7 @@
 			<div class="bodyfixed">
 				<div class="oneDepth">
 					<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
-				
+					<p>매장 관리</p>
 				</div>
 				<!-- div class=oneDepth -->
 				<div class="twoDepth">
@@ -66,28 +60,30 @@
 					<div class="tab-content">
 
 					<script type="text/javascript">
-					$(function(){
-						$("#stockList").click(function(){
-							location.href="./selStock.do";
+						$(function(){
+							$("#stockList").click(function(){
+								location.href="./selStock.do";
+							});
+							$("#pao").click(function(){
+								location.href="./selPaoList.do";
+							});
 						});
-						$("#pao").click(function(){
-							location.href="./selPaoList.do";
-						});
-					});
 					</script>
 
-						<div id="menu">
-				
-						<button id="prev">◀</button>
-						<a id="now"></a>
-						<button id="next">▶</button>
-							
+						<div id="calAll">
+							<div id="menu">
+								<button id="prev">◀</button>
+								<a id="now"></a>
+								<button id="next">▶</button>
+							</div>
+								
+							<div id="cal">
+								<input name="title" type="hidden" />
+								<input name="store_code" type="hidden" value="${store_code}" />
+								<div id="calendar" style="width: 900px; height: 410px;"></div>
+							</div>
 						</div>
 
-						<input name="title" type="hidden"> <input
-							name="store_code" type="hidden" value="${store_code}" />
-						<div id="calendar" style="width: 900px; height: 410px;"></div>
-					
 					</div><!-- div class=tab-content -->
 				</div><!-- div class twoDepth -->
 			</div><!-- div class=bodyfixed -->
@@ -95,6 +91,22 @@
 		<%@include file="../footer.jsp"%>
 	</div>
 </body>
+
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
+
+<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+<!-- <script type="text/javascript" src="./js/jquery-3.3.1.js"></script> -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
+<script type="text/javascript" src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+<script type="text/javascript" src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
+<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+
 <script type="text/javascript">
 	var Calendar = tui.Calendar;	
 	// 달력 양식 지정
@@ -152,7 +164,7 @@
 			    'common.saturday.color': '#3162ea',
 			    'common.dayname.color': '#333'
 			  };
-	  
+
 	  // 캘린더 설정
 	  // template : 달력 양식 지정
 	  // calendars : 일정 양식 지정
