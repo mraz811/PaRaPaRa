@@ -1,6 +1,6 @@
 
 
-DELETE FROM stock;
+DELETE FROM TIMESHEET;
 
 SELECT * FROM 
 
@@ -29,49 +29,73 @@ SELECT TS_SEQ, ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DATETIME, TS_WORKHOUR
  
 SELECT DATEDIFF(dd,'2018-01-01','2018-12-31') + 1 FROM DUAL;
 
--- WORKTIME_EARLY 가 양수일 경우 WORKTIME_DAY-WORKTIME_EARLY = DAYTIME
--- WORKTIME_NIGHT 가 양수일 경우 WORKTIME_DAY-WORKTIME_NIGHT = DAYTIME
--- WORKTIME_EARLY, WORKTIME_NIGHT 모두 음수일 경우 WORKTIME_DAY = DAYTIME
-SELECT 
-  (  
+-- WORKTIME_EARLY 가 양수일 경우 WORKTIME_DAY-WORKTIME_EARLY = WORKTIME_DAY
+-- WORKTIME_NIGHT 가 양수일 경우 WORKTIME_DAY-WORKTIME_NIGHT = WORKTIME_DAY
+-- WORKTIME_EARLY, WORKTIME_NIGHT 모두 음수일 경우 WORKTIME_DAY = WORKTIME_DAY
+
+-- WORKTIME_NIGHT > WORKTIME_DAY 경우 WORKTIME_DAY 시간이 WORKTIME_NIGHT 시간 이다. WORKTIME_DAY = 0
+-- WORKTIME_EARLY > WORKTIME_DAY 경우 WORKTIME_DAY 시간이 WORKTIME_EARLY 시간 이다. WORKTIME_DAY = 0
+
+SELECT
+  ( -- DAY 3.5  NIGHT 5
     to_date('06:00', 'hh24:mi') -- 고정
-    - to_date('21:00', 'hh24:mi') -- 시작
+    - to_date('02:30', 'hh24:mi') -- 시작
   ) * 24 * 60 / 60
   AS WORKTIME_EARLY,
   ROUND((
-    to_date('23:59', 'hh24:mi')    -- 끝
-    - to_date('21:00', 'hh24:mi')  -- 시작
-  ) * 24 * 60 / 60)
+    to_date('11:00', 'hh24:mi')    -- 끝
+    - to_date('02:30', 'hh24:mi')  -- 시작
+  ) * 24 * 60 / 60 ,1)
   AS WORKTIME_DAY,
   ROUND((
-    to_date('23:59', 'hh24:mi') -- 끝
+    to_date('11:00', 'hh24:mi') -- 끝
     - to_date('22:00', 'hh24:mi') -- 고정
-  ) * 24 * 60 / 60)
+  ) * 24 * 60 / 60 ,1)
   AS WORKTIME_NIGHT
-FROM DUAL
+FROM DUAL;
 
-SELECT 
-  (  
-    to_date('06:00', 'hh24:mi') -- 고정
-    - to_date('21:00', 'hh24:mi') -- 시작
-  ) * 24 * 60 / 60
-  AS WORKTIME_EARLY,
-  ROUND((
-    to_date('23:59', 'hh24:mi')    -- 끝
-    - to_date('21:00', 'hh24:mi')  -- 시작
-  ) * 24 * 60 / 60)
-  AS WORKTIME_DAY,
-  ROUND((
-    to_date('23:59', 'hh24:mi') -- 끝
-    - to_date('22:00', 'hh24:mi') -- 고정
-  ) * 24 * 60 / 60)
-  AS WORKTIME_NIGHT
-FROM TIMESHEET;
+-- WORKTIME_DAY = WORKTIME_EARLY 면 WORKTIME_DAY = 0
+-- WORKTIME_DAY = WORKTIME_NIGHT 면 WORKTIME_DAY = 0
 
+SELECT CASE WHEN WORKTIME_EARLY >= WORKTIME_DAY THEN WORKTIME_DAY
+	   		WHEN WORKTIME_EARLY < WORKTIME_DAY THEN WORKTIME_EARLY
+			END AS EARLYWORK,
+	   CASE WHEN WORKTIME_DAY = WORKTIME_NIGHT OR WORKTIME_DAY = WORKTIME_EARLY THEN 0
+	   		WHEN WORKTIME_DAY > WORKTIME_NIGHT AND WORKTIME_NIGHT !=0 THEN (WORKTIME_DAY-WORKTIME_NIGHT) 
+	   		WHEN WORKTIME_DAY > WORKTIME_EARLY AND WORKTIME_EARLY !=0 THEN (WORKTIME_DAY-WORKTIME_EARLY)
+	   		ELSE WORKTIME_DAY
+	   		END AS DAYWORK,
+	   CASE WHEN WORKTIME_NIGHT > WORKTIME_DAY THEN WORKTIME_DAY 
+	   		WHEN WORKTIME_NIGHT <= WORKTIME_DAY THEN WORKTIME_NIGHT
+	   		END AS NIGHTWORK
+				FROM(SELECT CASE WHEN ((to_date('06:00', 'hh24:mi') - to_date('02:00', 'hh24:mi')) * 24 * 60 / 60) < 0 THEN 0
+				   				ELSE ((to_date('06:00', 'hh24:mi') - to_date('02:00', 'hh24:mi')) * 24 * 60 / 60)	END AS WORKTIME_EARLY,
+					     ROUND((to_date('05:00', 'hh24:mi') - to_date('02:00', 'hh24:mi')) * 24 * 60 / 60 ,1) AS WORKTIME_DAY,
+						    CASE WHEN (ROUND((to_date('05:00', 'hh24:mi') - to_date('22:00', 'hh24:mi')) * 24 * 60 / 60 ,1)) < 0 THEN 0 
+						   		ELSE ROUND((to_date('05:00', 'hh24:mi') - to_date('22:00', 'hh24:mi')) * 24 * 60 / 60 ,1) END AS WORKTIME_NIGHT
+						   		FROM TIMESHEET);
+
+	-- 얼리-얼리 / 확인 !!!!!!!
+	-- 00:00-06:00 / 확인 
+	-- 얼리-주간 / 확인
+	-- 주간-주간  /확인
+	-- 주간-나잇 / 확인
+	-- 22:00-24:00 / 확인
+	-- 나잇-나잇 / 확인 !!!!!!!		   	
+						   	
+						   	
 SELECT * FROM ALBA;
 			
+--03:30(String), 03:30(String), 08:30(String), 03:30(String), 08:30(String), 08:30(String)
 
+SELECT ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DAYWORK, TS_NIGHTWORK, TS_DATETIME
+	FROM TIMESHEET
+		WHERE ALBA_SEQ = '141'
+		AND SUBSTR(TS_DATE, 0, 7) = '2019-05';
 
-
+SELECT SUM(TS_DAYWORK), SUM(TS_NIGHTWORK)
+	FROM TIMESHEET
+		WHERE ALBA_SEQ = '141'
+		AND SUBSTR(TS_DATE, 0, 7) = '2019-05';
 
 

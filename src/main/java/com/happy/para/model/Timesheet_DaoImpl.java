@@ -55,5 +55,10 @@ public class Timesheet_DaoImpl implements Timesheet_IDao {
 		return sqlSession.selectList("para.alba.albaTimeSheet", store_code);
 	}
 
-
+	@Override
+	public TimeDto salaryView(Map<String, String> map) {
+		return sqlSession.selectOne("para.timesheet.salaryView", map);
+	}
+	
+	
 }

@@ -50,8 +50,9 @@ public class Timesheet_ServiceImpl implements Timesheet_IService {
 		return timeDao.tsAlba(store_code);
 	}
 
+	@Override
+	public TimeDto salaryView(Map<String, String> map) {
+		return timeDao.salaryView(map);
+	}
 
-	
-	
-	
 }

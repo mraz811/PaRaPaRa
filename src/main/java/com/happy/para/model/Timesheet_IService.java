@@ -30,4 +30,6 @@ public interface Timesheet_IService {
 	// Store_code 별 알바 조회
 	public List<AlbaDto> tsAlba(String store_code);
 	
+	// 급여 계산을 위한 근무시간 분배
+	public TimeDto salaryView(Map<String, String> map);
 }
