@@ -45,7 +45,7 @@ public class TimesheetCtrl {
 
 	@RequestMapping(value="/selTimeSheet.do", method=RequestMethod.GET)
 	public String timeSheet(TimeDto dto, Model model, HttpSession session, String ts_date) {
-		
+
 		System.out.println("TimeSheet");
 
 		OwnerDto oDto = (OwnerDto) session.getAttribute("loginDto");
@@ -152,6 +152,8 @@ public class TimesheetCtrl {
 		int sTime00 = Integer.parseInt(sTime.split(":")[0]);
 		int sTime00mm = Integer.parseInt(sTime.split(":")[1]);
 
+		System.out.println("화면에서 가져온 eTime > "+eTime);
+		
 		if(eTime00 == 00) {
 			eTime00 = 24;
 			Date eTimeStrF00 = stringFormat.parse(eTime00+":"+eTime00mm);
@@ -189,8 +191,40 @@ public class TimesheetCtrl {
 
 		dto.setTs_workhour(hour);
 
-		//		#{alba_seq}, #{ts_date}, #{ts_datetime}, #{ts_workhour}
-		dto.setTs_datetime(sTime+"-"+eTime); // 03:00-04:30
+		String ts_datetime = sTime+"-"+eTime; // 03:00-04:30 형태로 만든다.
+		
+		System.out.println("ts_start > "+sTime);
+		System.out.println("ts_end > "+eTime);
+
+		Map<String, String> map = new HashMap<String,String>();
+		map.put("ts_start", sTime);
+
+		if(eTime.equalsIgnoreCase("00:00")) { // 쿼리 계산시 date 는 24:00 입력 안됨
+			eTime = "23:59";
+			map.put("ts_end", eTime);
+			System.out.println("00:00 일때 수정된 eTime > "+eTime);
+		}else {
+			map.put("ts_end", eTime);			
+		}
+		
+		TimeDto workTimeDto = timeSer.salaryView(map);
+		
+		System.out.println("workTimeDto > "+workTimeDto);
+		
+		Double earlyWork = workTimeDto.getEarlywork();
+		Double dayWork = workTimeDto.getDaywork();
+		Double nightWork = workTimeDto.getNightwork();
+		
+		if(earlyWork.equals(hour)) {
+			dayWork = 0.0;
+		}else if(nightWork.equals(hour)) {
+			dayWork = 0.0;
+		}
+		
+		dto.setTs_daywork(dayWork);
+		dto.setTs_nightwork(earlyWork+nightWork);
+		
+		dto.setTs_datetime(ts_datetime);
 		dto.setTs_date(dto.getTs_date());
 
 		System.out.println("dto.getTs_date() ?"+dto.getTs_date());
@@ -245,34 +279,25 @@ public class TimesheetCtrl {
 		// 월별 매장별 timeList 조회
 		List<TimeDto> timeList = timeSer.tsListAll(map);
 		
-		System.out.println("timeList.size() : "+timeList.size()); //7
+		System.out.println("timeList.size() : "+timeList.size());
 		
-		for (int i = 0; i < timeList.size(); i++) {
+		for (int i = 0; i < albaLists.size(); i++) {
 
-			dto.setAlba_seq(timeList.get(i).getAlba_seq());
-			System.out.println("timeList.get(i).getAlba_seq() : " + timeList.get(i).getAlba_seq());
+			dto.setAlba_seq(albaLists.get(i).getAlba_seq());
+			System.out.println("albaLists.get(i).getAlba_seq() : " + albaLists.get(i).getAlba_seq());
 			
 			// timesheet 의 TS_DATE 중 화면의 월과 같은 애들만
 			dto.setTs_date("2019-05"); // 화면값 긁어와서 넣어줄거여
 			
 			// 월별 알바별 timeList 조회
-			List<TimeDto> lists = timeSer.tsDatetimeList(dto);
+			List<TimeDto> workDto = timeSer.tsDatetimeList(dto);
 
-			System.out.println("일별 알바별 datetime list : "+lists);
-			
-			String ts_datetime = timeList.get(i).getTs_datetime();
-			Double ts_workhour = timeList.get(i).getTs_workhour();
-			System.out.println("ts_datetime:"+ts_datetime); //15:00-17:30
-			System.out.println("ts_workhour:"+ts_workhour);
-
-//			int ts_datetimeHH = Integer.parseInt(ts_datetime.split(":")[0]);
+			System.out.println("월별 알바별 datetime total : "+workDto);
 			
 		}
 		
+		/*
 		
-		
-//		String aaa = "22:00-02:30"; // 이것도 됨 night 4.5
-//		String aaa = "23:00-02:30"; // night 4.5 day -1.0
 		String aaa = "20:00-02:30"; // 
 		Double workT = 6.5;
 		
@@ -342,7 +367,9 @@ public class TimesheetCtrl {
 
 		Double min2222 = (((0.04167/1000*60)/60)/60*60)/60;
 		System.out.println("min2222"+min2222);
+		*/
 		
+		 
 		return "salary/salaryList";
 	}
 

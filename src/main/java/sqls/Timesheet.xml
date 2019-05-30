@@ -4,7 +4,7 @@
 
 <!--추후 추가 해야됨!!!!! timeSheet 매장별 조회  -->
 	<select id="tsListAll" parameterType="java.util.Map" resultType="TimeDto">
-		SELECT TS_SEQ, ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DATETIME, TS_WORKHOUR
+		SELECT TS_SEQ, ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DATETIME, TS_DAYWORK, TS_NIGHTWORK, TS_WORKHOUR
 			FROM TIMESHEET
 				WHERE ALBA_SEQ IN (SELECT ALBA_SEQ FROM ALBA WHERE STORE_CODE = #{store_code})
 				AND SUBSTR(TS_DATE, 0, 7) = #{ts_date}
@@ -12,7 +12,7 @@
 
 <!-- timeSheet 알바별 조회  -->
 	<select id="tsList" parameterType="TimeDto" resultType="TimeDto">
-		SELECT TS_SEQ, ALBA_SEQ, TS_DATE, TS_DATETIME, TS_WORKHOUR
+		SELECT TS_SEQ, ALBA_SEQ, TS_DATE, TS_DATETIME, TS_DAYWORK, TS_NIGHTWORK, TS_WORKHOUR
 			FROM TIMESHEET
 	<!-- 테스트 중!!!! -->
 				WHERE ALBA_SEQ = #{alba_seq}
@@ -21,7 +21,7 @@
 
 <!-- 일별 알바별 datetime list로 가져오기 -->
 	<select id="tsDatetimeList" parameterType="TimeDto" resultType="TimeDto">
-		SELECT ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DATETIME
+		SELECT SUM(TS_DAYWORK), SUM(TS_NIGHTWORK)
 			FROM TIMESHEET
 				WHERE ALBA_SEQ = #{alba_seq}
 				AND SUBSTR(TS_DATE, 0, 7) = #{ts_date}
@@ -29,13 +29,14 @@
 	
 <!-- timeSheet 등록  -->
 	<insert id="tsRegister" parameterType="TimeDto">
-		INSERT INTO TIMESHEET(TS_SEQ, ALBA_SEQ, TS_DATE, TS_DATETIME, TS_WORKHOUR)
-			VALUES(TS_SEQ.NEXTVAL, #{alba_seq}, #{ts_date}, #{ts_datetime}, #{ts_workhour})
+		INSERT INTO TIMESHEET(TS_SEQ, ALBA_SEQ, TS_DATE, TS_DATETIME, TS_DAYWORK, TS_NIGHTWORK, TS_WORKHOUR)
+			VALUES(TS_SEQ.NEXTVAL, #{alba_seq}, #{ts_date}, #{ts_datetime}, #{ts_daywork}, #{ts_nightwork}, #{ts_workhour})
 	</insert>
 
 <!-- timeSheet 수정 -->
 	<update id="tsModify" parameterType="TimeDto">
-		UPDATE TIMESHEET SET TS_DATETIME = #{ts_datetime}, TS_WORKHOUR = #{ts_workhour}
+		UPDATE TIMESHEET SET TS_DATETIME = #{ts_datetime}, TS_DAYWORK = #{ts_daywork}, 
+							 TS_NIGHTWORK = #{ts_nightwork}, TS_WORKHOUR = #{ts_workhour}
 			WHERE TS_SEQ = #{ts_seq}
 	</update>
 
@@ -48,14 +49,26 @@
 	</delete>
 
 <!-- 급여 조회 -->
-	<!-- <select id="salaryList" parameterType="java.lang.String" resultType="TimeDto">
-		SELECT ALBA_SEQ, TS_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_WORKHOUR, ALBA_NAME,
-			ALBA_TIMESAL, ALBA_BANK, ALBA_ACCOUNT, ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE
-				FROM TIMESHEET JOIN ALBA
-					USING(ALBA_SEQ)
-						WHERE SUBSTR(TS_DATE, 0, 7) = #{ts_date}
-							AND STORE_CODE = #{store_code}
+	<select id="salaryView" parameterType="java.util.Map" resultType="TimeDto">
+		SELECT CASE WHEN WORKTIME_EARLY >= WORKTIME_DAY THEN WORKTIME_DAY
+			   		WHEN WORKTIME_DAY > WORKTIME_EARLY THEN WORKTIME_EARLY
+					END AS EARLYWORK,
+			   CASE WHEN WORKTIME_DAY = WORKTIME_NIGHT OR WORKTIME_DAY = WORKTIME_EARLY THEN 0
+			   		WHEN WORKTIME_DAY > WORKTIME_NIGHT AND WORKTIME_NIGHT !=0 THEN (WORKTIME_DAY-WORKTIME_NIGHT) 
+			   		WHEN WORKTIME_DAY > WORKTIME_EARLY AND WORKTIME_EARLY !=0 THEN (WORKTIME_DAY-WORKTIME_EARLY)
+			   		ELSE WORKTIME_DAY
+			   		END AS DAYWORK,
+			   CASE WHEN WORKTIME_NIGHT > WORKTIME_DAY THEN WORKTIME_DAY 
+			   		WHEN WORKTIME_DAY >= WORKTIME_NIGHT THEN WORKTIME_NIGHT
+			   		END AS NIGHTWORK
+						FROM(SELECT CASE WHEN 0 > ((to_date('06:00', 'hh24:mi') - to_date(#{ts_start}, 'hh24:mi')) * 24 * 60 / 60) THEN 0
+						   				ELSE ((to_date('06:00', 'hh24:mi') - to_date(#{ts_start}, 'hh24:mi')) * 24 * 60 / 60) END AS WORKTIME_EARLY,
+							     ROUND((to_date(#{ts_end}, 'hh24:mi') - to_date(#{ts_start}, 'hh24:mi')) * 24 * 60 / 60 ,1) AS WORKTIME_DAY,
+								    CASE WHEN 0 > (ROUND((to_date(#{ts_end}, 'hh24:mi') - to_date('22:00', 'hh24:mi')) * 24 * 60 / 60 ,1)) THEN 0 
+								   		ELSE ROUND((to_date(#{ts_end}, 'hh24:mi') - to_date('22:00', 'hh24:mi')) * 24 * 60 / 60 ,1) END AS WORKTIME_NIGHT
+								   		FROM DUAL)
 	</select>
-	 -->
+	
+	
 	
 </mapper>

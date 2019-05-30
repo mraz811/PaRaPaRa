@@ -124,7 +124,6 @@ table{
 							</table>
 							</div>
 							
-
 							<input type="button" id="modifyQty" value="수정 하기"
 								onclick="modifyBtn()">
 

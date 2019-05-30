@@ -1531,9 +1531,7 @@ class CanvasT extends CalculationT{
     * @param  {object} shift  Object of shift to modify
     */
     deleteShiftData(time, index){
-    	alert("삭제????");
-//    	alert(time); // 07:00-11:00
-    	alert(index); // 알바 seq
+    	alert("선택한 일정이 삭제됩니다");
     	
     	var currentDate = document.getElementById("currentDate").value;
     	alert(currentDate);
@@ -1614,17 +1612,9 @@ class CanvasT extends CalculationT{
             shift[`${index}`] = nameObj;
         }
         
-     // 날짜! ts_date
-//    	document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
+        // 날짜! ts_date
     	var ts_date = document.getElementById('currentDate').value;
-//    	var getWT = document.getElementById('getWT').innerHTML;
 
-        alert(index);
-        alert(name);
-        alert(sTime);
-        alert(eTime);
-        alert(ts_date);
-//        alert("getWT"+getWT);
 
         $.ajax({
 			url: "regiTimeSheet.do", //요청 url
