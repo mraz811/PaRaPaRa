@@ -29,7 +29,7 @@
 	<div class="bodyFrame">
 		<div class="bodyfixed">
 			<div class="oneDepth">
-			<p class="text-primary" style="font-size: 40px;">매장</p>
+				<p>매장</p>
 			</div>
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">
@@ -81,8 +81,8 @@
 				</div>
 				<div id="item_bottom">
 					<div id="searchBtn">
-						<input type="text" id="searchItem" width="400px;">
-						<input type="button" class="btn btn-outline-primary" value="검색" onclick="searchItemList()">
+						<input type="text" id="searchItem" onkeypress="if(event.keyCode==13) $('#searchItemBtn').click()" width="400px;">
+						<input type="button" id="searchItemBtn" class="btn btn-outline-primary" value="검색" onclick="searchItemList()">
 					</div>
 					<div id="regBtn">
 						<input type="button" class="btn btn-outline-primary" id="btn" value="전체품목" onclick="selItemList()">
@@ -99,6 +99,11 @@
 <%-- 	${lists} --%>
 <%-- 	${storeRow} --%>
 <script type="text/javascript">
+	var enterSearch = function(){
+		if (window.event.keyCode == 13) {
+			searchItemList();
+		}
+	}
 	var regItem = function() {
 		window.open("./regItem.do","_blank","width=400, height=500, left=500, top=200");
 // 		location.href = "./regItem.do";
