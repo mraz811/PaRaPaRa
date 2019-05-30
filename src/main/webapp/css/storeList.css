@@ -10,32 +10,33 @@ div.center{
 	position: relative;
 }
 
-ul.pagination{
-	display: inline-block;
-	padding: 0px;
-	margin: 0px;
-}
+/* ul.pagination{ */
+/* 	display: inline-block; */
+/* 	padding: 0px; */
+/* 	margin: 0px; */
+/* } */
 
-ul.pagination li{
-	display: inline;	
-}
+/* ul.pagination li{ */
+/* 	display: inline;	 */
+/* } */
 
-ul.pagination li a{
-	color: black;
-	float: left;
-	padding: 10px 20px;
-	text-decoration: none;
-	border: 1px solid #ff8080;
-	transition : background-color 3s;
-}
+/* ul.pagination li a{ */
+/* 	color: black; */
+/* 	float: left; */
+/* 	padding: 10px 20px; */
+/* 	text-decoration: none; */
+/* 	border: 1px solid #ff8080; */
+/* 	transition : background-color 3s; */
+/* } */
 
-ul.pagination li a:active{
-	background-color: #ff0000;
-	color: white;
-	border: 1px solid #ff0000;
-}
+/* ul.pagination li a:active{ */
+/* 	background-color: #ff0000; */
+/* 	color: white; */
+/* 	border: 1px solid #ff0000; */
+/* } */
 
 #addStoreBtn{
-	right: 10px;
+	right: 20px;
+	bottom: 20px;
 	position: absolute;
 }

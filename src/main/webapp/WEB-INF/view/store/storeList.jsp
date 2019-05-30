@@ -16,18 +16,18 @@
 	<div class="bodyFrame">
 		<div class="bodyfixed">
 			<div class="oneDepth">
-			<p class="text-primary" style="font-size: 40px;">매장</p>
+				<p>매장</p>
 			</div>
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">
 	  				<li class="nav-item">
-	    			 <a class="nav-link active" data-toggle="tab" onclick="selStoreList()" href="#">매장 정보</a>
+	    				<a class="nav-link active" data-toggle="tab" onclick="selStoreList()" href="#">매장 정보</a>
 	  				</li>
 	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" onclick="selPaoList()" href="#">발주</a>
+	    				<a class="nav-link" data-toggle="tab" onclick="selPaoList()" href="#">발주</a>
 	  				</li>
 	  				<li class="nav-item">
-	    			 <a class="nav-link" data-toggle="tab" onclick="selItemList()" href="#">품목</a>
+	    				<a class="nav-link" data-toggle="tab" onclick="selItemList()" href="#">품목</a>
 	  				</li>
 				</ul>
 				<div class="tab-content">
@@ -70,19 +70,21 @@
 							<input type="hidden" id="pageNum" name="pageNum" value="${storeRow.pageNum}">
 							<input type="hidden" id="listNum" name="listNum" value="${storeRow.listNum}">
 							
-							<div class="center">
-								<ul class="pagination">
-									<li><a href="#" onclick="pageFirst(${storeRow.pageList},${storeRow.pageList})">&laquo;</a></li>
-									<li><a href="#" onclick="pagePre(${storeRow.pageNum},${storeRow.pageList})">&lsaquo;</a></li>
-									<c:forEach var="i" begin="${storeRow.pageNum}" end="${storeRow.count}" step="1">
-										<li><a href="#" onclick="pageIndex(${i})">${i}</a></li>
-									</c:forEach>
-									<li><a href="#" onclick="pageNext(${storeRow.pageNum},${storeRow.total},${storeRow.listNum},${storeRow.pageList})">&rsaquo;</a></li>
-									<li><a href="#" onclick="pageLast(${storeRow.pageNum},${storeRow.total},${storeRow.listNum},${storeRow.pageList})">&raquo;</a></li>
-								</ul>
-								<input type="button" id="addStoreBtn" value="매장등록" class="btn btn-outline-success" onclick="insertStore()">
+							<div id="pagingForm" >
+								<div class="center">
+									<ul class="pagination">
+										<li class="page-item"><a class="page-link" href="#" onclick="pageFirst(${storeRow.pageList},${storeRow.pageList})">&laquo;</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pagePre(${storeRow.pageNum},${storeRow.pageList})">&lsaquo;</a></li>
+										<c:forEach var="i" begin="${storeRow.pageNum}" end="${storeRow.count}" step="1">
+											<li class="page-item"><a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a></li>
+										</c:forEach>
+										<li class="page-item"><a class="page-link" href="#" onclick="pageNext(${storeRow.pageNum},${storeRow.total},${storeRow.listNum},${storeRow.pageList})">&rsaquo;</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pageLast(${storeRow.pageNum},${storeRow.total},${storeRow.listNum},${storeRow.pageList})">&raquo;</a></li>
+									</ul>
+								</div>
 							</div>
 						</div>
+						<input type="button" id="addStoreBtn" value="매장등록" class="btn btn-outline-success" onclick="insertStore()">
 					</form>
 				</div>
 					
