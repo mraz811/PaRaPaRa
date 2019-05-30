@@ -56,7 +56,6 @@
 	}
 </style>
 </head>
-<script type="text/javascript"></script>
 <script type="text/javascript">
 function mainMenu(){
 	var menu_category = "주메뉴";
@@ -140,7 +139,7 @@ function addMenu(menu){
 	var menu_qty = 1; //처음 주문 메뉴 수량
 	var menu_price = menuInfo[3]; //주문 메뉴 가격
 	var sum_price = menuInfo[3]; //주문 메뉴 가격 합계
-	var file_rurl = menuInfo[4]; //이미지 파일 링크
+	var file_rurl = document.getElementById("m"+newTr_id).value;//이미지 파일 링크
 	
 	var newTr = document.createElement("tr"); //새로운 div 생성
     newTr.setAttribute("id", newTr_id);
@@ -151,7 +150,7 @@ function addMenu(menu){
 	currentLine.style.display = "none";
 	
 	mBody.appendChild(newTr).innerHTML = "<td>"
-											+"<img class=\"menuImg\" src=\"\" alt=\"\"/>"
+											+"<img class=\"menuImg\" src=\""+file_rurl+"\" alt=\"\"/>"
 										+"</td>"
 										+"<td>"
 											+"<input type=\"hidden\" name=\"menu_seq\" value=\""+menu_seq+"\"/>"
@@ -166,6 +165,33 @@ function addMenu(menu){
 											+"<input type=\"text\" name=\"menu_price\" value=\""+menu_price+"\"/>"
 										+"</td>";
 }
+function customRequest() {
+	var xhttp = new XMLHttpRequest();
+	
+	var seq = document.getElementsByName("menu_seq");
+	var cnt = document.getElementsByName("menu_cnt");
+	var price = document.getElementsByName("menu_price");
+	
+	var menu_seq = new Array();
+	var menu_cnt = new Array();
+	var menu_price = new Array();
+	for (var i = 0; i < seq.length; i++) {
+		menu_seq[i] = seq[i].value;
+		menu_cnt[i] = cnt[i].value;
+		menu_price[i] = price[i].value;
+		alert(menu_seq[i]+":"+menu_cnt[i]+":"+menu_price[i]);
+	}
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var response = JSON.parse(this.responseText);
+			alert(response.success);
+			location.reload();
+		}
+	};
+	xhttp.open("POST", "http://localhost:8091/PaRaPaRa/selRequestStatusRest.do", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("menu_seq="+menu_seq+"&menu_cnt="+menu_cnt+"&menu_price="+menu_price);
+}
 </script>
 <body>
 	<div id="container">
@@ -177,6 +203,7 @@ function addMenu(menu){
 				</div>
 				<!-- div class=oneDepth -->
 				<div class="twoDepth">
+		<div id="custom">
 					<input id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()"/>
 					<input id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()"/>
 					<input id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()"/>
@@ -185,37 +212,40 @@ function addMenu(menu){
 							<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
 								<div id="menu${vs.count}" class="menu">
 									<img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/>
-									<input type="button" value="추가" onclick="addMenu('menu${vs.count},${menu.menu_seq},${menu.menu_name},${menu.menu_price},${menu.fileDto.file_rurl}')"/>
+									<input id="mmenu${vs.count}" type="hidden" value="${menu.fileDto.file_rurl}"/>
+									<input type="button" value="추가" onclick="addMenu('menu${vs.count},${menu.menu_seq},${menu.menu_name},${menu.menu_price}')"/>
 									<br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
 							</c:forEach>
 						</div>
 							<table>
 								<thead>
 									<tr>
-										<td>메뉴 이미지</td>
-										<td>메뉴명</td>
-										<td>수량</td>
-										<td>가격</td>
+										<td style="width: 120px;">메뉴 이미지</td>
+										<td style="width: 120px;">메뉴명</td>
+										<td style="width: 150px;">수량</td>
+										<td style="width: 100px;">가격</td>
 									</tr>
 								</thead>
 							</table>
-						<form action="./regiCustomOrder.do" method="get">
+						<form id="regiForm" action="./regiCustomOrder.do" method="get">
 							<div id="requestStatus">
 								<table>
 									<tbody id="mBody">
 									</tbody>
 								</table>
 							</div>
-						<input type="submit" class="btn btn-outline-success" value="주문 완료" /> <!-- onclick="customRequest()" -->
+							<input type="button" class="btn btn-outline-success" value="주문 완료" onclick="customRequest()"/> <!--  -->
 						</form>
 						<input type="button" class="btn btn-outline-warning" value="주문 취소" onclick="location.reload()"/>	
+						<input type="button" value="rest" onclick="loadDoc()"/>
 					</div>
 					<!-- div class=tab-content -->
 
-				</div>
+				</div><!-- 고객 주문 -->
 				<!-- div class twoDepth -->
 			</div>
 			<!-- div class=bodyfixed -->
+		</div>
 		</div>
 		<!-- div class=bodyFrame -->
 	</div>
