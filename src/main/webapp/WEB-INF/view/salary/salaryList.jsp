@@ -16,7 +16,7 @@
 			<div class="bodyfixed">
 				<div class="oneDepth">
 					<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
-				
+					<p>아르바이트</p>
 				</div>
 				<!-- div class=oneDepth -->
 				<div class="twoDepth">
@@ -29,10 +29,10 @@
 		    			 <a class="nav-link" data-toggle="tab" id="albaLists">아르바이트</a>
 		  				</li>
 		  				<li class="nav-item">
-		    			 <a class="nav-link" data-toggle="tab" href="#home">급여</a>
+		    			 <a class="nav-link active" data-toggle="tab" href="#home">급여</a>
 		  				</li>
 					</ul>
-					<div class="tab-content">
+				<div class="tab-content">
 
  <script type="text/javascript">
 $(function(){
@@ -56,7 +56,7 @@ $(function(){
 <table class="table table-hover">
 	<tr>
 		<th>No.</th><th>이름</th><th>근무 시간 (주간)</th><th>근무 시간(야간,추가)</th>
-		<th>급여</th><th>퇴직금</th><th>은행명</th><th>계좌번호</th>
+		<th>시급</th><th>급여</th><th>퇴직금</th><th>은행명</th><th>계좌번호</th>
 	</tr>
 	
 	<c:forEach var="dto" items="${albaLists}" varStatus="vs">
@@ -65,9 +65,10 @@ $(function(){
 			<td>${dto.alba_name}</td>
 			<td>-</td>
 			<td>-</td>
-			<td>${dto.alba_timesal}</td>			
-			<td>-</td>			
-			<td>${dto.alba_bank}</td>			
+			<td>${dto.alba_timesal}</td>
+			<td>2000000</td>
+			<td>-</td>
+			<td>${dto.alba_bank}</td>
 			<td>${dto.alba_account}</td>
 		</tr>
 	</c:forEach>
