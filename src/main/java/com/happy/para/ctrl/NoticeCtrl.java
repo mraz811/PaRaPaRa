@@ -1,5 +1,7 @@
 package com.happy.para.ctrl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.dto.AdminDto;
@@ -17,7 +20,6 @@ import com.happy.para.dto.NoticeDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.PagingDto;
 import com.happy.para.dto.ReplyDto;
-import com.happy.para.model.Calendar_IService;
 import com.happy.para.model.Notice_IService;
 
 import net.sf.json.JSONObject;
@@ -25,11 +27,8 @@ import net.sf.json.JSONObject;
 @Controller
 public class NoticeCtrl {
 
-
-
 	@Autowired
 	private Notice_IService noticeSer;
-	
 	
 	@RequestMapping(value="/selNoticeList.do", method=RequestMethod.GET)
 	public String noticeList(HttpSession session, Model model) {
@@ -56,26 +55,26 @@ public class NoticeCtrl {
 	}
 
 	@RequestMapping(value="/regiNoticeForm.do", method=RequestMethod.GET)
-	public String noticeWriteForm() {
+	public String noticeWriteForm(HttpSession session, Model model) {
+		
+		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
+		model.addAttribute("admin_name", aDto.getAdmin_name());
+		
+		Date getDate = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		model.addAttribute("today", sdf.format(getDate));
+		
 		return "notice/noticeWriteForm";
 	}
 	
 	@RequestMapping(value="/regiNotice.do", method=RequestMethod.POST)
 	public String noticeWrite(NoticeDto dto, String loginDtoAuth, Model model, HttpSession session) {
 		
-		if(loginDtoAuth.equalsIgnoreCase("A")) { // 담당자
+		if(!loginDtoAuth.equalsIgnoreCase("U")) { // 업주가 아닐경우
 			AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
 			dto.setNotice_id(aDto.getAdmin_id()+"");
 			dto.setNotice_name(aDto.getAdmin_name());
 		}
-		
-		/*
-		else { // 업주
-			OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");			
-			dto.setNotice_id(oDto.getOwner_id());
-			dto.setNotice_name(oDto.getOwner_name());
-		}
-		*/
 		
 		boolean isc = noticeSer.noticeWrite(dto);
 		
@@ -92,13 +91,13 @@ public class NoticeCtrl {
 		
 		// loginDtoAuth A or U 접속 ID 받고, ID에 따른 수정, 삭제 버튼 화면에 띄워주기
 		
-		if(loginDtoAuth.equalsIgnoreCase("A")) { // 담당자
+		if(loginDtoAuth.equalsIgnoreCase("U")) { // 업주
+			OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");			
+			model.addAttribute("owner_id", oDto.getOwner_id()+"");
+		}else { // 담당자, 관리자
 			AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
 			model.addAttribute("admin_id", aDto.getAdmin_id()+"");
 			System.out.println("admin_id"+aDto.getAdmin_id()+"");
-		}else { // 업주
-			OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");			
-			model.addAttribute("owner_id", oDto.getOwner_id()+"");
 		}
 		
 		model.addAttribute("dto", dto);
@@ -112,8 +111,8 @@ public class NoticeCtrl {
 
 		String notice_seq = dto.getNotice_seq();
 
-		NoticeDto Ndto = noticeSer.noticeDetail(notice_seq);
-		model.addAttribute("dto", Ndto);
+		NoticeDto nDto = noticeSer.noticeDetail(notice_seq);
+		model.addAttribute("dto", nDto);
 
 		return "notice/noticeModifyForm";
 	}
@@ -131,50 +130,37 @@ public class NoticeCtrl {
 		
 		boolean isc = noticeSer.noticeDelete(notice_seq);
 		
-		return isc? "redirect:/selNoticeList.do" : "notice/noticeList";
+		return isc? "redirect:/selNoticeList.do" : "redirect:/selNoticeList.do";
 	}
 
 	@RequestMapping(value="/replyWrite.do", method=RequestMethod.POST)
 	public String replyWrite(ReplyDto dto, HttpSession session, Model model, String loginDtoAuth) {
 
-//		System.out.println(dto.getNotice_seq());
-//		System.out.println(dto.getReply_content());
-
 		System.out.println("loginDtoAuth? : "+loginDtoAuth);
 
-		String notice_seq = dto.getNotice_seq();
-		
-		if(loginDtoAuth.equalsIgnoreCase("A")) { // 담당자
-			AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
-			dto.setReply_id(aDto.getAdmin_id()+"");
-			dto.setReply_name(aDto.getAdmin_name());
-			model.addAttribute("admin_id", aDto.getAdmin_id());
-			
-		}
-		
-		if (loginDtoAuth.equalsIgnoreCase("U")){ // 업주
+		if(loginDtoAuth.equalsIgnoreCase("U")) { // 업주
 			OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");			
 			dto.setReply_id(oDto.getOwner_id());
 			dto.setReply_name(oDto.getOwner_name());
 			model.addAttribute("owner_id", oDto.getOwner_id()+"");
+		}else { // 담당자, 관리자
+			AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
+			dto.setReply_id(aDto.getAdmin_id()+"");
+			dto.setReply_name(aDto.getAdmin_name());
+			model.addAttribute("admin_id", aDto.getAdmin_id());			
 		}
 		
+		dto.setNotice_seq(dto.getNotice_seq());
+//		dto.setReply_content(reply_content);
 		
 		noticeSer.replyWrite(dto);
-		
-		return "redirect:/selNoticeDetail.do?notice_seq="+notice_seq+"&loginDtoAuth="+loginDtoAuth;
-		
+
+		return "redirect:/selNoticeDetail.do?notice_seq="+dto.getNotice_seq()+"&loginDtoAuth="+loginDtoAuth;
 	}
 
-	@RequestMapping(value="/replyDel.do", method = RequestMethod.GET)
-	public String replyDel(ReplyDto dto, String loginDtoAuth) {
+	@RequestMapping(value="/replyDel.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String replyDel(String loginDtoAuth, String notice_seq, @RequestParam("reply_seq")String reply_seq) {
 
-		String reply_seq = dto.getReply_seq();
-		String notice_seq = dto.getNotice_seq();
-
-		System.out.println(reply_seq);
-		System.out.println(notice_seq);
-		
 		noticeSer.replyDelete(reply_seq);
 	
 		return "redirect:/selNoticeDetail.do?notice_seq="+notice_seq+"&loginDtoAuth="+loginDtoAuth;

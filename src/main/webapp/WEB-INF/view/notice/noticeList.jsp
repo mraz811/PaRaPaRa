@@ -15,10 +15,16 @@
 <head>
 <meta charset="UTF-8">
 <title>noticeList</title>
-<link rel="stylesheet" href="./css/NoticeList.css">
+<!-- <link rel="stylesheet" href="./css/NoticeList.css"> -->
 <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="./js/NoticeList.js"></script>
 <style type="text/css">
+
+.center{
+	width: 330px;
+/* 	position: relative; */
+	text-align: center;
+}
 
 #writeBtn {
 	position : absolute;
@@ -36,7 +42,7 @@
 			<div class="bodyfixed">
 				<div class="oneDepth">
 					<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
-
+					<p>공지사항</p>
 				</div>
 				<!-- div class=oneDepth -->
 				<div class="twoDepth">
@@ -52,7 +58,7 @@
 						<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
 
 							<div>
-								<div style="height:350px;">
+								<div style="height:300px;">
 								<table id="noticeTable" class="table table-hover">
 								
 									<tr class="table-primary">
@@ -87,28 +93,29 @@
 								<input type="hidden" id="index" name="index" value="${noticRow.index}">
 								<input type="hidden" id="pageNum" name="pageNum" value="${noticRow.pageNum}">
 								<input type="hidden" id="listNum" name="listNum" value="${noticRow.listNum}">
-
-								<div class="center">
+								<div id="pagingForm">								
+								<div class="center" align="center">
 									<ul class="pagination">
-										<li><a href="#" onclick="pageFirst(${noticRow.pageList},${noticRow.pageList})">&laquo;</a></li>
-										<li><a href="#" onclick="pagePre(${noticRow.pageNum},${noticRow.pageList})">&lsaquo;</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pageFirst(${noticRow.pageList},${noticRow.pageList})">&laquo;</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pagePre(${noticRow.pageNum},${noticRow.pageList})">&lsaquo;</a></li>
 										
 										<c:forEach var="i" begin="${noticRow.pageNum}" end="${noticRow.count}" step="1">
-											<li><a href="#" onclick="pageIndex(${i})">${i}</a></li>
+											<li class="page-item"><a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a></li>
 										</c:forEach>
 										
-										<li><a href="#" onclick="pageNext(${noticRow.pageNum},${noticRow.total},${noticRow.listNum},${noticRow.pageList})">&rsaquo;</a></li>
-										<li><a href="#" onclick="pageLast(${noticRow.pageNum},${noticRow.total},${noticRow.listNum},${noticRow.pageList})">&raquo;</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pageNext(${noticRow.pageNum},${noticRow.total},${noticRow.listNum},${noticRow.pageList})">&rsaquo;</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pageLast(${noticRow.pageNum},${noticRow.total},${noticRow.listNum},${noticRow.pageList})">&raquo;</a></li>
 									</ul>
 								</div>
+								</div>
 								
-							</div>
-
 								<c:if test="${loginDto.auth eq 'A'}">
-									<div>
-										<input type="button" class="btn btn-outline-success" id="writeBtn" value="게시글 등록" onclick="location.href='./regiNoticeForm.do'">
+									<div id="writeBtn">
+										<input type="button" class="btn btn-outline-success" value="게시글 등록" onclick="location.href='./regiNoticeForm.do'">
 									</div>
 								</c:if>
+							</div>
+
 						</form>
 						
 						
