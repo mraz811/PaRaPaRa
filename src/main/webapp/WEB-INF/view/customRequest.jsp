@@ -69,10 +69,11 @@ function mainMenu(){
 		dataType : "json",
 		success : function(obj){
 			var htmlText = "";
+			var cnt = 1;
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div id=\"menu"+cnt+++"\" class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu('menu"+cnt+++","+menu.menu_seq+","+menu.menu_name+","+menu.menu_price+","+menu.file_rurl+"')\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -92,10 +93,11 @@ function sideMenu(){
 		dataType : "json",
 		success : function(obj){
 			var htmlText = "";
+			var cnt = 1;
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div id=\"menu"+cnt+++"\" class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu('menu"+cnt+++","+menu.menu_seq+","+menu.menu_name+","+menu.menu_price+","+menu.file_rurl+"')\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -115,10 +117,11 @@ function drinkMenu(){
 		dataType : "json",
 		success : function(obj){
 			var htmlText = "";
+			var cnt = 1;
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div id=\"menu"+cnt+"\" class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input type=\"button\" value=\"추가\" onclick=\"addMenu('menu"+cnt+++","+menu.menu_seq+","+menu.menu_name+","+menu.menu_price+","+menu.file_rurl+"')\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -144,20 +147,23 @@ function addMenu(menu){
 	
 	var mBody = document.getElementById("mBody");
 	
+	var currentLine = document.getElementById(newTr_id);
+	currentLine.style.display = "none";
+	
 	mBody.appendChild(newTr).innerHTML = "<td>"
 											+"<img class=\"menuImg\" src=\"\" alt=\"\"/>"
 										+"</td>"
 										+"<td>"
-											+"<input type=\"hidden\" name=\"menu_seq\" value=\"\"/>"
-											+"<input type=\"text\" name=\"menu_name\" value=\"\"/>"
+											+"<input type=\"hidden\" name=\"menu_seq\" value=\""+menu_seq+"\"/>"
+											+"<input type=\"text\" name=\"menu_name\" value=\""+menu_name+"\"/>"
 										+"</td>"
 										+"<td>"
 											+"<input type=\"button\" class=\"downBtn\" value=\"-\" onclick=\"minus(this)\">"
-											+"<input type=\"text\" name=\"menu_cnt\" value=\"\"/>"
+											+"<input type=\"text\" name=\"menu_cnt\" value=\""+menu_qty+"\"/>"
 											+"<input type=\"button\" class=\"upBtn\" value=\"+\" onclick=\"plus(this)\">"
 										+"</td>"
 										+"<td>"
-											+"<input type=\"text\" name=\"menu_price\" value=\"\"/>"
+											+"<input type=\"text\" name=\"menu_price\" value=\""+menu_price+"\"/>"
 										+"</td>";
 }
 </script>
@@ -177,7 +183,7 @@ function addMenu(menu){
 					<div class="tab-content">
 						<div id="menuList" >
 							<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
-								<div class="menu">
+								<div id="menu${vs.count}" class="menu">
 									<img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/>
 									<input type="button" value="추가" onclick="addMenu('menu${vs.count},${menu.menu_seq},${menu.menu_name},${menu.menu_price},${menu.fileDto.file_rurl}')"/>
 									<br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
@@ -193,31 +199,16 @@ function addMenu(menu){
 									</tr>
 								</thead>
 							</table>
-						<div id="requestStatus">
-							<table>
-								<tbody id="mBody">
-									<tr>
-										<td>
-											<img class="menuImg" src="" alt=""/>
-										</td>
-										<td>
-											<input type="hidden" name="menu_seq" value=""/>
-											<input type="text" name="menu_name" value=""/>
-										</td>
-										<td>
-											<input type="button" class="downBtn" value="-" onclick="minus(this)">
-											<input type="text" name="menu_cnt" value=""/>
-											<input type="button" class="upBtn" value="+" onclick="plus(this)">
-										</td>
-										<td>
-											<input type="text" name="menu_price" value=""/>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+						<form action="./regiCustomOrder.do" method="get">
+							<div id="requestStatus">
+								<table>
+									<tbody id="mBody">
+									</tbody>
+								</table>
+							</div>
+						<input type="submit" class="btn btn-outline-success" value="주문 완료" /> <!-- onclick="customRequest()" -->
+						</form>
 						<input type="button" class="btn btn-outline-warning" value="주문 취소" onclick="location.reload()"/>	
-						<input type="button" class="btn btn-outline-success" value="주문 완료" onclick="customRequest()"/>
 					</div>
 					<!-- div class=tab-content -->
 

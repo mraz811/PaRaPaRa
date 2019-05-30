@@ -471,7 +471,28 @@ public class RequestCtrl {
 	}
 
 	@RequestMapping(value = "/regiCustomOrder.do", method = RequestMethod.GET)
-	public void customOrder(RequestDto dto) {
+	public void customOrder(HttpSession session,String[] menu_seq,String[] menu_cnt,String[] menu_price) {
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		
+		RequestDto dto = new RequestDto();
+		
+		dto.setStore_code(oDto.getStore_code()); //세션에서 스토어코드 가져와서 셋팅
+		
+		String request_menu = "";
+		for (int i = 0; i < menu_seq.length; i++) {
+			request_menu += menu_seq[i]+":"+menu_cnt[i]+",";
+		}
+		dto.setRequest_menu(request_menu); // 1:3,2:4, 형식의 주문 메뉴 생성해서 셋팅해줌
+		
+		String totalPrice = "";
+		for (int i = 0; i < menu_price.length; i++) {
+			totalPrice += menu_price[i];
+		}
+		dto.setRequest_price(Integer.parseInt(totalPrice)); // 메뉴 가격 다합쳐서 셋팅해줌
+		
+		dto.setRequest_bank("우리은행");
+		dto.setRequest_account("1002-651-065588");
+		
 		boolean isc = request_IService.customOrder(dto);
 		System.out.println("주문 등록 성공 ? : " + isc);
 	}
