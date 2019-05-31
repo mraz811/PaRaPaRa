@@ -91,23 +91,6 @@
 			</div>
 		</div>
 	</div>
-					<!-- 매장 등록  modal -->
-<!-- 	<div class="modal fade" id="insert" role="dialog"> -->
-<!-- 		<div class="modal-dialog"> -->
-<!-- 			<!-- Modal content--> -->
-<!-- 			<div class="modal-content"> -->
-<!-- 				<div class="modal-header"> -->
-<!-- 					<button type="button" class="close" data-dismiss="modal">&times;</button> -->
-<!-- 					<h4 class="modal-title">매장 등록</h4> -->
-<!-- 				</div> -->
-<!-- 				<div class="modal-body"> -->
-<!-- 					<form action="#" role="form" method="post" id="frmInsert"></form> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> 매장 등록 modal 끝 -->
-<!-- 	<div> -->
-	
 <%@include file="../footer.jsp" %>
 </div>
 <%-- 	${lists} --%>

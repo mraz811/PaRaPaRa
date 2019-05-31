@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -70,7 +71,8 @@ public class test_ctrl {
 	    headStyle.setBorderLeft(BorderStyle.THIN);
 	    headStyle.setBorderRight(BorderStyle.THIN);
 	    
-	    headStyle.setFillBackgroundColor(HSSFColorPredefined.YELLOW.getIndex());
+//	    headStyle.setFillBackgroundColor(HSSFColorPredefined.YELLOW.getIndex());
+	    headStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
 	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 	    
 	    headStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -96,13 +98,16 @@ public class test_ctrl {
 	    cell.setCellValue("근무시간");
 	    cell = row.createCell(4);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("일 근무 시간");
+	    cell.setCellValue("주간 근무 시간");
+	    cell = row.createCell(5);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("야간 근무 시간");
 //		JSONObject timeObj = null;
 //		String timeArr = "";
 		
 		for (int i = 0; i < albaLists.size(); i++) {
 
-			JSONArray timeAr = new JSONArray();
+//			JSONArray timeAr = new JSONArray();
 
 			dto.setAlba_seq(albaLists.get(i).getAlba_seq());
 			
@@ -115,6 +120,7 @@ public class test_ctrl {
 			}
 
 			List<TimeDto> lists = timeSer.tsList(dto);
+			System.out.println(lists);
 			for (TimeDto tDto : lists) {
 				row = sheet.createRow(rowNo++);
 				cell = row.createCell(0);
@@ -131,13 +137,80 @@ public class test_ctrl {
 				cell.setCellValue(tDto.getTs_datetime());
 				cell = row.createCell(4);
 				cell.setCellStyle(bodyStyle);
-				cell.setCellValue(tDto.getTs_workhour());
+				cell.setCellValue(tDto.getTs_daywork());
+				cell = row.createCell(5);
+				cell.setCellStyle(bodyStyle);
+				cell.setCellValue(tDto.getTs_nightwork());
 			}
 			
 		}
-
+		int albaRow = 0;
+		Sheet alba = workBook.createSheet("아르바이트");
+		row = alba.createRow(albaRow++);
+	    cell = row.createCell(0);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("알바 번호");
+	    cell = row.createCell(1);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("이름");
+	    cell = row.createCell(2);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("전화번호");
+	    cell = row.createCell(3);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("주소");
+	    cell = row.createCell(4);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("시급");
+	    cell = row.createCell(5);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("은행명");
+	    cell = row.createCell(6);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("계좌번호");
+	    cell = row.createCell(7);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("퇴사여부");
+	    cell = row.createCell(8);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("근무 시작일");
+	    for (AlbaDto aDto : albaLists) {
+	    	row = alba.createRow(albaRow++);
+	    	cell = row.createCell(0);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_seq());
+	    	cell = row.createCell(1);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_name());
+	    	cell = row.createCell(2);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_phone());
+	    	cell = row.createCell(3);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_address());
+	    	cell = row.createCell(4);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_timesal());
+	    	cell = row.createCell(5);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_bank());
+	    	cell = row.createCell(6);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_account());
+	    	cell = row.createCell(7);
+	    	cell.setCellStyle(bodyStyle);
+	    	if (aDto.getAlba_delflag().equalsIgnoreCase("Y")) {
+	    		cell.setCellValue("퇴사자");
+	    	}else {
+	    		cell.setCellValue("입사자");
+	    	}
+	    	cell = row.createCell(8);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_regdate());
+		}
 	    try {
-	    	File xlsFile = new File("C:\\testExcel\\testExcel.xls");
+//	    	xls
+	    	File xlsFile = new File("C:\\testExcel\\"+oDto.getStore_code()+"-"+sdf.format(getDate)+".xls");
 	    	FileOutputStream fileOut = new FileOutputStream(xlsFile);
 	    	workBook.write(fileOut);
 	    	
