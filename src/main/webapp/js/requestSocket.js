@@ -65,7 +65,7 @@ function customRequest111() { //주문 완료 버튼 누르면 작동되는 이�
 		menu_seq[i] = seq[i].value;        // ex) 1 , 3 , 18000 : 2 , 1 , 19000:
 		menu_cnt[i] = cnt[i].value;
 		menu_price[i] = price[i].value;
-		message += menu_seq[i]+","+menu_cnt[i]+","+menu_price[i]+":";
+		message += menu_seq[i]+","+menu_cnt[i]+","+menu_price[i]+":"; //kdjfkdjlfdlkj
 	}
 	alert("메뉴 번호, 수량, 가격 컨캣한거 : "+message); 
 	
@@ -95,7 +95,6 @@ function customRequest111() { //주문 완료 버튼 누르면 작동되는 이�
 		text : message,
 		id : nick,
 		to : reciver,
-		auth : curAuth
 	};
 //	alert(msg.text);
 	ws.send(JSON.stringify(msg));
@@ -106,22 +105,17 @@ $(document)
 .ready(
 		function() {
 			
-			var curAuth = $('#auth').val();
 			
-			var chatTitle = $('#storeCode').val();
 //			alert("업데이트를 위한 고유값 : " + chatTitle);
 			var mySessionId = $('#sessionId').val();
 //			alert(mySessionId);
 			var targetId = $('#targetId').val();
 //			$("#nickName").focus();
-			var chatMsgBox = document.getElementById("chatMsgBox");
-			chatMsgBox.scrollTop = chatMsgBox.scrollHeight;
 //			if ($("#nickName").val() == '') {
 //				alert("닉네임을 입력하세요!!");
 //				$("#nickName").focus();
 //				return;
 //			}
-			nick = $("#nickName").val();
 //			$("#chat").focus();
 			// 웹소켓을 연결한다. 소켓이 생성되면 그 정보를 서버쪽에서 처리를 하게 위해 전송한다.
 			// 실제 웹소켓이 열리는 것은 javascript 쪽이다. 서버는 사용자가 입력한 값을 전송해주기 위한
@@ -141,14 +135,26 @@ $(document)
 			// 이후에만
 			// 데이터를 전송하도록 하기 위해 onopen 핸들러를 정의하고, 이 위에서 작업합니다.
 			ws.onopen = function() {
-				ws.send("#$nick_" + nick);
-//				$("#receive_msg").append("채팅방에 접속하였습니다.<br/>");
+				
 			};
 			// 화면쪽으로 전송받은 데이터가 있으면 받은 데이터로 처리해준다.
 			ws.onmessage = function(event) {
 //				console.log("결과 확인 스크롤 "
 //						+ $(".chattingDiv").hasScrollBar());
 //				alert(event.data);
+				
+				var message = JSON.parse(event.data); //event.data.request_seq
+				
+				var requestHTML = "";
+				
+				var newTr = document.createElement("tr");
+				var waitBody = document.getElementById("waitBody");
+				
+				requestHTML = "";
+				
+				waitBody.appendChild(newTr).innerHTML = requestHTML;
+				
+				
 				if (event.data.indexOf("<") != 0) {
 					var msg = JSON.parse(event.data);
 //					alert(msg.view);
@@ -168,27 +174,11 @@ $(document)
 					
 //					console.log(viewMsg);
 					$("#chatMsgBox").append(viewMsg);
-					chatMsgBox.scrollTop = chatMsgBox.scrollHeight;
 					allContent = $("#chatMsgBox").html();
 //					alert(allContent);
 				}else{
 					$("#receive_msg").append(event.data + "<br/>");
 				}
-				alert("if문 다음에 : " + allContent);
-				$.ajax({
-					url : "./chatContentUpdate.do",
-					type : "post",	
-					//업데이트를 위해 db의 chatmember, content을 보냄
-					data : "chatTitle="+chatTitle+"&content="+allContent,
-					success : function(msg) {
-						var isc = msg;
-						if(isc=="성공"){
-//							alert("gpgp");
-						}else{
-							//location.href="./error.do";
-						}
-					}
-				});
 			}
 			// 예외가 발생했을 때 수행된다.
 			ws.onclose = function(event) {
@@ -213,9 +203,9 @@ $(document)
 		});
 
 function disconnect() {
-alert("접속 종료 디스커넥트");
-ws.close();
-ws = null;
+	alert("접속 종료 디스커넥트");
+	ws.close();
+	ws = null;
 }
 
 window.onbeforeunload = function() {
