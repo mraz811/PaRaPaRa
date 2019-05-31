@@ -145,22 +145,10 @@
 <script type="text/javascript" src="./js/customOrder.js"></script>
 <script type="text/javascript" src="./js/requestSocket.js"></script>
 <script type="text/javascript">
-function changeViewCustom(){
-	document.getElementById("request").style.display = "none";
-	document.getElementById("custom").style.display = "block";
-	document.getElementById("container").style.display = "none";
-	document.getElementById("choiceView").style.display = "none";
-}
 window.onload = function (){
 	document.getElementById("request").style.display = "none";
 	document.getElementById("custom").style.display = "none";
 }
-function choiceViewStatus(){
-	document.getElementById("request").style.display = "block";
-	document.getElementById("custom").style.display = "none";
-	document.getElementById("choiceView").style.display = "none";
-}
-//////////////////////////////////////////////////////////////////
 </script>
 <body>
 	<div id="container">
@@ -175,8 +163,8 @@ function choiceViewStatus(){
 							<li class="nav-item"><a id="requestlist" class="nav-link" data-toggle="tab" onclick="selRequestList()">주문내역</a></li>
 						</ul>
 						<div id="choiceView">
-							<input style="width: 200px;height: 200px;" type="button" value="주문현황" onclick="choiceViewStatus()"/>
-							<input style="width: 200px;height: 200px;" type="button" value="고객주문" onclick="changeViewCustom()"/>
+							<input style="width: 200px;height: 200px;" type="button" value="주문현황" onclick="choiceViewStatus('${loginDto.owner_id}','${loginDto.store_code}')"/>
+							<input style="width: 200px;height: 200px;" type="button" value="고객주문" onclick="changeViewCustom('${loginDto.store_code}','${loginDto.owner_id}')"/>
 						</div>
 					<div id="request">
 						<div id="make">
@@ -245,26 +233,14 @@ function choiceViewStatus(){
 												<td style="width: 100px; height: 28px" >${fn:substring(wait.request_time,11,19)}</td>
 												<td style="width: 40px; height: 28px"><input type="button" value="제조" onclick="changeStatusCode2(this,'${wait.request_seq},${wait.rnum},${wait.menu_name},${fn:substring(wait.request_time,11,19)}')" /></td>
 												<td style="width: 40px; height: 28px"><input type="button" value="환불" onclick="changeStatusCode0(this,${wait.request_seq})"/></td>
-												
-												
-												<td style="width: 60px; height: 28px" >${wait.rnum}</td>
-												<td id="waitMenu" style="width: 220px; height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">
-													<c:choose>
-														<c:when test="${fn:length(wait.menu_name) > 16}">
-															${fn:substring(wait.menu_name,0,16)}...
-														</c:when>
-														<c:otherwise>
-															${wait.menu_name}
-														</c:otherwise>
-													</c:choose>
-												</td>
-												<td style="width: 100px; height: 28px" >${fn:substring(wait.request_time,11,19)}</td>
-												<td style="width: 40px; height: 28px"><input type="button" value="제조" onclick="changeStatusCode2(this,'${wait.request_seq},${wait.rnum},${wait.menu_name},${fn:substring(wait.request_time,11,19)}')" /></td>
-												<td style="width: 40px; height: 28px"><input type="button" value="환불" onclick="changeStatusCode0(this,${wait.request_seq})"/></td>
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
+							</div>
+							<div> <!-- 주문 현황 화면에서는 내 아이디가 999-99-99999 -->
+								<input type="hidden" id="nick" value="${loginDto.owner_id}"/>
+								<input type="hidden" id="targetId" value="${loginDto.store_code}"/>
 							</div>
 						</div>
 						<div id="waitingDetail">
@@ -331,7 +307,10 @@ function choiceViewStatus(){
 					</table>
 				</div>
 			</form>
-			
+			<div><!-- 고객 주문 화면에서는 SEOUL01_06 이 아이디 -->
+				<input type="hidden" id="nick" value="${loginDto.store_code}"/>
+				<input type="hidden" id="targetId" value="${loginDto.owner_id}"/>
+			</div>
 		</div>
 	</div><!-- 고객 주문 -->
 </body>

@@ -95,7 +95,7 @@ public class RequestCtrl {
 
 		Map<String, Object> map1 = new HashMap<>();
 
-		for (int i = 0; i < lists.size(); i++) { // 1:2,2:1,3:2,4:3,5:4
+		for (int i = 0; i < lists.size(); i++) { // 1:2,2:1,3:2,4:3,5:4,
 			String temp = lists.get(i).getRequest_menu();
 			int tempLen = temp.length();
 			int templenChange = temp.replaceAll(",", "").length();
