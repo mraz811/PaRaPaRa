@@ -245,6 +245,22 @@ function choiceViewStatus(){
 												<td style="width: 100px; height: 28px" >${fn:substring(wait.request_time,11,19)}</td>
 												<td style="width: 40px; height: 28px"><input type="button" value="제조" onclick="changeStatusCode2(this,'${wait.request_seq},${wait.rnum},${wait.menu_name},${fn:substring(wait.request_time,11,19)}')" /></td>
 												<td style="width: 40px; height: 28px"><input type="button" value="환불" onclick="changeStatusCode0(this,${wait.request_seq})"/></td>
+												
+												
+												<td style="width: 60px; height: 28px" >${wait.rnum}</td>
+												<td id="waitMenu" style="width: 220px; height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">
+													<c:choose>
+														<c:when test="${fn:length(wait.menu_name) > 16}">
+															${fn:substring(wait.menu_name,0,16)}...
+														</c:when>
+														<c:otherwise>
+															${wait.menu_name}
+														</c:otherwise>
+													</c:choose>
+												</td>
+												<td style="width: 100px; height: 28px" >${fn:substring(wait.request_time,11,19)}</td>
+												<td style="width: 40px; height: 28px"><input type="button" value="제조" onclick="changeStatusCode2(this,'${wait.request_seq},${wait.rnum},${wait.menu_name},${fn:substring(wait.request_time,11,19)}')" /></td>
+												<td style="width: 40px; height: 28px"><input type="button" value="환불" onclick="changeStatusCode0(this,${wait.request_seq})"/></td>
 											</tr>
 										</c:forEach>
 									</tbody>
