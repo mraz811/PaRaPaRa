@@ -98,4 +98,70 @@ SELECT SUM(TS_DAYWORK), SUM(TS_NIGHTWORK)
 		WHERE ALBA_SEQ = '141'
 		AND SUBSTR(TS_DATE, 0, 7) = '2019-05';
 
+SELECT TO_CHAR(LAST_DAY(TO_DATE('2019-05','YYYY-MM')),'D') FROM DUAL; -- 마지막 요일의 숫자
+
+SELECT TO_CHAR(TO_DATE('2019-05-01','YYYY-MM-DD'),'D') FROM DUAL; -- 수요일
+SELECT 7-TO_CHAR(TO_DATE('2019-05-01','YYYY-MM-DD'),'D')+1 FROM DUAL;
+
+SELECT trunc(TO_DATE('2019-05-01','YYYY-MM-DD'),'WW') FROM DUAL;
+SELECT trunc(TO_DATE('2019-06-01','YYYY-MM-DD'),'WW') FROM DUAL;
+SELECT trunc(TO_DATE('2019-05-01','YYYY-MM-DD'),'I') FROM DUAL;
+
+SELECT '20190501' as "날짜", 
+	ceil((to_number(substrb('20190501', -2, 2)) + 7 - to_number(TO_CHAR(TO_DATE('20190501','YYYYMMDD'),'D')))/7) as "월별 주차"
+		from dual;
+
+SELECT * FROM DUAL
+	WHERE '2019-05-01' BETWEEN TO_CHAR(TO_DATE('2019-05-01','YYYY-MM-DD'),'D') AND 7 ;
+
+SELECT
+ TRUNC(SYSDATE, 'w') AS "주준",-- 매월 1일 요일을 기준한 주초일자
+ TRUNC(SYSDATE, 'iw') AS "월자", --해당주의 시작일자가 월요일
+ TRUNC(SYSDATE, 'dy') AS "일", --해당주의 시작일자가 일요일
+ TRUNC(SYSDATE, 'iw') - 2 AS "전주토요일", --전주 토요일(월요일이므로 -2)
+ TRUNC(SYSDATE, 'dy') - 1 AS "전주 토요일"  --전주 토요일(일요일이므로 -1)
+FROM DUAL;
+
+SELECT 1, TRUNC(TO_DATE('2019-05-01','YYYY-MM-DD'), 'w') AS "주차 시작 일자",
+			TRUNC(TO_DATE('2019-05-07','YYYY-MM-DD'), 'dy') - 1 AS "주차 마지막 일자"
+	FROM DUAL
+UNION
+SELECT 2, TRUNC(TO_DATE('2019-05-07','YYYY-MM-DD'), 'dy') - 1 +1,
+			TRUNC(TO_DATE('2019-05-14','YYYY-MM-DD'), 'dy') - 1
+	FROM DUAL
+UNION
+SELECT 3, TRUNC(TO_DATE('2019-05-14','YYYY-MM-DD'), 'dy') - 1 +1,
+			TRUNC(TO_DATE('2019-05-21','YYYY-MM-DD'), 'dy') - 1
+	FROM DUAL
+UNION
+SELECT 4, TRUNC(TO_DATE('2019-05-21','YYYY-MM-DD'), 'dy') - 1 +1,
+			TRUNC(TO_DATE('2019-05-28','YYYY-MM-DD'), 'dy') - 1
+	FROM DUAL
+UNION
+SELECT 5, TRUNC(TO_DATE('2019-05-28','YYYY-MM-DD'), 'dy') - 1 +1,
+			last_day(TO_DATE('2019-05-01','YYYY-MM-DD'))
+	FROM DUAL;
+
+
+
+SELECT 1, TRUNC(TO_DATE('2026-02-01','YYYY-MM-DD'), 'w') AS "주차 시작 일자",
+			TRUNC(TO_DATE('2026-02-07','YYYY-MM-DD'), 'dy') - 1 AS "주차 마지막 일자"
+	FROM DUAL
+UNION
+SELECT 2, TRUNC(TO_DATE('2026-02-07','YYYY-MM-DD'), 'dy') - 1 +1,
+			TRUNC(TO_DATE('2026-02-14','YYYY-MM-DD'), 'dy') - 1
+	FROM DUAL
+UNION
+SELECT 3, TRUNC(TO_DATE('2026-02-14','YYYY-MM-DD'), 'dy') - 1 +1,
+			TRUNC(TO_DATE('2026-02-21','YYYY-MM-DD'), 'dy') - 1
+	FROM DUAL
+UNION
+SELECT 4, TRUNC(TO_DATE('2026-02-21','YYYY-MM-DD'), 'dy') - 1 +1,
+			TRUNC(TO_DATE('2026-02-28','YYYY-MM-DD'), 'dy') - 1
+	FROM DUAL
+UNION
+SELECT 5, TRUNC(TO_DATE('2026-02-28','YYYY-MM-DD'), 'dy') - 1 +1,
+			last_day(TO_DATE('2026-02-01','YYYY-MM-DD'))
+	FROM DUAL;
+
 

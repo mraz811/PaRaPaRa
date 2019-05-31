@@ -21,7 +21,7 @@
 
 <!-- 일별 알바별 datetime list로 가져오기 -->
 	<select id="tsDatetimeList" parameterType="TimeDto" resultType="TimeDto">
-		SELECT SUM(TS_DAYWORK), SUM(TS_NIGHTWORK)
+		SELECT SUM(TS_DAYWORK) TS_DAYWORK, SUM(TS_NIGHTWORK) TS_NIGHTWORK
 			FROM TIMESHEET
 				WHERE ALBA_SEQ = #{alba_seq}
 				AND SUBSTR(TS_DATE, 0, 7) = #{ts_date}
@@ -68,6 +68,7 @@
 								   		ELSE ROUND((to_date(#{ts_end}, 'hh24:mi') - to_date('22:00', 'hh24:mi')) * 24 * 60 / 60 ,1) END AS WORKTIME_NIGHT
 								   		FROM DUAL)
 	</select>
+	
 	
 	
 	

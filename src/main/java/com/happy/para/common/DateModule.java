@@ -4,7 +4,6 @@ public class DateModule {
 
 private static DateModule dateModule;
 	
-	
 	private DateModule() {
 		
 	}
@@ -12,10 +11,10 @@ private static DateModule dateModule;
 	public String changeDateFormat(String date) {
 		String result = null;
 		if(date.length() <= 1) {
-			result = "0"+date;
+			result = "-0"+date;
 		}		
 		else 
-			result = date;
+			result = "-"+date;
 		
 		return result;
 	}

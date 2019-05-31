@@ -52,7 +52,6 @@ $(function(){
 <input id="viewMonth" type="month" value="2019-05"/>
 <button id="next">▶</button>
 
-
 <table class="table table-hover">
 	<tr>
 		<th>No.</th><th>이름</th><th>근무 시간 (주간)</th><th>근무 시간(야간,추가)</th>
@@ -66,7 +65,7 @@ $(function(){
 			<td>-</td>
 			<td>-</td>
 			<td>${dto.alba_timesal}</td>
-			<td>2000000</td>
+			<td>-</td>
 			<td>-</td>
 			<td>${dto.alba_bank}</td>
 			<td>${dto.alba_account}</td>
