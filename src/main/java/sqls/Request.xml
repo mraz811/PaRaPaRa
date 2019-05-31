@@ -24,7 +24,7 @@
 					(OS_CODE=3 OR OS_CODE=0)
 					</otherwise>
 				</choose> 
-				AND (REQUEST_TIME BETWEEN #{start} AND #{end})
+				AND (REQUEST_TIME BETWEEN #{start} AND SYSDATE+1)
 				ORDER BY REQUEST_TIME) ORDER BY REQUEST_TIME DESC
 	</select>
 	
@@ -41,11 +41,11 @@
 	<select id="requestListWait" parameterType="java.util.Map" resultType="RequestDto">
 	SELECT RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
 			FROM(SELECT ROWNUM RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
-				FROM(SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+				FROM(SELECT  REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
 					FROM REQUEST 
-					WHERE STORE_CODE = #{store_code} AND (REQUEST_TIME BETWEEN #{start} AND #{end})
+					WHERE STORE_CODE = #{store_code} AND (REQUEST_TIME BETWEEN #{start} AND (SELECT TO_DATE(#{start},'YYYYMMDD')+1 FROM DUAL))
 					ORDER BY REQUEST_TIME))
-			WHERE OS_CODE= 1 
+			WHERE OS_CODE= 1
 	</select>
 	
 	<!-- 주문상태가 대기 중인 주문 상세 조회 -->
@@ -64,7 +64,8 @@
 			FROM(SELECT ROWNUM RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
 				FROM(SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
 					FROM REQUEST 
-					WHERE STORE_CODE = #{store_code}  AND (REQUEST_TIME BETWEEN #{start} AND #{end}) ORDER BY REQUEST_TIME))
+					WHERE STORE_CODE = #{store_code}  AND (REQUEST_TIME BETWEEN #{start} AND (SELECT TO_DATE(#{start},'YYYYMMDD')+1 FROM DUAL)) 
+					ORDER BY REQUEST_TIME))
 			WHERE OS_CODE= 2
 	</select>
 	
@@ -115,7 +116,7 @@
 							</otherwise>
 						</choose>
 						 AND STORE_CODE=#{store_code}
-						AND (REQUEST_TIME BETWEEN #{dayStart} AND #{dayEnd})
+						AND (REQUEST_TIME BETWEEN #{dayStart} AND SYSDATE+1)
 						ORDER BY REQUEST_TIME DESC))
 		WHERE R BETWEEN #{pageStart} AND #{pageEnd}
 	</select>

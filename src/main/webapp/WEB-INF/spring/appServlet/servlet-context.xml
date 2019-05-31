@@ -25,6 +25,10 @@
 	<websocket:handlers>
 		<websocket:mapping handler="wsChat.do" path="/wsChat.do"/>
 	</websocket:handlers>
+	<websocket:handlers>
+		<websocket:mapping handler="wsRequest.do" path="/wsRequest.do"/>
+	</websocket:handlers>
+	
 
 	<!-- 추가 기능: Interceptor 인터셉터 설정 -->
 	<mvc:interceptors>
