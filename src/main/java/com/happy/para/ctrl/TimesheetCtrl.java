@@ -3,6 +3,8 @@ package com.happy.para.ctrl;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.happy.para.common.DateModule;
 import com.happy.para.dto.AlbaDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.TimeDto;
@@ -260,7 +263,7 @@ public class TimesheetCtrl {
 	}
 
 	@RequestMapping(value="/salary.do", method=RequestMethod.GET)
-	public String salary(HttpSession session, TimeDto dto, Model model) {
+	public String salary(HttpSession session, TimeDto dto, Model model) throws ParseException {
 		
 		System.out.println("salary");
 
@@ -281,8 +284,9 @@ public class TimesheetCtrl {
 		
 		System.out.println("timeList.size() : "+timeList.size());
 		
+		// 타임시트랑 알바리스트랑 조인해서 한번에 가져올거임 쿼리수정 필요!
+		/*
 		for (int i = 0; i < albaLists.size(); i++) {
-
 			dto.setAlba_seq(albaLists.get(i).getAlba_seq());
 			System.out.println("albaLists.get(i).getAlba_seq() : " + albaLists.get(i).getAlba_seq());
 			
@@ -293,83 +297,85 @@ public class TimesheetCtrl {
 			List<TimeDto> workDto = timeSer.tsDatetimeList(dto);
 
 			System.out.println("월별 알바별 datetime total : "+workDto);
-			
+		}
+		*/	
+		
+		DateModule dateM = DateModule.getInstance();
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String getMonth = "2026-02"; // 화면에서 가져올 값
+		String getMonthFeb = getMonth.substring(5);
+		
+		System.out.println("getMonthFeb > "+getMonthFeb);
+		
+		String underTen = "-";
+		int setDate = 1;
+		
+		Date startDate = formatter.parse(getMonth+underTen+setDate);  // 첫 주 시작 날짜
+		startDate = new Date(startDate.getTime()); 
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		int dayNum = cal.get(Calendar.DAY_OF_WEEK); // 해당 월 1일의 첫번째 요일
+		int lastNum = cal.getActualMaximum(cal.DAY_OF_MONTH);// 해당 월의 마지막 날짜
+		
+		System.out.println("dayNum > "+dayNum); 
+		System.out.println("lastNum > "+lastNum);
+		
+		String[] wStartDate = null;
+		String[] wLastDate = null;
+		
+		int chkCnt = 0;
+		
+		// 2월이면서 시작요일숫자가1이면서 끝나는요일숫자가 29가 아닌애들만 배열 크기 4
+		if(getMonthFeb.equals("02") && dayNum==1 && lastNum!=29) {
+			wStartDate = new String[4];
+			wLastDate = new String[4];
+			chkCnt = 1;
+		}else {
+			wStartDate = new String[5];
+			wLastDate = new String[5];
 		}
 		
-		/*
+		wStartDate[0] = getMonth+dateM.changeDateFormat(Integer.toString(setDate));
+		System.out.println("첫주 wStartDate > "+wStartDate[0]);
 		
-		String aaa = "20:00-02:30"; // 
-		Double workT = 6.5;
+		int addDate = 7-dayNum; //3
 		
-		int aaaHH = Integer.parseInt(aaa.substring(0, 2)); //20
-		int aaaMM = Integer.parseInt(aaa.substring(3, 5)); // 0
-		System.out.println(aaaHH);
-		System.out.println(aaaMM);
-		
-		int bbbHH = Integer.parseInt(aaa.substring(6, 8)); // 0
-		int bbbMM = Integer.parseInt(aaa.substring(9, 11)); // 0
-		System.out.println(bbbHH);
-		System.out.println(bbbMM);
-		
-		// 주간-주간, 주간-야간, 야간-주간, 야간-야간, 주간-야간-주간, 야간-주간-야간
-		
-		// 주간-야간, 주간-주간
-		if(((aaaHH<22 || aaaHH>=6) || (bbbHH<=22 || bbbHH>6)) // 주간-주간
-			&&
-			((aaaHH<22 || aaaHH>=6) || (bbbHH>=22 || bbbHH<=6))) { // 주간-야간
-			
-			if(bbbHH == 0) { // 00 시
-				bbbHH = 24;
-			}else if(bbbHH == 1) { // 1시
-				bbbHH = 25;				
-			}else if(bbbHH == 2) { // 2시
-				bbbHH = 26;				
-			}else if(bbbHH == 3) { // 3시
-				bbbHH = 27;				
-			}else if(bbbHH == 4) { // 4시
-				bbbHH = 28;				
-			}else if(bbbHH == 5) { // 5시
-				bbbHH = 29;				
-			}else if(bbbHH == 6) { // 6시
-				bbbHH = 30;				
-			}
-			
-			int nightTimeHH = 0;
-			String nightTimeMM = "";
+		setDate = setDate+addDate;
 
-			if(bbbHH>21) { // 업무 종료 시간이 22시 이후
-				nightTimeHH = bbbHH - 22;
-			}else { // 업무 종료 시간이 22시 이전
-				Double dayTime = workT;
-				System.out.println("only dayTime : "+dayTime);
-			}
+		wLastDate[0] = getMonth+dateM.changeDateFormat(Integer.toString(setDate)); // 첫 주 마지막 날짜
+		System.out.println("주 lastDate > "+wLastDate[0]);
+		
+		setDate = setDate+1;
+
+		wStartDate[1] = getMonth+dateM.changeDateFormat(Integer.toString(setDate));
+		
+		int rCnt = 0;
+		
+		if(chkCnt==1) {
+			rCnt = 3;
+			wLastDate[3] = getMonth+"-"+lastNum;
+		}else {
+			rCnt = 4;
+			wLastDate[4] = getMonth+"-"+lastNum;
+		}
+		
+		for (int cnt = 1; cnt < rCnt;) {
 			
-			// 업무 종료 시간이 6시 30분일때 30분은 dayTime으로 넘긴다
-			if(bbbHH != 30 && nightTimeHH != 0) { 
-				if(bbbMM == 30) {
-					nightTimeMM = ".5";
-				}else {
-					nightTimeMM = ".0";
-				}
-			}else {
-				nightTimeMM = ".0";
-			}
+			setDate = setDate+6;
+			wLastDate[cnt] = getMonth+dateM.changeDateFormat(Integer.toString(setDate));
 			
-			if(nightTimeHH != 0) { // 업무 종료 시간이 22시 이후
-				Double nightTime = Double.valueOf(nightTimeHH + nightTimeMM);
-				System.out.println("nightTime : "+nightTime);
-				
-				Double DayTimeExNightTime = workT-nightTime;
-				System.out.println("nigthTime 있을시 dayTime : "+DayTimeExNightTime);				
-			}
+			cnt++;
+			
+			setDate = setDate+1;
+			wStartDate[cnt] = getMonth+dateM.changeDateFormat(Integer.toString(setDate));			
 		
 		}
 
-		Double min2222 = (((0.04167/1000*60)/60)/60*60)/60;
-		System.out.println("min2222"+min2222);
-		*/
-		
-		 
+		System.out.println(Arrays.toString(wStartDate));
+		System.out.println(Arrays.toString(wLastDate));
+
 		return "salary/salaryList";
 	}
 
