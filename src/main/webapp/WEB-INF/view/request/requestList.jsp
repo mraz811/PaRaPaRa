@@ -86,7 +86,7 @@
 				</div>
 				<div class="twoDepth">
 					<ul class="nav nav-tabs">
-						<li class="nav-item"><a id="requestStatus" class="nav-link" data-toggle="tab" onclick="selRequestStatus()">주문현황</a></li>
+						<li class="nav-item"><a id="requestStatus" class="nav-link" data-toggle="tab" onclick="selRequestStatus()">주문</a></li>
 						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#">주문내역</a></li>
 					</ul>
 				<form id="selectBoxFrm" action="#" method="post">
