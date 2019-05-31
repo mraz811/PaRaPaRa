@@ -50,13 +50,13 @@
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" id="timesheet">TimeSheet</a>
+    			 <a class="nav-link" data-toggle="tab" id="timesheet" href="#home">TimeSheet</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link active" data-toggle="tab">아르바이트</a>
+    			 <a class="nav-link active" data-toggle="tab" href="#home">아르바이트</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" id="salary">급여</a>
+    			 <a class="nav-link" data-toggle="tab" id="salary" href="#home">급여</a>
   				</li>
 			</ul>
 			
