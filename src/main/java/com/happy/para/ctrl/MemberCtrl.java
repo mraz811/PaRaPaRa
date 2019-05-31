@@ -352,6 +352,7 @@ public class MemberCtrl {
 				jList.put("admin_name", dto.getAdmin_name());
 				jList.put("admin_phone", dto.getAdmin_phone());
 				jList.put("admin_email", dto.getAdmin_email());
+				jList.put("loc_name", dto.getLoc_name());
 				jList.put("loc_code", dto.getLoc_code());
 				
 				// json 형태의 값들을 list에 담아줌
@@ -471,6 +472,7 @@ public class MemberCtrl {
 				jList.put("store_code", dto.getStore_code());
 				jList.put("owner_start", dto.getOwner_start());
 				jList.put("owner_end", dto.getOwner_end());
+				jList.put("store_name", dto.getStore_name());
 //				jList.put("listSize", ownerList.size());
 				jLists.add(jList);
 			}
@@ -526,7 +528,7 @@ public class MemberCtrl {
 		//**********************************************************//		
 		
 		// 담당자 삭제 메소드 delflag->Y
-		@RequestMapping(value="/delAdmin.do", method=RequestMethod.POST)
+		@RequestMapping(value="/delAdmin.do", method= {RequestMethod.POST,RequestMethod.GET})
 		public String delAdmin(String admin_id) {
 			memService.adminDelete(admin_id);
 			return "redirect:/selAdminList.do";

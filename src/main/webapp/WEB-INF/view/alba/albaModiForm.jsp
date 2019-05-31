@@ -12,13 +12,21 @@
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <style type="text/css">
 .form-control{
-	width: 250px;
+	width: 300px;
 }
 .fullCtrl{
-	width: 420px;
-	margin-left: 20%;
-	margin-top: 20px;
-	margin-bottom: 40px;
+	width: 320px;
+	margin: 10px auto;
+}
+.albawriteform{
+	width: 300px;
+	font-size: 30px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
 }
 </style>
 </head>
@@ -29,7 +37,7 @@
 	<form name="albaFrm" action="#" method="post">
 	<input type="hidden" name="alba_seq" value="${alba.alba_seq}">
 	  <fieldset>
-	  <legend>아르바이트 정보 수정</legend>
+	  	<p class="albawriteform">아르바이트 수정</p>
 		<div class="form-group">
       		<label for="alba_name">이름</label>
 			<input type="text" class="form-control" id="alba_name" name="alba_name" placeholder="이름" required="required" maxlength="20" value="${alba.alba_name}">
@@ -61,8 +69,8 @@
 			<input type="date" class="form-control" name="alba_regdate" placeholder="근무시작일" readonly="readonly" value="${fn:substring(alba.alba_regdate,0,10)}">
 		</div>
 		<div>	
-			<input style="width: 123px;" class="btn btn-outline-success" type="button" value="수　정" onclick="modiChk()">
-			<input style="width: 123px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="modiCancel()">
+			<input style="width: 123px; margin-left: 17px; " class="btn btn-outline-success" type="button" value="수　정" onclick="modiChk()">
+			<input style="width: 123px; margin-left: 17px; " class="btn btn-outline-warning" type="button" value="취　소" onclick="modiCancel()">
 		</div>
 		</fieldset>
 	</form>

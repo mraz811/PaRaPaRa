@@ -99,18 +99,18 @@
 						<c:forEach var="alba" items="${albaList}" varStatus="vs">
 						<input type="hidden" name="alba_seq" value="${alba.alba_seq}">
 						<tr>
-							<td width="100px;">${alba.alba_name}</td>
-							<td width="130px;">${alba.alba_phone}</td>
+							<td width="100px;" onclick="getAlbaDetail('${alba.alba_seq}')">${alba.alba_name}</td>
+							<td width="130px;" onclick="getAlbaDetail('${alba.alba_seq}')">${alba.alba_phone}</td>
 							<c:if test="${fn:length(alba.alba_address) > 12}">
-								<td width="185px;">${fn:substring(alba.alba_address,0,12)}..</td>
+								<td width="185px;" onclick="getAlbaDetail('${alba.alba_seq}')">${fn:substring(alba.alba_address,0,12)}..</td>
 							</c:if>
 							<c:if test="${fn:length(alba.alba_address) <= 12}">
-								<td width="185px;">${alba.alba_address}</td>
+								<td width="185px;" onclick="getAlbaDetail('${alba.alba_seq}')">${alba.alba_address}</td>
 							</c:if>
-							<td width="90px;">${alba.alba_timesal}</td>
-							<td width="130px;">${alba.alba_bank}</td>
-							<td width="140px;">${alba.alba_account}</td>
-							<td width="100px;">${fn:substring(alba.alba_regdate,0,10)}</td>
+							<td width="90px;" onclick="getAlbaDetail('${alba.alba_seq}')">${alba.alba_timesal}</td>
+							<td width="130px;" onclick="getAlbaDetail('${alba.alba_seq}')">${alba.alba_bank}</td>
+							<td width="140px;" onclick="getAlbaDetail('${alba.alba_seq}')">${alba.alba_account}</td>
+							<td width="100px;" onclick="getAlbaDetail('${alba.alba_seq}')">${fn:substring(alba.alba_regdate,0,10)}</td>
 							<td width="135px;"><input style="height: 30px;" class="btn btn-secondary" type="button" value="수정" onclick="modiAlba('${alba.alba_seq}')">&nbsp;
 							<input style="height: 30px;" class="btn btn-outline-warning" type="button" value="삭제" onclick="confrmDel('${alba.alba_seq}')"></td>
 						</tr>
@@ -134,6 +134,14 @@
 
 </body>
 <script type="text/javascript">
+
+// 알바 상세조회
+var getAlbaDetail = function(seq){
+	window.open("./albaDetail.do?alba_seq="+seq, "아르바이트 상세 조회", 
+			"width=700, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, left=500, top=150");
+}
+
+
 // 알바 등록 폼으로
 var toAlbaRegi = function(){
 	window.open("./albaRegiForm.do", "아르바이트 등록",

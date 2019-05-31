@@ -45,7 +45,7 @@ function pageAjax(){
 							"<td width='90px'>"+val.owner_name+"</td>"+	
 							"<td width='120px'>"+val.owner_phone+"</td>"+		
 							"<td width='190px'>"+val.owner_email+"</td>"+
-							"<td width='115px'>"+val.store_code+"</td>"+
+							"<td width='115px'>"+val.store_name+"</td>"+
 							"<td width='120px'>"+(val.owner_start).substr(0, 10)+"</td>";
 							
 							if(val.owner_end == null){

@@ -39,7 +39,7 @@
 	<div class="bodyFrame">
 	<div class="bodyfixed">
 		<div class="oneDepth">
-			<p style="width: 170px; font-size: 30px; background-color: RGB(21,140,186); color:white; font-weight: bold; padding: 0px 10px; text-align: center; ">
+			<p>
 				회원관리
 			</p>
 		</div>
@@ -79,7 +79,7 @@
 						<td width="120px">${ow.owner_phone}</td>		
 						<td width="190px">${ow.owner_email}</td>
 						<!-- 매장 코드 매장명으로 변환해주어야 함. 쿼리 추가 필요할수도 -->
-						<td width="115px">${ow.store_code}</td>
+						<td width="115px">${ow.store_name}</td>
 						<td width="120px">${fn:substring(ow.owner_start,0,10)}</td>
 						<c:if test="${ow.owner_end eq null}">
 							<td width="165px"><input id="owner_end${ow.owner_seq}" name="owner_end" type="date"></td>
