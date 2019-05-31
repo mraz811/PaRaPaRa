@@ -13,10 +13,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>업주 발주 리스트</title>
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="./css/header.css">
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap.js"></script>
 <script type="text/javascript">
 
 	// 담당자가 발주 상세내역에서 발주 승인 처리 시 발생하는 이벤트
@@ -96,19 +98,11 @@
 	}
 </script>
 <style type="text/css">
-	/* 
-	table{
-		border: 1px solid black;
-		border-collapse: collapse;
-		width: 800px;
-	}
-	thead, tbody, tr, th, td{
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
-	 */
 	 body{
-	 	width: 800px;
+	 	
+	 	margin: 0 auto;
+  		padding-top: 20px;
+  		padding-left: 20px;
 	 }
 	 table{
 	 	text-align: left;
@@ -116,18 +110,41 @@
 	 th,td{
 	 	text-align: center;
 	 }
+	 hr{
+	 	height: 20px;
+	 }
+	
 	 .rightAlign{
 	 	text-align: right;
 	 }
 	 #pageName{
-	 	margin-bottom: 50px;
-	 }
+		height: 60px;
+		margin-bottom: 25px; 
+	}
 	 #stockList{
-	 	margin-bottom: 40px;
+	 	width: 800px;
+	 	margin-bottom: 25px;
 	 }
-	 hr{
-	 	height: 20px;
-	 }
+	 
+	 #piList thead{
+		position: absolute;
+		width: 800px;
+	}
+	#pbody{
+		position: relative;
+		width: 800px;
+		max-height:210px;
+		overflow-y:scroll;
+		display: block;
+		float:left;
+		margin-top: 47px; 
+		height: 210px;
+	}
+	.txt{
+		width: 100px;
+		text-align: right;
+		background-color: #F6D8CE;
+	}
 </style>
 </head>
 <body>
@@ -176,10 +193,10 @@
 			<table class="table table-hover">
 				<thead>
 					<tr class="table-secondary">
-						<th>번호</th><th>품목명</th><th>수량</th><th>가격</th><th>합계금액</th>
+						<th style="width: 100px;">번호</th><th style="width: 300px;">품목명</th><th style="width: 110px;">수량</th><th style="width: 130px;">가격</th><th style="width: 200px;">합계금액</th>
 					</tr>
 				</thead>
-				<tbody id="pbody" style="height: 110px; width: 880px; overflow: scroll;">	
+				<tbody id="pbody">	
 					<c:set var="t_qty" value="0"/>
 					<c:set var="t_price" value="0"/>	
 					<c:forEach var="dto" items="${piLists}" varStatus="status">
@@ -188,39 +205,43 @@
 							<c:set var="sumPrice" value="${piQty * dto.item_price}"/>
 							<c:set var="totalPrice" value="${t_qty = t_qty + piQty}"/>
 							<c:set var="totalPrice" value="${t_price = t_price + sumPrice}"/>
-							<td>${status.count}</td>
-							<td>${dto.item_name}</td>
-							<td>${dto.pi_qty}</td>
-							<td class="rightAlign">${dto.item_price}원</td>
-							<td class="rightAlign"><c:out value="${sumPrice}원"/></td>
+							<td style="width: 100px;">${status.count}</td>
+							<td style="padding-left: 25px; width: 300px;">${dto.item_name}</td>
+							<td style="padding-left: 34px; width: 110px;">${dto.pi_qty}개</td>
+							<td class="rightAlign" style="padding-right: 20px; width: 130px;">${dto.item_price}원</td>
+							<td class="rightAlign" style="padding-right: 50px; width: 200px;"><c:out value="${sumPrice}원"/></td>
 						</tr>
 					</c:forEach>
-					<tr>
-						<th>합계</th>
-						<th class="rightAlign" colspan="2">
-							수량
-							<input type="text" class="txt" name="totalPiQty" value="${t_qty}" readonly="readonly" style="text-align: right; width: 80px;">개
-						</th>
-						<th class="rightAlign" colspan="2">
-							총금액
-							<input type="text" class="txt" name="totalPiPrice" value="${t_price}" readonly="readonly" style="text-align: right; width: 150px;">원
-						</th>
-					</tr>
-					<tr>
-						<td>
-							<c:if test="${loginDto.auth eq 'A' and paoDto.ps_name eq '발주 대기'}">
-								<input type="button" class="btn" value="발주승인" onclick="approve()">
-							</c:if>
-							<c:if test="${loginDto.auth eq 'U' and paoDto.ps_name eq '발주 승인'}">
-								<input type="button" class="btn" value="발주완료" onclick="complete()">
-							</c:if>
-							<c:if test="${loginDto.auth eq 'U' and paoDto.ps_name eq '발주 대기'}">
-								<input type="button" class="btn" value="발주취소" onclick="cancle()">
-							</c:if>
-								<input type="button" class="btn" value="닫기" onclick="javascript:window.close()">
-						</td>
-					</tr>
 				</tbody>
+			</table>
+			<table>
+				<tr class="table-dark">
+					<th style="width: 100px; text-align: center;">합계</th>
+					<th style="width: 200px; text-align: right;">수량</th>
+					<th class="rightAlign" style="width: 150px;">
+						<input type="text" class="txt" name="totalPiQty" value="${t_qty}" readonly="readonly">개
+					</th>
+					<th style="width: 150px; text-align: right;">총금액</th>
+					<th style="width: 200px;">
+						<input type="text" class="txt" name="totalPiPrice" value="${t_price}" readonly="readonly">원
+					</th>
+				</tr>
+				<tr>
+					<td style="padding-top: 20px; text-align: left;">
+						<c:if test="${loginDto.auth eq 'A' and paoDto.ps_name eq '발주 대기'}">
+							<input type="button" class="btn btn-outline-primary" value="발주승인" onclick="approve()">
+						</c:if>
+						<c:if test="${loginDto.auth eq 'U' and paoDto.ps_name eq '발주 승인'}">
+							<input type="button" class="btn btn-outline-success" value="발주완료" onclick="complete()">
+						</c:if>
+						<c:if test="${loginDto.auth eq 'U' and paoDto.ps_name eq '발주 대기'}">
+							<input type="button" class="btn btn-outline-danger" value="발주취소" onclick="cancle()">
+						</c:if>
+					</td>
+					<td colspan="4" style="padding-top: 20px; text-align: right;">
+						<input type="button" class="btn btn-secondary" value="닫기" onclick="javascript:window.close()">
+					</td>
+				</tr>
 			</table>
 		</div>
 	</div>

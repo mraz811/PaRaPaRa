@@ -13,11 +13,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>업주 발주 신청</title>
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="./css/header.css">
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap.js"></script>
 <script type="text/javascript">
+
+	// DOM이 생성됐을 때 input의 class가 txt인 요소들을 readonly로 만듦
+	$(document).ready(function(){
+		$("input[class=txt]").attr("readonly",true);
+	});
 
 	// 모든 엘리먼트에 keydown이벤트 추가 후 엔터키 이벤트 제거
 	document.addEventListener('keydown', function(event) {
@@ -35,26 +42,32 @@
 		//alert($('.downBtn').index(el));
 		var idx = $('.downBtn').index(el);
 		var su = $(".pi_qty:eq("+idx+")").val();
-		su = $(".pi_qty:eq("+idx+")").val(su*1-1); 
 		
-		// 합계금액을 변경
-		var price = Number(document.getElementsByName("pi_price")[idx].value);
-		var sumPrice = Number(document.getElementsByName("sumPi_price")[idx].value);
-		
-		sumPrice -= price;
-		
-		document.getElementsByName("sumPi_price")[idx].value = sumPrice;
-		
-		
-		// 발주 품목에서 - 버튼을 누를 때 총 수량 값 변경
-		var totalPiQty = Number($('input[name=totalPiQty]').val());
-		totalPiQty -= 1;
-		$('input[name=totalPiQty]').val(totalPiQty);
-		
-		// 발주 품목에서 - 버튼을 누를 때 총 금액 값 변경
-		var totalPiPrice = Number($('input[name=totalPiPrice]').val());
-		totalPiPrice -= Number(price);
-		$('input[name=totalPiPrice]').val(totalPiPrice);
+		// 발주 품목의 수량이 1보다 작을 때
+		if(su<=1){
+			alert("1개 이상만 발주할 수 있습니다.");
+		}else{
+			su = $(".pi_qty:eq("+idx+")").val(su*1-1); 
+			
+			// 합계금액을 변경
+			var price = Number(document.getElementsByName("pi_price")[idx].value);
+			var sumPrice = Number(document.getElementsByName("sumPi_price")[idx].value);
+			
+			sumPrice -= price;
+			
+			document.getElementsByName("sumPi_price")[idx].value = sumPrice;
+			
+			
+			// 발주 품목에서 - 버튼을 누를 때 총 수량 값 변경
+			var totalPiQty = Number($('input[name=totalPiQty]').val());
+			totalPiQty -= 1;
+			$('input[name=totalPiQty]').val(totalPiQty);
+			
+			// 발주 품목에서 - 버튼을 누를 때 총 금액 값 변경
+			var totalPiPrice = Number($('input[name=totalPiPrice]').val());
+			totalPiPrice -= Number(price);
+			$('input[name=totalPiPrice]').val(totalPiPrice);
+		}
 		
 	}
 	
@@ -215,27 +228,26 @@
 		var noListTr = document.getElementById("noPiList");
 		noListTr.style.display = "none";
 		
-		pbody.appendChild(newTr).innerHTML = "<td>" +
+		pbody.appendChild(newTr).innerHTML = "<td width='60px;'>" +
 												"<input type='hidden' name='item_seq' value='"+itemSeq+"'>" +
-												"<input type='text' class='txt' name='pi_seq' value='"+piSeq+"' readonly='readonly'>" +
+												"<input type='text' class='txt' name='pi_seq' value='"+piSeq+"' style='width:58px;' readonly='readonly'>" +
 											  "</td>" +
-											  "<td>" +
-												"<input type='text' class='txt' name='pi_name' value='"+piName+"' readonly='readonly'>" +
+											  "<td width='300px;'>" +
+												"<input type='text' class='txt' name='pi_name' value='"+piName+"' style='width:300px;' readonly='readonly'>" +
 											  "</td>" +
-											  "<td>" +
-												"<input type='button' class='downBtn' value='-' onclick='minus(this)'>" +
+											  "<td width='110px;' style='text-algin:center;'>" +
+												"<input type='button' class='downBtn' value='-' style='width:25px;' onclick='minus(this)'>" +
 												"<input type='text' name='pi_qty' class='pi_qty' value='"+piQty+"' style='width:50px;' onkeyup='changeQty(this)' required='required'>" +
-												"<input type='button' class='upBtn' value='+' onclick='plus(this)'>" +
+												"<input type='button' class='upBtn' value='+' style='width:25px;' onclick='plus(this)'>" +
 											  "</td>" +
-											  "<td>" +
-												"<input type='text' class='txt' name='pi_price' value='"+piPrice+"' readonly='readonly'>" +
+											  "<td width='110px;' >" +
+												"<input type='text' class='txt' name='pi_price' value='"+piPrice+"' style='width:80px; padding-right:10px; text-align:right;' readonly='readonly'>원" +
 											  "</td>" +
-											 "<td>" +
-												"<input type='text' class='txt' name='sumPi_price' value='"+sumPiPrice+"' readonly='readonly'>" +
+											 "<td width='150px;'>" +
+												"<input type='text' class='txt' name='sumPi_price' value='"+sumPiPrice+"' style='width:130px; padding-right:10px; text-align:right;' readonly='readonly'>원" +
 											  "</td>" +
-											  "<td>" +
-											  	"<input type='button' class='delBtn' value='삭제'  onclick='delStock(this, \""+stockTr_id+"\")'>" +
-											  	//"<input type='button' class='delBtn' value='삭제'  onclick='delStock(\""+stockTr_id+"\")'>" +
+											  "<td width='50px;'>" +
+											  	"<input type='button'class='btn btn-secondary' name='delBtn' value='삭제'  onclick='delStock(this, \""+stockTr_id+"\")'>" +
 											  "</td>";
 		
 		
@@ -254,7 +266,7 @@
 	function delStock(line, lineId) {
 
 		// 현재 줄의 인덱스 번호
-		var idx = $('.delBtn').index(line);
+		var idx = $('input[name=delBtn]').index(line);
 		//alert(idx);
 		var piQty = document.getElementsByName("pi_qty")[idx].value;
 		var sumPiPrice = document.getElementsByName("sumPi_price")[idx].value;
@@ -368,34 +380,40 @@
 	
 </script>
 <style type="text/css">
-	table{
-		border: 1px solid black;
-		border-collapse: collapse;
-		width: 800px;
-		
-	}
+  	body{
+  		margin: 0 auto;
+  		padding-top: 20px;
+  		padding-left: 20px;
+  	}
 	thead, tbody, tr, th, td>input{
 		border: 1px solid black;
 		border-collapse: collapse;
 		text-align: center;
 	}
-	
 	tr{
-		height: 26px;
+		height: 26px; 
 	}
-	th{
-		background-color: skyblue;
+	#pageName{
+		height: 60px;
+		margin-bottom: 25px; 
 	}
+	#stockList{
+		margin-bottom: 25px;
+	}
+	
 	#resultDiv #totalCal{
 		border-style: hidden;
 	}
+	
 	#resultDiv #totalCal th{
-		background-color: white;
 		border-style: none;
 	}
+	 
 	#resultDiv #totalCal th .txt{
-		background-color: orange;
-		width: 150px;
+		background-color: #F6D8CE;
+		width: 100px;
+		text-align: right;
+		padding-right: 10px;
 	}
 	#btn{
 		width: 15px;
@@ -404,40 +422,38 @@
 	.txt{
 		border: none;
 	}
-	/* 
+	input.txt{
+		outline: none;
+	}
+	 
 	#stockList thead, #paoList thead{
 		position: absolute;
-		display: table;
-		margin-bottom: 26px; 
+		width: 800px;
 	}
-	tbody{display: block; overflow-y:scroll; float:left; width:880px; max-height:110px;} */
-	
-	/* 
- 	div#stockList{position: relative;padding-top:30px;width:820px;height: 140px;overflow: hidden; margin-bottom: 100px;}
-	div#stockList > div {height: 140px;overflow: auto; border: none;}
-	table{width: 800px}
-	thead tr{position: absolute;top: 0;display: block;background-color: #DEDEDE;width: 800px;}
-	thead th{width: 200px}
-	tbody{display: block;height: 300px;}
-	tbody tr{height: auto;}
-	tbody td{width: 200px;text-align: center;}
- 	
- 	div#paoList{position: relative;padding-top:30px;width:850px;height: 140px;overflow: hidden;}
-	div#paoList > div {height: 140px;overflow: auto;}
-	 */
+	#sbody, #pbody{
+		position: relative;
+		width: 800px;
+		max-height:160px;
+		overflow-y:scroll;
+		display: block;
+		float:left;
+		margin-top: 28px;
+		height: 160px;
+	}
 </style>
 </head>
 <body>
+	<div id="pageName">
+		<h1>발주신청</h1>
+		<hr>
+	</div>
+	
 	<h3>■ 재고</h3>
 	<div id="stockList">
-		<div>
 		<table>
-			<colgroup>
-				<col width="50px;"><col style="width:150px;"><col width="50px;"><col width="150px;"><col width="100px;">
-			</colgroup>
 			<thead>
-				<tr>
-					<th>번호</th><th>재고명</th><th>수량</th><th>가격</th><th>추가</th>
+				<tr class="table-primary">
+					<th width="80px;">번호</th><th width="340px;">재고명</th><th width="130px;">수량</th><th colspan="2" width="260px;">가격</th>
 				</tr>
 			</thead>
 
@@ -445,27 +461,27 @@
 				<c:choose>
 					<c:when test="${empty stockLists}">
 						<tr>
-							<td id="noList" colspan="5">-- 재고 목록이 없습니다. --</td>
+							<td id="noList" colspan="5" style="text-align: center; color: red; font-weight: bold;"> 재고 목록이 없습니다. </td>
 						</tr>
 					</c:when>
 					<c:otherwise>
 						<c:forEach var="dto" items="${stockLists}" varStatus="status">
 							<tr id="stockLine${status.count}">
-								<td>
-									<input type="hidden" class="txt" name="item_seq" value="${dto.itemDto.item_seq}" readonly="readonly">
-									<input type="text" class="txt" name="seq" value="${status.count}" readonly="readonly">
+								<td width="80px;">
+									<input type="hidden" class="txt" name="item_seq" value="${dto.itemDto.item_seq}">
+									<input type="text" class="txt" name="seq" value="${status.count}" style="width: 80px;">
 								</td>
-								<td>
-									<input type="text" class="txt" name="stock_name" value="${dto.stock_name}" readonly="readonly">
+								<td width="340px;"> 
+									<input type="text" class="txt" name="stock_name" value="${dto.stock_name}" style="width: 340px;">
 								</td>
-								<td>
-									<input type="text" class="txt" name="stock_seq" value="${dto.stock_qty}" readonly="readonly">
+								<td width="130px;" style="padding-right: 10px;">	
+									<input type="text" class="txt" name="stock_seq" value="${dto.stock_qty}" style="width: 50px; text-align: right; margin-right: 10px;">개
 								</td>
-								<td>
-									<input type="text" class="txt" name="stock_seq" value="${dto.itemDto.item_price}" readonly="readonly">
+								<td width="200px;" style="padding-right:20px; text-align: right;">
+									<input type="text" class="txt" name="stock_seq" value="${dto.itemDto.item_price}" style="width: 80px; text-align: right; margin-right: 10px;">원
 								</td>
-								<td>
-									<input type="button" class="addBtn" value="추가" onclick="addStock('stockLine${status.count},${dto.itemDto.item_seq},${dto.stock_name},${dto.itemDto.item_price}')">
+								<td width="60px;" style="padding-left: 5px;">
+									<input type="button" class='btn btn-secondary' value="추가" onclick="addStock('stockLine${status.count},${dto.itemDto.item_seq},${dto.stock_name},${dto.itemDto.item_price}')">
 								</td>
 							</tr>
 						</c:forEach>
@@ -473,48 +489,43 @@
 				</c:choose>
 			</tbody>
 		</table>
-		</div>
 	</div>
 	
 	<form action="./paoRequest.do" method="post" onsubmit="return reqPao();">
 		<input type='hidden' name='store_code' id='store_code' value='${stockLists[0].store_code}'>
 		<h3>■ 발주 품목</h3>
 		<div id="paoList">
-		<div>
 			<table>
 				<thead>
-					<tr>
-						<th>번호</th><th>품목명</th><th>수량</th><th>가격</th><th>합계금액</th><th>삭제</th>
+					<tr class="table-info" height="26px;"> 
+						<th width="60px;">번호</th><th width="300px;">품목명</th><th width="110px;">수량</th><th width="130px;">가격</th><th colspan="2" width="200px;">합계금액</th>
 					</tr>
 				</thead>
-				<tbody id="pbody" style="height: 110px; width: 880px; overflow: scroll;">		
-					<tr id="noPiList">
-						<td colspan='6'>발주 품목이 없습니다.</td>
+				<tbody id="pbody">		
+					<tr id="noPiList" style="border-style: none;">
+						<td colspan="6" style="width: 800px; text-align: center; color: red; font-weight: bold;">발주 품목이 없습니다.</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		</div>
 		
 		<div id="resultDiv">
 			<table id="totalCal">
-				<tr>
-					<th colspan="2">합계</th>
-					<th>수량</th>
-					<th>
-						<input type="text" class="txt" name="totalPiQty" value="0" readonly="readonly" style="text-align: right;">개
+				<tr class="table-dark">
+					<th width="100px;">합계</th>
+					<th width="200px;" style="text-align: right;">수량</th>
+					<th width="150px;" style="text-align: right;">
+						<input type="text" class="txt" name="totalPiQty" value="0">개
 					</th>
-					<th>총금액</th>
-					<th>
-						<input type="text" class="txt" name="totalPiPrice" value="0" readonly="readonly" style="text-align: right;">원
+					<th colspan="2" width="150px;" style="text-align: right; padding-right:20px;">총금액</th>
+					<th width="200px;" style="padding-right: 50px;">
+						<input type="text" class="txt" name="totalPiPrice" value="0">원
 					</th>
 				</tr>
 				<tr>
-					<th colspan="3">
-						<input type="submit" class="commitBtn" value="신청">
-					</th>
-					<th colspan="3">
-						<input type="button" class="closeBtn" value="닫기" onclick="closeWindow()">
+					<th colspan="6" style="text-align: right; padding-top: 20px;">
+						<input type="submit" class="btn btn-outline-success" value="신청" style="margin-right: 10px;">
+						<input type="button" class="btn btn-secondary" value="닫기" onclick="closeWindow()">
 					</th>
 				</tr>
 			</table>

@@ -31,27 +31,27 @@
 			dataType : "json",	// 서버에서 받는 데이터 타입
 			success: function(msg){
 	
-				var store_code = document.getElementById("store_code").value;
-
+				//var store_code = document.getElementById("store_code").value;
+				
 				$.each(msg,function(key,value){
 						var htmlTable = "";
-						var n = $(".table tr:eq(1) td").length;
-						// alert(n);
+						//alert(value.length);
 						if(key=="paoLists"){ // table을 만들어 줌
 							htmlTable += "<tr class='table-primary'>"+
 							"<th>발주번호</th>"+
 							"<th>매장명</th>"+
 							"<th>발주상태</th>"+
 							"<th>날짜</th></tr>";
-						
-							if(n==0){
+							
+							// 내용을 출력해 준다(paoLists:[{key,value},{},{}])
+							// key에 대응하는 value 값이 없다면
+							if(value.length==0){
 								htmlTable += "<tr onclick='paoDetail(this)'>"
-												+ "<th>발주 내역이 없습니다.</th>"
+												+ "<th colspan='4' style='text-align:center; color: red; font-weight: bold;'>발주 내역이 없습니다.</th>"
 										   + "</tr>";
 							}else{
-								// 내용을 출력해 준다(paoLists:[{key,value},{},{}])
 								$.each(value,function(key, dto){
-					
+									
 									htmlTable += "<tr onclick='paoDetail(this)'>"  
 									  				+ "<td>"
 							  								+dto.pao_seq
@@ -63,7 +63,7 @@
 												+ "</tr>";
 								});
 							}
-								
+							  
 						}else{ // key=paoRow는 paging를 만들어 줌
 				
 							htmlTable +="<li><a href='#' onclick='pageFirst("+value.pageList+","+value.pageList+")'>&laquo;</a></li>";
@@ -99,14 +99,14 @@
 		var idx = $('tbody').children('tr').index(el);
 		var pao_seq = document.getElementsByName("pao_seq")[idx].value;
 
-		window.open("./paoDetailOpen.do?store_code="+store_code+"&pao_seq="+pao_seq, "발주 상세조회", "width=880, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+		window.open("./paoDetailOpen.do?store_code="+store_code+"&pao_seq="+pao_seq, "발주 상세조회", "width=840, height=680, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 	}
 	
 	// 발주 신청 버튼 이벤트
 	function paoRequest() {
 		var store_code = document.getElementById("store_code").value;
 		
-		window.open("./paoRequestOpen.do?store_code="+store_code, "발주신청", "width=880, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+		window.open("./paoRequestOpen.do?store_code="+store_code, "발주신청", "width=840, height=680, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 	}
 	
 	///////////////////////////////////////////////
@@ -220,9 +220,9 @@
 						"<th>발주상태</th>"+
 						"<th>날짜</th></tr>";
 						
-						if(n==0){
+						if(value.length==0){
 							htmlTable += "<tr onclick='paoDetail(this)'>"
-											+ "<th>발주 내역이 없습니다.</th>"
+											+ "<th colspan='4' style='text-align:center; color: red; font-weight: bold;'>발주 내역이 없습니다.</th>"
 									   + "</tr>";
 						}else{
 							// 내용을 출력해 준다(paoLists:[{key,value},{},{}])
@@ -277,6 +277,19 @@
 		border: 1px solid black;
 		border-collapse: collapse;
 	}
+	#selectStatus{
+		float: left;
+	}
+	#selectDate{
+		float: right;
+	}
+	
+	#btnDiv{
+		
+		float: right;
+		/* margin-left: auto; */
+	}
+	
 </style>
 </head>
 <body>
@@ -286,7 +299,7 @@
 	<div class="bodyFrame">
 		<div class="bodyfixed">
 			<div class="oneDepth">
-				<p>아르바이트</p>
+				<p>매장관리</p>
 			</div>
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">
@@ -316,21 +329,22 @@
 				<div class="tab-content" align="center">
 					<form action="#" id="frm" method="get">
 					<!-- 각자 내용들.. -->
-						<div id="selectDate">
-							<select name="paoStatus" onchange="selectStatusDate()">
+						<div id="selectStatus" class="form-group">
+							<select name="paoStatus" class="form-control" style="width: 150px; margin: 5px 1px 0px;" onchange="selectStatusDate()">
 								<option value="1,2,3,0">발주전체조회</option>
 								<option value="1">발주대기</option>
 								<option value="2">발주승인</option>
 								<option value="3">발주완료</option>			
 								<option value="0">발주취소</option>			
 							</select>
-							
-							날짜 선택 <input type="date" name="startDate"> ~ <input type="date" name="endDate"> <input type="button" value="검색" onclick="selectStatusDate()">
+						</div>
+						<div id="selectDate">	
+							날짜 선택 : <input type="date" name="startDate"> ~ <input type="date" name="endDate"> <input type="button" class="btn btn-secondary" value="검색" onclick="selectStatusDate()">
 						</div>
 						
 						<div id="paoList">
-							<input type="text" name="loginDtoAuth" value="${loginDto.auth}">
-							<input type='text' id='store_code' value='${store_code}'>
+							<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
+							<input type='hidden' id='store_code' value='${store_code}'>
 							<table class="table table-hover" id="paoTable">
 								<thead>
 									<tr class="table-primary">
@@ -341,7 +355,7 @@
 									<c:choose>
 										<c:when test="${empty paoLists}">
 											<tr>
-												<td id="noList" colspan="4">-- 발주 내역이 없습니다 --</td>
+												<td id="noList" colspan="4" style="text-align: center; color: red; font-weight: bold;">발주 내역이 없습니다.</td>
 											</tr>
 										</c:when>
 										<c:otherwise>
@@ -362,7 +376,7 @@
 							</table>
 						</div>
 						
-						<div id="paoBottom">
+						<div id="pagingForm">
 							<!-- 현재 페이지, 인덱스, 출력 갯수 -->
 							<%-- ${paoRow.index} ${paoRow.pageNum} ${paoRow.listNum} ${paoRow.count} --%>
 							<input type="hidden" id="index" name="index" value="${paoRow.index}">
@@ -382,7 +396,8 @@
 									<li><a href="#" onclick="pageLast(${paoRow.pageNum},${paoRow.total},${paoRow.listNum},${paoRow.pageList})">&raquo;</a></li>
 								</ul>
 							</div>
-							
+						</div>
+						<div id="btnDiv">
 							<c:if test="${loginDto.auth eq 'U'}">
 								<input type="button" class="btn btn-outline-success" value="발주신청" onclick="paoRequest()">
 							</c:if>
