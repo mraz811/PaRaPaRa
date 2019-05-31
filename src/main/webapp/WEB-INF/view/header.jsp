@@ -23,9 +23,9 @@
 <div id="header" class="container-fluid">
   <div class="row content">
 	<div class="headConts" align="center">
-	<div id="paraPhoto"><a href="main.do">사진 넣을 공간</a></div>
+	<div id="paraPhoto"><a href="main.do"><img alt="parapara_logo" src="./imgs/11111.JPG" class="logoImg" ></a></div>
 	<c:if test="${loginDto.auth eq 'S'}">
-		<div class="welcomeMsg"><p>관리자님 환영합니다!</p>
+		<div class="welcomeMsg"><p><small>관리자님 환영합니다!</small></p>
 	      <input type="button" class="btn btn-outline-success" value="마이페이지" onclick="chkMyPage()">
 	      <input type="button" class="btn btn-outline-success" value="로그아웃" onclick="logout('${loginDto.auth}')">
 		</div>
@@ -45,7 +45,7 @@
 	  
 	
 	<c:if test="${loginDto.auth eq 'A'}">
-		<div class="welcomeMsg"><p>${loginDto.admin_name}님 환영합니다!</p>
+		<div class="welcomeMsg"><p><small>${loginDto.admin_name}님 (${loginDto.loc_name})</small></p>
 	      <input type="button" class="btn btn-outline-success" value="마이페이지" onclick="chkMyPage()">
 	      <input type="button" class="btn btn-outline-success" value="로그아웃" onclick="logout('${loginDto.auth}')">
 		</div>
@@ -72,7 +72,7 @@
 	 	</ul><br>
 	</c:if>
 	<c:if test="${loginDto.auth eq 'U'}">
-		<div><p>파라파라 역삼역점</p>
+		<div class="welcomeMsg"><p><small>${loginDto.owner_name}님 (${loginDto.store_name})</small></p>
 	      <input type="button" class="btn btn-outline-success" value="마이페이지" onclick="chkMyPage()">
 	      <input type="button" class="btn btn-outline-success" value="로그아웃" onclick="logout('${loginDto.auth}')">
 		</div>
@@ -105,7 +105,6 @@
     </div> <!-- headConts -->
   </div>
 </div> <!-- id:header -->
-
 
 
 

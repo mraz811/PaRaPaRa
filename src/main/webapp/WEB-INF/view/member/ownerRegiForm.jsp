@@ -15,14 +15,22 @@
 <script type="text/javascript" src="./js/member/validationChk.js"></script>
 <style type="text/css">
 .form-control{
-	width: 250px;
+	width: 300px;
 }
 
 .fullCtrl{
-	width: 280px;
-	margin-left: 20%;
-	margin-top: 20px;
-	margin-bottom: 40px;
+	width: 320px;
+	margin: 10px auto;
+}
+.writeform{
+	width: 300px;
+	font-size: 30px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
 }
 
 </style>
@@ -42,6 +50,7 @@
 	
 	<form id="owRegiForm" action="" method="post"  onsubmit="return regiChk()">
 	<fieldset>	
+	<p class="writeform">업주 등록</p>
 		<div class="form-group">
 			<label for="id">사업자 등록번호</label>
 			<input class="form-control" type="text" id="id" name="owner_id" placeholder="ex)111-11-11111" required="required" maxlength="12">
@@ -101,8 +110,8 @@
 			
 		
 		<div>	
-			<input style="width: 123px;" class="btn btn-outline-success" type="submit" value="등록 완료" >
-			<input style="width: 123px;" class="btn btn-outline-warning" type="button" value="취소" onclick="regiCancel()">
+			<input style="width: 123px; margin-left: 17px;" class="btn btn-outline-success" type="submit" value="등록 완료" >
+			<input style="width: 123px; margin-left: 17px;" class="btn btn-outline-warning" type="button" value="취소" onclick="regiCancel()">
 		</div>
 	</fieldset>
 	</form>

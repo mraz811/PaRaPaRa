@@ -28,9 +28,10 @@ function pageAjax(){
 							"<th width='80px;'></th>"+
 							"<th width='120px;'>사번</th>"+
 							"<th width='130px;'>담당자명</th>"+
-							"<th width='200px;'>전화번호</th>"+
+							"<th width='150px;'>전화번호</th>"+
 							"<th width='300px;'>이메일</th>"+
-							"<th width='180px;'>지역명</th>"+
+							"<th width='130px;'>지역명</th>"+
+							"<th width='120px;'>지역코드</th>"+
 						"</tr>";
 						
 						$.each(value, function(seckey, val){
@@ -40,6 +41,7 @@ function pageAjax(){
 								"<td>"+val.admin_name+"</td>"+
 								"<td>"+val.admin_phone+"</td>"+
 								"<td>"+val.admin_email+"</td>"+
+								"<td>"+val.loc_name+"</td>"+
 								"<td>"+val.loc_code+"</td>"+
 							"</tr>";
 						});
@@ -49,9 +51,10 @@ function pageAjax(){
 								"<th width='80px;'></th>"+
 								"<th width='120px;'>사번</th>"+
 								"<th width='130px;'>담당자명</th>"+
-								"<th width='200px;'>전화번호</th>"+
+								"<th width='150px;'>전화번호</th>"+
 								"<th width='300px;'>이메일</th>"+
-								"<th width='180px;'>지역명</th>"+
+								"<th width='130px;'>지역명</th>"+
+								"<th width='120px;'>지역코드</th>"+
 							"</tr>";
 						
 						$.each(value, function(seckey, val){
@@ -62,6 +65,7 @@ function pageAjax(){
 									"<td>"+val.admin_name+"</td>"+
 									"<td>"+val.admin_phone+"</td>"+
 									"<td>"+val.admin_email+"</td>"+
+									"<td>"+val.loc_name+"</td>"+
 									"<td>"+val.loc_code+"</td>"+
 								"</tr>";
 						});

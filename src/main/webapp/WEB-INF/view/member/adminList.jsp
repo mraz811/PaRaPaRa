@@ -86,9 +86,10 @@
 								<th width="80px;"></th>
 								<th width="120px;">사번</th>
 								<th width="130px;">담당자명</th>
-								<th width="200px;">전화번호</th>
+								<th width="150px;">전화번호</th>
 								<th width="300px;">이메일</th>
-								<th width="180px;">지역명</th>
+								<th width="130px;">지역명</th>
+								<th width="120px;">지역코드</th>
 							</tr>
 	
 							<c:forEach var="ad" items="${adminList}" varStatus="vs">
@@ -98,6 +99,7 @@
 									<td>${ad.admin_name}</td>
 									<td>${ad.admin_phone}</td>
 									<td>${ad.admin_email}</td>
+									<td>${ad.loc_name}</td>
 									<td>${ad.loc_code}</td>
 								</tr>
 							</c:forEach>
@@ -122,9 +124,10 @@
 								<th width="80px;"></th>
 								<th width="120px;">사번</th>
 								<th width="130px;">담당자명</th>
-								<th width="200px;">전화번호</th>
+								<th width="150px;">전화번호</th>
 								<th width="300px;">이메일</th>
-								<th width="180px;">지역명</th>
+								<th width="130px;">지역명</th>
+								<th width="120px">지역코드</th>
 							</tr>
 	
 							<c:forEach var="ad" items="${adminLocList}" varStatus="vs">
@@ -134,6 +137,7 @@
 									<td>${ad.admin_name}</td>
 									<td>${ad.admin_phone}</td>
 									<td>${ad.admin_email}</td>
+									<td>${ad.loc_name}</td>
 									<td>${ad.loc_code}</td>
 								</tr>
 							</c:forEach>
@@ -143,7 +147,7 @@
 					<!-- 등록/삭제 버튼 -->
 					<div class="regianddel">
 						<input class="btn btn-outline-success" type="button" value="등　록" onclick="toAdminRegi()"> 
-						<input class="btn btn-outline-warning" type="submit" value="삭　제" onclick="delAdmin()">
+						<input class="btn btn-outline-warning" type="button" value="삭　제" onclick="delAdmin()">
 					</div>
 				</form>
 			</c:if>
@@ -161,9 +165,10 @@
 							<th width="80px;"></th>
 							<th width="120px;">사번</th>
 							<th width="130px;">담당자명</th>
-							<th width="200px;">전화번호</th>
+							<th width="150px;">전화번호</th>
 							<th width="300px;">이메일</th>
-							<th width="180px;">지역명</th>
+							<th width="130px;">지역명</th>
+							<th width="120px">지역코드</th>
 						</tr>
 	
 						<c:forEach var="ad" items="${delAdminList}" varStatus="vs">
@@ -173,6 +178,7 @@
 								<td>${ad.admin_name}</td>
 								<td>${ad.admin_phone}</td>
 								<td>${ad.admin_email}</td>
+								<td>${ad.loc_name}</td>
 								<td>${ad.loc_code}</td>
 							</tr>
 						</c:forEach>
@@ -257,6 +263,7 @@ var delAdmin = function(){
 			chkVal = chk[i].value;
 		}
 	}
+// 	alert(chkVal);
 	if(chkVal==null){
 		swal("삭제 실패","선택된 담당자가 없습니다.");
 	}else {

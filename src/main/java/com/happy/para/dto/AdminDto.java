@@ -16,6 +16,7 @@ public class AdminDto implements Serializable{
 	private String loc_code;
 	private String auth;
 	private String admin_delflag;
+	private String loc_name;
 	
 	public AdminDto() {
 		// TODO Auto-generated constructor stub
@@ -31,7 +32,7 @@ public class AdminDto implements Serializable{
 	public String toString() {
 		return "AdminDto [admin_id=" + admin_id + ", admin_pw=" + admin_pw + ", admin_name=" + admin_name
 				+ ", admin_phone=" + admin_phone + ", admin_email=" + admin_email + ", loc_code=" + loc_code + ", auth="
-				+ auth + ", admin_delflag=" + admin_delflag + "]";
+				+ auth + ", admin_delflag=" + admin_delflag + ", loc_name=" + loc_name + "]";
 	}
 
 	public int getAdmin_id() {
@@ -96,6 +97,14 @@ public class AdminDto implements Serializable{
 
 	public void setAdmin_delflag(String admin_delflag) {
 		this.admin_delflag = admin_delflag;
+	}
+
+	public String getLoc_name() {
+		return loc_name;
+	}
+
+	public void setLoc_name(String loc_name) {
+		this.loc_name = loc_name;
 	}
 
 }

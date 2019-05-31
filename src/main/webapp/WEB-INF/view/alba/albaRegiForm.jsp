@@ -12,13 +12,21 @@
 
 <style type="text/css">
 .form-control{
-	width: 250px;
+	width: 300px;
 }
 .fullCtrl{
-	width: 420px;
-	margin-left: 20%;
-	margin-top: 20px;
-	margin-bottom: 40px;
+	width: 320px;
+	margin: 10px auto;
+}
+.albawriteform{
+	width: 300px;
+	font-size: 30px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
 }
 </style>
 <script type="text/javascript">
@@ -46,6 +54,7 @@ $(function(){
 	<div class="fullCtrl">
 	<form name="albaFrm" action="#" method="post">
 	  <fieldset>
+	  <p class="albawriteform">아르바이트 등록</p>
 		<div class="form-group">
       		<label for="alba_name">이름</label>
 			<input type="text" class="form-control" id="alba_name" name="alba_name" placeholder="이름" required="required" maxlength="20">
@@ -75,8 +84,8 @@ $(function(){
 			<input type="date" class="form-control" name="alba_regdate" placeholder="근무시작일" required="required">
 		</div>
 		<div>	
-			<input style="width: 123px;" class="btn btn-outline-success" type="button" value="등　록" onclick="regiChk()">
-			<input style="width: 123px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="regiCancel()">
+			<input style="width: 123px; margin-left: 17px; " class="btn btn-outline-success" type="button" value="등　록" onclick="regiChk()">
+			<input style="width: 123px; margin-left: 17px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="regiCancel()">
 		</div>
 		</fieldset>
 	</form>

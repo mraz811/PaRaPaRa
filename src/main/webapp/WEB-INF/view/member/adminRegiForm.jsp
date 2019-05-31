@@ -54,18 +54,26 @@ var change = function(val){
 <style type="text/css">
 
 .form-control{
-	width: 250px;
+	width: 300px;
 }
 
 .fullCtrl{
-	width: 280px;
-	margin-left: 20%;
-	margin-top: 20px;
-	margin-bottom: 40px;
+	width: 320px;
+	margin: 10px auto;
+}
+.writeform{
+	width: 300px;
+	font-size: 30px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
 }
 
 .custom-select{
-	width: 119px;
+	width: 144px;
 	margin-right: 9px;
 	margin-left: 0px;
 }
@@ -83,6 +91,7 @@ var change = function(val){
 	<div class="fullCtrl">
 	<form id="adRegiForm" action="" method="post" onsubmit="return regiChk()">
 	<fieldset>
+	<p class="writeform">담당자 등록</p>
 		<div class="form-group">
 			<label for="id">사번</label>
 			<input class="form-control" type="text" id="id" name="admin_id" placeholder="사번(아이디)" required="required" maxlength="8">
@@ -118,7 +127,7 @@ var change = function(val){
 			<div class="invalid-feedback">유효한 이메일을 입력해주세요</div>
 		</div>
 		<div class="form-group">	
-			<label>지역코드</label><br>
+			<label>담당지역</label><br>
 			<select class="custom-select" id="loc_sido" name="loc_sido" onchange="chgSigungu(this)" required="required">
 				<option>시/도</option>
 				<option value="SEOUL">서울시</option>
@@ -131,8 +140,8 @@ var change = function(val){
 		</div>
 		<br>
 		<div>	
-			<input style="width: 123px;" class="btn btn-outline-success" type="submit" value="등　록">
-			<input style="width: 123px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="adRegiCancel()">
+			<input style="width: 123px; margin-left: 17px; " class="btn btn-outline-success" type="submit" value="등　록">
+			<input style="width: 123px; margin-left: 17px; " class="btn btn-outline-warning" type="button" value="취　소" onclick="adRegiCancel()">
 		</div>
 		</fieldset>
 	</form>

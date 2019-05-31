@@ -68,6 +68,7 @@ public class AlbaCtrl {
 //		
 //		return "/alba/albaList";
 //	}
+	
 	@RequestMapping(value="/selAlbaList.do", method=RequestMethod.GET)
 	public String selAlbaList(HttpSession session, Model model) {
 		OwnerDto ownDto = (OwnerDto) session.getAttribute("loginDto");
@@ -105,5 +106,12 @@ public class AlbaCtrl {
 		alService.albaModify(aDto);
 	}
 	
+	// 아르바이트 상세조회
+	@RequestMapping(value="/albaDetail.do", method=RequestMethod.GET)
+	public String getAlbaDetail(String alba_seq, Model model) {
+		AlbaDto alDto = alService.getAlbaDetail(alba_seq);
+		model.addAttribute("alba",alDto);
+		return "/alba/albaDetail";
+	}
 	
 }
