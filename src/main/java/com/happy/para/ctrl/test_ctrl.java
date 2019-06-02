@@ -49,7 +49,7 @@ public class test_ctrl {
 		OwnerDto oDto = (OwnerDto) session.getAttribute("loginDto");
 		String store_code = oDto.getStore_code();
 		System.out.println("로그인 업주의 store_code : "+store_code);
-
+		String excelPath = "C:\\testExcel";
 		List<AlbaDto> albaLists = timeSer.tsAlba(store_code);
 		System.out.println("로그인 업주의 albaLists : "+albaLists);
 
@@ -210,7 +210,12 @@ public class test_ctrl {
 		}
 	    try {
 //	    	xls
-	    	File xlsFile = new File("C:\\testExcel\\"+oDto.getStore_code()+"-"+sdf.format(getDate)+".xls");
+	    	File fileDir = new File(excelPath);
+	    	if (!fileDir.exists()) {
+				fileDir.mkdirs();
+			}
+	    	
+	    	File xlsFile = new File(excelPath+"\\"+oDto.getStore_code()+"-"+ts_date+".xls");
 	    	FileOutputStream fileOut = new FileOutputStream(xlsFile);
 	    	workBook.write(fileOut);
 	    	
