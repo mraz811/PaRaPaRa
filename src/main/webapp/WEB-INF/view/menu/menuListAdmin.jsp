@@ -9,84 +9,14 @@
 <head>
 <meta charset="UTF-8">
 <title>담당자:전체메뉴</title>
-<style type="text/css">
-	.sell{
-		width: 200px;
-		height: 130px;
-		float: left;
-		margin-right: 30px;
-		margin-bottom: 20px;
-		text-align: center;
-	}
-	.notSell{
-		width: 200px;
-		height: 130px;
-		float: left;
-		margin-right: 30px;
-		margin-bottom: 20px;
-		text-align: center;
-	}
-	.notSell > img{
-		opacity: 0.5;
-	}
-	#menuList{
-		width: 940px;
-		height : 350px;
-		margin-top : 40px;
-		margin-left: 65px;
-		margin-right: 35px;
-		overflow-x:hidden;
-		overflow-y:scroll;
-	}
-	#container{
-		width: 1020px;
-		height: 435px;
-	}
-	#mainMenu{
-		width: 140px;
-		height: 20px;
-		
-	}
-	#sideMenu{
-		width: 140px;
-		height: 20px;
-	}
-	#drink{
-		width: 140px;
-		height: 20px;
-	}
-	#choiceMenu{
-		width: 100px;
-		height: 40px;
-	}
-	#regiMenu{
-		width: 100px;
-		height: 40px;
-	}
-	.menuImg{
-		width: 110px;
-		height: 110px;
-	}
-	#insert{
-		float: right;
-	}
-	#modiMenu{
-		float: left;
-	}
-	#delMenu{
-		float: right;
-	}
-	#checkbox{
-		float: left;
-	}
-</style>
+<link rel="stylesheet" type="text/css" href="./css/menu.css">
 </head>
 <script type="text/javascript">
 function regiMenu(){
-	window.open('./menuRegiForm.do', 'window팝업', 'width=500, height=370, scrollbars=no');
+	window.open('./menuRegiForm.do', '메뉴 등록', 'width=700, height=470, scrollbars=no, left=200px, top=150px;');
 }
 function menuModiForm(menu_seq){
-	window.open('./modifyMenuForm.do?menu_seq='+menu_seq,'window팝업','width=500, height=370, scrollbars=no');
+	window.open('./modifyMenuForm.do?menu_seq='+menu_seq,'메뉴 수정','width=700, height=470, scrollbars=no, left=200px, top=150px;');
 }
 function menuDel(menu_seq){
 	swal({
@@ -122,9 +52,19 @@ function menuDel(menu_seq){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
 						if(menu.menu_delflag == 'N'){
-							htmlText += "<div class=\"sell\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class=\"sell\" align='center'>"+
+							"<img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/>"+
+							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
+							"<input class='btn btn-outline-success' id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/>"+
+							" <input class='btn btn-outline-warning' id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/>"+
+							"</div>";
 						}else{
-							htmlText += "<div class=\"notSell\">판매 중지<img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class='notSell'>"+
+							"<img class='menuImg' src="+menu.file_rurl+" alt=''/>"+
+							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
+							"<small>판매 중지 </small>"+
+							"<input style='padding-left: 9px;' type='button' id='resellMenu' class='btn btn-outline-primary' value='재판매'>"+
+						"</div>";
 						}
 					});
 				}
@@ -149,9 +89,19 @@ function sideMenu(){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
 						if(menu.menu_delflag == 'N'){
-							htmlText += "<div class=\"sell\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class=\"sell\" align='center'>"+
+							"<img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/>"+
+							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
+							"<input class='btn btn-outline-success' id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/>"+
+							" <input class='btn btn-outline-warning' id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/>"+
+							"</div>";
 						}else{
-							htmlText += "<div class=\"notSell\">판매 중지<img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class='notSell'>"+
+							"<img class='menuImg' src="+menu.file_rurl+" alt=''/>"+
+							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
+							"<small>판매 중지 </small>"+
+							"<input style='padding-left: 9px;' type='button' id='resellMenu' class='btn btn-outline-primary' value='재판매'>"+
+						"</div>";
 						}
 					}); 
 				}
@@ -176,9 +126,19 @@ function drinkMenu(){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
 						if(menu.menu_delflag == 'N'){
-							htmlText += "<div class=\"sell\"><input id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class='sell' align='center'>"+
+							"<img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/>"+
+							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
+							"<input class='btn btn-outline-success' id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/>"+
+							" <input class='btn btn-outline-warning' id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/>"+
+							"</div>";
 						}else{
-							htmlText += "<div class=\"notSell\"><span>판매 중지</span><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+							htmlText += "<div class='notSell'>"+
+								"<img class='menuImg' src="+menu.file_rurl+" alt=''/>"+
+								"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
+								"<small>판매 중지 </small>"+
+								"<input style='padding-left: 9px;' type='button' id='resellMenu' class='btn btn-outline-primary' value='재판매'>"+
+							"</div>";
 						}
 					});
 				}
@@ -196,7 +156,7 @@ function drinkMenu(){
 	<div class="bodyFrame">
 	<div class="bodyfixed">
 		<div class="oneDepth">
-		메뉴
+		<p>메　뉴</p>
 		</div>
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
@@ -204,20 +164,32 @@ function drinkMenu(){
     			 <a class="nav-link" data-toggle="tab" href="#home">전체메뉴</a>
   				</li>
 			</ul>
-			<input id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()"/>
-			<input id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()"/>
-			<input id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()"/>
-	<div id="insert">
-			<input id="regiMenu" type="button" value="메뉴 등록" onclick="regiMenu()"/>
-	</div>
+			<div class="menutabs">
+			<input class="btn btn-outline-primary" id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()"/>
+			<input class="btn btn-outline-primary" id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()"/>
+			<input class="btn btn-outline-primary" id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()"/>
+			</div>
+		<div id="insert">
+			<input class="btn btn-outline-success" id="regiMenu" type="button" value="메뉴 등록" onclick="regiMenu()"/>
+		</div>
 		<div id="menuList" >
 			<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
 				<c:choose>
 					<c:when test="${menu.menu_delflag eq 'N'}">
-						<div class="sell"><input id="modiMenu" type="button" value="수정" onclick="menuModiForm(${vs.current.menu_seq})"/><img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/><input id="delMenu" type="button" value="삭제" onclick="menuDel(${vs.current.menu_seq})"/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
+						<div class="sell" align="center">
+							<img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/>
+							<br><small>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</small><br>
+							<input class="btn btn-outline-success" id="modiMenu" type="button" value="수정" onclick="menuModiForm(${vs.current.menu_seq})"/>
+							<input class="btn btn-outline-warning" id="delMenu" type="button" value="삭제" onclick="menuDel(${vs.current.menu_seq})"/>
+						</div>
 					</c:when>
 					<c:otherwise>
-						<div class="notSell">판매 중지<img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/><br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
+						<div class="notSell">
+						<img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/>
+						<br><small>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</small><br>
+						<small>판매 중지 </small>
+						<input style="padding-left: 9px;" type="button" id="resellMenu" class="btn btn-outline-primary" value="재판매">
+						</div>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>

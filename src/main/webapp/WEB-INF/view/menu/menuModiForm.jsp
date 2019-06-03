@@ -6,40 +6,44 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>메뉴 수정</title>
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 <style type="text/css">
-	body{
-		margin-left: 100px;
-	}
-	#top{
-		width: 300px;
-		height: 40px;
-		text-align: center;
-	}
-	#image{
-		width: 300px;
-		height: 150px;
-		text-align: center;
-	}
-	#selectAndFile{
-		width: 300px;
-		height: 40px;
-	}
-	#menu{
-		width: 300px;
-		height: 50px;
-	}
-	#confirm{
-		width: 300px;
-		height: 50px;
-	}
-	#menuImg{
-		width: 100px;
-		height: 100px;
-	}
-	hr{
-		width: 290px;
-	}
+.writeform{
+	width: 300px;
+	font-size: 30px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
+}
+#container{
+	width: 310px;
+	margin: 10px auto;
+}
+#image{
+	width: 300px;
+	height: 150px;
+	text-align: center;
+}
+#menu{
+	width: 300px;
+	position: relative;
+}
+
+#confirm{
+	margin: 20px 0px;
+	padding-left: 0px;
+	width: 300px;
+	height: 50px;
+}
+#menuImg{
+	width: 100px;
+	height: 100px;
+}
+
 </style>
 </head>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
@@ -62,7 +66,7 @@ function regiTempFile(){ //파일 임시 저장 후 미리보기
 			fDto = obj.fDtoSel;
 			document.getElementById("image").innerHTML = "<img id=\"menuImg\" alt=\"메뉴사진\" src=\""+obj.fDtoSel.file_rurl+"\">";
 		},error : function(obj){
-			alert("안되안되");
+			alert("안돼안돼");
 		}
 	});
 }
@@ -100,26 +104,32 @@ function modiMenu(){
 }
 </script>
 <body>
-	<div id="top">
-		메뉴수정
-	</div>
+<div id="container">
+		<p class="writeform">메뉴 수정</p>
 	<div id="image">
 		<img id="menuImg" alt="메뉴사진" src="${menuDto.fileDto.file_rurl}">
 	</div>
+	
 	<form id="tempFrm" action="#" method="post" enctype="multipart/form-data">
-		<input type="file" id="selectedFile" name="file1" onchange="regiTempFile()"/>
+	<div class="form-group">
+		<input type="file" class="form-control-file" id="selectedFile" name="file1" onchange="regiTempFile()"/>
+	</div>
 	</form>	
+	
 	<input type="hidden" id="file_seq" value="${menuDto.fileDto.file_seq}"/>
-	<div id="selectAndFile">
+	<div id="selectAndFile" align="left">
 		<span>카테고리 : ${menuDto.menu_category}</span>
 	</div>
-	<div id="menu">
-		<input id="menu_name" style="width: 190px; height: 40px;" type="text" name="menu_name" required="required" value="${menuDto.menu_name}"/>
-		<input id="menu_price" style="width: 90px; height: 40px;" name="menu_price" type="text" required="required" value="${menuDto.menu_price}"/>
+	<div id="menu" class="form-group row" align="left" style="margin:10px 0px;">
+		<input class="form-control" id="menu_name" style="width: 200px;" type="text" name="menu_name" required="required" value="${menuDto.menu_name}"/>
+		<input class="form-control" id="menu_price" style="width: 95px;" name="menu_price" type="text" required="required" value="${menuDto.menu_price}"/>
 		<input id="menu_seq" type="hidden" name="menu_seq" value="${menuDto.menu_seq}"/>
 	</div>
-	<div id="confirm">
-		<input style="width: 150px; height: 30px" type="button" value="수정완료" onclick="modiMenu()"/><input style="width: 150px; height: 30px" type="button" value="취소" onclick="window.close()"/>
+	<div id="confirm" align="left">
+		<input style="width: 146px; margin-left: 0px;" class="btn btn-outline-success" type="button" value="수정 완료" onclick="modiMenu()"/>
+		<input style="width: 146px;" class="btn btn-outline-warning" type="button" value="취소" onclick="window.close()"/>
 	</div>
+</div>
+	
 </body>
 </html>

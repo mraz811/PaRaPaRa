@@ -6,37 +6,46 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>메뉴 등록</title>
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 <style type="text/css">
-	body{
-		margin-left: 100px;
-	}
-	#top{
-		width: 300px;
-		height: 40px;
-		text-align: center;
-	}
-	#image{
-		width: 300px;
-		height: 150px;
-		text-align: center;
-	}
-	#selectAndFile{
-		width: 300px;
-		height: 40px;
-	}
-	#menu{
-		width: 300px;
-		height: 50px;
-	}
-	#confirm{
-		width: 300px;
-		height: 50px;
-	}
-	#menuImg{
-		width: 100px;
-		height: 100px;
-	}
+.writeform{
+	width: 300px;
+	font-size: 30px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
+}
+#container{
+	width: 310px;
+	margin: 10px auto;
+}
+#image{
+	width: 300px;
+	height: 150px;
+	text-align: center;
+}
+#selectAndFile{
+	width: 295px;
+}
+	
+#menu{
+	width: 300px;
+}
+#confirm{
+	margin: 20px 0px;
+	padding-left: 0px;
+	width: 300px;
+	height: 50px;
+}
+#menuImg{
+	width: 100px;
+	height: 100px;
+}
+
 </style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
@@ -113,17 +122,19 @@
 	}
 </script>
 <body>
-	<div id="top">
-		메뉴등록
+<div id="container">
+	<p class="writeform">메뉴등록</p>
+	<div id="image" class="form_group">
+		<img id="menuImg" alt="메뉴사진" src="">
 	</div>
-		<div id="image" class="form_group">
-			<img id="menuImg" alt="메뉴사진" src="">
-		</div>
+	
 	<form id="tempFrm" action="#" method="post" enctype="multipart/form-data">
-		<input type="file" id="selectedFile" name="file1" onchange="regiTempFile()"/>
+	<div class="form-group">
+		<input type="file" class="form-control-file" id="selectedFile" name="file1" onchange="regiTempFile()"/>
+	</div>
 	</form>	
-	<div id="selectAndFile">
-		<select id="select">
+	<div id="selectAndFile" class="form-group">
+		<select id="select" class="form-control">
 			<option value="">---카테고리 선택---</option>
 			<option value="주메뉴">주메뉴</option>
 			<option value="사이드메뉴">사이드메뉴</option>
@@ -131,12 +142,14 @@
 		</select>
 		<input type="hidden" id="menu_category" name="menu_category" value=""/>
 	</div>
-	<div id="menu">
-		<input id="menu_name" style="width: 190px; height: 40px;" type="text" name="menu_name" placeholder="메뉴명" required="required"/>
-		<input id="menu_price" style="width: 90px; height: 40px;" name="menu_price" type="text" placeholder="가격" required="required" onkeyup="regiPrice(this)"/>
+	<div id="menu" class="form-group row" align="left" style="margin:10px 0px;">
+		<input class="form-control" id="menu_name" style="width: 200px;" type="text" name="menu_name" placeholder="메뉴명" required="required"/>
+		<input class="form-control" id="menu_price" style="width: 95px;" name="menu_price" type="text" placeholder="가격" required="required" onkeyup="regiPrice(this)"/>
 	</div>
-	<div id="confirm">
-		<input style="width: 150px; height: 30px" type="button" value="등록완료" onclick="regiMenu()"/><input style="width: 150px; height: 30px" type="button" value="취소" onclick="window.close()"/>
+	<div id="confirm" align="left">
+		<input style="width: 146px; margin-left: 0px;" class="btn btn-outline-success" type="button" value="등록완료" onclick="regiMenu()"/>
+		<input style="width: 146px;" class="btn btn-outline-warning" type="button" value="취소" onclick="window.close()"/>
 	</div>
+</div>
 </body>
 </html>
