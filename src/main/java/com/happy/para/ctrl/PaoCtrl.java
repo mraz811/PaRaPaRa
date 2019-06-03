@@ -95,6 +95,7 @@ public class PaoCtrl {
 
 		System.out.println(paoLists);
 			
+		model.addAttribute("store_code", store_code);
 		model.addAttribute("paoLists", paoLists);
 		model.addAttribute("paoRow", rowDto);
 		model.addAttribute("loginDto", loginDto);
@@ -105,7 +106,7 @@ public class PaoCtrl {
 	@RequestMapping(value="/paoPaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String paging(Model model, HttpSession session, PagingDto pDto, String loginDtoAuth, String paoStatus, String startDate, String endDate) {
-		System.out.println("=== 넘겨받은 지역코드 === : "+loginDtoAuth);
+		System.out.println("=== 넘겨받은 권한 === : "+loginDtoAuth);
 		System.out.println("=== 넘겨받은 발주상태코드 === : "+paoStatus);
 		System.out.println("=== 넘겨받은 시작날짜 === : "+startDate);
 		System.out.println("=== 넘겨받은 종료날짜 === : "+endDate);
@@ -169,7 +170,7 @@ public class PaoCtrl {
 		if(loginDtoAuth.equalsIgnoreCase("A")) { // 담당자
 			AdminDto loginDto = (AdminDto) session.getAttribute("loginDto");
 			store_code = loginDto.getLoc_code();	// 담당자의loc_code를 사용
-			
+			System.out.println("========================= 스토어 코드 : "+store_code);
 			// 날짜를 선택하지 않았을 때 보여줄 발주 내역
 			if( (paoStatus.equals("") || paoStatus==null) && (startDate.equals("") || startDate==null) && (endDate.equals("") || endDate==null) ) {	
 				pDto.setTotal(paoService.adminPaoListRow(store_code));	// 담당 지역 매장의 전체 발주 내역 갯수를 set(페이징 처리를 위해)
@@ -210,7 +211,7 @@ public class PaoCtrl {
 				map.put("start", pDto.getStart());
 				map.put("end", pDto.getEnd());
 				
-				json = objectJson(paoService.paoSelectStatusDate(map), pDto);	// 조건에 맞는 발주 내역을 JSONObject 타입으로 만듦
+				json = objectJson(paoService.adimPaoSelectStatusDate(map), pDto);	// 조건에 맞는 발주 내역을 JSONObject 타입으로 만듦
 			}
 			
 		}
@@ -263,6 +264,7 @@ public class PaoCtrl {
 	@RequestMapping(value="/paoStatusAjax.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String paoSelectStatus(HttpSession session, String store_code, String status, String startDate, String endDate, String loginDtoAuth, Model model) {
+		System.out.println("=== 넘겨받은 권한 === : "+loginDtoAuth);
 		System.out.println("=== 넘겨받은 매장코드 === : "+store_code);
 		System.out.println("=== 넘겨받은 발주 상태 코드 === : "+status);
 		System.out.println("=== 넘겨받은 발주 시작일 === : "+startDate);
@@ -298,44 +300,71 @@ public class PaoCtrl {
 		if (loginDtoAuth.equalsIgnoreCase("U")){ // 업주
 			OwnerDto loginDto = (OwnerDto) session.getAttribute("loginDto");
 			store_code = loginDto.getStore_code();	// 업주의 store_code를 사용
+			
+			// 조건에 맞는 발주 갯수를 구하기 위한 Map
+			Map<String, Object> cntMap = new HashMap<>();
+			cntMap.put("store_code", store_code);
+			cntMap.put("status_list", statusLists);
+			cntMap.put("startDate", startDate);
+			cntMap.put("endDate", endDate);
+			
+			rowDto.setTotal(paoService.paoStatusListRow(cntMap));	// 조건에 맞는 발주 갯수로 전체 수를 set(페이징 처리를 위해) 
+			
+			// 조건에 맞는 발주 내역을 구하기 위한 Map
+			Map<String, Object> map = new HashMap<>();
+			
+			map.put("store_code", store_code);
+			map.put("status_list", statusLists);
+			map.put("startDate", startDate);
+			map.put("endDate", endDate);
+			map.put("start", rowDto.getStart());
+			map.put("end", rowDto.getEnd());
+			
+			List<PaoDto> paoLists = paoService.paoSelectStatusDate(map);	// 조건에 맞는 발주 내역
+		
+			System.out.println(paoLists);
+
+			json = objectJson(paoLists, rowDto);	// 조건에 맞는 발주 내역과 그 갯수를 JSONObject 타입으로 만듦
 		}
 		if (loginDtoAuth.equalsIgnoreCase("A")){ // 담당자
 			AdminDto loginDto = (AdminDto) session.getAttribute("loginDto");
 			store_code = loginDto.getLoc_code();	// 담당자의 loc_code를 사용
+			
+			// 조건에 맞는 발주 갯수를 구하기 위한 Map
+			Map<String, Object> cntMap = new HashMap<>();
+			cntMap.put("store_code", store_code);
+			cntMap.put("status_list", statusLists);
+			cntMap.put("startDate", startDate);
+			cntMap.put("endDate", endDate);
+						
+			rowDto.setTotal(paoService.adminPaoStatusListRow(cntMap));	// 조건에 맞는 발주 갯수로 전체 수를 set(페이징 처리를 위해) 
+						
+			// 조건에 맞는 발주 내역을 구하기 위한 Map
+			Map<String, Object> map = new HashMap<>();
+						
+			map.put("store_code", store_code);
+			map.put("status_list", statusLists);
+			map.put("startDate", startDate);
+			map.put("endDate", endDate);
+			map.put("start", rowDto.getStart());
+			map.put("end", rowDto.getEnd());
+						
+			List<PaoDto> paoLists = paoService.adimPaoSelectStatusDate(map);
+					
+			System.out.println(paoLists);
+
+			json = objectJson(paoLists, rowDto);	// 조건에 맞는 발주 내역과 그 갯수를 JSONObject 타입으로 만듦			
 		}
 		
-		// 조건에 맞는 발주 갯수를 구하기 위한 Map
-		Map<String, Object> cntMap = new HashMap<>();
-		cntMap.put("store_code", store_code);
-		cntMap.put("status_list", statusLists);
-		cntMap.put("startDate", startDate);
-		cntMap.put("endDate", endDate);
 		
-		rowDto.setTotal(paoService.paoStatusListRow(cntMap));	// 조건에 맞는 발주 갯수로 전체 수를 set(페이징 처리를 위해) 
-		
-		// 조건에 맞는 발주 내역을 구하기 위한 Map
-		Map<String, Object> map = new HashMap<>();
-		
-		map.put("store_code", store_code);
-		map.put("status_list", statusLists);
-		map.put("startDate", startDate);
-		map.put("endDate", endDate);
-		map.put("start", rowDto.getStart());
-		map.put("end", rowDto.getEnd());
-		
-		List<PaoDto> paoLists = paoService.paoSelectStatusDate(map);	// 조건에 맞는 발주 내역
-	
-		System.out.println(paoLists);
-
-		json = objectJson(paoLists, rowDto);	// 조건에 맞는 발주 내역과 그 갯수를 JSONObject 타입으로 만듦
 		
 		// 기존 발주 갯수를 지우고 현재 발주 갯수를 set  
 		session.removeAttribute("paoRow");
 		session.setAttribute("paoRow", rowDto);
 		
 		//obj.put("paoLists", paoLists);
-		model.addAttribute("paoLists", paoLists);
-		model.addAttribute("paoRow", rowDto);
+		//model.addAttribute("paoLists", paoLists);
+		//model.addAttribute("paoRow", rowDto);
 		
 		return json.toString();
 	}
@@ -353,6 +382,8 @@ public class PaoCtrl {
 		PaoDto paoDto = paoService.paoDetail(map);	// 발주
 		
 		List<ItemDto> piLists = paoService.paoPiDetail(pao_seq);	// 발주한 품목
+		
+		System.out.println(paoDto);
 		System.out.println(piLists);
 		
 		model.addAttribute("paoDto", paoDto);
