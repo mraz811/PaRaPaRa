@@ -48,10 +48,10 @@
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link active" data-toggle="tab" id="selAdminList">담당자</a>
+    			 <a class="nav-link active" data-toggle="tab" href="#home" id="selAdminList">담당자</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" id="leftOnes">퇴사자</a>
+    			 <a class="nav-link" data-toggle="tab" href="#home" id="leftOnes">퇴사자</a>
   				</li>
 			</ul>
 				<script type="text/javascript">
