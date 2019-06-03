@@ -8,70 +8,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-	.menu{
-		width: 200px;
-		height: 130px;
-		float: left;
-		margin-right: 30px;
-		margin-bottom: 20px;
-		text-align: center;
-	}
-	#menuList{
-		width: 940px;
-		height : 350px;
-		margin-top : 40px;
-		margin-left: 65px;
-		margin-right: 35px;
-		overflow: scroll;
-	}
-	#container{
-		width: 1020px;
-		height: 435px;
-	}
-	#mainMenu{
-		width: 140px;
-		height: 20px;
-		
-	}
-	#sideMenu{
-		width: 140px;
-		height: 20px;
-	}
-	#drink{
-		width: 140px;
-		height: 20px;
-	}
-	#choiceMenu{
-		width: 100px;
-		height: 40px;
-	}
-	#regiMenu{
-		width: 100px;
-		height: 40px;
-	}
-	.menuImg{
-		width: 110px;
-		height: 110px;
-	}
-	#insert{
-		float: right;
-	}
-	#modiMenu{
-		float: left;
-	}
-	#delMenu{
-		float: right;
-	}
-	#checkbox{
-		float: left;
-	}
-	#cancelMenu{
-		width: 120px;
-		height: 40px;
-	}
-</style>
+<title>판매 메뉴</title>
+<link rel="stylesheet" type="text/css" href="./css/menu.css">
 </head>
 <script type="text/javascript">
 function checkAllDel(bool){
@@ -97,7 +35,14 @@ function cancelMenu(){
 		frm.submit();
 		return true;
 	}else{
-		alert("선택된 메뉴가 없습니다.");
+// 		alert("선택된 메뉴가 없습니다.");
+		swal({
+			title: "메뉴 삭제 실패", 
+			text: "선택된 메뉴가 없습니다", 
+		},
+		function(){ 
+			
+		});
 		return false;
 	}
 }
@@ -115,13 +60,20 @@ function mainMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\" ><input id=\"checkbox\" name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\" ><label><input id=\"checkbox\" name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</label></div>";
 					});
 				}
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-			alert("관리자에게 문의해주세요"); 
+// 			alert("관리자에게 문의해주세요"); 
+			swal({
+				title: "메뉴 삭제 실패", 
+				text: "관리자에게 문의해주세요", 
+			},
+			function(){ 
+				
+			});
 		}
 	})
 }
@@ -138,14 +90,22 @@ function sideMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\" ><input id=\"checkbox\" name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\" ><label><input id=\"checkbox\" name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</label></div>";
 					});
 				}
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-			alert("관리자에게 문의해주세요"); 
+// 			alert("관리자에게 문의해주세요");
+			swal({
+				title: "메뉴 삭제 실패", 
+				text: "관리자에게 문의해주세요", 
+			},
+			function(){ 
+				
+			});
 		}
+		
 	})
 }
 function drinkMenu(){
@@ -161,13 +121,20 @@ function drinkMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\" ><input id=\"checkbox\" name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div class=\"menu\" ><label><input id=\"checkbox\" name=\"cancel_menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</label></div>";
 					});
 				}
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-			alert("관리자에게 문의해주세요"); 
+// 			alert("관리자에게 문의해주세요");
+			swal({
+				title: "메뉴 삭제 실패", 
+				text: "관리자에게 문의해주세요", 
+			},
+			function(){ 
+				
+			});
 		}
 	})
 }
@@ -181,26 +148,30 @@ function ownerAllMenuList(){
 		<%@include file="../header.jsp"%>
 		<div class="bodyFrame">
 			<div class="bodyfixed">
-				<div class="oneDepth">메뉴</div>
+				<div class="oneDepth"><p>메　뉴</p></div>
 				<div class="twoDepth">
 					<ul class="nav nav-tabs">
 						<li class="nav-item"><a class="nav-link  active" data-toggle="tab" href="#">판매 메뉴</a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="tab" onclick="ownerAllMenuList()">전체 메뉴</a></li>
 					</ul>
-						<input id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()" />
-						<input id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()" /> 
-						<input id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()" />
+					<div class="menutabs">
+						<input class="btn btn-outline-primary" id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()" />
+						<input class="btn btn-outline-primary" id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()" /> 
+						<input class="btn btn-outline-primary" id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()" />
+					</div>
 					<div id="insert">
-						<input type="checkbox" onclick="checkAllDel(this.checked)" />전체선택
-						<input id="cancelMenu" type="button" value="판매 메뉴에서 삭제" onclick="cancelMenu()" />
+						<label><input style="vertical-align:-4px;" type="checkbox" onclick="checkAllDel(this.checked)"/><small>전체선택</small></label>
+						<input class="btn btn-outline-warning" id="cancelMenu" type="button" value="판매 메뉴 삭제" onclick="cancelMenu()" />
 					</div>
 					<form id="frm" action="./menuCancel.do" method="post" onsubmit="return cancelMenu()">
 						<div id="menuList">
 							<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
 								<div class="menu">
+								<label>
 									<input id="checkbox" name="cancel_menu_seq" type="checkbox" value="${menu.menu_seq}" />
 									<img class="menuImg" src="${menu.fileDto.file_rurl}" alt="" /><br>
 									${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}
+								</label>
 								</div>
 							</c:forEach>
 						</div>
