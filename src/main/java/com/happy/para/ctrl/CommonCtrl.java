@@ -1,7 +1,14 @@
 package com.happy.para.ctrl;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -9,6 +16,16 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +37,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.happy.para.dto.AdminDto;
+import com.happy.para.dto.AlbaDto;
 import com.happy.para.dto.ChatDto;
 import com.happy.para.dto.FileDto;
 import com.happy.para.dto.OwnerDto;
+import com.happy.para.dto.TimeDto;
 import com.happy.para.model.Chat_IService;
+import com.happy.para.model.Timesheet_IService;
 
 @Controller
 public class CommonCtrl {
 	
+	//  로그를 찍기위해 선언
 	private Logger logger = LoggerFactory.getLogger(CommonCtrl.class);
+	// 채팅 내용이 저장될 절대경로
+	private final String path = "C:\\chatting";
+	
+	@Autowired
+	private Timesheet_IService timeSer;
 	
 	@Autowired
 	private Chat_IService chatService;
@@ -60,6 +87,7 @@ public class CommonCtrl {
 		System.out.println("채팅방 조회 및 생성을 위한 업주/담당자 auth : " + auth);
 		ChatDto chatDto = null;
 		String store_codeTwo = "";
+		String content = null;
 		if(auth.equalsIgnoreCase("A")) {
 			store_codeTwo = store_code;
 			System.out.println("담당자로 로그인 시 StoreCode : " + store_codeTwo);
@@ -71,6 +99,19 @@ public class CommonCtrl {
 				System.out.println("채팅방 생성 후 맨들어 진 ChatDto : " + chatDto);
 			}else {
 				System.out.println("채팅방이 있을 시 ChatDto : " + cDto);
+				File file = new File(path + "\\" + store_code + ".txt");
+				try {
+					FileInputStream inputStream = new FileInputStream(file);
+					byte[] readBuffer = new byte[inputStream.available()];
+					while(inputStream.read(readBuffer)!= -1) {
+					}
+					content = new String(readBuffer);
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				chatDto = chatService.selectChatRoom(store_code);
 			}
 		}
@@ -90,13 +131,28 @@ public class CommonCtrl {
 			}else {
 				System.out.println("채팅방이 있을 시 ChatDto : " + cDto);
 				chatDto = chatService.selectChatRoom(store_codeTwo);
+				System.out.println("채팅방이 있을 시 ChatDto : " + cDto);
+				File file = new File(path + "\\" + store_codeTwo + ".txt");
+				try {
+					FileInputStream inputStream = new FileInputStream(file);
+					byte[] readBuffer = new byte[inputStream.available()];
+					while(inputStream.read(readBuffer)!= -1) {
+					}
+					content = new String(readBuffer);
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}		
 		System.out.println("if문 밖에서 찍어본 Store_code : " + store_codeTwo);
 		System.out.println("if문 밖에서 찍어본 chatDto : " + chatDto);
 		System.out.println("if문 밖에서 찍어본 targer : " + id);
+		System.out.println("if문 밖에서 찍어본 content : " + content);
 		model.addAttribute("store_code", store_codeTwo);
 		model.addAttribute("chatDto", chatDto);
+		model.addAttribute("content", content);
 		model.addAttribute("target", id);
 		return "common/socket";
 	}
@@ -104,10 +160,27 @@ public class CommonCtrl {
 	@RequestMapping(value="/chatContentUpdate.do", method=RequestMethod.POST, produces = "application/text; charset=UTF-8")
 	@ResponseBody
 	public String updateChat(String chatTitle, String content) {
+		try {
+			File fileDir = new File(path);
+			if(!fileDir.exists()) {
+				fileDir.mkdirs();
+			}
+			File chatFile = new File(path + "\\" + chatTitle+".txt");
+			BufferedWriter bufferWriter = new BufferedWriter(new FileWriter(chatFile));
+			bufferWriter.write(content);
+			bufferWriter.flush();
+			bufferWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 		ChatDto dto = new ChatDto();
 		// 받은 chatmember 값을 정렬하기 위해 배열로 만듦
 		dto.setChat_title(chatTitle);
-		dto.setChat_content(content);
+		dto.setChat_content(path + "\\" + chatTitle+".txt");
 
 		System.out.println(content);
 
@@ -149,6 +222,195 @@ public class CommonCtrl {
 			System.out.println("파일업로드 성공 : " + isc);
 		}
 		return chatUploadPath + "\\" + originalName;
+	}
+	
+	public ModelAndView poiPaoDownload() {
+		return null;
+	}
+	
+	
+	@RequestMapping(value="/poiTimeSheet.do", method=RequestMethod.GET)
+	public ModelAndView poiTimeSheetDownload(HttpSession session, TimeDto dto, String ts_date) {
+		OwnerDto oDto = (OwnerDto) session.getAttribute("loginDto");
+		String store_code = oDto.getStore_code();
+		System.out.println("로그인 업주의 store_code : "+store_code);
+		String excelPath = "C:\\testExcel";
+		List<AlbaDto> albaLists = timeSer.tsAlba(store_code);
+		System.out.println("로그인 업주의 albaLists : "+albaLists);
+
+		Date getDate = new Date();
+		String today = getDate.toString();
+		System.out.println("현재날짜 : "+ today);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		System.out.println("현재날짜 : "+ sdf.format(getDate));
+		System.out.println("today : "+sdf.format(getDate));
+		
+		Workbook workBook = new HSSFWorkbook();
+		Sheet sheet = workBook.createSheet("timesheet");
+		Row row = null;
+		Cell cell = null;
+		int rowNo = 0;
+		CellStyle headStyle = workBook.createCellStyle();
+	    headStyle.setBorderTop(BorderStyle.THIN);
+	    headStyle.setBorderBottom(BorderStyle.THIN);
+	    headStyle.setBorderLeft(BorderStyle.THIN);
+	    headStyle.setBorderRight(BorderStyle.THIN);
+	    
+//	    headStyle.setFillBackgroundColor(HSSFColorPredefined.YELLOW.getIndex());
+	    headStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	    
+	    headStyle.setAlignment(HorizontalAlignment.CENTER);
+	    
+	    CellStyle bodyStyle = workBook.createCellStyle();
+	    bodyStyle.setBorderTop(BorderStyle.THIN);
+	    bodyStyle.setBorderBottom(BorderStyle.THIN);
+	    bodyStyle.setBorderLeft(BorderStyle.THIN);
+	    bodyStyle.setBorderRight(BorderStyle.THIN);
+	    
+	    row = sheet.createRow(rowNo++);
+	    cell = row.createCell(0);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("타임시트 번호");
+	    cell = row.createCell(1);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("알바 번호");
+	    cell = row.createCell(2);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("근무일");
+	    cell = row.createCell(3);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("근무시간");
+	    cell = row.createCell(4);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("주간 근무 시간");
+	    cell = row.createCell(5);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("야간 근무 시간");
+//		JSONObject timeObj = null;
+//		String timeArr = "";
+		
+		for (int i = 0; i < albaLists.size(); i++) {
+
+//			JSONArray timeAr = new JSONArray();
+
+			dto.setAlba_seq(albaLists.get(i).getAlba_seq());
+			
+			if(ts_date == null) {
+				dto.setTs_date(sdf.format(getDate));				
+//				model.addAttribute("today", sdf.format(getDate));
+			}else {
+				dto.setTs_date(ts_date);								
+//				model.addAttribute("today", ts_date);
+			}
+
+			List<TimeDto> lists = timeSer.tsList(dto);
+			System.out.println(lists);
+			for (TimeDto tDto : lists) {
+				row = sheet.createRow(rowNo++);
+				cell = row.createCell(0);
+				cell.setCellStyle(bodyStyle);
+				cell.setCellValue(tDto.getTs_seq());
+				cell = row.createCell(1);
+				cell.setCellStyle(bodyStyle);
+				cell.setCellValue(tDto.getAlba_seq());
+				cell = row.createCell(2);
+				cell.setCellStyle(bodyStyle);
+				cell.setCellValue(tDto.getTs_date());
+				cell = row.createCell(3);
+				cell.setCellStyle(bodyStyle);
+				cell.setCellValue(tDto.getTs_datetime());
+				cell = row.createCell(4);
+				cell.setCellStyle(bodyStyle);
+				cell.setCellValue(tDto.getTs_daywork());
+				cell = row.createCell(5);
+				cell.setCellStyle(bodyStyle);
+				cell.setCellValue(tDto.getTs_nightwork());
+			}
+			
+		}
+		int albaRow = 0;
+		Sheet alba = workBook.createSheet("아르바이트");
+		row = alba.createRow(albaRow++);
+	    cell = row.createCell(0);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("알바 번호");
+	    cell = row.createCell(1);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("이름");
+	    cell = row.createCell(2);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("전화번호");
+	    cell = row.createCell(3);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("주소");
+	    cell = row.createCell(4);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("시급");
+	    cell = row.createCell(5);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("은행명");
+	    cell = row.createCell(6);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("계좌번호");
+	    cell = row.createCell(7);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("퇴사여부");
+	    cell = row.createCell(8);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("근무 시작일");
+	    for (AlbaDto aDto : albaLists) {
+	    	row = alba.createRow(albaRow++);
+	    	cell = row.createCell(0);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_seq());
+	    	cell = row.createCell(1);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_name());
+	    	cell = row.createCell(2);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_phone());
+	    	cell = row.createCell(3);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_address());
+	    	cell = row.createCell(4);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_timesal());
+	    	cell = row.createCell(5);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_bank());
+	    	cell = row.createCell(6);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_account());
+	    	cell = row.createCell(7);
+	    	cell.setCellStyle(bodyStyle);
+	    	if (aDto.getAlba_delflag().equalsIgnoreCase("Y")) {
+	    		cell.setCellValue("퇴사자");
+	    	}else {
+	    		cell.setCellValue("입사자");
+	    	}
+	    	cell = row.createCell(8);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(aDto.getAlba_regdate());
+		}
+	    File xlsFile = null;
+	    try {
+//	    	xls
+	    	File fileDir = new File(excelPath);
+	    	if (!fileDir.exists()) {
+				fileDir.mkdirs();
+			}
+	    	
+	    	xlsFile = new File(excelPath+"\\"+oDto.getStore_code()+"-"+ts_date+".xls");
+	    	
+//	    	FileOutputStream fileOut = new FileOutputStream(xlsFile);
+//	    	workBook.write(fileOut);
+	    	
+	    }catch (Exception e) {
+			// TODO: handle exception
+		}
+	    
+	    return new ModelAndView("download","downloadFile", xlsFile);
 	}
 	
 }
