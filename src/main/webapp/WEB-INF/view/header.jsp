@@ -23,7 +23,8 @@
 <div id="header" class="container-fluid">
   <div class="row content">
 	<div class="headConts" align="center">
-	<div id="paraPhoto"><a href="main.do"><img alt="parapara_logo" src="./imgs/11111.JPG" class="logoImg" ></a></div>
+<!-- 	<div id="paraPhoto"><a href="main.do"><img alt="parapara_logo" src="./imgs/11111.JPG" class="logoImg" ></a></div> -->
+	<div id="paraPhoto"><a href="main.do"><img alt="parapara_logo" src="./imgs/logo2.jpg" class="logoImg" ></a></div>
 	<c:if test="${loginDto.auth eq 'S'}">
 		<div class="welcomeMsg"><p><small>관리자님 환영합니다!</small></p>
 	      <input type="button" class="btn btn-outline-success" value="마이페이지" onclick="chkMyPage()">
