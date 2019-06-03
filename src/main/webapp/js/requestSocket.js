@@ -50,7 +50,7 @@ function changeViewCustom(mySessionId,targetId) {
 			// 이후에만
 			// 데이터를 전송하도록 하기 위해 onopen 핸들러를 정의하고, 이 위에서 작업합니다.
 			ws.onopen = function() {
-				alert("고객 주문 세션 열림");
+//				alert("고객 주문 세션 열림");
 			};
 			// 화면쪽으로 전송받은 데이터가 있으면 받은 데이터로 처리해준다.
 			ws.onmessage = function(event) {
@@ -68,7 +68,7 @@ function changeViewCustom(mySessionId,targetId) {
 				requestHTML = "<td style=\"width: 60px; height: 28px\">"+message.rnum+"</td>"
 							+"<td id=\"waitMenu\" style=\"width: 220px; height: 28px\" onclick=\"waitMenuDetail("+message.request_seq+","+message.rnum+")\">"+message.request_menu+"</td>"
 							+"<td style=\"width: 100px; height: 28px\" >"+message.request_time+"</td>"
-							+"<td style=\"width: 40px; height: 28px\"><input type=\"button\" value=\"제조\" onclick=\"changeStatusCode2(this,'"+message.request_seq+"!"+message.rnum+"!"+message.request_menu+"!"+message.request_time+"')\" /></td>"
+							+"<td style=\"width: 40px; height: 28px\"><input type=\"button\" value=\"제조\" onclick=\"changeStatusCode2(this,'"+message.request_seq+":"+message.rnum+":"+message.request_menu+":"+message.request_time+"')\" /></td>"
 							+"<td style=\"width: 40px; height: 28px\"><input type=\"button\" value=\"환불\" onclick=\"changeStatusCode0(this,"+message.request_seq+")\"/></td>";
 				waitBody.appendChild(newTr).innerHTML = requestHTML;
 				
@@ -77,7 +77,7 @@ function changeViewCustom(mySessionId,targetId) {
 			}
 			// 예외가 발생했을 때 수행된다.
 			ws.onclose = function(event) {
-				alert("서버와의 연결이 종료되었습니다.");
+//				alert("서버와의 연결이 종료되었습니다.");
 			}
 			// 내용을 입력하고 버튼을 눌렀을 때 수행된다.
 			$("#chat_btn").bind("click", function() {
@@ -127,7 +127,7 @@ function choiceViewStatus(mySessionId,targetId){
 	// 이후에만
 	// 데이터를 전송하도록 하기 위해 onopen 핸들러를 정의하고, 이 위에서 작업합니다.
 	ws.onopen = function() {
-		alert("주문 현황 세션 열림");
+//		alert("주문 현황 세션 열림");
 	};
 	// 화면쪽으로 전송받은 데이터가 있으면 받은 데이터로 처리해준다.
 	ws.onmessage = function(event) {
@@ -143,7 +143,6 @@ function choiceViewStatus(mySessionId,targetId){
 		var newTr = document.createElement("tr");
 		var waitBody = document.getElementById("waitBody");
 		var request_menu = message.request_menu.substring(0,16);
-		alert("자른 메뉴명 : "+request_menu);
 		if(message.request_menu.length > 16){
 			requestHTML = "<td style=\"width: 60px; \">"+message.rnum+"</td>"
 			+"<td id=\"waitMenu\" style=\"width: 220px; \" onclick=\"waitMenuDetail("+message.request_seq+","+message.rnum+")\">"+request_menu+"..."+"</td>"
@@ -165,7 +164,7 @@ function choiceViewStatus(mySessionId,targetId){
 	}
 	// 예외가 발생했을 때 수행된다.
 	ws.onclose = function(event) {
-		alert("서버와의 연결이 종료되었습니다.");
+//		alert("서버와의 연결이 종료되었습니다.");
 	}
 	// 내용을 입력하고 버튼을 눌렀을 때 수행된다.
 	$("#chat_btn").bind("click", function() {
@@ -185,7 +184,7 @@ function choiceViewStatus(mySessionId,targetId){
 	}
 }
 function disconnect() {
-	alert("접속 종료 디스커넥트");
+//	alert("접속 종료 디스커넥트");
 	ws.close();
 	ws = null;
 }

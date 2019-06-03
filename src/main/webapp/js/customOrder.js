@@ -212,7 +212,6 @@ function customRequest() { //requestSocket.js 에서 실행 시킬꺼임
 	var menu_cnt = new Array();
 	var menu_price = new Array();
 	
-	
 	var date = new Date(); 
 	var sub = date.toString();
 	var time = sub.substring(16, 24);
@@ -223,6 +222,11 @@ function customRequest() { //requestSocket.js 에서 실행 시킬꺼임
 		menu_name[i] = name[i].value;
 		menu_cnt[i] = cnt[i].value;
 		menu_price[i] = price[i].value;
+	}
+	
+	if(menu_seq[0] == null){
+		swal("주문 메뉴를 선택해주세요.");
+		return false;
 	}
 
 	var nick = $('#nick').val();

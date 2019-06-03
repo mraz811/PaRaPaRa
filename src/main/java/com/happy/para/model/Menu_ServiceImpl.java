@@ -109,6 +109,12 @@ public class Menu_ServiceImpl implements Menu_IService{
 		return menu_IDao.deleteMenu(menu_seq);
 	}
 	
+	//담당자 메뉴 재판매
+	@Override
+	public boolean reSellMenu(String menu_seq) {
+		return menu_IDao.reSellMenu(menu_seq);
+	}
+		
 	//전체 메뉴 조회
 	@Override
 	public List<Integer> selAllMenu(){

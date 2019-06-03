@@ -258,7 +258,7 @@ window.onload = function (){
 													</c:choose>
 												</td>
 												<td width="90px;" >${fn:substring(wait.request_time,11,19)}</td>
-												<td style="width: 45px; padding: 8px 0px;"><input style="width: 40px; height: 28px; padding: 2px 2px;" class="btn btn-outline-primary" type="button" value="제조" onclick="changeStatusCode2(this,'${wait.request_seq},${wait.rnum},${wait.menu_name},${fn:substring(wait.request_time,11,19)}')" /></td>
+												<td style="width: 45px; padding: 8px 0px;"><input style="width: 40px; height: 28px; padding: 2px 2px;" class="btn btn-outline-primary" type="button" value="제조" onclick="changeStatusCode2(this,'${wait.request_seq}!${wait.rnum}!${wait.menu_name}!${fn:substring(wait.request_time,11,19)}')" /></td>
 												<td style="width: 45px; padding: 8px 0px;"><input style="width: 40px; height: 28px; padding: 2px 2px;" class="btn btn-outline-warning" type="button" value="환불" onclick="changeStatusCode0(this,${wait.request_seq})"/></td>
 											</tr>
 										</c:forEach>

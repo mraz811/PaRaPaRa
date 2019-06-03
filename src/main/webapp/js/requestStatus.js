@@ -81,8 +81,6 @@
 		var rnum = requestInfo[1]; //주문 번호
 		var menu_name = requestInfo[2]; //메뉴명
 		var request_time = requestInfo[3]; //주문 시간
-		alert(requestInfo);
-		alert(request_seq+"+"+rnum+"+"+menu_name+"+"+request_time);
 		
 		var os_code = "2";
 		$.ajax({
@@ -98,11 +96,19 @@
 				var newTr = document.createElement("tr");
 				var makeBody = document.getElementById("makeBody");
 				var html ="";
-				html =  "<td style=\"width: 60px;\" >"+rnum+"</td>"
-						+"<td id=\"makeMenu\" style=\"width: 270px; \" onclick=\"makeMenuDetail("+request_seq+","+rnum+")\">"+menu_name+"</td>"
-						+"<td style=\"width: 100px; \" >"+request_time+"</td>"
-						+"<td style=\"width: 55px; padding: 8px 0px;\"><input style=\"width: 40px; height: 28px; padding: 2px 2px;\" class=\"btn btn-outline-success\" type=\"button\" value=\"완료\" onclick=\"changeStatusCode3(this,"+request_seq+")\" /></td>";
-				//alert(html);
+				var subMenu_name = menu_name.substring(0, 20);
+				if(menu_name.length > 20){
+					html =  "<td style=\"width: 60px;\" >"+rnum+"</td>"
+					+"<td id=\"makeMenu\" style=\"width: 270px; \" onclick=\"makeMenuDetail("+request_seq+","+rnum+")\">"+subMenu_name+"..."+"</td>"
+					+"<td style=\"width: 100px; \" >"+request_time+"</td>"
+					+"<td style=\"width: 55px; padding: 8px 0px;\"><input style=\"width: 40px; height: 28px; padding: 2px 2px;\" class=\"btn btn-outline-success\" type=\"button\" value=\"완료\" onclick=\"changeStatusCode3(this,"+request_seq+")\" /></td>";
+				}else{
+					html =  "<td style=\"width: 60px;\" >"+rnum+"</td>"
+					+"<td id=\"makeMenu\" style=\"width: 270px; \" onclick=\"makeMenuDetail("+request_seq+","+rnum+")\">"+menu_name+"</td>"
+					+"<td style=\"width: 100px; \" >"+request_time+"</td>"
+					+"<td style=\"width: 55px; padding: 8px 0px;\"><input style=\"width: 40px; height: 28px; padding: 2px 2px;\" class=\"btn btn-outline-success\" type=\"button\" value=\"완료\" onclick=\"changeStatusCode3(this,"+request_seq+")\" /></td>";
+					
+				}
 				makeBody.appendChild(newTr).innerHTML = html;
 				document.getElementById("waitingDetail").innerHTML = "";
 				
@@ -113,20 +119,36 @@
 	}
 	function changeStatusCode0(line,request_seq){
 		var os_code = "0";
-		$.ajax({
-			url : "./updateOrderState.do",
-			type : "post",
-			async : true,
-			data : {"request_seq":request_seq,"os_code":os_code},
-			success : function(obj){
-				var waitBody = document.getElementById("waitBody");
-				var selectTr = line.parentNode.parentNode;
-				waitBody.removeChild(selectTr);
-				document.getElementById("waitingDetail").innerHTML = "";
-			},error : function(obj){
-				alert("관리자에게 문의해주세요"); 
-			}
-		})
+		swal({
+			  title: "주문을 환불하시겠습니까?",
+			  type: "warning",
+			  showCancelButton: true,
+			  confirmButtonClass: "btn-danger",
+			  cancelButtonClass: "btn-warning",
+			  confirmButtonText: "취소",
+			  cancelButtonText: "환불",
+			  closeOnConfirm: true,
+			  closeOnCancel: true
+			},
+			function(isConfirm) {
+			  if (!isConfirm) {
+				  $.ajax({
+						url : "./updateOrderState.do",
+						type : "post",
+						async : true,
+						data : {"request_seq":request_seq,"os_code":os_code},
+						success : function(obj){
+							var waitBody = document.getElementById("waitBody");
+							var selectTr = line.parentNode.parentNode;
+							waitBody.removeChild(selectTr);
+							document.getElementById("waitingDetail").innerHTML = "";
+						},error : function(obj){
+							alert("관리자에게 문의해주세요"); 
+						}
+					})
+			  } 
+			});
+		
 	}
 	function selRequestList(){
 		location.href="./selRequestList.do";

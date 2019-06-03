@@ -36,6 +36,24 @@ function menuDel(menu_seq){
 		  } 
 		});
 }
+function reSell(menu_seq){
+	swal({
+		  title: "메뉴를 재판매 하시겠습니까?",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonClass: "btn-danger",
+		  cancelButtonClass: "btn-warning",
+		  confirmButtonText: "취소",
+		  cancelButtonText: "재판매",
+		  closeOnConfirm: true,
+		  closeOnCancel: false
+		},
+		function(isConfirm) {
+		  if (!isConfirm) {
+		    location.href = "./reSellMenu.do?menu_seq="+menu_seq;
+		  } 
+		});
+}
 
 	function mainMenu(){
 	var menu_category = "주메뉴";
@@ -188,7 +206,7 @@ function drinkMenu(){
 						<img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/>
 						<br><small>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</small><br>
 						<small>판매 중지 </small>
-						<input style="padding-left: 9px;" type="button" id="resellMenu" class="btn btn-outline-primary" value="재판매">
+						<input style="padding-left: 9px;" type="button" id="resellMenu" class="btn btn-outline-primary" value="재판매" onclick="reSell(${menu.menu_seq})">
 						</div>
 					</c:otherwise>
 				</c:choose>

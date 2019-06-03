@@ -90,6 +90,12 @@ public class Menu_DaoImpl implements Menu_IDao{
 		return sqlSession.update(NS+"deleteMenu", menu_seq)>0?true:false;
 	}
 	
+	//담당자 메뉴 재판매
+	@Override
+	public boolean reSellMenu(String menu_seq) {
+		return sqlSession.update(NS+"reSellMenu",menu_seq)>0?true:false;
+	}
+	
 	//전체 메뉴 조회
 	@Override
 	public List<Integer> selAllMenu() {
