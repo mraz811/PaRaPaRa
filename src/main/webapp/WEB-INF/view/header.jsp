@@ -67,7 +67,7 @@
 	        <li class="nav-item"><a class="nav-link" href="./chatList.do?auth=A">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="채　　팅"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="./adminStatsIn.do">
+	        <li class="nav-item"><a class="nav-link" href="./adminStats.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="통　　계"></a>
 	        </li>
 	 	</ul><br>

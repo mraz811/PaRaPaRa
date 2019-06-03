@@ -180,4 +180,9 @@ public class Member_DaoImpl implements Member_IDao {
 		return sqlSession.selectOne(MNS+"findPwChkOwner", map);
 	}
 	
+	@Override
+	public List<OwnerDto> ownerListAll(String loc_code) {
+		return sqlSession.selectList(MNS+"ownerListAll", loc_code);
+	}
+	
 }
