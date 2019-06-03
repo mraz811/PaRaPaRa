@@ -12,7 +12,8 @@
 	height: 280px;
 }
 .center{
-	width: 330px;
+/* 	width: 330px; */
+	width: 530px;
 	position: relative;
 }
 
@@ -198,7 +199,7 @@
 				<input type="hidden" name="listNum"	id="listNum" value="${adminRow.listNum}">
 				<input type="hidden" id="chkCons" name="chkCons" value="${chkCons}">
 				<div class="center">
-					<ul class="pagination">
+					<ul class="pagination pagination-lg">
 						<li class="page-item">
 						 <a class="page-link" href="#" onclick="pageFirst(${adminRow.pageList},${adminRow.pageList})">&laquo;</a>
 						</li>

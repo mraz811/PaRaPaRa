@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>업주 발주 리스트</title>
-<link rel="stylesheet" href="./css/NoticeList.css">
 <script type="text/javascript">
 
 
@@ -86,15 +85,15 @@
 							  
 						}else{ // key=paoRow는 paging를 만들어 줌
 				
-							htmlTable +="<li><a href='#' onclick='pageFirst("+value.pageList+","+value.pageList+")'>&laquo;</a></li>";
-							htmlTable +="<li><a href='#' onclick='pagePre("+value.pageNum+","+value.pageList+")'>&lsaquo;</a></li>";
+							htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageFirst("+value.pageList+","+value.pageList+")'>&laquo;</a></li>";
+							htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pagePre("+value.pageNum+","+value.pageList+")'>&lsaquo;</a></li>";
 								
 							for (var i =value.pageNum ; i <= value.count; i++) {
-								htmlTable +="<li><a href='#' onclick='pageIndex("+i+")'>"+i+"</a></li>";
+								htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageIndex("+i+")'>"+i+"</a></li>";
 							}
 													
-							htmlTable +="<li><a href='#' onclick='pageNext("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&rsaquo;</a></li>";
-							htmlTable +="<li><a href='#' onclick='pageLast("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&raquo;</a></li>";
+							htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageNext("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&rsaquo;</a></li>";
+							htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageLast("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&raquo;</a></li>";
 						}
 				
 								
@@ -284,15 +283,15 @@
 						}
 					}else{ // key=paoRow는 paging를 만들어 줌
 	
-						htmlTable +="<li><a href='#' onclick='pageFirst("+value.pageList+","+value.pageList+")'>&laquo;</a></li>";
-						htmlTable +="<li><a href='#' onclick='pagePre("+value.pageNum+","+value.pageList+")'>&lsaquo;</a></li>";
+						htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageFirst("+value.pageList+","+value.pageList+")'>&laquo;</a></li>";
+						htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pagePre("+value.pageNum+","+value.pageList+")'>&lsaquo;</a></li>";
 						
 						for (var i =value.pageNum ; i <= value.count; i++) {
-							htmlTable +="<li><a href='#' onclick='pageIndex("+i+")'>"+i+"</a></li>";
+							htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageIndex("+i+")'>"+i+"</a></li>";
 						}
 										
-						htmlTable +="<li><a href='#' onclick='pageNext("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&rsaquo;</a></li>";
-						htmlTable +="<li><a href='#' onclick='pageLast("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&raquo;</a></li>";
+						htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageNext("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&rsaquo;</a></li>";
+						htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageLast("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&raquo;</a></li>";
 					}
 		
 					if(key=="paoLists"){
@@ -357,7 +356,7 @@
 			    			 <a class="nav-link" data-toggle="tab" id="calendar">Calendar</a>
 			  				</li>
 			  				<li class="nav-item">
-			    			 <a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a>
+			    			 <a class="nav-link active" data-toggle="tab" href="./selPaoList.do">발주</a>
 			  				</li>
 			  				<li class="nav-item">
 			    			 <a class="nav-link" data-toggle="tab" id="stock">재고</a>
@@ -365,10 +364,10 @@
 		  			</c:if>
 		  			<c:if test="${loginDto.auth eq 'A'}">
 		  				<li class="nav-item">
-	    					<a class="nav-link active" data-toggle="tab" id="storeList" href="#">매장 정보</a>
+	    					<a class="nav-link" data-toggle="tab" id="storeList" href="#">매장 정보</a>
 		  				</li>
 		  				<li class="nav-item">
-		    				<a class="nav-link" data-toggle="tab" href="./selAdminPaoList.do" href="#">발주</a>
+		    				<a class="nav-link active" data-toggle="tab" href="./selAdminPaoList.do" href="#">발주</a>
 		  				</li>
 		  				<li class="nav-item">
 		    				<a class="nav-link" data-toggle="tab" id="itemList" href="#">품목</a>
@@ -462,16 +461,16 @@
 							<input type="hidden" id="listNum" name="listNum" value="${paoRow.listNum}">
 	
 							<div class="center">
-								<ul class="pagination">
-									<li class="page-item disabled"><a href="#" onclick="pageFirst(${paoRow.pageList},${paoRow.pageList})">&laquo;</a></li>
-									<li class="page-item"><a href="#" onclick="pagePre(${paoRow.pageNum},${paoRow.pageList})">&lsaquo;</a></li>
+								<ul class="pagination pagination-lg">
+									<li class="page-item"><a class="page-link" href="#" onclick="pageFirst(${paoRow.pageList},${paoRow.pageList})">&laquo;</a></li>
+									<li class="page-item"><a class="page-link" href="#" onclick="pagePre(${paoRow.pageNum},${paoRow.pageList})">&lsaquo;</a></li>
 										
 									<c:forEach var="i" begin="${paoRow.pageNum}" end="${paoRow.count}" step="1">
-										<li class="page-item"><a href="#" onclick="pageIndex(${i})">${i}</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a></li>
 									</c:forEach>
 											
-									<li><a href="#" onclick="pageNext(${paoRow.pageNum},${paoRow.total},${paoRow.listNum},${paoRow.pageList})">&rsaquo;</a></li>
-									<li><a href="#" onclick="pageLast(${paoRow.pageNum},${paoRow.total},${paoRow.listNum},${paoRow.pageList})">&raquo;</a></li>
+									<li class="page-item"><a class="page-link" href="#" onclick="pageNext(${paoRow.pageNum},${paoRow.total},${paoRow.listNum},${paoRow.pageList})">&rsaquo;</a></li>
+									<li class="page-item"><a class="page-link" href="#" onclick="pageLast(${paoRow.pageNum},${paoRow.total},${paoRow.listNum},${paoRow.pageList})">&raquo;</a></li>
 								</ul>
 							</div>
 						</div>
