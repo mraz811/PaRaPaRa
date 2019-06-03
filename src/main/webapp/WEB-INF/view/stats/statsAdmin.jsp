@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
@@ -87,6 +88,9 @@ function selectDay(){
 	
 	
 }	
+function choiceStore(){
+	window.open('./adminChoiceStore.do', 'window팝업', 'width=500, height=370, scrollbars=no');
+}
 </script>
 <body>
 <div id="container">
@@ -102,6 +106,9 @@ function selectDay(){
     			 <a class="nav-link" data-toggle="tab" href="#">수익/지출 통계</a>
   				</li>
 			</ul>
+	<div>
+		
+	</div>
 	<div id="selectDate">
 		<input id="start" type="date" value="시작일"/>~<input id="end" type="date" value="종료일"/>
 		<input type="button" value="선택완료" onclick="selectDay()"/>

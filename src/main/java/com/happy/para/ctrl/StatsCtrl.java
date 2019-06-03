@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.GoogleChartDTO;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.StoreDto;
@@ -31,9 +32,11 @@ public class StatsCtrl {
 	private Store_IService store_IService;
 
 	// 통계 페이지로 이동
-	@RequestMapping(value = "/ownerStats.do", method = RequestMethod.GET)
-	public String ddd() {
-		return "/stats/statsOwner";
+	@RequestMapping(value = "/adminStats.do", method = RequestMethod.GET)
+	public String adminStats(HttpSession session) {
+		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
+		System.out.println(aDto);
+		return "/stats/statsAdmin";
 	}
 
 	// 아작스로 통계에 필요한 값 생성해서 보내는 거
@@ -109,13 +112,17 @@ public class StatsCtrl {
 	}
 
 	@RequestMapping(value = "/adminStatsIn.do", method = RequestMethod.GET)
-	public void adminStatsIncome(String[] store_code, String start, String end) {
+	public void adminStatsIncome(Model model, String[] store_code, String start, String end) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("store_code_", store_code);
 		map.put("start", start);
 		map.put("end", end);
 		int n = stats_IService.adminStatsIncome(map);
 		System.out.println("담당자 수익 통계에 쓸 값 : " + n);
+	}
+	@RequestMapping(value = "/adminChoiceStore.do", method = RequestMethod.GET)
+	public String adminChoiceStore() {
+		return "/stats/choiceStore";
 	}
 
 	@RequestMapping(value = "/adminStatsMenu.do", method = RequestMethod.GET)

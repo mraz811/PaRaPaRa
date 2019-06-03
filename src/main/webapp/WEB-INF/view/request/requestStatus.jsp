@@ -32,30 +32,47 @@
 	height: 435px;
 	position: absolute;
 	right: 0px;
+	
 }
 
 #making {
-	width: 140px;
+	width: 120px;
 	height: 20px;
 	margin: 10px auto 10px 10px;
+	
+	font-size: 15px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
 }
 
 #waiting {
-	width: 140px;
+	width: 120px;
 	height: 20px;
 	margin: 10px 360px 10px auto;
+	
+	font-size: 15px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
 }
 
 #makingList {
 	width: 490px;
-	height: 270px;
+	height: 295px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
 
 #waitingList {
 	width: 490px;
-	height: 270px;
+	height: 295px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
@@ -63,7 +80,7 @@
 #makingDetail {
 	width: 510px;
 	height: 130px;
-	top: 430px;
+	top: 450px;
 	position: absolute;
 }
 
@@ -71,7 +88,7 @@
 	width: 510px;
 	height: 130px;
 	left: 550px;
-	top: 430px;
+	top: 450px;
 	position: absolute;
 }
 #waitMenu,#makeMenu{
@@ -80,6 +97,7 @@
 #requestlist{
 	cursor: pointer;
 }
+
 
 
 
@@ -138,6 +156,13 @@
 		color: black;
 		background-color: white;
 	}
+#sView,#cView{
+	width: 300px;
+	height: 300px;
+	font-size: 40pt;
+	align-content: center;
+}
+
 </style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
@@ -156,34 +181,36 @@ window.onload = function (){
 		
 			<div class="bodyFrame">
 				<div class="bodyfixed">
-					<div class="oneDepth">주문</div>
+					<div class="oneDepth"><p>주문</p></div>
 					<div class="twoDepth">
 						<ul class="nav nav-tabs">
 							<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#">주문</a></li>
 							<li class="nav-item"><a id="requestlist" class="nav-link" data-toggle="tab" onclick="selRequestList()">주문내역</a></li>
 						</ul>
-						<div id="choiceView">
-							<input style="width: 200px;height: 200px;" type="button" value="주문현황" onclick="choiceViewStatus('${loginDto.owner_id}','${loginDto.store_code}')"/>
-							<input style="width: 200px;height: 200px;" type="button" value="고객주문" onclick="changeViewCustom('${loginDto.store_code}','${loginDto.owner_id}')"/>
+						<div id="choiceView" align="center">
+							<input id="sView" class="btn btn-outline-primary" type="button" value="주문현황" onclick="choiceViewStatus('${loginDto.owner_id}','${loginDto.store_code}')"/>
+							<input id="cView" class="btn btn-outline-success" type="button" value="고객주문" onclick="changeViewCustom('${loginDto.store_code}','${loginDto.owner_id}')"/>
 						</div>
 					<div id="request">
 						<div id="make">
-							<div id="making">제조중</div>
+							<div id="making">
+								<p>제조중</p>
+							</div>
 							<div id="makingList">
 								<table class="table">
-									<thead>
-										<tr>
-											<td style="width: 60px; height: 28px">번호</td>
-											<td style="width: 270px; height: 28px">주문메뉴명</td>
-											<td style="width: 100px; height: 28px">주문시간</td>
-											<td style="width: 55px; height: 28px">완료</td>
-										</tr>
-									</thead>
+<!-- 									<thead> -->
+<!-- 										<tr> -->
+<!-- 											<td style="width: 60px; height: 28px">번호</td> -->
+<!-- 											<td style="width: 270px; height: 28px">주문메뉴명</td> -->
+<!-- 											<td style="width: 100px; height: 28px">주문시간</td> -->
+<!-- 											<td style="width: 55px; height: 28px">완료</td> -->
+<!-- 										</tr> -->
+<!-- 									</thead> -->
 									<tbody id="makeBody">
 										<c:forEach begin="0" end="${fn:length(makeLists)}" items="${makeLists}" var="make" varStatus="vs">
 											<tr>
-												<td style="width: 60px; height: 28px" >${make.rnum}</td>
-												<td id="makeMenu" style="width: 270px; height: 28px;" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">
+												<td style="width: 60px;" >${make.rnum}</td>
+												<td id="makeMenu" style="width: 270px;" onclick="makeMenuDetail(${make.request_seq},${make.rnum})">
 													<c:choose>
 														<c:when test="${fn:length(make.menu_name) > 20}">
 															${fn:substring(make.menu_name,0,20)}...
@@ -193,8 +220,8 @@ window.onload = function (){
 														</c:otherwise>
 													</c:choose>
 												</td>
-												<td style="width: 100px; height: 28px" >${fn:substring(make.request_time,11,19)}</td>
-												<td style="width: 55px; height: 28px"><input type="button" value="완료" onclick="changeStatusCode3(this,${make.request_seq})" /></td>
+												<td style="width: 100px;">${fn:substring(make.request_time,11,19)}</td>
+												<td style="width: 55px; padding: 8px 0px;"><input style="width: 40px; height: 28px; padding: 2px 2px;" class="btn btn-outline-success" type="button" value="완료" onclick="changeStatusCode3(this,${make.request_seq})" /></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -207,20 +234,20 @@ window.onload = function (){
 							<div id="waiting">대기중</div>
 							<div id="waitingList">
 								<table class="table">
-									<thead>
-										<tr>
-											<td style="width: 60px; height: 28px">번호</td>
-											<td style="width: 220px; height: 28px">주문메뉴명</td>
-											<td style="width: 100px; height: 28px">주문시간</td>
-											<td style="width: 40px; height: 28px">제조</td>
-											<td style="width: 40px; height: 28px">환불</td>
-										</tr>
-									</thead>
+<!-- 									<thead> -->
+<!-- 										<tr> -->
+<!-- 											<td width="60px">번호</td> -->
+<!-- 											<td width="220px;">주문메뉴명</td> -->
+<!-- 											<td width="90px;">주문시간</td> -->
+<!-- 											<td style="width: 45px; padding: 12px 0px;">제조</td> -->
+<!-- 											<td style="width: 45px; padding: 12px 0px;">환불</td> -->
+<!-- 										</tr> -->
+<!-- 									</thead> -->
 									<tbody id="waitBody">
 										<c:forEach begin="0" end="${fn:length(waitLists)}" items="${waitLists}" var="wait" varStatus="vs">
 											<tr>
-												<td style="width: 60px; height: 28px" >${wait.rnum}</td>
-												<td id="waitMenu" style="width: 220px; height: 28px" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">
+												<td width="60px;">${wait.rnum}</td>
+												<td id="waitMenu" width="220px;" onclick="waitMenuDetail(${wait.request_seq},${wait.rnum})">
 													<c:choose>
 														<c:when test="${fn:length(wait.menu_name) > 16}">
 															${fn:substring(wait.menu_name,0,16)}...
@@ -230,9 +257,9 @@ window.onload = function (){
 														</c:otherwise>
 													</c:choose>
 												</td>
-												<td style="width: 100px; height: 28px" >${fn:substring(wait.request_time,11,19)}</td>
-												<td style="width: 40px; height: 28px"><input type="button" value="제조" onclick="changeStatusCode2(this,'${wait.request_seq},${wait.rnum},${wait.menu_name},${fn:substring(wait.request_time,11,19)}')" /></td>
-												<td style="width: 40px; height: 28px"><input type="button" value="환불" onclick="changeStatusCode0(this,${wait.request_seq})"/></td>
+												<td width="90px;" >${fn:substring(wait.request_time,11,19)}</td>
+												<td style="width: 45px; padding: 8px 0px;"><input style="width: 40px; height: 28px; padding: 2px 2px;" class="btn btn-outline-primary" type="button" value="제조" onclick="changeStatusCode2(this,'${wait.request_seq},${wait.rnum},${wait.menu_name},${fn:substring(wait.request_time,11,19)}')" /></td>
+												<td style="width: 45px; padding: 8px 0px;"><input style="width: 40px; height: 28px; padding: 2px 2px;" class="btn btn-outline-warning" type="button" value="환불" onclick="changeStatusCode0(this,${wait.request_seq})"/></td>
 											</tr>
 										</c:forEach>
 									</tbody>

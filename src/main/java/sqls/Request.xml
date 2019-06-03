@@ -140,6 +140,9 @@
 		<if test="os_code != null">
 			AND OS_CODE = #{os_code}
 		</if>
+		<if test="os_code == null">
+			AND (OS_CODE=3 OR OS_CODE=0)
+		</if>
 	</select>
 	
 </mapper>
