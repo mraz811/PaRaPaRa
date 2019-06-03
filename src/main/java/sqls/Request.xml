@@ -81,9 +81,22 @@
 	
 	<!-- 고객 주문 시 주문 등록 -->
 	<insert id="customOrder" parameterType="RequestDto">
+	<selectKey keyProperty="request_seq" order="BEFORE" resultType="java.lang.Integer">
+ 	 select REQUEST_SEQ.NEXTVAL as REQUEST_SEQ from dual
+ 	</selectKey>
 	INSERT INTO REQUEST (REQUEST_SEQ, REQUEST_TIME, REQUEST_MENU, REQUEST_PRICE, OS_CODE, STORE_CODE, REQUEST_BANK, REQUEST_ACCOUNT) 
-	VALUES(REQUEST_SEQ.NEXTVAL, SYSDATE, #{request_menu}, #{request_price}, 1, #{store_code}, #{request_bank}, #{request_account})
+	VALUES(#{request_seq}, SYSDATE, #{request_menu}, #{request_price}, 1, #{store_code}, #{request_bank}, #{request_account})
 	</insert>
+	
+	<!-- 고객 주문 시 대기중 조회 -->
+	<select id="requestCustomWait" parameterType="java.util.Map" resultType="RequestDto">
+	SELECT RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+			FROM(SELECT ROWNUM RNUM, REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+				FROM(SELECT REQUEST_SEQ,REQUEST_MENU, REQUEST_TIME,OS_CODE 
+					FROM REQUEST 
+					WHERE STORE_CODE = #{store_code} AND REQUEST_TIME BETWEEN #{start} AND SYSDATE+1))
+			WHERE OS_CODE= 1 AND REQUEST_SEQ=#{request_seq}
+	</select>
 	
 	<!-- 메뉴 번호에 따른 메뉴이름 찾기 -->
 	<select id="requestMenuName" parameterType="java.util.Map" resultType="MenuDto">

@@ -1,110 +1,7 @@
 var allContent = "";
 var fd = new FormData();
 
-function addMenu(menu){ // requestSocket.js에서 실행시킬꺼임
-	
-	var menuInfo = menu.split(",");
-	var newTr_id = menuInfo[0];
-	var menu_seq = menuInfo[1]; //주문 메뉴 번호
-	var menu_name = menuInfo[2]; //주문 메뉴 이름
-	var menu_qty = 1; //처음 주문 메뉴 수량
-	var menu_price = menuInfo[3]; //주문 메뉴 가격
-	var sum_price = menuInfo[3]; //주문 메뉴 가격 합계
-	var file_rurl = document.getElementById("m"+newTr_id).value;//이미지 파일 링크
-	
-
-    
-    var isc = document.getElementsByName("menu_seq"); //추가 버튼 계속 안눌리게 함
-    for (var i = 0; i < isc.length; i++) {
-    	if(menu_seq == isc[i].value){
-    		alert("이미 선택된 메뉴 입니다.");
-    		return false;
-    	}
-    }
-	
-//	document.getElementById(menu_seq).style.display = "none"; //버튼 아예 없애버리긔
-	var newTr = document.createElement("tr"); //새로운 tr 생성
-    newTr.setAttribute("id", newTr_id);
-    
-    var mBody = document.getElementById("mBody");
-    
-	mBody.appendChild(newTr).innerHTML = "<td>"
-											+"<img class=\"menuImg\" src=\""+file_rurl+"\" alt=\"\"/>"
-										+"</td>"
-										+"<td>"
-											+"<input type=\"hidden\" name=\"newTr_id\" value=\""+newTr_id+"\"/>"
-											+"<input type=\"hidden\" name=\"menu_seq\" value=\""+menu_seq+"\"/>"
-											+"<input type=\"text\" name=\"menu_name\" value=\""+menu_name+"\"/>"
-										+"</td>"
-										+"<td>"
-											+"<input type=\"button\" class=\"upBtn\" value=\"추가\" onclick=\"plus(this)\">"
-											+"<input type=\"text\" class=\"menu_cnt\" name=\"menu_cnt\" value=\""+menu_qty+"\"/>"
-											+"<input type=\"button\" class=\"downBtn\" value=\"빼기\" onclick=\"minus(this)\">"
-										+"</td>"
-										+"<td>"
-											+"<input type=\"text\" name=\"menu_price\" value=\""+menu_price+"\"/>"
-											+"<input type='hidden'  name='sumMenu_price' value='"+sum_price+"' readonly='readonly'>" 
-											+"<input type='hidden'  name='oneMenu_price' value='"+menu_price+"' readonly='readonly'>" 
-										+"</td>"
-										+"<td>" 
-									  		+"<input type='button' class='delBtn' value='삭제'  onclick='delChoice(this, \""+newTr_id+"\")'>" 
-									  	+"</td>";
-	
-	
-	// 메뉴 목록에서 추가 버튼을 누를 때 총 금액 값 변경
-	var totalMenuPrice = Number($('input[name=totalMenuPrice]').val());
-	totalMenuPrice += Number(menu_price);
-	$('input[name=totalMenuPrice]').val(totalMenuPrice);
-	
-	
-}
-
-function customRequest() { //주문 완료 버튼 누르면 작동되는 이벤트
-	var xhttp = new XMLHttpRequest();
-	//메뉴 번호, 수량, 가격  msg 로 보냄
-	var seq = document.getElementsByName("menu_seq");
-	var name = document.getElementsByName("menu_name");
-	var cnt = document.getElementsByName("menu_cnt");
-	var price = document.getElementsByName("menu_price");
-	var menu_seq = new Array();
-	var menu_name = new Array();
-	var menu_cnt = new Array();
-	var menu_price = new Array();
-	
-	var date = new Date(); 
-	var sub = date.toString();
-	var time = sub.substring(16, 24);
-	
-	var message = "";
-	for (var i = 0; i < seq.length; i++) { // ,은 seq,cnt,price 배열값들 구분  :은 메뉴 구분
-		menu_seq[i] = seq[i].value;        // ex) 1 , 3 , 18000 : 2 , 1 , 19000:
-		menu_name[i] = name[i].value;
-		menu_cnt[i] = cnt[i].value;
-		menu_price[i] = price[i].value;
-		message += menu_seq[i]+","+menu_name[i]+","+menu_cnt[i]+","+menu_price[i]+","+time+":"; //kdjfkdjlfdlkj
-	}
-	alert("메뉴 번호, 이름, 수량, 가격 컨캣한거 : "+message); 
-	
-	
-	//주문 메뉴 DB에 저장하는 ajax
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var response = JSON.parse(this.responseText);
-			var newTr_id = document.getElementsByName("newTr_id");
-			for (var i = 0; i < newTr_id.length; i++) {
-				var temp = newTr_id[i].value;
-				document.getElementById(temp).style.display = "block";
-			}
-			swal(response.success);
-			document.getElementById("mBody").innerHTML = "";
-			document.getElementById("rBody").innerHTML = "";
-			
-		}
-	};
-	xhttp.open("POST", "http://localhost:8091/PaRaPaRa/regiCustomOrder.do", true);
-	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send("menu_seq="+menu_seq+"&menu_cnt="+menu_cnt+"&menu_price="+menu_price);
-	
+function sendMsg(message) { //주문 완료 버튼 누르면 작동되는 이벤트
 	
 	var nick = $('#nick').val();
 	var reciver = $('#targetId').val();
@@ -161,16 +58,20 @@ function changeViewCustom(mySessionId,targetId) {
 //						+ $(".chattingDiv").hasScrollBar());
 //				alert(event.data);
 				
+				
 				var message = JSON.parse(event.data); //event.data.request_seq
 				
 				var requestHTML = "";
 				
 				var newTr = document.createElement("tr");
 				var waitBody = document.getElementById("waitBody");
-				
-				requestHTML = "";
-				
+				requestHTML = "<td style=\"width: 60px; height: 28px\">"+message.rnum+"</td>"
+							+"<td id=\"waitMenu\" style=\"width: 220px; height: 28px\" onclick=\"waitMenuDetail("+message.request_seq+","+message.rnum+")\">"+message.request_menu+"</td>"
+							+"<td style=\"width: 100px; height: 28px\" >"+message.request_time+"</td>"
+							+"<td style=\"width: 40px; height: 28px\"><input type=\"button\" value=\"제조\" onclick=\"changeStatusCode2(this,'"+message.request_seq+","+message.rnum+","+message.request_menu+","+message.request_time+"')\" /></td>"
+							+"<td style=\"width: 40px; height: 28px\"><input type=\"button\" value=\"환불\" onclick=\"changeStatusCode0(this,"+message.request_seq+")\"/></td>";
 				waitBody.appendChild(newTr).innerHTML = requestHTML;
+				
 				
 				
 			}
@@ -199,8 +100,6 @@ function choiceViewStatus(mySessionId,targetId){
 	document.getElementById("request").style.display = "block";
 	document.getElementById("custom").style.display = "none";
 	document.getElementById("choiceView").style.display = "none";
-	alert(mySessionId);
-	alert(targetId);
 //	alert("업데이트를 위한 고유값 : " + chatTitle);
 //	alert(mySessionId);
 //	$("#nickName").focus();
@@ -236,16 +135,22 @@ function choiceViewStatus(mySessionId,targetId){
 //				+ $(".chattingDiv").hasScrollBar());
 //		alert(event.data);
 		
+		
 		var message = JSON.parse(event.data); //event.data.request_seq
 		
 		var requestHTML = "";
 		
 		var newTr = document.createElement("tr");
 		var waitBody = document.getElementById("waitBody");
-		
-		requestHTML = "";
-		
+		requestHTML = "<td style=\"width: 60px; height: 28px\">"+message.rnum+"</td>"
+					+"<td id=\"waitMenu\" style=\"width: 220px; height: 28px\" onclick=\"waitMenuDetail("+message.request_seq+","+message.rnum+")\">"+message.request_menu+"</td>"
+					+"<td style=\"width: 100px; height: 28px\" >"+message.request_time+"</td>"
+					+"<td style=\"width: 40px; height: 28px\"><input type=\"button\" value=\"제조\" onclick=\"changeStatusCode2(this,'"+message.request_seq+","+message.rnum+","+message.request_menu+","+message.request_time+"')\" /></td>"
+					+"<td style=\"width: 40px; height: 28px\"><input type=\"button\" value=\"환불\" onclick=\"changeStatusCode0(this,"+message.request_seq+")\"/></td>";
 		waitBody.appendChild(newTr).innerHTML = requestHTML;
+		
+		
+		
 	}
 	// 예외가 발생했을 때 수행된다.
 	ws.onclose = function(event) {
