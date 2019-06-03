@@ -88,7 +88,7 @@
 	        <li class="nav-item"><a class="nav-link" href="./selRequestStatus.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="주　　문"></a>
 	        </li>
-	        <li class="nav-item"><a class="nav-link" href="./selStock.do">
+	        <li class="nav-item"><a class="nav-link" href="./selCal.do">
 	        	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="매장관리"></a>
 	        </li>
 	        <li class="nav-item"><a class="nav-link" href="./selTimeSheet.do">
