@@ -50,7 +50,7 @@ public class PaoCtrl {
 		
 		// 자신의 발주 내역 갯수를 set(페이징 처리를 위해)
 		rowDto.setTotal(paoService.paoListRow(store_code));
-		
+
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("store_code", store_code);
@@ -60,7 +60,7 @@ public class PaoCtrl {
 		List<PaoDto> paoLists = paoService.paoList(map);	// 발주 내역
 
 		System.out.println(paoLists);
-		
+
 		model.addAttribute("store_code", store_code);
 		model.addAttribute("paoLists", paoLists);
 		model.addAttribute("paoRow", rowDto);
@@ -237,6 +237,7 @@ public class PaoCtrl {
 			jList.put("pao_seq",dto.getPao_seq());
 			jList.put("store_code",dto.getStore_code());
 			jList.put("store_name",dto.getStore_name());
+			jList.put("ps_code",dto.getPs_code());
 			jList.put("ps_name",dto.getPs_name());
 			jList.put("pao_date",dto.getPao_date());
 
