@@ -74,4 +74,6 @@ public interface Member_IDao {
 	// 비밀번호 찾기 시 아이디, 이메일 정보 유효한지 ajax
 	public int findPwChkOwner(Map<String, String> map);
 	
+	// 담당하는 업주 전체 조회
+	public List<OwnerDto> ownerListAll(String loc_code);
 }

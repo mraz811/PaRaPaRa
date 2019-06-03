@@ -18,6 +18,7 @@ import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.GoogleChartDTO;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.StoreDto;
+import com.happy.para.model.Member_IService;
 import com.happy.para.model.Stats_IService;
 import com.happy.para.model.Store_IService;
 
@@ -30,14 +31,9 @@ public class StatsCtrl {
 
 	@Autowired
 	private Store_IService store_IService;
-
-	// 통계 페이지로 이동
-	@RequestMapping(value = "/adminStats.do", method = RequestMethod.GET)
-	public String adminStats(HttpSession session) {
-		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
-		System.out.println(aDto);
-		return "/stats/statsAdmin";
-	}
+	
+	@Autowired
+	private Member_IService member_IService;
 
 	// 아작스로 통계에 필요한 값 생성해서 보내는 거
 	@RequestMapping(value = "/ownerStatsIn.do", method = RequestMethod.GET)
@@ -110,6 +106,15 @@ public class StatsCtrl {
 		map.put("end", end);
 
 	}
+	@RequestMapping(value = "/adminStats.do", method = RequestMethod.GET)
+	public String adminStats(HttpSession session,Model model) {
+		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
+		System.out.println(aDto);
+		List<OwnerDto> lists = member_IService.ownerListAll(aDto.getLoc_code());
+		model.addAttribute("ownerList", lists);
+		return "/stats/statsAdmin";
+	}
+	
 
 	@RequestMapping(value = "/adminStatsIn.do", method = RequestMethod.GET)
 	public void adminStatsIncome(Model model, String[] store_code, String start, String end) {
@@ -119,10 +124,6 @@ public class StatsCtrl {
 		map.put("end", end);
 		int n = stats_IService.adminStatsIncome(map);
 		System.out.println("담당자 수익 통계에 쓸 값 : " + n);
-	}
-	@RequestMapping(value = "/adminChoiceStore.do", method = RequestMethod.GET)
-	public String adminChoiceStore() {
-		return "/stats/choiceStore";
 	}
 
 	@RequestMapping(value = "/adminStatsMenu.do", method = RequestMethod.GET)

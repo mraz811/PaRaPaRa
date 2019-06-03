@@ -201,4 +201,8 @@ public class Member_ServiceImpl implements Member_IService {
 		return member_IDao.findPwChkOwner(map);
 	}
 	
+	@Override
+	public List<OwnerDto> ownerListAll(String loc_code) {
+		return member_IDao.ownerListAll(loc_code);
+	}
 }

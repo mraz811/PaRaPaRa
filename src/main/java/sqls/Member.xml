@@ -175,6 +175,12 @@
 	WHERE OWNER_ID=#{owner_id} AND OWNER_EMAIL=#{owner_email}
 </select>
 
-
+<!-- 담당하는 업주 전체 조회 -->
+<select id="ownerListAll" parameterType="java.lang.String" resultType="OwnerDto">
+	SELECT OWNER_SEQ, OWNER_ID, OWNER_PW, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, STORE_CODE, 
+	TO_CHAR(OWNER_START,'YYYY-MM-DD') AS OWNER_START, OWNER_END, STORE_NAME
+	FROM OWNER JOIN STORE USING(STORE_CODE)
+	WHERE STORE_CODE IN (SELECT STORE_CODE FROM STORE WHERE LOC_CODE = #{loc_code})
+</select>
 
 </mapper>
