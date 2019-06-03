@@ -24,6 +24,9 @@ public interface Pao_IDao {
 	
 	// 업주 : 발주 상태 선택 조회 및  매장 발주 날짜 선택 조회(페이징)
 	public List<PaoDto> paoSelectStatusDate(Map<String, Object> map);
+	
+	// 담당자 : 발주 상태 선택 조회 및  매장 발주 날짜 선택 조회(페이징)
+	public List<PaoDto> adimPaoSelectStatusDate(Map<String, Object> map);
 
 	// 업주 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회한 발주 내역 갯수(페이징)
 	public int paoStatusListRow(Map<String, Object> map);
