@@ -20,6 +20,12 @@
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <script type="text/javascript" src="./js/bootstrap.js"></script>
 <script type="text/javascript">
+	
+	// 발주 상세내역 excel 다운로드
+	function paoExcelDownload(){
+		location.href = "./poiPao.do?store_code=${paoDto.store_code}&pao_seq=${paoDto.pao_seq}";
+	}
+	
 
 	// 담당자가 발주 상세내역에서 발주 승인 처리 시 발생하는 이벤트
 	function approve() {
@@ -150,6 +156,7 @@
 <body>
 	<div id="pageName">
 		<h1>발주 상세내역</h1>
+		<input type="button" value="엑셀로 다운로드" onclick="paoExcelDownload()">
 		<hr>
 	</div>
 	

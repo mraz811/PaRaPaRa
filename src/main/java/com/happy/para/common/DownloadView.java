@@ -28,7 +28,7 @@ public class DownloadView extends AbstractView{
          
          System.out.println("DownloadView --> file.getPath() : " + file.getPath());        
          System.out.println("DownloadView --> file.getName() : " + file.getName());
-         System.out.println("DownloadView --> file.sasdasdwwd() : " + original_name);
+//         System.out.println("DownloadView --> file.sasdasdwwd() : " + original_name);
          
          response.setContentType(getContentType());        
          response.setContentLength((int)file.length());        
