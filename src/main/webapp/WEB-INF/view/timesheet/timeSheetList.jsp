@@ -52,9 +52,8 @@ function timeSheetDownload() {
 
 	<form action="#" method="get">
 
-<%-- 	<input type="date" id='currentDate' name="ts_date" value="${today}"> --%>
-	<input type="date" id='currentDate' name="ts_date" value="${today}">
-	<button onclick="changheDate()">날짜 변경</button>
+	<input type="date" id='currentDate' name="ts_date" value="${today}" onchange="changheDate()">
+<!-- 	<button onclick="changheDate()">날짜 변경</button> -->
 	<input type="button" value="엑셀로 다운로드" onclick="timeSheetDownload()">
 	</form>
 
@@ -84,24 +83,12 @@ function timeSheetDownload() {
 function changheDate() {
 	
 	var ts_date = document.getElementById("currentDate").value;
-	alert(ts_date);
-	/* 
+	
+// 	alert(ts_date);
+	
 	var frm = document.forms[0];
-	frm.action = "./selTimeSheet.do";
+	frm.action = "./selTimeSheet.do?ts_date="+ts_date;
 	frm.submit();
-	*/
-	$.ajax({
-		url: "selTimeSheet.do", //요청 url
-		type: "get", // 전송 처리방식
-		asyn: false, // true 비동기 false 동기
-// 		data: { 'ts_date' : ts_date }, // 서버 전송 파라메터 
-		data: "ts_date="+ts_date, // 서버 전송 파라메터 
-		success: function(msg){
-			alert("성공");
-		}, error : function() {
-			alert("실패");
-		}
-	});	
 	
 }
 
