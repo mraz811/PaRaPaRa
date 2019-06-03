@@ -68,9 +68,17 @@
 								  						+ "<td>"
 								  								+dto.store_name
 								  								+"<input type='hidden' name='pao_store_code' value='"+dto.store_code+"'>"
-								  						+"</td>"
-														+ "<td>"+dto.ps_name+"</td>"
-												 		+ "<td>"+dto.pao_date+"</td>"
+								  						+"</td>";
+								  						if(dto.ps_code=="1"){
+								  							htmlTable += "<td style='color:orange; font-weight:bold;'>"+dto.ps_name+"</td>";	
+								  						}else if(dto.ps_code=="2"){
+								  							htmlTable += "<td style='color:blue; font-weight:bold;'>"+dto.ps_name+"</td>";
+								  						}else if(dto.ps_code=="3"){
+								  							htmlTable += "<td style='color:green; font-weight:bold;'>"+dto.ps_name+"</td>";
+								  						}else{
+								  							htmlTable += "<td style='color:red; font-weight:bold;'>"+dto.ps_name+"</td>";
+								  						}
+											htmlTable += "<td>"+dto.pao_date+"</td>"
 													+ "</tr>"
 												+"</tbody>";
 								});
@@ -213,8 +221,7 @@
 		pageAjax();
 	
 	}
-
-	
+	var count = 1;
 	var pageAjax = function(){
 
 		$.ajax({
@@ -228,7 +235,8 @@
 				$.each(msg,function(key,value){
 					var htmlTable = "";
 					var n = $(".table tr:eq(0) th").length;
-					
+					//var count = document.getElementById("totalPaoCnt").value;
+					//alert(count);
 					if(key=="paoLists"){ // table을 만들어 줌
 						htmlTable += "<thead>"+
 										"<tr class='table-primary'>"+
@@ -253,15 +261,23 @@
 								htmlTable += "<tbody>"
 												+ "<tr onclick='paoDetail(this)'>"  
 									  				+ "<td>"
-							  								+dto.pao_seq
-							  								+"<input type='hidden' class='pao_seq' name='pao_seq' value='"+dto.pao_seq+"'>"
+							  							+ dto.pao_seq 	
+							  							+ "<input type='hidden' class='pao_seq' name='pao_seq' value='"+dto.pao_seq+"'>"
 							  						+ "</td>"
 							  						+ "<td>"
 							  								+dto.store_name
 							  								+"<input type='hidden' name='pao_store_code' value='"+dto.store_code+"'>"
-							  						+"</td>"
-													+ "<td>"+dto.ps_name+"</td>"
-											 		+ "<td>"+dto.pao_date+"</td>"
+							  						+"</td>";
+							  						if(dto.ps_code=="1"){
+							  							htmlTable += "<td style='color:orange; font-weight:bold;'>"+dto.ps_name+"</td>";	
+							  						}else if(dto.ps_code=="2"){
+							  							htmlTable += "<td style='color:blue; font-weight:bold;'>"+dto.ps_name+"</td>";
+							  						}else if(dto.ps_code=="3"){
+							  							htmlTable += "<td style='color:green; font-weight:bold;'>"+dto.ps_name+"</td>";
+							  						}else{
+							  							htmlTable += "<td style='color:red; font-weight:bold;'>"+dto.ps_name+"</td>";
+							  						}
+										htmlTable += "<td>"+dto.pao_date+"</td>"
 												+ "</tr>"
 											+"</tbody>";
 							});
@@ -291,7 +307,10 @@
 		
 	}
 
-	
+/* 	function test() {
+		
+	}
+	 */
 </script>
 <style type="text/css">
 	#selectStatus{
@@ -375,6 +394,7 @@
 						<div id="paoList">
 							<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
 							<input type='hidden' id='store_code' value='${store_code}'>
+							
 							<table class="table table-hover" id="paoTable">
 								<thead>
 									<tr class="table-primary">
@@ -433,6 +453,7 @@
 						<div id="btnDiv">
 							<c:if test="${loginDto.auth eq 'U'}">
 								<input type="button" class="btn btn-outline-success" value="발주신청" onclick="paoRequest()">
+								<!-- <input type="button" value="test" onclick="test()"> -->
 							</c:if>
 						</div>
 					</form>
