@@ -44,6 +44,9 @@ public interface Menu_IDao {
 	//담당자 메뉴 삭제
 	public boolean deleteMenu(String menu_seq);
 	
+	//담당자 메뉴 재판매
+	public boolean reSellMenu(String menu_seq);
+	
 	//전체 메뉴 조회
 	public List<Integer> selAllMenu();
 }

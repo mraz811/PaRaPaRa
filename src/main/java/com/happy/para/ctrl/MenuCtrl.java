@@ -583,4 +583,24 @@ public class MenuCtrl {
 		return "/menu/menuListAdmin";
 	}
 
+	// 담당자 : 메뉴 삭제
+	@RequestMapping(value = "/reSellMenu.do", method = RequestMethod.GET)
+	public String reSellMenu(String menu_seq, Model model) {
+		System.out.println("넘겨받은 menu_seq : " + menu_seq);
+		boolean isc = menu_IService.reSellMenu(menu_seq);
+		System.out.println("담당자 메뉴 재판매 등록 성공? : " + isc);
+		String menu_category = "주메뉴";
+		MenuDto dto = new MenuDto();
+		dto.setMenu_category(menu_category);
+		List<MenuDto> lists = menu_IService.allMenu(dto);
+		for (int i = 0; i < lists.size(); i++) {
+			String rurl = lists.get(i).getFileDto().getFile_rurl();
+			System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
+			lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+			System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
+		}
+		System.out.println("전체 메뉴 조회 : " + lists);
+		model.addAttribute("menuList", lists);
+		return "/menu/menuListAdmin";
+	}
 }
