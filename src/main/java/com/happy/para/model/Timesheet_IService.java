@@ -16,7 +16,7 @@ public interface Timesheet_IService {
 	public List<TimeDto> tsList(TimeDto dto);
 
 	// 일별 알바별 datetime list로 가져오기
-	public List<TimeDto> tsDatetimeList(TimeDto dto);
+	public List<AlbaDto> tsDatetimeList(Map<String, Object> map);
 	
 	// timesheet 추가
 	public boolean tsRegister(TimeDto dto);
