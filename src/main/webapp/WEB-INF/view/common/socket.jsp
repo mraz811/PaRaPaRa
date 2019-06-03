@@ -81,7 +81,7 @@
 		<div class="bodyfixed">
 			<div class="oneDepth">
 				<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
-				<p class="text-primary" style="font-size: 40px;">채팅</p>
+				<p>채팅</p>
 			</div> <!-- div class=oneDepth -->
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">

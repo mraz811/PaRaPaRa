@@ -4,13 +4,16 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -26,6 +29,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +47,12 @@ import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.AlbaDto;
 import com.happy.para.dto.ChatDto;
 import com.happy.para.dto.FileDto;
+import com.happy.para.dto.ItemDto;
 import com.happy.para.dto.OwnerDto;
+import com.happy.para.dto.PaoDto;
 import com.happy.para.dto.TimeDto;
 import com.happy.para.model.Chat_IService;
+import com.happy.para.model.Pao_IService;
 import com.happy.para.model.Timesheet_IService;
 
 @Controller
@@ -62,6 +69,8 @@ public class CommonCtrl {
 	@Autowired
 	private Chat_IService chatService;
 	
+	@Autowired
+	private Pao_IService paoService;
 	
 	@Resource(name="chatUploadPath")
 	private String chatUploadPath;
@@ -224,8 +233,170 @@ public class CommonCtrl {
 		return chatUploadPath + "\\" + originalName;
 	}
 	
-	public ModelAndView poiPaoDownload() {
-		return null;
+	@RequestMapping(value="/poiPao.do", method=RequestMethod.GET)
+	public ModelAndView poiPaoDownload(String store_code, String pao_seq) {
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("store_code", store_code);		
+		map.put("pao_seq", pao_seq);
+		String excelPath = "C:\\paoExcel";
+		System.out.println("pao_seq 값 : " + pao_seq);
+		System.out.println("store_code 값 : " + store_code);
+		PaoDto paoDto = paoService.paoDetail(map);	// 발주
+		
+		List<ItemDto> piLists = paoService.paoPiDetail(pao_seq);	// 발주한 품목
+		
+		Workbook workBook = new HSSFWorkbook();
+		Sheet sheet = workBook.createSheet("pao");
+		Row row = null;
+		Cell cell = null;
+		int rowNo = 4;
+		CellStyle headStyle = workBook.createCellStyle();
+	    headStyle.setBorderTop(BorderStyle.THIN);
+	    headStyle.setBorderBottom(BorderStyle.THIN);
+	    headStyle.setBorderLeft(BorderStyle.THIN);
+	    headStyle.setBorderRight(BorderStyle.THIN);
+	    
+//	    headStyle.setFillBackgroundColor(HSSFColorPredefined.YELLOW.getIndex());
+	    headStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	    
+	    headStyle.setAlignment(HorizontalAlignment.CENTER);
+	    
+	    CellStyle bodyStyle = workBook.createCellStyle();
+	    bodyStyle.setBorderTop(BorderStyle.THIN);
+	    bodyStyle.setBorderBottom(BorderStyle.THIN);
+	    bodyStyle.setBorderLeft(BorderStyle.THIN);
+	    bodyStyle.setBorderRight(BorderStyle.THIN);
+	    
+	    row = sheet.createRow(0);
+	    sheet.addMergedRegion(new CellRangeAddress(0, 0, 3, 4));
+	    sheet.addMergedRegion(new CellRangeAddress(1, 1, 3, 4));
+	    
+	    cell= row.createCell(0);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("발주번호");
+	    cell= row.createCell(1);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("매장명");
+	    cell= row.createCell(2);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("발주상태");
+	    cell= row.createCell(3);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("날짜");
+	    cell= row.createCell(4);
+	    cell.setCellStyle(headStyle);
+		
+		row = sheet.createRow(1);
+		cell = row.createCell(0);
+		cell.setCellStyle(bodyStyle);
+	    cell.setCellValue(pao_seq);
+	    cell= row.createCell(1);
+	    cell.setCellStyle(bodyStyle);
+	    cell.setCellValue(paoDto.getStore_name());
+	    cell= row.createCell(2);
+	    cell.setCellStyle(bodyStyle);
+	    if(paoDto.getPs_code() == 1) {
+	    	cell.setCellValue("발주대기");
+	    }
+	    if(paoDto.getPs_code() == 2) {
+	    	cell.setCellValue("발주승인");
+	    }
+	    if(paoDto.getPs_code() == 3) {
+	    	cell.setCellValue("발주완료");
+	    }
+	    if(paoDto.getPs_code() == 0) {
+	    	cell.setCellValue("발주취소");
+	    }
+	    cell= row.createCell(3);
+	    cell.setCellStyle(bodyStyle);
+	    cell.setCellValue(paoDto.getPao_date());
+	    cell= row.createCell(4);
+	    cell.setCellStyle(bodyStyle);
+	    
+	    row = sheet.createRow(3);
+	    cell= row.createCell(0);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("번호");
+	    cell= row.createCell(1);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("품목명");
+	    cell= row.createCell(2);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("수량");
+	    cell= row.createCell(3);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("가격");
+	    cell= row.createCell(4);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("합계금액");
+	    int cnt = 1;
+	    int qtySum = 0;
+	    int totalPrice = 0;
+	    for (ItemDto dto : piLists) {
+	    	row = sheet.createRow(rowNo++);
+	    	cell= row.createCell(0);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(cnt++);
+	    	cell= row.createCell(1);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(dto.getItem_name());
+	    	cell= row.createCell(2);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(dto.getPi_qty());
+	    	cell= row.createCell(3);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(dto.getItem_price());
+	    	cell= row.createCell(4);
+	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellValue(dto.getPi_qty() * dto.getItem_price());
+			qtySum += dto.getPi_qty();
+			totalPrice += dto.getPi_qty() * dto.getItem_price();
+		}
+	    row = sheet.createRow(++rowNo);
+	    cell = row.createCell(0);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("합계");
+	    cell = row.createCell(1);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("수량");
+	    cell = row.createCell(2);
+	    cell.setCellStyle(bodyStyle);
+	    cell.setCellValue(qtySum);
+	    cell = row.createCell(3);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("총금액");
+	    cell = row.createCell(4);
+	    cell.setCellStyle(bodyStyle);
+	    cell.setCellValue(totalPrice);
+	    System.out.println("등록일 : " + paoDto.getPao_date());
+	    System.out.println("매장코드 : " + paoDto.getStore_code());
+	    System.out.println("등록일 바뀐거 : " + paoDto.getPao_date().replaceAll("-", "_").replaceAll(" ", "_"));
+	    String pathFinal = excelPath+"\\"+paoDto.getStore_code()+"_"+paoDto.getPao_date().replaceAll("-", "_").replaceAll(" ", "_")+"_pao.xls";
+	    System.out.println("서버에 파일이 저장될 경로" + pathFinal);
+	    File xlsFile = null;
+	    try {
+//	    	xls
+	    	File fileDir = new File(excelPath);
+	    	if (!fileDir.exists()) {
+				fileDir.mkdirs();
+			}
+	    	
+	    	xlsFile = new File(excelPath+"\\"+paoDto.getStore_code()+"_"+pao_seq+"_pao.xls");
+	    	System.out.println("파일이 되나?");
+	    	
+	    	FileOutputStream excelFile = new FileOutputStream(xlsFile);
+	    	System.out.println("아웃풋스트림이 되나");
+	    	
+	    	workBook.write(excelFile);
+	    	System.out.println("완료가 되나?");
+	    }catch (Exception e) {
+			// TODO: handle exception
+	    	e.printStackTrace();
+		}
+	    
+	    return new ModelAndView("download","downloadFile", xlsFile);
 	}
 	
 	
@@ -234,7 +405,7 @@ public class CommonCtrl {
 		OwnerDto oDto = (OwnerDto) session.getAttribute("loginDto");
 		String store_code = oDto.getStore_code();
 		System.out.println("로그인 업주의 store_code : "+store_code);
-		String excelPath = "C:\\testExcel";
+		String excelPath = "C:\\timeSheetExcel";
 		List<AlbaDto> albaLists = timeSer.tsAlba(store_code);
 		System.out.println("로그인 업주의 albaLists : "+albaLists);
 
@@ -394,6 +565,8 @@ public class CommonCtrl {
 	    	cell.setCellValue(aDto.getAlba_regdate());
 		}
 	    File xlsFile = null;
+	    String pathFinal = excelPath+"\\"+oDto.getStore_code()+"_"+ts_date.replaceAll("-", "_")+"_timesheet.xls";
+	    System.out.println("파일이 저장될 경로 : " + pathFinal);
 	    try {
 //	    	xls
 	    	File fileDir = new File(excelPath);
@@ -401,10 +574,10 @@ public class CommonCtrl {
 				fileDir.mkdirs();
 			}
 	    	
-	    	xlsFile = new File(excelPath+"\\"+oDto.getStore_code()+"-"+ts_date+".xls");
+	    	xlsFile = new File(excelPath+"\\"+oDto.getStore_code()+"_"+ts_date.replaceAll("-", "_")+"_timesheet.xls");
 	    	
-//	    	FileOutputStream fileOut = new FileOutputStream(xlsFile);
-//	    	workBook.write(fileOut);
+	    	FileOutputStream fileOut = new FileOutputStream(xlsFile);
+	    	workBook.write(fileOut);
 	    	
 	    }catch (Exception e) {
 			// TODO: handle exception
