@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="./css/NoticeList.css">
 <script type="text/javascript">
 
+
+	
 	//발주 상태 조회 셀렉트 박스 선택 및 날짜별 검색에 대한 이벤트
 	function selectStatusDate() {
 		var store_code = document.getElementById("store_code").value;
@@ -26,7 +28,7 @@
 		$.ajax({
 			url : "./paoStatusAjax.do",	// 요청 URL
 			type : "post",	// 전송 처리 방식
-			asyn : false,	// trun 비동기식, false 동기식
+			asyn : false,	// true 비동기식, false 동기식
 			data : "store_code="+store_code+"&status="+paoStatus+"&startDate="+startDate+"&endDate="+endDate+"&loginDtoAuth="+loginDtoAuth,	// 서버 전송 파라미터
 			dataType : "json",	// 서버에서 받는 데이터 타입
 			success: function(msg){
@@ -37,30 +39,40 @@
 						var htmlTable = "";
 						//alert(value.length);
 						if(key=="paoLists"){ // table을 만들어 줌
-							htmlTable += "<tr class='table-primary'>"+
-							"<th>발주번호</th>"+
-							"<th>매장명</th>"+
-							"<th>발주상태</th>"+
-							"<th>날짜</th></tr>";
+							htmlTable += "<thead>"+
+											"<tr class='table-primary'>"+
+												"<th>발주번호</th>"+
+												"<th>매장명</th>"+
+												"<th>발주상태</th>"+
+												"<th>날짜</th>"+
+											"</tr>"+
+										 "</thead>";
 							
 							// 내용을 출력해 준다(paoLists:[{key,value},{},{}])
 							// key에 대응하는 value 값이 없다면
 							if(value.length==0){
-								htmlTable += "<tr onclick='paoDetail(this)'>"
-												+ "<th colspan='4' style='text-align:center; color: red; font-weight: bold;'>발주 내역이 없습니다.</th>"
-										   + "</tr>";
+								htmlTable += "<tbody>" 
+												+ "<tr>"
+													+ "<th colspan='4' style='text-align:center; color: red; font-weight: bold;'>발주 내역이 없습니다.</th>"
+										   		+ "</tr>"
+										   	 "</tbody>";
 							}else{
 								$.each(value,function(key, dto){
 									
-									htmlTable += "<tr onclick='paoDetail(this)'>"  
-									  				+ "<td>"
-							  								+dto.pao_seq
-							  								+"<input type='hidden' class='pao_seq' name='pao_seq' value='"+dto.pao_seq+"'>"
-							  						+ "</td>"
-							  						+ "<td>"+dto.store_name+"</td>"
-													+ "<td>"+dto.ps_name+"</td>"
-											 		+ "<td>"+dto.pao_date+"</td>"
-												+ "</tr>";
+									htmlTable += "<tbody>"
+													+ "<tr onclick='paoDetail(this)'>"  
+										  				+ "<td>"
+								  								+dto.pao_seq
+								  								+"<input type='hidden' class='pao_seq' name='pao_seq' value='"+dto.pao_seq+"'>"
+								  						+ "</td>"
+								  						+ "<td>"
+								  								+dto.store_name
+								  								+"<input type='hidden' name='pao_store_code' value='"+dto.store_code+"'>"
+								  						+"</td>"
+														+ "<td>"+dto.ps_name+"</td>"
+												 		+ "<td>"+dto.pao_date+"</td>"
+													+ "</tr>"
+												+"</tbody>";
 								});
 							}
 							  
@@ -92,13 +104,17 @@
 		
 	}
 
-	// 발주 상세보기 이벤트
+	//발주 상세보기 이벤트
+	 
 	function paoDetail(el) {
-		var store_code = document.getElementById("store_code").value;
-		
 		var idx = $('tbody').children('tr').index(el);
+		var store_code = document.getElementsByName("pao_store_code")[idx].value;
 		var pao_seq = document.getElementsByName("pao_seq")[idx].value;
-
+		
+		//var idx = el.rowIndex - 1;
+		//alert(idx);
+		//alert(store_code);
+		
 		window.open("./paoDetailOpen.do?store_code="+store_code+"&pao_seq="+pao_seq, "발주 상세조회", "width=840, height=680, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 	}
 	
@@ -214,33 +230,42 @@
 					var n = $(".table tr:eq(0) th").length;
 					
 					if(key=="paoLists"){ // table을 만들어 줌
-						htmlTable += "<tr class='table-primary'>"+
-						"<th>발주번호</th>"+
-						"<th>매장명</th>"+
-						"<th>발주상태</th>"+
-						"<th>날짜</th></tr>";
-						
+						htmlTable += "<thead>"+
+										"<tr class='table-primary'>"+
+											"<th>발주번호</th>"+
+											"<th>매장명</th>"+
+											"<th>발주상태</th>"+
+											"<th>날짜</th>"+
+										"</tr>"+
+									 "</thead>";
+		
+						// 내용을 출력해 준다(paoLists:[{key,value},{},{}])
+						// key에 대응하는 value 값이 없다면
 						if(value.length==0){
-							htmlTable += "<tr onclick='paoDetail(this)'>"
-											+ "<th colspan='4' style='text-align:center; color: red; font-weight: bold;'>발주 내역이 없습니다.</th>"
-									   + "</tr>";
+							htmlTable += "<tbody>" 
+											+ "<tr>"
+												+ "<th colspan='4' style='text-align:center; color: red; font-weight: bold;'>발주 내역이 없습니다.</th>"
+									   		+ "</tr>"
+									   	 "</tbody>";
 						}else{
-							// 내용을 출력해 준다(paoLists:[{key,value},{},{}])
 							$.each(value,function(key, dto){
-
 								
-								htmlTable += "<tr onclick='paoDetail(this)'>"  
-						  						+ "<td>"
-				  										+dto.pao_seq
-				  										+"<input type='hidden' class='pao_seq' name='pao_seq' value='"+dto.pao_seq+"'>"
-				  								+ "</td>"
-				  								+ "<td>"+dto.store_name+"</td>"
-									  			+ "<td>"+dto.ps_name+"</td>"
-									  			+ "<td>"+dto.pao_date+"</td>"
-									  		+ "</tr>";
-							});	
+								htmlTable += "<tbody>"
+												+ "<tr onclick='paoDetail(this)'>"  
+									  				+ "<td>"
+							  								+dto.pao_seq
+							  								+"<input type='hidden' class='pao_seq' name='pao_seq' value='"+dto.pao_seq+"'>"
+							  						+ "</td>"
+							  						+ "<td>"
+							  								+dto.store_name
+							  								+"<input type='hidden' name='pao_store_code' value='"+dto.store_code+"'>"
+							  						+"</td>"
+													+ "<td>"+dto.ps_name+"</td>"
+											 		+ "<td>"+dto.pao_date+"</td>"
+												+ "</tr>"
+											+"</tbody>";
+							});
 						}
-			
 					}else{ // key=paoRow는 paging를 만들어 줌
 	
 						htmlTable +="<li><a href='#' onclick='pageFirst("+value.pageList+","+value.pageList+")'>&laquo;</a></li>";
@@ -266,17 +291,9 @@
 		
 	}
 
-
+	
 </script>
 <style type="text/css">
-	table{
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
-	thead, tbody, tr, th, td{
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
 	#selectStatus{
 		float: left;
 	}
@@ -285,11 +302,24 @@
 	}
 	
 	#btnDiv{
-		
 		float: right;
-		/* margin-left: auto; */
 	}
-	
+	.psCode1{
+		color: orange;
+		font-weight: bold;
+	}
+	.psCode2{
+		color: blue;
+		font-weight: bold;
+	}
+	.psCode3{
+		color: green;
+		font-weight: bold;
+	}
+	.psCode0{
+		color: red;
+		font-weight: bold;
+	}
 </style>
 </head>
 <body>
@@ -365,8 +395,11 @@
 														${dto.pao_seq}
 														<input type="hidden" class="pao_seq" name="pao_seq" value="${dto.pao_seq}">
 													</td>
-													<td>${dto.store_name}</td>
-													<td>${dto.ps_name}</td>
+													<td>
+														${dto.store_name}
+														<input type="hidden" name="pao_store_code" value="${dto.store_code}">
+													</td>
+													<td class="psCode${dto.ps_code}">${dto.ps_name}</td>
 													<td>${dto.pao_date}</td>
 												</tr>
 											</c:forEach>

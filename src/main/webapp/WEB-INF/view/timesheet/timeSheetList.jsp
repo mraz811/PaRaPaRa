@@ -46,7 +46,7 @@ $(function(){
 });
 function timeSheetDownload() {
 	var currentDate = document.getElementById("currentDate").value;
-	location.href = "./poiTest.do?ts_date="+currentDate;
+	location.href = "./poiTimeSheet?ts_date="+currentDate;
 }
 </script> 
 

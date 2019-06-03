@@ -39,9 +39,9 @@ public class DownloadView extends AbstractView{
          String fileName = null; 
          
              if(ie){                         
-                 fileName = URLEncoder.encode(original_name, "utf-8").replace("+","%20");                 
+                 fileName = URLEncoder.encode(file.getName(), "utf-8");                 
              } else {
-                 fileName = new String(original_name.getBytes("utf-8"), "iso-8859-1").replace("+","%20");
+                 fileName = new String(file.getName().getBytes("utf-8"));
              }// end if;
 
          response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");         

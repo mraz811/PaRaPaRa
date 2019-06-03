@@ -1,5 +1,8 @@
 package com.happy.para.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,9 +72,24 @@ public class Request_ServiceImpl implements Request_IService{
 
 	// 고객 주문 시 주문 등록
 	@Override
-	public boolean customOrder(RequestDto dto) {
+	public RequestDto customOrder(RequestDto dto) {
 		logger.info("customOrder Service : {} ", dto);
-		return request_IDao.customOrder(dto);
+		boolean isc = request_IDao.customOrder(dto);
+		RequestDto result = new RequestDto();
+		Map<String, String> map = new HashMap<String,String>();
+		map.put("request_seq", Integer.toString(dto.getRequest_seq()));
+		map.put("store_code", dto.getStore_code());
+		
+		Date date = new Date();
+		SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
+		String start = day.format(date);
+		System.out.println(day.format(date));
+		map.put("start", start);
+		
+		if(isc) {
+			result = request_IDao.requestCustomWait(map);
+		}
+		return result;
 	}
 
 	// 메뉴 번호에 따른 메뉴이름 찾기

@@ -238,10 +238,6 @@ window.onload = function (){
 									</tbody>
 								</table>
 							</div>
-							<div> <!-- 주문 현황 화면에서는 내 아이디가 999-99-99999 -->
-								<input type="hidden" id="nick" value="${loginDto.owner_id}"/>
-								<input type="hidden" id="targetId" value="${loginDto.store_code}"/>
-							</div>
 						</div>
 						<div id="waitingDetail">
 						</div>
@@ -293,7 +289,7 @@ window.onload = function (){
 							<th colspan="2">합계</th>
 							<th>총금액</th>
 							<th>
-								<input type="text" class="txt" name="totalMenuPrice" value="0" readonly="readonly" style="text-align: right;">원
+								<input id="totalPrice" type="text" class="txt" name="totalMenuPrice" value="0" readonly="readonly" style="text-align: right;">원
 							</th>
 						</tr>
 						<tr>

@@ -67,6 +67,12 @@ public class Request_DaoImpl implements Request_IDao{
 		return sqlSession.insert(NS+"customOrder", dto) > 0?true:false;
 	}
 	
+	//고객 주문 시 대기중 조회
+	@Override
+	public RequestDto requestCustomWait(Map<String, String> map) {
+		return sqlSession.selectOne(NS+"requestCustomWait", map);
+	}
+	
 	//메뉴 번호에 따른 메뉴이름 찾기
 	@Override
 	public String[] requestMenuName(Map<String, Object> map) {

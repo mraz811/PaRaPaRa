@@ -76,26 +76,30 @@ public class RequestSocketHandler extends TextWebSocketHandler{
 		
 		//주문 현황 화면에 맞게 String으로 넘겨받은값 포맷 해주는거
 		int menuLen = menu.length();
-		int menuLenChange = menu.replaceAll(":", "").length();
+		int menuLenChange = menu.replaceAll("!", "").length();
 		int arraySize = menuLen - menuLenChange;
 		
+		String rnum = "";
+		String request_seq = "";
 		String[] menu_seq = new String[arraySize];
 		String[] menu_name = new String[arraySize];
 		String[] menu_cnt = new String[arraySize];
 		String[] menu_price = new String[arraySize];
 		String[] time = new String[arraySize];
 		
-		StringTokenizer st = new StringTokenizer(menu, ":");
+		StringTokenizer st = new StringTokenizer(menu, "!");
 		
 		int num = 0;
 		while (st.hasMoreTokens()) {
 			String str = st.nextToken();
 			String[] temp = str.split(",");
-			menu_seq[num] = temp[0];
-			menu_name[num] = temp[1];
-			menu_cnt[num] = temp[2];
-			menu_price[num] = temp[3];
-			time[num] = temp[4];
+			rnum = temp[0];
+			request_seq = temp[1];
+			menu_seq[num] = temp[2];
+			menu_name[num] = temp[3];
+			menu_cnt[num] = temp[4];
+			menu_price[num] = temp[5];
+			time[num] = temp[6];
 			num++;
 		}
 		
@@ -111,9 +115,16 @@ public class RequestSocketHandler extends TextWebSocketHandler{
 		String request_time = time[0];//주문 시간  hh:MM:ss
 		////////////////////////////////////////////////// 
 		
-		rstJson.put("request_menu", request_menu);
+		rstJson.put("rnum", rnum);
+		rstJson.put("request_seq", request_seq);
+		rstJson.put("request_menu", request_menu.substring(0, request_menu.length()-1));
 		rstJson.put("request_price", request_price);
 		rstJson.put("request_time", request_time);
+		
+		System.out.println("@@@@@주문 seq : "+request_seq);
+		System.out.println("@@@@@주문 메뉴 : "+request_menu);
+		System.out.println("@@@@@주문 가격 : "+request_price);
+		System.out.println("@@@@@주문 시간 : "+request_time);
 		
 		
 		WebSocketDto sendDto = null;

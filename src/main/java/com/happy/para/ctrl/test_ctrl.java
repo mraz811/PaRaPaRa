@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.happy.para.dto.AlbaDto;
 import com.happy.para.dto.OwnerDto;
@@ -33,7 +34,7 @@ import com.happy.para.model.Timesheet_IService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-@Controller
+//@Controller
 public class test_ctrl {
 
 	@Autowired
@@ -45,7 +46,7 @@ public class test_ctrl {
 	}
 	
 	@RequestMapping(value="/poiTest.do", method=RequestMethod.GET)
-	public String poiTest(HttpSession session, TimeDto dto, String ts_date) {
+	public ModelAndView poiTest(HttpSession session, TimeDto dto, String ts_date) {
 		OwnerDto oDto = (OwnerDto) session.getAttribute("loginDto");
 		String store_code = oDto.getStore_code();
 		System.out.println("로그인 업주의 store_code : "+store_code);
@@ -208,6 +209,7 @@ public class test_ctrl {
 	    	cell.setCellStyle(bodyStyle);
 	    	cell.setCellValue(aDto.getAlba_regdate());
 		}
+	    File xlsFile = null;
 	    try {
 //	    	xls
 	    	File fileDir = new File(excelPath);
@@ -215,17 +217,16 @@ public class test_ctrl {
 				fileDir.mkdirs();
 			}
 	    	
-	    	File xlsFile = new File(excelPath+"\\"+oDto.getStore_code()+"-"+ts_date+".xls");
-	    	FileOutputStream fileOut = new FileOutputStream(xlsFile);
-	    	workBook.write(fileOut);
+	    	xlsFile = new File(excelPath+"\\"+oDto.getStore_code()+"-"+ts_date+".xls");
+	    	
+//	    	FileOutputStream fileOut = new FileOutputStream(xlsFile);
+//	    	workBook.write(fileOut);
 	    	
 	    }catch (Exception e) {
 			// TODO: handle exception
 		}
 	    
-	    
-
-		return null;
+	    return new ModelAndView("download","downloadFile", xlsFile);
 	}
 	
 	
