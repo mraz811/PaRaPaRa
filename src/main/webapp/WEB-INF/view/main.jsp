@@ -75,25 +75,7 @@
 			</c:if>
 			
 			<c:if test="${loginDto.auth eq 'U' }">
-			<div class="card">
-				<div class="card-body">
-    			<h4 class="card-title">공지사항</h4>
-    			<h6 class="card-subtitle mb-2 text-muted">업주 공지사항</h6>
-    			<p class="card-text">새로운 공지사항이 있는지 확인하러 가기!</p>
-    			<a href="./selNoticeList.do" class="card-link">여기를 클릭하세요</a>
-    			<a href="#" class="card-link">Another link</a>
-				</div>
-			</div>
-
-			<div class="card">
-				<div class="card-body">
-    			<h4 class="card-title">주문/알바등록 바로가기</h4>
-    			<h6 class="card-subtitle mb-2 text-muted">메인에 뭐넣지</h6>
-    			<p class="card-text">메인에 뭐넣을지 다같이 고민좀 해봅시다. 일단 바로가기~ &lt;'-'&gt;</p>
-    			<a href="./selRequestStatus.do" class="card-link">주문</a>
-    			<a href="./albaRegiForm.do" target="_blank" class="card-link">알바 등록</a>
-				</div>
-			</div>
+				<jsp:forward page="/selNoticeList.do"/>
 			</c:if>
 			
 			
