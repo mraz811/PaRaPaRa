@@ -31,6 +31,9 @@ public interface Request_IDao {
 
 	// 고객 주문 시 주문 등록
 	public boolean customOrder(RequestDto dto);
+	
+	//고객 주문 시 대기중 조회
+	public RequestDto requestCustomWait(Map<String, String> map);
 
 	// 메뉴 번호에 따른 메뉴이름 찾기
 	public String[] requestMenuName(Map<String, Object> map);

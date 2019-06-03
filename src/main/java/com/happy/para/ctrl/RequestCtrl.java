@@ -643,14 +643,14 @@ public class RequestCtrl {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/regiCustomOrder.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject customOrder(HttpSession session,String[] menu_seq,String[] menu_cnt,String[] menu_price) {
+	public JSONObject customOrder(HttpSession session,String nick,String[] menu_seq,String[] menu_cnt,String[] menu_price) {
 		JSONObject json = new JSONObject();
 		
-		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
+		System.out.println("스토어 코드 : "+nick);
 		
 		RequestDto dto = new RequestDto();
-		
-		dto.setStore_code(oDto.getStore_code()); //세션에서 스토어코드 가져와서 셋팅
+
+		dto.setStore_code(nick);
 		
 		String request_menu = "";
 		for (int i = 0; i < menu_seq.length; i++) {
@@ -659,6 +659,7 @@ public class RequestCtrl {
 		dto.setRequest_menu(request_menu); // 1:3,2:4, 형식의 주문 메뉴 생성해서 셋팅해줌
 		
 		int totalPrice = 0;
+		System.out.println(Arrays.toString(menu_price));
 		for (int i = 0; i < menu_price.length; i++) {
 			totalPrice += Integer.parseInt(menu_price[i]); 
 		}
@@ -667,10 +668,15 @@ public class RequestCtrl {
 		dto.setRequest_bank("우리은행");
 		dto.setRequest_account("1002-651-065588");
 		
-		boolean isc = request_IService.customOrder(dto);
-		System.out.println("주문 등록 성공 ? : " + isc);
+		System.out.println("주문 메뉴 : "+request_menu);
+		System.out.println("주무 가격 : "+totalPrice);
+		System.out.println("집어 넣을 DTO : "+dto);
+		
+		RequestDto result  = request_IService.customOrder(dto);
+		System.out.println("주문 등록 성공 ? : " + result);
 		
 		json.put("success", "주문이 완료되었습니다");
+		json.put("rDto", result);
 		return json;
 	}
 	

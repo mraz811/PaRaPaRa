@@ -30,7 +30,7 @@ public interface Request_IService {
 	public RequestDto requestDetailMake(RequestDto dto);
 	
 	//고객 주문 시 주문 등록
-	public boolean customOrder(RequestDto dto);
+	public RequestDto customOrder(RequestDto dto);
 	
 	//메뉴 번호에 따른 메뉴이름 찾기
 	public String[] requestMenuName(Map<String, Object> map);
