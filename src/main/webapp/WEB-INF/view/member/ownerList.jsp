@@ -109,7 +109,7 @@
 				<input type="hidden" name="listNum"	id="listNum" value="${ownerRow.listNum}">
 		
 				<div class="center" align="center">
-					<ul class="pagination">
+					<ul class="pagination pagination-lg">
 						<li class="page-item">
 						 <a class="page-link" href="#" onclick="pageFirst(${ownerRow.pageList},${ownerRow.pageList})">&laquo;</a>
 						</li>

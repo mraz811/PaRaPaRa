@@ -95,7 +95,7 @@
 								<input type="hidden" id="listNum" name="listNum" value="${noticRow.listNum}">
 								<div id="pagingForm">								
 								<div class="center" align="center">
-									<ul class="pagination">
+									<ul class="pagination pagination-lg">
 										<li class="page-item"><a class="page-link" href="#" onclick="pageFirst(${noticRow.pageList},${noticRow.pageList})">&laquo;</a></li>
 										<li class="page-item"><a class="page-link" href="#" onclick="pagePre(${noticRow.pageNum},${noticRow.pageList})">&lsaquo;</a></li>
 										

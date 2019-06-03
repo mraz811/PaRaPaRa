@@ -12,8 +12,12 @@
 <style type="text/css">
 
 #loginform{
-	margin: 80px auto;
+	margin: 100px auto;
 	width: 300px;
+}
+#paraPhoto img{
+	width: 300px;
+	height: 150px;
 }
 </style>
 </head>
@@ -23,7 +27,12 @@
 <div id="container">
 	<form id="loginform" method="post" action="./login.do">
 		<input type="hidden" value="0" id="chkVal">
-		<h2 align="center">파라파라 로그인</h2>
+<!-- 		<h2 align="center">파라파라 로그인</h2> -->
+		<div id="paraPhoto">
+			<a href="loginForm.do">
+				<img alt="parapara_logo" src="./imgs/logo2.jpg" class="logoImg" >
+			</a>
+		</div>
 		<hr>
 		<label style="width: 148px;"><input type="radio" name="auth" value="U" checked="checked"> 업주 </label>		
 		<label><input type="radio" name="auth" value="A"> 담당자 </label>	

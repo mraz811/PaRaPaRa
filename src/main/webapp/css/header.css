@@ -79,7 +79,8 @@
 #pagingForm{
 	position: absolute;
 	bottom: 5px;
-	left: 35%;
+/* 	left: 35%; */
+	left: 25%;
 }
 
 .headConts{

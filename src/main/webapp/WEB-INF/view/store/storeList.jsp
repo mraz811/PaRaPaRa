@@ -72,7 +72,7 @@
 							
 							<div id="pagingForm" >
 								<div class="center">
-									<ul class="pagination">
+									<ul class="pagination pagination-lg">
 										<li class="page-item"><a class="page-link" href="#" onclick="pageFirst(${storeRow.pageList},${storeRow.pageList})">&laquo;</a></li>
 										<li class="page-item"><a class="page-link" href="#" onclick="pagePre(${storeRow.pageNum},${storeRow.pageList})">&lsaquo;</a></li>
 										<c:forEach var="i" begin="${storeRow.pageNum}" end="${storeRow.count}" step="1">

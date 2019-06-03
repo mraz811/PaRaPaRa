@@ -11,8 +11,12 @@
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <style type="text/css">
 #findPwForm{
-	margin: 80px auto;
+	margin: 100px auto;
 	width: 300px;
+}
+#paraPhoto img{
+	width: 300px;
+	height: 150px;
 }
 </style>
 </head>
@@ -24,7 +28,12 @@
 	<input type="hidden" id="emailchkVal" value="0">
 	<input type="hidden" id="idchkVal" value="0">
 	<form id="findPwForm" action="./findPw.do" method="post" onsubmit="return chkVal()">
-		<h2 align="center">비밀번호 찾기</h2>
+		<h3 align="center">비밀번호 찾기</h3>
+	<div id="paraPhoto">
+			<a href="loginForm.do">
+				<img alt="parapara_logo" src="./imgs/logo2.jpg" class="logoImg" >
+			</a>
+		</div>
 		<hr>	
 		<label style="width: 148px;"><input type="radio" name="auth" value="U" checked="checked"> 업주 </label>		
 		<label><input type="radio" name="auth" value="A"> 담당자 </label>	
