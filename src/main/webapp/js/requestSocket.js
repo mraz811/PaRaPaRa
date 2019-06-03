@@ -142,11 +142,22 @@ function choiceViewStatus(mySessionId,targetId){
 		
 		var newTr = document.createElement("tr");
 		var waitBody = document.getElementById("waitBody");
-		requestHTML = "<td style=\"width: 60px; height: 28px\">"+message.rnum+"</td>"
-					+"<td id=\"waitMenu\" style=\"width: 220px; height: 28px\" onclick=\"waitMenuDetail("+message.request_seq+","+message.rnum+")\">"+message.request_menu+"</td>"
-					+"<td style=\"width: 100px; height: 28px\" >"+message.request_time+"</td>"
-					+"<td style=\"width: 40px; height: 28px\"><input type=\"button\" value=\"제조\" onclick=\"changeStatusCode2(this,'"+message.request_seq+","+message.rnum+","+message.request_menu+","+message.request_time+"')\" /></td>"
-					+"<td style=\"width: 40px; height: 28px\"><input type=\"button\" value=\"환불\" onclick=\"changeStatusCode0(this,"+message.request_seq+")\"/></td>";
+		var request_menu = message.request_menu.substring(0,16);
+		alert("자른 메뉴명 : "+request_menu);
+		if(message.request_menu.length > 16){
+			requestHTML = "<td style=\"width: 60px; \">"+message.rnum+"</td>"
+			+"<td id=\"waitMenu\" style=\"width: 220px; \" onclick=\"waitMenuDetail("+message.request_seq+","+message.rnum+")\">"+request_menu+"..."+"</td>"
+			+"<td style=\"width: 90px; \" >"+message.request_time+"</td>"
+			+"<td style=\"width: 45px; padding: 8px 0px;\"><input style=\"width: 40px; height: 28px; padding: 2px 2px;\" class=\"btn btn-outline-primary\" type=\"button\" value=\"제조\" onclick=\"changeStatusCode2(this,'"+message.request_seq+","+message.rnum+","+message.request_menu+","+message.request_time+"')\" /></td>"
+			+"<td style=\"width: 45px; padding: 8px 0px;\"><input style=\"width: 40px; height: 28px; padding: 2px 2px;\" class=\"btn btn-outline-warning\" type=\"button\" value=\"환불\" onclick=\"changeStatusCode0(this,"+message.request_seq+")\"/></td>";
+		}else{
+			requestHTML = "<td style=\"width: 60px; \">"+message.rnum+"</td>"
+			+"<td id=\"waitMenu\" style=\"width: 220px; \" onclick=\"waitMenuDetail("+message.request_seq+","+message.rnum+")\">"+message.request_menu+"</td>"
+			+"<td style=\"width: 90px; \" >"+message.request_time+"</td>"
+			+"<td style=\"width: 45px; padding: 8px 0px;\"><input style=\"width: 40px; height: 28px; padding: 2px 2px;\" class=\"btn btn-outline-primary\" type=\"button\" value=\"제조\" onclick=\"changeStatusCode2(this,'"+message.request_seq+","+message.rnum+","+message.request_menu+","+message.request_time+"')\" /></td>"
+			+"<td style=\"width: 45px; padding: 8px 0px;\"><input style=\"width: 40px; height: 28px; padding: 2px 2px;\" class=\"btn btn-outline-warning\" type=\"button\" value=\"환불\" onclick=\"changeStatusCode0(this,"+message.request_seq+")\"/></td>";
+
+		}
 		waitBody.appendChild(newTr).innerHTML = requestHTML;
 		
 		

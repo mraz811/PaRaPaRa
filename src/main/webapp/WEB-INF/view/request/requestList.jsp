@@ -13,25 +13,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-#container {
-	width: 1020px;
-	height: 435px;
-}
-
-#selectBox {
-	width: 180px;
-	height: 40px;
-	margin-left: 838px;
-}
-
-#requestStatus{
-	cursor: pointer;
-}
-#detailMenu{
-	cursor: pointer;
-}
-</style>
 <link rel="stylesheet" href="./css/requestList.css">
 </head>
 <script type="text/javascript" src="./js/requestList.js"></script>
@@ -101,9 +82,9 @@
 				</form>
 				<div class="tab-content">
 					<form action="#" id="frm" method="post">
-						<table class="table">
+						<table class="table table-hover">
 							<thead>
-								<tr>
+								<tr class="table-primary">
 									<td>번호</td>
 									<td>주문메뉴명</td>
 									<td>총가격</td>
@@ -177,7 +158,7 @@
 								</c:choose>
 							</tbody>
 						</table>
-							<div id="paging">
+							<div id="pagingForm">
 								<!-- 페이징 처리 -->
 								<!-- 출력할 페이지 번호, 출력할 페이지 시작번호, 출력할 게시글 갯수 -->
 								<input type="hidden" id="index" name="index"
@@ -186,20 +167,15 @@
 								<input type="hidden" id="listNum" name="listNum"
 									value="${requestRow.listNum}">
 
-								<div class="center">
+								<div class="center" align="center">
 									<ul class="pagination">
-										<li><a href="#"
-											onclick="pageFirst(${requestRow.pageList},${requestRow.pageList})">&laquo;</a></li>
-										<li><a href="#"
-											onclick="pagePre(${requestRow.pageNum},${requestRow.pageList})">&lsaquo;</a></li>
-										<c:forEach var="i" begin="${requestRow.pageNum}"
-											end="${requestRow.count}" step="1">
-											<li><a href="#" onclick="pageIndex(${i})">${i}</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pageFirst(${requestRow.pageList},${requestRow.pageList})">&laquo;</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pagePre(${requestRow.pageNum},${requestRow.pageList})">&lsaquo;</a></li>
+										<c:forEach var="i" begin="${requestRow.pageNum}" end="${requestRow.count}" step="1">
+											<li><a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a></li>
 										</c:forEach>
-										<li><a href="#"
-											onclick="pageNext(${requestRow.pageNum},${requestRow.total},${requestRow.listNum},${requestRow.pageList})">&rsaquo;</a></li>
-										<li><a href="#"
-											onclick="pageLast(${requestRow.pageNum},${requestRow.total},${requestRow.listNum},${requestRow.pageList})">&raquo;</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pageNext(${requestRow.pageNum},${requestRow.total},${requestRow.listNum},${requestRow.pageList})">&rsaquo;</a></li>
+										<li class="page-item"><a class="page-link" href="#" onclick="pageLast(${requestRow.pageNum},${requestRow.total},${requestRow.listNum},${requestRow.pageList})">&raquo;</a></li>
 									</ul>
 								</div>
 							</div>
