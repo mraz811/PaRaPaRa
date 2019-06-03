@@ -63,12 +63,12 @@
 		<div class="bodyFrame">
 			<div class="bodyfixed">
 				<div class="oneDepth">
-				주문
+				<p>주문</p>
 				</div>
-				<div class="twoDepth">
+				<div class="twoDepth" >
 					<ul class="nav nav-tabs">
 						<li class="nav-item"><a id="requestStatus" class="nav-link" data-toggle="tab" onclick="selRequestStatus()">주문</a></li>
-						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#">주문내역</a></li>
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#"  style="border: 1px solid rgb(21,140,186);"><strong>주문내역</strong></a></li>
 					</ul>
 				<form id="selectBoxFrm" action="#" method="post">
 					<div id="selectStatus">
@@ -168,7 +168,7 @@
 									value="${requestRow.listNum}">
 
 								<div class="center" align="center">
-									<ul class="pagination">
+									<ul class="pagination pagination-lg">
 										<li class="page-item"><a class="page-link" href="#" onclick="pageFirst(${requestRow.pageList},${requestRow.pageList})">&laquo;</a></li>
 										<li class="page-item"><a class="page-link" href="#" onclick="pagePre(${requestRow.pageNum},${requestRow.pageList})">&lsaquo;</a></li>
 										<c:forEach var="i" begin="${requestRow.pageNum}" end="${requestRow.count}" step="1">

@@ -184,7 +184,7 @@ window.onload = function (){
 					<div class="oneDepth"><p>주문</p></div>
 					<div class="twoDepth">
 						<ul class="nav nav-tabs">
-							<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#">주문</a></li>
+							<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#" style="border: 1px solid rgb(21,140,186);"><strong>주문</strong></a></li>
 							<li class="nav-item"><a id="requestlist" class="nav-link" data-toggle="tab" onclick="selRequestList()">주문내역</a></li>
 						</ul>
 						<div id="choiceView" align="center">

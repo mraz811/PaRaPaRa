@@ -76,11 +76,13 @@
 		})
 	}
 	function changeStatusCode2(line,request){
-		var requestInfo = request.split(",");
+		var requestInfo = request.split("!");
 		var request_seq = requestInfo[0]; //주문 seq
 		var rnum = requestInfo[1]; //주문 번호
 		var menu_name = requestInfo[2]; //메뉴명
 		var request_time = requestInfo[3]; //주문 시간
+		alert(requestInfo);
+		alert(request_seq+"+"+rnum+"+"+menu_name+"+"+request_time);
 		
 		var os_code = "2";
 		$.ajax({
@@ -96,7 +98,7 @@
 				var newTr = document.createElement("tr");
 				var makeBody = document.getElementById("makeBody");
 				var html ="";
-				html +=  "<td style=\"width: 60px;\" >"+rnum+"</td>"
+				html =  "<td style=\"width: 60px;\" >"+rnum+"</td>"
 						+"<td id=\"makeMenu\" style=\"width: 270px; \" onclick=\"makeMenuDetail("+request_seq+","+rnum+")\">"+menu_name+"</td>"
 						+"<td style=\"width: 100px; \" >"+request_time+"</td>"
 						+"<td style=\"width: 55px; padding: 8px 0px;\"><input style=\"width: 40px; height: 28px; padding: 2px 2px;\" class=\"btn btn-outline-success\" type=\"button\" value=\"완료\" onclick=\"changeStatusCode3(this,"+request_seq+")\" /></td>";
