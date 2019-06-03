@@ -28,8 +28,8 @@ public class Timesheet_DaoImpl implements Timesheet_IDao {
 	}
 
 	@Override
-	public List<TimeDto> tsDatetimeList(TimeDto dto) {
-		return sqlSession.selectList("para.timesheet.tsDatetimeList", dto);
+	public List<AlbaDto> tsDatetimeList(Map<String, Object> map) {
+		return sqlSession.selectList("para.timesheet.tsDatetimeList", map);
 	}
 
 	@Override

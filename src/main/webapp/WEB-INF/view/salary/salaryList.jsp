@@ -46,10 +46,10 @@ $(function(){
 
 </script> 
 
-<%-- ${albaLists} --%>
+<%--  ${albaLists} --%>
 
 <button id="prev">◀</button>
-<input id="viewMonth" type="month" value="2019-05"/>
+<input id="viewMonth" type="month" value="2019-06"/>
 <button id="next">▶</button>
 
 <table class="table table-hover">
@@ -62,10 +62,10 @@ $(function(){
 		<tr>
 			<td>${vs.count}</td>
 			<td>${dto.alba_name}</td>
-			<td>-</td>
-			<td>-</td>
+			<td>${dto.alba_phone}</td>
+			<td>${dto.alba_address}</td>
 			<td>${dto.alba_timesal}</td>
-			<td>-</td>
+			<td>${dto.alba_delflag}원</td>
 			<td>-</td>
 			<td>${dto.alba_bank}</td>
 			<td>${dto.alba_account}</td>

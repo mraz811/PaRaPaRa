@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="para.timesheet">
 
+<resultMap type="AlbaDto" id="albaResultMap">
+	<result property="alba_seq" column="ALBA_SEQ"/>
+	<result property="alba_name" column="ALBA_NAME"/>
+	<result property="alba_phone" column="TS_DAYWORK"/>
+	<result property="alba_address" column="TS_NIGHTWORK"/>
+	<result property="alba_timesal" column="ALBA_TIMESAL"/>
+	<result property="alba_bank" column="ALBA_BANK"/>
+	<result property="alba_delflag" column="ALBA_DELFLAG"/>
+	<result property="alba_regdate" column="ALBA_REGDATE"/>
+	<result property="alba_account" column="ALBA_ACCOUNT"/>
+	<result property="store_code" column="STORE_CODE"/>
+</resultMap>
+
 <!--추후 추가 해야됨!!!!! timeSheet 매장별 조회  -->
 	<select id="tsListAll" parameterType="java.util.Map" resultType="TimeDto">
 		SELECT TS_SEQ, ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DATETIME, TS_DAYWORK, TS_NIGHTWORK, TS_WORKHOUR
@@ -20,11 +33,20 @@
 	</select>
 
 <!-- 일별 알바별 datetime list로 가져오기 -->
-	<select id="tsDatetimeList" parameterType="TimeDto" resultType="TimeDto">
-		SELECT SUM(TS_DAYWORK) TS_DAYWORK, SUM(TS_NIGHTWORK) TS_NIGHTWORK
-			FROM TIMESHEET
-				WHERE ALBA_SEQ = #{alba_seq}
-				AND SUBSTR(TS_DATE, 0, 7) = #{ts_date}
+	<select id="tsDatetimeList" parameterType="java.util.Map" resultMap="albaResultMap">
+		SELECT ALBA_SEQ, TS_DAYWORK, TS_NIGHTWORK, ALBA_NAME, ALBA_TIMESAL, ALBA_BANK, ALBA_ACCOUNT,
+		ALBA_DELFLAG, ALBA_REGDATE, STORE_CODE
+		FROM(SELECT ALBA_SEQ, SUM(TS_DAYWORK) TS_DAYWORK, SUM(TS_NIGHTWORK) TS_NIGHTWORK
+						FROM TIMESHEET
+							WHERE TS_DATE BETWEEN #{wStartDate} AND #{wLastDate}
+							GROUP BY ALBA_SEQ) JOIN ALBA
+			USING(ALBA_SEQ)
+		WHERE ALBA.ALBA_DELFLAG = #{alba_delflag}
+		AND STORE_CODE = #{store_code}
+		<if test="alba_seq != null">
+			AND ALBA_SEQ = #{alba_seq}	
+		</if>
+		ORDER BY ALBA_NAME, ALBA_REGDATE
 	</select>
 	
 <!-- timeSheet 등록  -->
