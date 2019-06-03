@@ -105,7 +105,7 @@
 						<input type="hidden" id="storeCode" value="${store_code}">
 						<div id="receive_msg" class='chattingDiv' style="border: 1px">
 							<section id="chatMsgBox">
-								${chatDto.chat_content}
+								${content}
 							</section>
 						</div>
 						<div id="sendBox">
