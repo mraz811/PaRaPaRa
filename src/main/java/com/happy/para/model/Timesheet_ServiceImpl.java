@@ -24,10 +24,10 @@ public class Timesheet_ServiceImpl implements Timesheet_IService {
 	public List<TimeDto> tsList(TimeDto dto) {
 		return timeDao.tsList(dto);
 	}
-	
+
 	@Override
-	public List<TimeDto> tsDatetimeList(TimeDto dto) {
-		return timeDao.tsDatetimeList(dto);
+	public List<AlbaDto> tsDatetimeList(Map<String, Object> map) {
+		return timeDao.tsDatetimeList(map);
 	}
 
 	@Override
