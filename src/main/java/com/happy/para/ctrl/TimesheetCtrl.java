@@ -1,6 +1,7 @@
 package com.happy.para.ctrl;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,7 +65,6 @@ public class TimesheetCtrl {
 		String today = getDate.toString();
 		System.out.println("현재날짜 : "+ today);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println("현재날짜 : "+ sdf.format(getDate));
 		System.out.println("today : "+sdf.format(getDate));
 
 		JSONObject timeObj = null;
@@ -155,31 +155,24 @@ public class TimesheetCtrl {
 		long workT = 0;
 
 		int eTime00 = Integer.parseInt(eTime.split(":")[0]);
-		int eTime00mm = Integer.parseInt(eTime.split(":")[1]);
-		int sTime00 = Integer.parseInt(sTime.split(":")[0]);
-		int sTime00mm = Integer.parseInt(sTime.split(":")[1]);
+		String eTime00mm = eTime.split(":")[1];
+		String sTime00 = sTime.split(":")[0];
+		String sTime00mm = sTime.split(":")[1];
 
 		System.out.println("eTime00 > "+eTime00);
 		System.out.println("eTime00mm > "+eTime00mm);
 		System.out.println("sTime00 > "+sTime00);
 		System.out.println("sTime00mm > "+sTime00mm);
-		System.out.println("sTime > "+sTime);
-		System.out.println("eTime > "+eTime);
-		
-		
-		System.out.println("화면에서 가져온 eTime > "+eTime);
-		
+
 		if(eTime00 == 00) {
 			eTime00 = 24;
-			Date eTimeStrF00 = stringFormat.parse(eTime00+":"+eTime00mm);
+			Date eTimeStrF00 = stringFormat.parse(ts_date+" "+eTime00+":"+eTime00mm);
 			workT = eTimeStrF00.getTime() - sTimeStrF.getTime();
+			System.out.println("eTimeStrF00.getTime() > "+ (((eTimeStrF00.getTime()/1000*60)/60)/60*60)/60);
+			System.out.println("sTimeStrF.getTime() > "+ (((sTimeStrF.getTime()/1000*60)/60)/60*60)/60);
 		}else {
 			Date eTimeStrF = stringFormat.parse(ts_date+" "+eTime); //12:00
-//			System.out.println("eTimeStrF > " + eTimeStrF);
-//			System.out.println("sTimeStrF > " + sTimeStrF);
 			workT = eTimeStrF.getTime() - sTimeStrF.getTime(); //12:00-02:30
-//			System.out.println("eTimeStrF.getTime() > "+ (((eTimeStrF.getTime()/1000*60)/60)/60*60)/60);
-//			System.out.println("sTimeStrF.getTime() > "+ (((sTimeStrF.getTime()/1000*60)/60)/60*60)/60);
 		}
 
 		System.out.println(sTimeStrF.getTime());
@@ -258,12 +251,12 @@ public class TimesheetCtrl {
 
 		boolean isc = timeSer.tsDelete(dto);
 
-		System.out.println("성공이야?"+isc);
+		System.out.println("삭제 성공 > "+isc);
 
 	}
 
 	@RequestMapping(value="/salary.do", method=RequestMethod.GET)
-	public String salary(HttpSession session, TimeDto dto, Model model) throws ParseException {
+	public String salary(HttpSession session, TimeDto dto, Model model, String getMonth) throws ParseException {
 		
 		System.out.println("salary");
 
@@ -271,14 +264,27 @@ public class TimesheetCtrl {
 		String store_code = oDto.getStore_code();
 		System.out.println("로그인 업주의 store_code : "+store_code);
 
-		// 주별 근무시간 계산
-		DateModule dateM = DateModule.getInstance();
+		Date Month = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		System.out.println("month : "+sdf.format(Month));
 		
+		DateModule dateM = DateModule.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		
-		String getMonth = "2019-06"; // 화면에서 가져올 값
+		if(getMonth == null) {		
+			model.addAttribute("month", sdf.format(Month));
+			getMonth = sdf.format(Month);
+		}else {
+			model.addAttribute("month", getMonth);
+			System.out.println("화면에서 가져온 getMonth > "+getMonth);
+		}
+		
+		String getyear = getMonth.substring(0, getMonth.length()-3);
+		String getBeforeMonth = dateM.changeDateFormat(Integer.toString(Integer.parseInt(getMonth.substring(5))-1));
 		String getMonthFeb = getMonth.substring(5);
 		
+		System.out.println("getyear > "+getyear);
+		System.out.println("getBeforeMonth > "+getBeforeMonth);
 		System.out.println("getMonthFeb > "+getMonthFeb);
 		
 		int setDate = 1;
@@ -289,7 +295,14 @@ public class TimesheetCtrl {
 		cal.setTime(startDate);
 		int dayNum = cal.get(Calendar.DAY_OF_WEEK); // 해당 월 1일의 요일
 		int lastNum = cal.getActualMaximum(cal.DAY_OF_MONTH);// 해당 월의 마지막 날짜
+
+		Calendar calLastWeek = Calendar.getInstance();
+		Date lastDate = formatter.parse(getMonth+dateM.changeDateFormat(Integer.toString(lastNum)));  // 그 달의 마지막 날짜
+		startDate = new Date(lastDate.getTime()); 
+		calLastWeek.setTime(lastDate);
+		int lastWeekNum = calLastWeek.get(Calendar.WEEK_OF_MONTH);
 		
+		System.out.println("이번달의 마지막 주차 > "+lastWeekNum);
 		System.out.println("dayNum > "+dayNum); 
 		System.out.println("lastNum > "+lastNum);
 		
@@ -298,12 +311,14 @@ public class TimesheetCtrl {
 		
 		int chkCnt = 0;
 		
-		// 2월이면서 시작요일숫자가1이면서 끝나는요일숫자가 29가 아닌애들만 배열 크기 4
-		if(getMonthFeb.equals("02") && dayNum==1 && lastNum!=29) {
+		if(lastWeekNum == 6) { // 한달이 6주
+			wStartDate = new String[6];
+			wLastDate = new String[6];			
+		}else if(getMonthFeb.equals("02") && dayNum==1 && lastNum!=29) { // 2월이면서 시작요일숫자가1이면서 끝나는요일숫자가 29가 아닌애들만 배열 크기 4
 			wStartDate = new String[4];
 			wLastDate = new String[4];
 			chkCnt = 1;
-		}else {
+		}else { // 한달이 5주
 			wStartDate = new String[5];
 			wLastDate = new String[5];
 		}
@@ -324,10 +339,13 @@ public class TimesheetCtrl {
 		
 		int rCnt = 0;
 		
-		if(chkCnt==1) {
+		if(lastWeekNum == 6) { // 한달이 6주
+			rCnt = 5;
+			wLastDate[5] = getMonth+"-"+lastNum;
+		}else if(chkCnt==1) { // 한달이 4주
 			rCnt = 3;
 			wLastDate[3] = getMonth+"-"+lastNum;
-		}else {
+		}else { // 한달이 5주
 			rCnt = 4;
 			wLastDate[4] = getMonth+"-"+lastNum;
 		}
@@ -342,8 +360,8 @@ public class TimesheetCtrl {
 			wStartDate[cnt] = getMonth+dateM.changeDateFormat(Integer.toString(setDate));			
 		}
 
+		System.out.println("wStartDate[] > "+Arrays.toString(wStartDate));
 		System.out.println("wLastDate[] > "+Arrays.toString(wLastDate));
-		System.out.println("wLastDate.length > "+wLastDate.length);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("store_code", store_code);
@@ -365,20 +383,26 @@ public class TimesheetCtrl {
 			System.out.println(albaListsAll.get(i).getAlba_name()+"의 dto : "+albaOne);
 			
 			Double weekSal = 0.0;
+			int chk = 0; // 주 15 시간 확인 카운트
 			
 			for (int j = 0; j < wLastDate.length; j++) {
 				// j가 0일경우 wStartDate[j] 는 전달의 마지막주의 시작 날짜로 해야 한다.
-				
 				if(j==0) {
-//					Calendar calBeforeMonth = Calendar.getInstance();
-//					calBeforeMonth.setTime(formatter.parse("2019-05-01")); // 전달 1일 계산해서 넣어줘야함!! 임시임
-//					int beforeMonthLastNum = calBeforeMonth.getActualMaximum(calBeforeMonth.DAY_OF_MONTH);// 해당 월의 마지막 날짜
-//					calBeforeMonth.setTime(formatter.parse("2019-05-"+beforeMonthLastNum));
-//					int beforeDayNum = calBeforeMonth.get(Calendar.DAY_OF_WEEK);
+					Calendar calBeforeMonth = Calendar.getInstance();
+					calBeforeMonth.setTime(formatter.parse(getyear+getBeforeMonth+"-01")); // 전달 1일 계산해서 넣어줘야함!! 임시임
+					int beforeMonthLastNum = calBeforeMonth.getActualMaximum(calBeforeMonth.DAY_OF_MONTH);// 해당 월의 마지막 날짜
+					calBeforeMonth.setTime(formatter.parse(getyear+getBeforeMonth+"-"+beforeMonthLastNum));
+					int beforeDayNum = calBeforeMonth.get(Calendar.DAY_OF_WEEK);
+//					System.out.println("beforeMonthLastNum > "+beforeMonthLastNum);
 //					System.out.println("beforeDayNum > "+beforeDayNum);
+					int beforestartNum = beforeMonthLastNum-beforeDayNum+1;
+//					System.out.println("beforestartNum > "+beforestartNum);
+					System.out.println("첫주 일때 wStartDate > "+getyear+getBeforeMonth+"-"+beforestartNum);
+					map.put("wStartDate", getyear+getBeforeMonth+"-"+beforestartNum);
+				}else {
+					map.put("wStartDate", wStartDate[j]);
 				}
-				
-				map.put("wStartDate", wStartDate[j]);
+
 				map.put("wLastDate", wLastDate[j]);
 								
 				List<AlbaDto> albaOneGetWork = timeSer.tsDatetimeList(map);	
@@ -394,6 +418,7 @@ public class TimesheetCtrl {
 					if(ts_daywork+ts_nightwork>=15 && ts_daywork+ts_nightwork<40) {
 						weekSal += ((ts_daywork+ts_nightwork)/40) * 8 * albaOneGetWork.get(0).getAlba_timesal(); 
 //						System.out.println(albaListsAll.get(i).getAlba_name() + "의 weekSal > "+weekSal);
+						chk++;
 					}else if(ts_daywork+ts_nightwork>=40){
 						weekSal += 8.0 * albaListsAll.get(i).getAlba_timesal();
 //						System.out.println(albaListsAll.get(i).getAlba_name() + "의 weekSal > "+weekSal);
@@ -402,17 +427,33 @@ public class TimesheetCtrl {
 			}
 
 			// alba_phone = ts_daywork, alba_address = ts_nightwork 로 Mapping
-			salary[i] = (Double.parseDouble(albaListsAll.get(i).getAlba_phone()) * albaListsAll.get(i).getAlba_timesal()) +
+			
+			Map<String, String> mapAll = new HashMap<String, String>();
+			mapAll.put("store_code", store_code);
+			mapAll.put("alba_seq", albaListsAll.get(i).getAlba_seq()+"");
+			mapAll.put("ts_date", getMonth);
+			List<TimeDto> workLists = timeSer.tsListAll(mapAll);
+			
+			System.out.println("알바가 그 달에 일한 횟수 workLists > "+workLists);
+			
+			// 주 15시간 이상 월 8일 이상 근로시 4대 보험 의무 가입. 아닌 경우 소득세(3.3%)만 급여에서 제외한다.
+			if(workLists.size()>=8 && chk>=wStartDate.length) { // 4대보험(장기요양보험료 포함)+소득세
+				salary[i] = (Math.ceil(Math.floor(((Double.parseDouble(albaListsAll.get(i).getAlba_phone()) * albaListsAll.get(i).getAlba_timesal()) +
 						(Double.parseDouble(albaListsAll.get(i).getAlba_address()) * albaListsAll.get(i).getAlba_timesal() * 1.5) +
-						weekSal;
+						weekSal)*0.8818)/10))*10;				
+			}else { // 소득세
+				salary[i] = (Math.ceil(Math.floor(((Double.parseDouble(albaListsAll.get(i).getAlba_phone()) * albaListsAll.get(i).getAlba_timesal()) +
+						(Double.parseDouble(albaListsAll.get(i).getAlba_address()) * albaListsAll.get(i).getAlba_timesal() * 1.5) +
+						weekSal)*0.967)/10))*10;								
+			}
 			
 			System.out.println("salary 담은 배열 > "+Arrays.toString(salary));
 
-			albaListsAll.get(i).setAlba_delflag(salary[i]+""); // delflag에 salary 담아서 화면으로 전달
+			DecimalFormat dc = new DecimalFormat("###,###,###");
+			albaListsAll.get(i).setAlba_delflag(dc.format(salary[i])+""); // delflag에 salary 담아서 화면으로 전달
 			
 			}
-
-
+		
 		return "salary/salaryList";
 	}
 

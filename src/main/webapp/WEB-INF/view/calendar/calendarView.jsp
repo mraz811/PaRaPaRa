@@ -45,7 +45,7 @@
 			<div class="bodyfixed">
 				<div class="oneDepth">
 					<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
-					<p>매장 관리</p>
+					<p>매장관리</p>
 				</div>
 				<!-- div class=oneDepth -->
 				<div class="twoDepth">

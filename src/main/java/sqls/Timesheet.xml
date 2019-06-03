@@ -20,6 +20,9 @@
 		SELECT TS_SEQ, ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DATETIME, TS_DAYWORK, TS_NIGHTWORK, TS_WORKHOUR
 			FROM TIMESHEET
 				WHERE ALBA_SEQ IN (SELECT ALBA_SEQ FROM ALBA WHERE STORE_CODE = #{store_code})
+				<if test="alba_seq != null">
+					AND ALBA_SEQ = #{alba_seq}	
+				</if>
 				AND SUBSTR(TS_DATE, 0, 7) = #{ts_date}
 	</select>
 
@@ -27,7 +30,6 @@
 	<select id="tsList" parameterType="TimeDto" resultType="TimeDto">
 		SELECT TS_SEQ, ALBA_SEQ, TS_DATE, TS_DATETIME, TS_DAYWORK, TS_NIGHTWORK, TS_WORKHOUR
 			FROM TIMESHEET
-	<!-- 테스트 중!!!! -->
 				WHERE ALBA_SEQ = #{alba_seq}
 				AND TS_DATE = #{ts_date}
 	</select>

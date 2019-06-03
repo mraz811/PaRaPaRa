@@ -48,12 +48,16 @@ $(function(){
 
 <%--  ${albaLists} --%>
 
-<button id="prev">◀</button>
-<input id="viewMonth" type="month" value="2019-06"/>
-<button id="next">▶</button>
+<form action="#" method="get">
+
+<!-- <button id="prev">◀</button> -->
+<input id="viewMonth" type="month" name="getMonth" value="${month}" onchange="monthGet()"/>
+<!-- <button id="next">▶</button> -->
+
+</form>
 
 <table class="table table-hover">
-	<tr>
+	<tr class="table-primary">
 		<th>No.</th><th>이름</th><th>근무 시간 (주간)</th><th>근무 시간(야간,추가)</th>
 		<th>시급</th><th>급여</th><th>퇴직금</th><th>은행명</th><th>계좌번호</th>
 	</tr>
@@ -84,8 +88,15 @@ $(function(){
 </body>
 <script type="text/javascript">
 
-// 일단 테스트 달 박고 시작 하고 나중에 고치장...
-// document.getElementById("viewMonth").value = new Date().toISOString().substring(0, 6);;
+function monthGet() {
+	var getMonth = document.getElementsByName("getMonth")[0].value;
+	
+// 	alert(getMonth);
+	
+	var frm = document.forms[0];
+	frm.action = "./salary.do?getMonth="+getMonth;
+	frm.submit();
+}
 
 </script>
 
