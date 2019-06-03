@@ -44,7 +44,10 @@ $(function(){
 		location.href="./salary.do";
 	});	
 });
-
+function timeSheetDownload() {
+	var currentDate = document.getElementById("currentDate").value;
+	location.href = "./poiTest.do?ts_date="+currentDate;
+}
 </script> 
 
 	<form action="#" method="get">
@@ -52,7 +55,7 @@ $(function(){
 <%-- 	<input type="date" id='currentDate' name="ts_date" value="${today}"> --%>
 	<input type="date" id='currentDate' name="ts_date" value="${today}">
 	<button onclick="changheDate()">날짜 변경</button>
-
+	<input type="button" value="엑셀로 다운로드" onclick="timeSheetDownload()">
 	</form>
 
     <div id="test"></div>
