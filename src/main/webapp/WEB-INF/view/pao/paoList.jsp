@@ -352,15 +352,28 @@
 			</div>
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">
-	  				<li class="nav-item">
-		    			 <a class="nav-link" data-toggle="tab" id="calendar">Calendar</a>
+					<c:if test="${loginDto.auth eq 'U'}">
+		  				<li class="nav-item">
+			    			 <a class="nav-link" data-toggle="tab" id="calendar">Calendar</a>
+			  				</li>
+			  				<li class="nav-item">
+			    			 <a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a>
+			  				</li>
+			  				<li class="nav-item">
+			    			 <a class="nav-link" data-toggle="tab" id="stock">재고</a>
+			  			</li>
+		  			</c:if>
+		  			<c:if test="${loginDto.auth eq 'A'}">
+		  				<li class="nav-item">
+	    					<a class="nav-link active" data-toggle="tab" id="storeList" href="#">매장 정보</a>
 		  				</li>
 		  				<li class="nav-item">
-		    			 <a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a>
+		    				<a class="nav-link" data-toggle="tab" href="./selAdminPaoList.do" href="#">발주</a>
 		  				</li>
 		  				<li class="nav-item">
-		    			 <a class="nav-link" data-toggle="tab" id="stock">재고</a>
+		    				<a class="nav-link" data-toggle="tab" id="itemList" href="#">품목</a>
 		  				</li>
+		  			</c:if>
 				</ul>
 				<script type="text/javascript">
 					$(function() {
@@ -372,6 +385,18 @@
 					$(function() {
 						$("#stock").click(function() {
 							location.href="./selStock.do";
+						});
+					})
+					
+					$(function() {
+						$("#storeList").click(function() {
+							location.href="./selStoreList.do";
+						});
+					})
+					
+					$(function() {
+						$("#itemList").click(function() {
+							location.href="./selItemList.do";
 						});
 					})
 				</script>
