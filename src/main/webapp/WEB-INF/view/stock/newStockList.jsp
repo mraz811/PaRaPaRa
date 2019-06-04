@@ -121,7 +121,7 @@ table {
 								<table id="tableHeader" class="table">
 									<tr class="table-primary">
 										<th style="width: 100px;">재고 번호</th>
-										<th>재고명</th>
+										<th style="width:500px; text-align: center;">재고명</th>
 										<th>재고수량</th>
 									</tr>
 								</table>
@@ -131,11 +131,14 @@ table {
 								<table class="table table-hover">
 									<c:forEach var="dto" items="${itemList}" varStatus="vs">
 										<tr>
-											<td>${vs.count}</td>
-											<td><input name="Ilists[${vs.count}].item_name" value="${dto.item_name}" readonly="readonly"
-												style="border: none; background-color: none;" /></td>
-											<td><input type="number" min="1" class="stockQty" name="Slists[${vs.count}].stock_qty" onkeyup="changeQty(this)" value="0"
-												readonly="readonly" /></td>
+											<td style="width:45px; text-align: center;">${vs.count}</td>
+											<td style="width:245px; padding-left:80px;">
+												<input name="Ilists[${vs.count}].item_name" readonly="readonly" style="border: none; background-color: none;" />
+												${dto.item_name}
+											</td>
+											<td>
+												<input type="number" min="1" class="stockQty" name="Slists[${vs.count}].stock_qty" onkeyup="changeQty(this)" value="0" readonly="readonly" />
+											</td>
 										</tr>
 									</c:forEach>
 								</table>
