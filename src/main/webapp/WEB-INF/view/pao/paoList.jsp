@@ -303,11 +303,11 @@
 		});
 		
 	}
-
-/* 	function test() {
-		
+/* 
+ 	function test() {
+		location.href = "https://pay.toss.im/api/v1/payments";
 	}
-	 */
+	  */
 </script>
 <style type="text/css">
 	#selectStatus{

@@ -1,5 +1,11 @@
 package com.happy.para.ctrl;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +37,50 @@ public class PaoCtrl {
 	
 	@Autowired
 	private Pao_IService paoService;
+	
+	/*
+	@RequestMapping(value = "/test.do", method = RequestMethod.GET)
+	public void test(Model model) {
+		URL url = null;
+		URLConnection connection = null;
+		StringBuilder responseBody = new StringBuilder();
+		try {
+			url = new URL("https://pay.toss.im/api/v1/payments");
+			connection = url.openConnection();
+			connection.addRequestProperty("Content-Type", "application/json");
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+
+			org.json.simple.JSONObject jsonBody = new org.json.simple.JSONObject();
+			jsonBody.put("orderNo", "2015072012211");
+			jsonBody.put("amount", 10000);
+			jsonBody.put("amountTaxFree", 0);
+			jsonBody.put("productDesc", "테스트 결제");
+			jsonBody.put("apiKey", "sk_test_apikey1234567890");
+		    jsonBody.put("autoExecute", "true");
+		    jsonBody.put("resultCallback", "http://localhost:8099/PaRaPaRa/");
+		    jsonBody.put("retUrl", "http://YOUR-SITE.COM/ORDER-CHECK?orderno=1");
+		    jsonBody.put("retCancelUrl", "http://YOUR-SITE.COM/close");
+
+			BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
+			
+		    bos.write(jsonBody.toJSONString().getBytes(StandardCharsets.UTF_8));
+			bos.flush();
+			bos.close();
+
+			
+		    BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				responseBody.append(line);
+			}
+			br.close();
+		} catch (Exception e) {
+			responseBody.append(e);
+		}
+		System.out.println(responseBody.toString());
+	}
+	*/
 	
 	// 업주 : 발주 리스트 조회(페이징)
 	@RequestMapping(value="/selPaoList.do", method=RequestMethod.GET)

@@ -463,8 +463,8 @@
 			<tbody id="sbody">		
 				<c:choose>
 					<c:when test="${empty stockLists}">
-						<tr>
-							<td id="noList" colspan="5" style="text-align: center; color: red; font-weight: bold;"> 재고 목록이 없습니다. </td>
+						<tr style="border-style: none;">
+							<td id="noList" colspan="5" style="width:800px; text-align: center; color: red; font-weight: bold;"> 재고 목록이 없습니다. </td>
 						</tr>
 					</c:when>
 					<c:otherwise>
