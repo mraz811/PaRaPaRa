@@ -105,10 +105,10 @@
 </script>
 <style type="text/css">
 	 body{
-	 	
 	 	margin: 0 auto;
   		padding-top: 20px;
   		padding-left: 20px;
+  		width: 840px;
 	 }
 	 table{
 	 	text-align: left;
@@ -117,21 +117,19 @@
 	 	text-align: center;
 	 }
 	 hr{
-	 	height: 20px;
-	 }
-	
+	 	width: 800px;
+		margin: 10px 0px 20px 0px;
+	}
 	 .rightAlign{
 	 	text-align: right;
 	 }
 	 #pageName{
-		height: 60px;
-		margin-bottom: 25px; 
+		height: 40px;
 	}
 	 #stockList{
 	 	width: 800px;
 	 	margin-bottom: 25px;
 	 }
-	 
 	 #piList thead{
 		position: absolute;
 		width: 800px;
@@ -143,7 +141,7 @@
 		overflow-y:scroll;
 		display: block;
 		float:left;
-		margin-top: 47px; 
+		margin-top: 33px; 
 		height: 210px;
 	}
 	.txt{
@@ -155,35 +153,38 @@
 </head>
 <body>
 	<div id="pageName">
-		<h1>발주 상세내역</h1>
-		<input type="button" value="엑셀로 다운로드" onclick="paoExcelDownload()">
-		<hr>
+			<div style="width:200px; height:50px; font-size: 30px; font-weight: bold; float: left;">
+				발주 상세내역
+			</div>
+			<div style="text-align: right; margin-top:10px; margin-left:688px; position: absolute;">  
+				<input type="button" class="btn btn-secondary" value="엑셀로 다운로드" onclick="paoExcelDownload()">
+			</div>
 	</div>
-	
+	<hr>
 
-	<h3>■ 발주</h3>
+	<h4>▣ 발주</h4>
 	<div id="stockList">
 		<div>
 			<table class="table table-hover">
 				<thead>
 					<tr class="table-secondary">
-						<th>발주번호</th><th>매장명</th><th>발주상태</th><th>날짜</th>
+						<th style="padding: 5px 0px;">발주번호</th><th style="padding: 5px 0px;">매장명</th><th style="padding: 5px 0px;">발주상태</th><th style="padding: 5px 0px;">날짜</th>
 					</tr>
 				</thead>
 			
 				<tbody id="sbody">		
 					<tr>
-						<td>
+						<td style="padding: 5px 0px;">
 							${paoDto.pao_seq}
 							<input type="hidden" id="pao_seq" value="${paoDto.pao_seq}">
 						</td>
-						<td>
+						<td style="padding: 5px 0px;">
 							${paoDto.store_name}
 						</td>
-						<td>
+						<td style="padding: 5px 0px;">
 							${paoDto.ps_name}
 						</td>
-						<td>
+						<td style="padding: 5px 0px;">
 							${paoDto.pao_date}
 						</td>
 					</tr>
@@ -194,13 +195,13 @@
 				 
 				
 					
-	<h3>■ 발주 품목</h3>
+	<h4>▣ 발주 품목</h4>
 	<div id="piList">
 		<div>
 			<table class="table table-hover">
 				<thead>
 					<tr class="table-secondary">
-						<th style="width: 100px;">번호</th><th style="width: 300px;">품목명</th><th style="width: 110px;">수량</th><th style="width: 130px;">가격</th><th style="width: 200px;">합계금액</th>
+						<th style="width: 100px; padding: 5px 0px;">번호</th><th style="width: 300px; padding: 5px 0px;">품목명</th><th style="width: 110px; padding: 5px 0px;">수량</th><th style="width: 130px; padding: 5px 0px;">가격</th><th style="width: 200px; padding: 5px 0px;">합계금액</th>
 					</tr>
 				</thead>
 				<tbody id="pbody">	
@@ -212,11 +213,11 @@
 							<c:set var="sumPrice" value="${piQty * dto.item_price}"/>
 							<c:set var="totalPrice" value="${t_qty = t_qty + piQty}"/>
 							<c:set var="totalPrice" value="${t_price = t_price + sumPrice}"/>
-							<td style="width: 100px;">${status.count}</td>
-							<td style="padding-left: 25px; width: 300px;">${dto.item_name}</td>
-							<td style="padding-left: 34px; width: 110px;">${dto.pi_qty}개</td>
-							<td class="rightAlign" style="padding-right: 20px; width: 130px;">${dto.item_price}원</td>
-							<td class="rightAlign" style="padding-right: 50px; width: 200px;"><c:out value="${sumPrice}원"/></td>
+							<td style="width: 100px; padding: 5px 0px;">${status.count}</td>
+							<td style="width: 300px; padding: 5px 0px 5px 20px;">${dto.item_name}</td>
+							<td style="width: 110px; padding: 5px 0px 5px 34px;">${dto.pi_qty}개</td>
+							<td class="rightAlign" style="padding: 5px 20px 5px 0px; width: 130px;">${dto.item_price}원</td>
+							<td class="rightAlign" style="padding: 5px 50px 5px 0px; width: 200px;"><c:out value="${sumPrice}원"/></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -228,8 +229,8 @@
 					<th class="rightAlign" style="width: 150px;">
 						<input type="text" class="txt" name="totalPiQty" value="${t_qty}" readonly="readonly">개
 					</th>
-					<th style="width: 150px; text-align: right;">총금액</th>
-					<th style="width: 200px;">
+					<th style="width: 150px; padding-right: 5px; text-align: right;">총금액</th>
+					<th style="width: 200px; padding-right: 20px;">
 						<input type="text" class="txt" name="totalPiPrice" value="${t_price}" readonly="readonly">원
 					</th>
 				</tr>
