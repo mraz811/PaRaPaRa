@@ -46,7 +46,7 @@
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#home">업　주</a>
+    			 <a class="nav-link" data-toggle="tab" style="border: 1px solid rgb(21,140,186);" href="#home"><strong>업　주</strong></a>
   				</li>
 			</ul>
 			

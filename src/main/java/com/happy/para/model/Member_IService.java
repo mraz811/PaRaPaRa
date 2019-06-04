@@ -57,7 +57,7 @@ public interface Member_IService {
 	public int ownerDelete(Map<String, String> map);
 
 	// 업주 등록 화면에서 매장코드 옵션 주기 위한 쿼리
-	public List<String> selStoreCodeList();
+	public List<String> selStoreCodeList(String admin_id);
 	
 	// 담당자 등록 시 사번 중복 검사
 	public int adminIdDupleChk(String admin_id);

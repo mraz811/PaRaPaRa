@@ -144,8 +144,9 @@ public class MemberCtrl {
 		
 		// 업주 회원 등록 페이지로 보내주는 메소드 (업주 등록 여부 0인 매장코드 리스트 전송)
 		@RequestMapping(value="ownerRegiForm.do", method=RequestMethod.GET)
-		public String ownerRegiForm(Model model) {
-			List<String> store_code = memService.selStoreCodeList();
+		public String ownerRegiForm(Model model, HttpSession session) {
+			AdminDto adto = (AdminDto)session.getAttribute("loginDto");
+			List<String> store_code = memService.selStoreCodeList(adto.getAdmin_id()+"");
 			model.addAttribute("store_code", store_code);
 			return "/member/ownerRegiForm";
 		}

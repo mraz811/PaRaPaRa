@@ -177,8 +177,8 @@ public class Member_ServiceImpl implements Member_IService {
 	}
 
 	@Override
-	public List<String> selStoreCodeList() {
-		return member_IDao.selStoreCodeList();
+	public List<String> selStoreCodeList(String admin_id) {
+		return member_IDao.selStoreCodeList(admin_id);
 	}
 
 	@Override
