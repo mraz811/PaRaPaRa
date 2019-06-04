@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.happy.para.dto.RequestDto;
+
 
 @Service
 public class Stats_ServiceImpl implements Stats_IService {
@@ -40,7 +42,7 @@ public class Stats_ServiceImpl implements Stats_IService {
 
 	// 관리자,담당자 : 수익통계
 	@Override
-	public int adminStatsIncome(Map<String, Object> map) {
+	public RequestDto adminStatsIncome(Map<String, Object> map) {
 		logger.info("adminStatsIncome Service : {} ", map);
 		return stats_IDao.adminStatsIncome(map);
 	}

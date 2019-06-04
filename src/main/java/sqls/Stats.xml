@@ -39,14 +39,26 @@
 		
 		
 	<resultMap type="RequestDto" id="RequestResultMap">
+		<result property="request_menu" column="REQUEST_MENU"/>
 		<result property="request_price" column="REQUEST_PRICE"/>
+		<result property="os_code" column="OS_CODE"/>
+		<result property="os_name" column="OS_NAME"/>
+		<result property="store_code" column="STORE_CODE"/>
+		<result property="request_bank" column="REQUEST_BANK"/>
+		<result property="request_account" column="REQUEST_ACCOUNT"/>
+		<result property="menu_name" column="MENU_NAME"/>
 		<collection property="storeDto" resultMap="StoreResultMap"></collection>
 	</resultMap>
 	
 	<resultMap type="StoreDto" id="StoreResultMap">
 		<result property="store_code" column="STORE_CODE"/>
+		<result property="loc_code" column="LOC_CODE"/>
+		<result property="store_phone" column="STORE_PHONE"/>
 		<result property="store_name" column="STORE_NAME"/>
-	
+		<result property="store_address" column="STORE_ADDRESS"/>
+		<result property="admin_id" column="ADMIN_ID"/>
+		<result property="store_delflag" column="STORE_DELFLAG"/>
+		<result property="owner_reg" column="OWNER_REG"/>
 	</resultMap>	
 		
 		
@@ -57,7 +69,8 @@
  			FROM REQUEST JOIN OWNER ON REQUEST.STORE_CODE = OWNER.STORE_CODE
  				JOIN STORE ON OWNER.STORE_CODE = STORE.STORE_CODE
  			WHERE REQUEST.STORE_CODE = #{store_code}
- 			AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3) GROUP BY STORE_NAME
+ 			AND (REQUEST_TIME BETWEEN #{start} AND #{end}) 
+ 			AND OS_CODE=3) GROUP BY STORE_NAME
 	</select>
 <!-- 	<select id="adminStatsIncome" parameterType="java.util.Map" resultType="java.lang.Integer"> -->
 <!-- 	SELECT NVL(SUM(REQUEST_PRICE),0)  -->
@@ -72,6 +85,13 @@
 <!-- 	</select> -->
 	
 	<!-- 관리자,담당자 : 상위판매메뉴 통계 -->
+<!-- 	<select id="adminStatsMenu" parameterType="java.util.Map" resultMap="RequestResultMap"> -->
+<!-- 	SELECT REQUEST_MENU,STORE_NAME -->
+<!-- 	FROM REQUEST JOIN OWNER ON REQUEST.STORE_CODE = OWNER.STORE_CODE -->
+<!--  				JOIN STORE ON OWNER.STORE_CODE = STORE.STORE_CODE -->
+<!--  			WHERE REQUEST.STORE_CODE = #{store_code} -->
+<!-- 	AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3 -->
+<!-- 	</select> -->
 	<select id="adminStatsMenu" parameterType="java.util.Map" resultType="RequestDto">
 	SELECT REQUEST_MENU 
 	FROM REQUEST 

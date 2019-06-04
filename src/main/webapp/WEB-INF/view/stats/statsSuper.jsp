@@ -74,13 +74,6 @@
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-	function checkAllDel(bool) {
-		var checks = document.getElementsByName("store_code");
-		for (var i = 0; i < checks.length; i++) {
-			checks[i].checked = bool;
-		}
-	}
-
 	function getFormatDate(date) {
 		var year = date.getFullYear(); //yyyy 
 		var month = (1 + date.getMonth()); //M 
@@ -137,27 +130,27 @@
 			return false;
 		}
 		
-		var checks = document.getElementsByName("store_code");
-		var checkedBox = "";
+		var checks = document.getElementsByName("loc_code");
+		var radioBox = "";
 		for (var i = 0; i < checks.length; i++) {
 			if (checks[i].checked) {
-				checkedBox += checks[i].value + ",";
+				radioBox += checks[i].value;
 			}
 		}
-		if(checkedBox == ""){
+		if(radioBox == ""){
 			swal("매장을 선택해주세요.");
 			return false;
 		}
-		var store_code = checkedBox;
+		var loc_code = radioBox;
 
 		$.ajax({
-					url : "./adminStatsIncome.do",
+					url : "./superStatsIncome.do",
 					type : "get",
 					async : true,
 					data : {
 						"start" : start,
 						"end" : endDayString,
-						"store_code" : store_code
+						"loc_code" : loc_code
 					},
 					dataType : "json",
 					success : function(obj) {
@@ -172,7 +165,7 @@
 							function drawChart() {
 								var data = new google.visualization.DataTable(obj.jstr);
 								var options = {
-									title : '업주 수익/지출 통계',
+									title : '담당 매장 수익/지출 통계',
 									hAxis : {
 										titleTextStyle : {
 											fontSize : 18,
@@ -192,7 +185,7 @@
 								};
 								var data2 = new google.visualization.DataTable(obj.jstr2);
 								var options2 = {
-									title : '선택 담당 지역 판매 메뉴 통계',
+									title : '선택 담당자 지역 판매 메뉴 통계',
 								};
 								var chart = new google.visualization.ColumnChart(
 										document.getElementById('money'));
@@ -229,24 +222,22 @@
 						</div>
 						<fieldset>
 							<div id="choiceOwner" class="form-group" >
-								<div class="custom-control custom-checkbox">
-									<table class="table table-hover">
+								<div class="custom-control custom-radio">
+									<table class="table">
 										<thead>
 											<tr>
 												<th width="20px">
-													
-													<input id="allChk" class="custom-control-input" type="checkbox" value="전체선택" onclick="checkAllDel(this.checked)" />
-													<label id="onclickStore1" class="custom-control-label" for="allChk">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;매장명</label>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;담당자명
 												</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach begin="0" end="${fn:length(ownerList)}"
-												items="${ownerList}" var="owner" varStatus="vs">
+											<c:forEach begin="0" end="${fn:length(adminList)}"
+												items="${adminList}" var="admin" varStatus="vs">
 												<tr>
 													<td colspan="2">
-													<input id="chk${vs.count}" class="custom-control-input" name="store_code" type="checkbox" value="${owner.store_code}" />
-													<label id="onclickStore2" class="custom-control-label" for="chk${vs.count}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${owner.store_name}</label>
+													<input id="chk${vs.count}" class="custom-control-input" name="loc_code" type="radio" value="${admin.loc_code}" />
+													<label id="onclickStore2" class="custom-control-label" for="chk${vs.count}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${admin.admin_name} : ${admin.loc_name}</label>
 													</td>
 												</tr>
 											</c:forEach>

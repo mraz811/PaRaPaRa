@@ -185,4 +185,8 @@ public class Member_DaoImpl implements Member_IDao {
 		return sqlSession.selectList(MNS+"ownerListAll", loc_code);
 	}
 	
+	@Override
+	public List<AdminDto> adminListAll() {
+		return sqlSession.selectList(MNS+"adminListAll");
+	}
 }

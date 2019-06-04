@@ -205,4 +205,9 @@ public class Member_ServiceImpl implements Member_IService {
 	public List<OwnerDto> ownerListAll(String loc_code) {
 		return member_IDao.ownerListAll(loc_code);
 	}
+	
+	@Override
+	public List<AdminDto> adminListAll() {
+		return member_IDao.adminListAll();
+	}
 }

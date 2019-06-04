@@ -76,12 +76,21 @@ function modiMenu(){
 	var menu_price = document.getElementById("menu_price").value;
 	var menu_name = document.getElementById("menu_name").value;
 	
-	var file_seq = fDto.file_seq;
-	var file_tname = fDto.file_tname;
-	var file_rname = fDto.file_rname;
-	var file_size = fDto.file_size;
-	var file_aurl = fDto.file_aurl;
-	var file_rurl = fDto.file_rurl;
+	if(fDto == null){
+		var file_seq = document.getElementById("file_seq").value;
+		var file_tname = document.getElementById("file_tname").value;
+		var file_rname = document.getElementById("file_rname").value;
+		var file_size = document.getElementById("file_size").value;
+		var file_aurl = document.getElementById("file_aurl").value;
+		var file_rurl = document.getElementById("file_rurl").value;
+	}else{
+		var file_seq = fDto.file_seq;
+		var file_tname = fDto.file_tname;
+		var file_rname = fDto.file_rname;
+		var file_size = fDto.file_size;
+		var file_aurl = fDto.file_aurl;
+		var file_rurl = fDto.file_rurl;
+	}
 	
 	var isc = confirm("수정하시겠습니까?");
 	if(isc){
@@ -117,6 +126,12 @@ function modiMenu(){
 	</form>	
 	
 	<input type="hidden" id="file_seq" value="${menuDto.fileDto.file_seq}"/>
+	<input type="hidden" id="file_tname" value="${menuDto.fileDto.file_tname}"/>
+	<input type="hidden" id="file_rname" value="${menuDto.fileDto.file_rname}"/>
+	<input type="hidden" id="file_size" value="${menuDto.fileDto.file_size}"/>
+	<input type="hidden" id="file_aurl" value="${menuDto.fileDto.file_aurl}"/>
+	<input type="hidden" id="file_rurl" value="${menuDto.fileDto.file_rurl}"/>
+	
 	<div id="selectAndFile" align="left">
 		<span>카테고리 : ${menuDto.menu_category}</span>
 	</div>

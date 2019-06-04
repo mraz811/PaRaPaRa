@@ -183,4 +183,10 @@
 	WHERE STORE_CODE IN (SELECT STORE_CODE FROM STORE WHERE LOC_CODE = #{loc_code})
 </select>
 
+<!-- 관리자 담당업주 전체 조회 -->
+<select id="adminListAll" resultType="AdminDto">
+	SELECT ADMIN_NAME, LOC_CODE, LOC_SIGUNGU AS LOC_NAME
+	FROM ADMIN JOIN LOCATION USING(LOC_CODE)
+	WHERE AUTH='A' AND ADMIN_DELFLAG='N'
+</select>
 </mapper>

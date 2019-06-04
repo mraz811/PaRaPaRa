@@ -76,4 +76,7 @@ public interface Member_IDao {
 	
 	// 담당하는 업주 전체 조회
 	public List<OwnerDto> ownerListAll(String loc_code);
+	
+	// 관리자 담당자 전체 조회
+	public List<AdminDto> adminListAll();
 }

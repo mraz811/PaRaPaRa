@@ -28,25 +28,19 @@
 
 #stats {
 	position: relative;
-	width: 900px;
+	width: 800px;
 	right: 0px;
 }
 
 #menu {
 	position: absolute;
-	width: 330px;
+	width: 350px;
 	height: 350px;
 	/* 		float: left; */
-	right: 15px;
+	right: 55px;
 }
 
-#money {
-	position: absolute;
-	left: 110px; 
-	width : 450px;
-	height: 350px;
-	/* 		float: left; */
-}
+
 
 #choiceOwner {
 	position: absolute;
@@ -150,8 +144,10 @@
 		}
 		var store_code = checkedBox;
 
+		var cnt = 0;
+		
 		$.ajax({
-					url : "./adminStatsIncome.do",
+					url : "./adminStatsMenu.do",
 					type : "get",
 					async : true,
 					data : {
@@ -161,47 +157,31 @@
 					},
 					dataType : "json",
 					success : function(obj) {
-						if (obj.jstr == "0") {
-							swal("선택지점의 수익이 없습니다.");
-						} else {
-
-							google.charts.load('current', {
-								packages : [ 'corechart' ]
-							});
-							google.charts.setOnLoadCallback(drawChart);
-							function drawChart() {
-								var data = new google.visualization.DataTable(obj.jstr);
-								var options = {
-									title : '업주 수익/지출 통계',
-									hAxis : {
-										titleTextStyle : {
-											fontSize : 18,
-											color : '#053061',
-											bold : true,
-											italic : false
-										}
-									},
-									vAxis: {format: 'Decimal',
-										minValue:0,
-										maxValue:0	
-										},
-									bar : {
-										groupWidth : '40%' 
+							var store_name = document.getElementsByName("store_name");
+						alert(obj.store_name[0]);
+							for (var i = 0; i < store_name.length; i++) {
+								if(store_name[0] == obj.jstr){
+									alert("희희");
+									var newDiv = document.createElement("div");
+									newDiv.setAttribute("id", obj.jstr);
+									
+									document.getElementById("menu").appendChild(newDiv);
+									
+									
+									google.charts.load('current', {
+										packages : [ 'corechart' ]
+									});
+									google.charts.setOnLoadCallback(drawChart);
+									function drawChart() {
+										var data2 = new google.visualization.DataTable(obj.jstr);
+										var options2 = {
+											title : '담당 지역 판매 메뉴 통계',
+										};
+										var chart = new google.visualization.PieChart(document.getElementById(obj.jstr));
+										chart.draw(data2, options2);
 									}
-
-								};
-								var data2 = new google.visualization.DataTable(obj.jstr2);
-								var options2 = {
-									title : '선택 담당 지역 판매 메뉴 통계',
-								};
-								var chart = new google.visualization.ColumnChart(
-										document.getElementById('money'));
-								chart.draw(data, options);
-								var chart = new google.visualization.PieChart(
-										document.getElementById('menu'));
-								chart.draw(data2, options2);
+								}
 							}
-						}
 					},
 					error : function(obj) {
 						alert("등록에 실패하였습니다."); //성공햇는데 error로 넘어옴 ㅡㅡ; producer 없애고 JSONObject로 던져서 해결함
@@ -209,8 +189,8 @@
 				});
 
 	}
-	function viewMenu(){
-		location.href = "./adminStats2.do";
+	function viewIncome(){
+		location.href = "./adminStats.do";
 	}
 </script>
 <body>
@@ -221,7 +201,8 @@
 				<div class="oneDepth"><p>통　계</p></div>
 				<div class="twoDepth">
 					<ul class="nav nav-tabs">
-						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#" style="border: 1px solid rgb(21,140,186);"><strong>수익/메뉴 통계</strong></a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" onclick="viewIncome()" >수익 통계</a></li>
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#" style="border: 1px solid rgb(21,140,186);"><strong>메뉴 통계</strong></a></li>
 					</ul>
 					<form id="frm" action="#" method="post">
 						<div id="selectDate">
@@ -246,6 +227,7 @@
 												<tr>
 													<td colspan="2">
 													<input id="chk${vs.count}" class="custom-control-input" name="store_code" type="checkbox" value="${owner.store_code}" />
+													<input name="store_name" type="hidden" value="${owner.store_name}" />
 													<label id="onclickStore2" class="custom-control-label" for="chk${vs.count}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${owner.store_name}</label>
 													</td>
 												</tr>
@@ -259,7 +241,6 @@
 							type="button" value="통계보긔" onclick="adminStats()" />
 						<div id="statsDiv">
 							<div id="stats">
-								<div id="money"></div>
 								<div id="menu"></div>
 							</div>
 						</div>
