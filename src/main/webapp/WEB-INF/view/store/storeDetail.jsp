@@ -35,14 +35,17 @@
 <body>
 	<div id="container">
 		<div class="fullCtrl">
-		<form action="#" id="frm" method="post">
-		
+		<form action="#" id="frm" method="post" onsubmit="return modiStore()">
+			<input type="hidden" id="nameChkVal" value="0">
+			<input type="hidden" id="nameList" value='${nameListJson}'>
 			<fieldset id="detailStore">
 			<p class="writeform">매장 상세보기</p>
 			
 				<div class="form-group">
 					<label>매장명</label>
-					<input class="form-control" type="text" readonly="readonly" id="store_name" name="store_name" value="${dto.store_name}">
+					<input class="form-control" type="text" readonly="readonly" onkeyup="nameChk()" id="store_name" name="store_name" value="${dto.store_name}">
+					<div class="valid-feedback">사용 가능한 매장명</div>
+					<div class="invalid-feedback">사용 불가능한 매장명</div>
 				</div>
 				<div class="form-group">
 					<label>매장코드</label>
@@ -74,6 +77,30 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		
+		function nameChk() {
+			var orginalName = '${dto.store_name}';
+			
+			var nameVal = document.getElementById("store_name").value;
+	// 		alert("작성한 매장명 : " + )
+			var nameList = document.getElementById("nameList").value;
+	// 		alert("매장 이름 리스트 : " +  nameList);
+			
+			if(nameList.indexOf(nameVal)>-1){
+				$("#store_name").attr("class","form-control is-invalid");
+				$("#nameChkVal").val("0");
+			}else{
+				$("#store_name").attr("class","form-control is-valid");
+				$("#nameChkVal").val("1");
+			}
+			if(orginalName == nameVal){
+				$("#store_name").attr("class","form-control is-valid");
+				$("#nameChkVal").val("1");
+			}
+			
+		}
+	
+	
 		function modiStoreForm() {
 			$("#store_name").removeAttr("readonly");
 			$("#store_phone").removeAttr("readonly");
@@ -86,60 +113,72 @@
 			$("#btnDiv").html(htmlBtn);
 		}
 		function modiStore(){
-			$.ajax({
-				url : "./storeModi.do",
-				type : "post",
-				async : true,
-				data : $("#frm").serialize(),
-				dataType:"json",
-				success : function(msg){
-// 					alert("왜안되야");
-					swal({
-						title: "수정 완료", 
-						text: "매장 수정이 완료되었습니다", 
-						type: "success"
-					},
-					function(){ 
-// 						opener.parent.location.reload();
-// 						modiCancel();
-						var htmlDetail = "";
-						htmlDetail += 	"<div class='form-group'>"
-											+"<label>매장명</label>"
-											+"<input class='form-control' type='text' readonly='readonly' id='store_name' name='store_name' value='"+msg.store_name+"'>"
-										+"</div>"
-										+"<div class='form-group'>"
-											+"<label>매장코드</label>"
-											+"<input class='form-control' type='text' readonly='readonly' id='store_code' name='store_code' value='"+msg.store_code+"'>"
-										+"</div>"
-										+"<div class='form-group'>"
-											+"<label>지역코드</label>"
-											+"<input class='form-control' type='text' readonly='readonly' id='loc_code' name='loc_code' value='"+msg.loc_code+"'>"
-										+"</div>"
-										+"<div class='form-group'>"
-											+"<label>매장전화번호</label>"
-											+"<input class='form-control' type='text' readonly='readonly' id='store_phone' name='store_phone' value='"+msg.store_phone+"'>"
-										+"</div>"
-										+"<div class='form-group'>"
-											+"<label>매장주소</label>"
-											+"<input class='form-control' type='text' readonly='readonly' id='store_address' name='store_address' value='"+msg.store_address+"'>"
-										+"</div>"
-										+"<div class='form-group'>"
-											+"<label>사번</label>"
-											+"<input class='form-control' type='text' readonly='readonly' id='admin_id' name='admin_id' value='"+msg.admin_id+"'>"
-										+"</div>"
-										+"<div id='btnDiv' style='width: 300px; text-align: center; margin-top: 20px;'>"
-											+"<input style=width:97px;' type='button' class='btn btn-outline-success' id='modiForm' value='수　정' onclick='modiStoreForm()'>"
-											+"<input style=width:97px;' type='button' class='btn btn-outline-warning' id='deleteStore' value='삭　제' onclick='delStore(\""+msg.store_code+"\")'>"
-											+"<input style=width:97px;' type='button' class='btn btn-secondary' id='close' value='닫　기' onclick='modiCancel()'>"
-										+"</div>";
-						$("#detailStore").html(htmlDetail);
-						
-					});
-				},error:function(){
-//	 				alert("실패");
-					swal("수정 에러", "수정 중 문제가 발생하였습니다.", "error");
-				}
-			});
+			var nameChkVal = $("#nameChkVal").val();
+//	 		alert("매장명 중복 확인 : " +nameChkVal );
+			if(nameChkVal == '1'){
+				$.ajax({
+					url : "./storeModi.do",
+					type : "post",
+					async : true,
+					data : $("#frm").serialize(),
+					dataType:"json",
+					success : function(msg){
+	// 					alert("왜안되야");
+						swal({
+							title: "수정 완료", 
+							text: "매장 수정이 완료되었습니다", 
+							type: "success"
+						},
+						function(){ 
+	// 						opener.parent.location.reload();
+	// 						modiCancel();
+							var htmlDetail = "<p class='writeform'>매장 상세보기</p>";
+							htmlDetail += 	"<div class='form-group'>"
+												+"<label>매장명</label>"
+												+"<input class='form-control' type='text' readonly='readonly' id='store_name' name='store_name' value='"+msg.store_name+"'>"
+												+"<div class='valid-feedback'>사용 가능한 매장명</div>"
+												+"<div class='invalid-feedback'>사용 불가능한 매장명</div>"
+											+"</div>"
+											+"<div class='form-group'>"
+												+"<label>매장코드</label>"
+												+"<input class='form-control' type='text' readonly='readonly' id='store_code' name='store_code' value='"+msg.store_code+"'>"
+											+"</div>"
+											+"<div class='form-group'>"
+												+"<label>지역코드</label>"
+												+"<input class='form-control' type='text' readonly='readonly' id='loc_code' name='loc_code' value='"+msg.loc_code+"'>"
+											+"</div>"
+											+"<div class='form-group'>"
+												+"<label>매장전화번호</label>"
+												+"<input class='form-control' type='text' readonly='readonly' id='store_phone' name='store_phone' value='"+msg.store_phone+"'>"
+											+"</div>"
+											+"<div class='form-group'>"
+												+"<label>매장주소</label>"
+												+"<input class='form-control' type='text' readonly='readonly' id='store_address' name='store_address' value='"+msg.store_address+"'>"
+											+"</div>"
+											+"<div class='form-group'>"
+												+"<label>사번</label>"
+												+"<input class='form-control' type='text' readonly='readonly' id='admin_id' name='admin_id' value='"+msg.admin_id+"'>"
+											+"</div>"
+											+"<div id='btnDiv' style='width: 300px; text-align: center; margin-top: 20px;'>"
+												+"<input style=width:97px;' type='button' class='btn btn-outline-success' id='modiForm' value='수　정' onclick='modiStoreForm()'>"
+												+"<input style=width:97px;' type='button' class='btn btn-outline-warning' id='deleteStore' value='삭　제' onclick='delStore(\""+msg.store_code+"\")'>"
+												+"<input style=width:97px;' type='button' class='btn btn-secondary' id='close' value='닫　기' onclick='modiCancel()'>"
+											+"</div>";
+							$("#detailStore").html(htmlDetail);
+							
+						});
+					},error:function(){
+	//	 				alert("실패");
+						swal("수정 에러", "수정 중 문제가 발생하였습니다.", "error");
+						return false;
+					}
+				});
+			}else{
+				swal("수정 에러", "수정 중 문제가 발생하였습니다.", "error");
+				return false;
+				
+			}
+			return false;
 		}
 		var modiCancel = function(){
 			self.close();

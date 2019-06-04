@@ -81,6 +81,22 @@ public class StoreCtrl {
 		System.out.println("매장상세 조회를 위한 store_code 값 : " + store_code);
 		StoreDto dto = storeService.storeDetail(store_code);
 		logger.info("select Store Detail Controller : {}", dto);
+		List<StoreDto> nameChkList = null;
+		StoreDto sDto = new StoreDto();
+		nameChkList = storeService.storeList(sDto);
+		System.out.println("전체 매장 정보 : " + nameChkList);
+		JSONObject json = new JSONObject(); // 최종적으로 담는애는 여긴데
+		JSONArray jLists = new JSONArray(); // 어레이리스트를 담을때는 여기에
+		JSONObject jList = null; // 그냥 얘는 제이슨 타입으로
+		
+		for (StoreDto nameDto : nameChkList) {
+			jList = new JSONObject();
+			jList.put("store_name", nameDto.getStore_name());
+			
+			jLists.add(jList);
+		}
+		json.put("nameList", jLists);
+		model.addAttribute("nameListJson", json.toString());
 		model.addAttribute("dto", dto);
 		return "store/storeDetail";
 	}
