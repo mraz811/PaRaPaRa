@@ -51,11 +51,9 @@
 				<div class="twoDepth">
 					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
 					<ul class="nav nav-tabs">
-						<li class="nav-item"><a class="nav-link active" data-toggle="tab">Calendar</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							id="pao">발주</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							id="stockList">재고</a></li>
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab" style="border: 1px solid rgb(21,140,186);"><strong>Calendar</strong></a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab" id="pao">발주</a></li>
+						<li class="nav-item"><a class="nav-link" data-toggle="tab" id="stockList">재고</a></li>
 					</ul>
 					<div class="tab-content">
 
@@ -177,7 +175,7 @@
 		  calendars: [
 			    {
 			      id: '1',
-			      name: '가족',
+			      name: '직원',
 			      color: '#ffffff',
 			      bgColor: '#9e5fff',
 			      dragBgColor: '#9e5fff',
@@ -185,7 +183,7 @@
 			    },
 			    {
 			      id: '2',
-			      name: '학원',
+			      name: '점검',
 			      color: '#ffffff',
 			      bgColor: '#00a9ff',
 			      dragBgColor: '#00a9ff',
@@ -193,7 +191,7 @@
 			    },
 			    {
 			    	id: '3',
-				    name: '회사',
+				    name: '예약',
 				    color: '#ffffff',
 				    bgColor: '#ffa9ff',
 				    dragBgColor: '#ffa9ff',

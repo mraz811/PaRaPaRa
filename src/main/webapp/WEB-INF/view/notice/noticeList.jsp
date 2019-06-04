@@ -48,8 +48,7 @@
 				<div class="twoDepth">
 					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
 					<ul class="nav nav-tabs">
-						<li class="nav-item"><a class="nav-link" data-toggle="tab"
-							href="#home">공지사항</a></li>
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" style="border: 1px solid rgb(21,140,186);"><strong>공지사항</strong></a></li>
 					</ul>
 					<div class="tab-content">
 
@@ -67,19 +66,10 @@
 										<th>작성자</th>
 										<th>등록일</th>
 									</tr>
-
-								<%-- 
-									<jsp:useBean id="format"
-										class="com.happy.para.common.NoticeInputList" scope="page" />
-									<jsp:setProperty property="lists" name="format"
-										value="${lists}" />
-									<jsp:getProperty property="listformat" name="format" />
-								 --%>
 								
 								<c:forEach var="dto" items="${lists}" varStatus="vs">
 									<tr>
 										<td>${vs.count}</td>
-										
 										<td><a href="./selNoticeDetail.do?notice_seq=${dto.notice_seq}&loginDtoAuth=${loginDto.auth}">${dto.notice_title}</a></td>
 										<td>${dto.notice_name}</td>
 										<td>${dto.notice_regdate}</td>
