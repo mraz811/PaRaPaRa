@@ -81,7 +81,7 @@ function reSell(menu_seq){
 							"<img class='menuImg' src="+menu.file_rurl+" alt=''/>"+
 							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
 							"<small>판매 중지 </small>"+
-							"<input style='padding-left: 9px;' type='button' id='resellMenu' class='btn btn-outline-primary' value='재판매'>"+
+							"<input style='padding-left: 9px;' type='button' id='resellMenu' class='btn btn-outline-primary' value='재판매' onclick=\"reSell("+menu.menu_seq+")\">"+
 						"</div>";
 						}
 					});
@@ -118,7 +118,7 @@ function sideMenu(){
 							"<img class='menuImg' src="+menu.file_rurl+" alt=''/>"+
 							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
 							"<small>판매 중지 </small>"+
-							"<input style='padding-left: 9px;' type='button' id='resellMenu' class='btn btn-outline-primary' value='재판매'>"+
+							"<input style='padding-left: 9px;' type='button' id='resellMenu' class='btn btn-outline-primary' value='재판매' onclick=\"reSell("+menu.menu_seq+")\">"+
 						"</div>";
 						}
 					}); 
@@ -155,7 +155,7 @@ function drinkMenu(){
 								"<img class='menuImg' src="+menu.file_rurl+" alt=''/>"+
 								"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
 								"<small>판매 중지 </small>"+
-								"<input style='padding-left: 9px;' type='button' id='resellMenu' class='btn btn-outline-primary' value='재판매'>"+
+								"<input style='padding-left: 9px;' type='button' id='resellMenu' class='btn btn-outline-primary' value='재판매' onclick=\"reSell("+menu.menu_seq+")\">"+
 							"</div>";
 						}
 					});
@@ -179,7 +179,7 @@ function drinkMenu(){
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#home">전체메뉴</a>
+    			 <a class="nav-link active" data-toggle="tab" href="#home" style="border: 1px solid rgb(21,140,186);"><strong>전체메뉴</strong></a>
   				</li>
 			</ul>
 			<div class="menutabs">

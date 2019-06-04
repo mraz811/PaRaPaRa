@@ -358,7 +358,7 @@
 			    			 <a class="nav-link" data-toggle="tab" id="calendar">Calendar</a>
 			  				</li>
 			  				<li class="nav-item">
-			    			 <a class="nav-link active" data-toggle="tab" href="./selPaoList.do">발주</a>
+			    			 <a class="nav-link active" data-toggle="tab" href="./selPaoList.do" style="border: 1px solid rgb(21,140,186);"><strong>발주</strong></a>
 			  				</li>
 			  				<li class="nav-item">
 			    			 <a class="nav-link" data-toggle="tab" id="stock">재고</a>
@@ -369,7 +369,7 @@
 	    					<a class="nav-link" data-toggle="tab" id="storeList" href="#">매장 정보</a>
 		  				</li>
 		  				<li class="nav-item">
-		    				<a class="nav-link active" data-toggle="tab" href="./selAdminPaoList.do" href="#">발주</a>
+		    				<a class="nav-link active" data-toggle="tab" href="./selAdminPaoList.do" href="#" style="border: 1px solid rgb(21,140,186);"><strong>발주</strong></a>
 		  				</li>
 		  				<li class="nav-item">
 		    				<a class="nav-link" data-toggle="tab" id="itemList" href="#">품목</a>

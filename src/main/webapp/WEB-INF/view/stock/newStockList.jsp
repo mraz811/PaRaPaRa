@@ -101,7 +101,7 @@ table {
 					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
 					<ul class="nav nav-tabs">
 						<li class="nav-item"><a class="nav-link" data-toggle="tab" id="calendar">Calendar</a></li>
-						<li class="nav-item"><a class="nav-link" data-toggle="tab" href="./selPaoList.do">발주</a></li>
+						<li class="nav-item"><a id="pao" class="nav-link" data-toggle="tab" href="#">발주</a></li>
 						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" style="border: 1px solid rgb(21,140,186);"><strong>재고</strong></a></li>
 					</ul>
 					<div class="tab-content">
@@ -110,6 +110,9 @@ table {
 							$(function() {
 								$("#calendar").click(function() {
 									location.href = "./selCal.do";
+								});
+								$("#pao").click(function() {
+									location.href = "./selPaoList.do";
 								});
 							})
 						</script>
@@ -133,7 +136,7 @@ table {
 										<tr>
 											<td style="width:45px; text-align: center;">${vs.count}</td>
 											<td style="width:245px; padding-left:80px;">
-												<input name="Ilists[${vs.count}].item_name" readonly="readonly" style="border: none; background-color: none;" />
+												<input type="hidden" value="${dto.item_name}" name="Ilists[${vs.count}].item_name" readonly="readonly" style="border: none; background-color: none;" />
 												${dto.item_name}
 											</td>
 											<td>

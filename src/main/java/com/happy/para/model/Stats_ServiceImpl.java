@@ -47,7 +47,7 @@ public class Stats_ServiceImpl implements Stats_IService {
 
 	// 관리자,담당자 : 상위판매메뉴 통계
 	@Override
-	public Map<String, String> adminStatsMenu(Map<String, Object> map) {
+	public Map<String, List<String>> adminStatsMenu(Map<String, Object> map) {
 		logger.info("adminStatsMenu Service : {} ", map);
 		return stats_IDao.adminStatsMenu(map);
 	}

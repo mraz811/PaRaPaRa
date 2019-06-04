@@ -92,6 +92,7 @@
 									<td>은행명</td>
 									<td>계좌번호</td>
 									<td>상태</td>
+									<td></td>
 								</tr>
 							</thead>
 							<tbody>

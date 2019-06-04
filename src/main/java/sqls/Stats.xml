@@ -37,18 +37,39 @@
 	SELECT MENU_NAME FROM MENU WHERE MENU_CATEGORY = '주메뉴' OR MENU_CATEGORY = '사이드메뉴'
 	</select>
 		
+		
+	<resultMap type="RequestDto" id="RequestResultMap">
+		<result property="request_price" column="REQUEST_PRICE"/>
+		<collection property="storeDto" resultMap="StoreResultMap"></collection>
+	</resultMap>
+	
+	<resultMap type="StoreDto" id="StoreResultMap">
+		<result property="store_code" column="STORE_CODE"/>
+		<result property="store_name" column="STORE_NAME"/>
+	
+	</resultMap>	
+		
+		
 	<!-- 관리자,담당자 : 수익통계 -->
-	<select id="adminStatsIncome" parameterType="java.util.Map" resultType="java.lang.Integer">
-	SELECT SUM(REQUEST_PRICE)
-	FROM (SELECT REQUEST_PRICE
- 			FROM REQUEST
- 			WHERE STORE_CODE IN 
- 			<foreach item="store_code" collection="store_code_"
-      		open="(" separator="," close=")">
-        		#{store_code}
- 			</foreach>
- 			AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3)
+	<select id="adminStatsIncome" parameterType="java.util.Map" resultMap="RequestResultMap">
+		SELECT NVL(SUM(REQUEST_PRICE),0) AS REQUEST_PRICE,STORE_NAME
+			FROM (SELECT REQUEST.REQUEST_PRICE,STORE.STORE_NAME
+ 			FROM REQUEST JOIN OWNER ON REQUEST.STORE_CODE = OWNER.STORE_CODE
+ 				JOIN STORE ON OWNER.STORE_CODE = STORE.STORE_CODE
+ 			WHERE REQUEST.STORE_CODE = #{store_code}
+ 			AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3) GROUP BY STORE_NAME
 	</select>
+<!-- 	<select id="adminStatsIncome" parameterType="java.util.Map" resultType="java.lang.Integer"> -->
+<!-- 	SELECT NVL(SUM(REQUEST_PRICE),0)  -->
+<!-- 	FROM (SELECT REQUEST_PRICE -->
+<!--  			FROM REQUEST -->
+<!--  			WHERE STORE_CODE IN  -->
+<!--  			<foreach item="store_code" collection="store_code_" -->
+<!--       		open="(" separator="," close=")"> -->
+<!--         		#{store_code} -->
+<!--  			</foreach> -->
+<!--  			AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3) -->
+<!-- 	</select> -->
 	
 	<!-- 관리자,담당자 : 상위판매메뉴 통계 -->
 	<select id="adminStatsMenu" parameterType="java.util.Map" resultType="RequestDto">

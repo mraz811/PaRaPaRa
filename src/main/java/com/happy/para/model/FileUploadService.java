@@ -84,10 +84,10 @@ public class FileUploadService {
 		fosRelative.write(data);
 		fosRelative.close();
 		System.out.println("저장된 상대 경로 : " + relativePath + SAVE_PATH + "\\" + saveFileName);
-		FileOutputStream fosAbsolut = new FileOutputStream(absolutPath + SAVE_PATH + "\\" + saveFileName);
-		fosAbsolut.write(data);
-		fosAbsolut.close();
-		System.out.println("저장된 절대 경로 : " + absolutPath + SAVE_PATH + "\\" + saveFileName);
+//		FileOutputStream fosAbsolut = new FileOutputStream(absolutPath + SAVE_PATH + "\\" + saveFileName);
+//		fosAbsolut.write(data);
+//		fosAbsolut.close();
+//		System.out.println("저장된 절대 경로 : " + absolutPath + SAVE_PATH + "\\" + saveFileName);
 		return result;
 	}
 }

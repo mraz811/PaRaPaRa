@@ -151,7 +151,7 @@ function ownerAllMenuList(){
 				<div class="oneDepth"><p>메　뉴</p></div>
 				<div class="twoDepth">
 					<ul class="nav nav-tabs">
-						<li class="nav-item"><a class="nav-link  active" data-toggle="tab" href="#">판매 메뉴</a></li>
+						<li class="nav-item"><a class="nav-link  active" data-toggle="tab" href="#" style="border: 1px solid rgb(21,140,186);"><strong>판매 메뉴</strong></a></li>
 						<li class="nav-item"><a class="nav-link" data-toggle="tab" onclick="ownerAllMenuList()">전체 메뉴</a></li>
 					</ul>
 					<div class="menutabs">

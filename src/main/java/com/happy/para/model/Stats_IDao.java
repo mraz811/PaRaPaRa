@@ -18,6 +18,6 @@ public interface Stats_IDao {
 	public int adminStatsIncome(Map<String, Object> map);
 
 	// 관리자,담당자 : 상위판매메뉴 통계
-	public Map<String, String> adminStatsMenu(Map<String, Object> map);
+	public Map<String, List<String>> adminStatsMenu(Map<String, Object> map);
 	
 }
