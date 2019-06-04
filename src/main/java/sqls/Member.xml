@@ -136,9 +136,9 @@
 	UPDATE OWNER SET OWNER_END= #{owner_end} WHERE OWNER_SEQ = #{owner_seq}
 </update>
 
-<!-- 업주 등록을 위한 연결되지 않은 매장 가져오기 -->
-<select id="selStoreCodeList" resultType="java.lang.String">
-	SELECT STORE_CODE FROM STORE WHERE OWNER_REG='0'
+<!-- 업주 등록을 위한 연결되지 않은 매장 가져오기 해당 담당자만 -->
+<select id="selStoreCodeList" resultType="java.lang.String" parameterType="java.lang.String">
+	SELECT STORE_NAME FROM STORE WHERE OWNER_REG='0' AND ADMIN_ID =#{admin_id}
 </select>
 
 <!-- 업주 등록시 OWNER_REG 1로, 업주 삭제시 OWNER_REG 0으로 값 전달 -->

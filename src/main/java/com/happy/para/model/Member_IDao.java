@@ -57,7 +57,7 @@ public interface Member_IDao {
 	public int ownerDelete(Map<String, String> map);
 	
 	// 업주 등록 화면에서 매장코드 옵션 주기 위한 쿼리
-	public List<String> selStoreCodeList();
+	public List<String> selStoreCodeList(String admin_id);
 	
 	// 업주 등록 시 매장 업주등록여부 업데이트 (owner_reg, store_code) 필요
 	public int storeOwnerRegi(Map<String, String> map);

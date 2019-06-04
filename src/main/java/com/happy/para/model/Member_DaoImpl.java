@@ -151,8 +151,8 @@ public class Member_DaoImpl implements Member_IDao {
 	}
 
 	@Override
-	public List<String> selStoreCodeList() {
-		return sqlSession.selectList(MNS+"selStoreCodeList");
+	public List<String> selStoreCodeList(String admin_id) {
+		return sqlSession.selectList(MNS+"selStoreCodeList", admin_id);
 	}
 
 	@Override
