@@ -163,12 +163,12 @@ var pageAjax = function(){
 	
 }
 function insertStore() {
-	window.open("./regiStoreForm.do","_blank","width=600, height=600, left=300, top=100");
+	window.open("./regiStoreForm.do","_blank","width=600, height=600, left=300");
 }
 
 function storeDetail(sc){
 	var store_code = sc;
-	window.open("./selStoreDetail.do?store_code="+store_code, "_blank","width=600, height=600, left=300, top=100");
+	window.open("./selStoreDetail.do?store_code="+store_code, "_blank","width=600, height=600, left=300");
 }
 
 

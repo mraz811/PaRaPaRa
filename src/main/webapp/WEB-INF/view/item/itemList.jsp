@@ -108,12 +108,12 @@
 		}
 	}
 	var regItem = function() {
-		window.open("./regItem.do","_blank","width=400, height=500, left=500, top=200");
+		window.open("./regItem.do","_blank","width=400, height=500, left=500");
 // 		location.href = "./regItem.do";
 	}
 	
 	var modItem = function(itemSeq){
-		window.open("./itemModiForm.do?item_seq="+itemSeq, "_blank","width=400, height=500, left=500, top=200");
+		window.open("./itemModiForm.do?item_seq="+itemSeq, "_blank","width=400, height=500, left=500");
 	}
 	
 	var searchItemList = function(){
