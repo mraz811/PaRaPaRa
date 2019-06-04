@@ -4,18 +4,41 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<title>품목 등록</title>
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <script type="text/javascript" src="./js/bootstrap.js"></script>
+<style type="text/css">
+.form-control{
+	width: 300px;
+}
+
+.fullCtrl{
+	width: 320px;
+	margin: 10px auto;
+}
+.writeform{
+	width: 300px;
+	font-size: 30px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
+}
+</style>
+</head>
 <body>
 	<div id="container">
+	<div class="fullCtrl">
+	
 		<form action="#" id="frm" method="post" onsubmit="return regItem()">
 			<fieldset>
+			<p class="writeform">품목 등록</p>
 			
 <%-- 			<input type="hidden" name="loc_code" value="${loginDto.loc_code}"> --%>
 <%-- 				<input type="hidden" naSme="admin_id" value="${loginDto.admin_id}"> --%>
@@ -30,12 +53,13 @@
 					<label>가격</label>
 					<input class="form-control" type="text" id="item_price" name="item_price" onkeyup="numberOnly()" placeholder="ex)10000, 숫자만 입력하세요" required="required">
 				</div>
-				<div align="right">
-					<input type="submit" style="width: 123px;" class="btn btn-outline-success" value="등록" >
-					<input type="button" style="width: 123px;" class="btn btn-outline-warning" value="취소" onclick="regiCancel()">
+				<div align="left" style="margin-top: 30px;">
+					<input type="submit" style="width: 148px;" class="btn btn-outline-success" value="등록" >
+					<input type="button" style="width: 148px;" class="btn btn-outline-warning" value="취소" onclick="regiCancel()">
 				</div>
 			</fieldset>
 		</form>
+	</div>
 	</div>
 <script type="text/javascript">
 

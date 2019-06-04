@@ -4,13 +4,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>매장 수정</title>
 </head>
 <body>
 <%@include file="../header.jsp" %>
-	<div id="container">
+<div id="container">
+	<div class="fullCtrl">
 		<form action="./storeModi.do" method="post">
 			<input type="hidden" name="store_code" value="${dto.store_code}">
+			<p class="writeform">매장 수정</p>
 			<table>
 				<thead>
 					<tr>
@@ -46,6 +48,7 @@
 			</div>
 		</form>
 	</div>
+</div>
 <%@include file="../footer.jsp" %>
 </body>
 </html>

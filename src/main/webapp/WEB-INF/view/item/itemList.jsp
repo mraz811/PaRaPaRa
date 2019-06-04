@@ -9,8 +9,10 @@
 <style type="text/css">
 	#item_bottom{
 		position: relative;
+		margin: 10px;
 	}
 	#searchBtn{
+		width: 300px;
 		left: 400px;
 		position: absolute;
 	}
@@ -18,6 +20,7 @@
 		right: 10px;
 		position: absolute;
 	}
+	
 </style>
 </head>
 <body>
@@ -40,7 +43,7 @@
 	    				<a class="nav-link" data-toggle="tab" onclick="selPaoList()" href="#">발주</a>
 	  				</li>
 	  				<li class="nav-item">
-	    				<a class="nav-link active" data-toggle="tab" onclick="selItemList()" href="#">품목</a>
+	    				<a class="nav-link active" data-toggle="tab" onclick="selItemList()" style="border: 1px solid rgb(21,140,186);" href="#"><strong>품목</strong></a>
 	  				</li>
 				</ul>
 				<div class="tab-content" style="overflow: auto; height: 360px;">
@@ -80,8 +83,8 @@
 					</table>
 				</div>
 				<div id="item_bottom">
-					<div id="searchBtn">
-						<input type="text" id="searchItem" onkeypress="if(event.keyCode==13) $('#searchItemBtn').click()" width="400px;">
+					<div id="searchBtn" class="form-group row">
+						<input style="width: 200px; margin-right: 5px;" class="form-control" type="text" id="searchItem" onkeypress="if(event.keyCode==13) $('#searchItemBtn').click()" width="400px;">
 						<input type="button" id="searchItemBtn" class="btn btn-outline-primary" value="검색" onclick="searchItemList()">
 					</div>
 					<div id="regBtn">

@@ -49,7 +49,7 @@
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link active" data-toggle="tab" href="#home" id="selAdminList">담당자</a>
+    			 <a class="nav-link active" data-toggle="tab" href="#home" style="border: 1px solid rgb(21,140,186);" id="selAdminList"><strong>담당자</strong></a>
   				</li>
   				<li class="nav-item">
     			 <a class="nav-link" data-toggle="tab" href="#home" id="leftOnes">퇴사자</a>
@@ -158,7 +158,11 @@
 			<c:if test="${delAdminList ne null}">
 			<script type="text/javascript">
 				$("#leftOnes").attr("class", "nav-link active");
+				$("#leftOnes").css("border","1px solid rgb(21,140,186)");
+				$("#leftOnes").html("<strong>퇴사자</strong>");
 				$("#selAdminList").attr("class", "nav-link");
+				$("#selAdminList").css("border", "");
+				$("#selAdminList").html("담당자");
 			</script>
 				<div class="admin_table">
 					<table class="table table-hover">
@@ -238,7 +242,7 @@
 // 담당자 등록 폼으로
 var toAdminRegi = function(){
 	window.open("./adminRegiForm.do","담당자 등록", 
-			"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
+			"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
 };
 
 

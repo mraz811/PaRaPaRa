@@ -23,7 +23,6 @@ function pageIndex(pageNum){
 //	alert(pageNum);
 	var index = document.getElementById("index");
 	index.value = pageNum-1;
-	
 	pageAjax();
 }
 
