@@ -99,9 +99,12 @@
 }
 
 
-
-
-.menu{
+	#changeCategory{
+		position: absolute;
+		left: 40px;
+		top: 30px;
+	}
+	.menu{
 		width: 200px;
 		height: 130px;
 		float: left;
@@ -113,36 +116,39 @@
 		width: 720px;
 		height : 500px;
 		margin-top : 40px;
-		overflow: scroll;
-		float: left;
+		overflow-y: scroll;
+		overflow-x: hidden;
+/* 		float: left; */
+		position: absolute;
+		left: 40px;
+		top: 50px;
 	}
 	#requestStatus{
-		width: 700px;
-		height: 450px;
-		float: left;
-		overflow: scroll;
+		width: 500px;
+		height: 440px;
+/* 		float: left; */
+		overflow-y: scroll;
+		overflow-x: hidden;
+		position: absolute;
+		left: 760px;
+		top: 30px;
 	}
 	#resultDiv{
-		width: 560px;
+		width: 100px;
 		height: 100px;
-		float: left;
+/* 		float: left; */
+		position: absolute;
+		left: 760px;
+		top: 480px;
 	}
 	div.twoDepth{
 		width: 1050px;
 		height: 435px;
 	}
-	#mainMenu{
-		width: 140px;
-		height: 20px;
-		
-	}
-	#sideMenu{
-		width: 140px;
-		height: 20px;
-	}
-	#drink{
-		width: 140px;
-		height: 20px;
+	#mainMenu,#sideMenu,#drink{
+		width: 160px;
+		height: 40px;
+		padding-top: 1px;	
 	}
 	.menuImg{
 		width: 110px;
@@ -278,10 +284,11 @@ window.onload = function (){
 		<%@include file="../footer.jsp"%>
 	</div>
 	<div id="custom" style="display: none;">
-		<input id="mainMenu" name="menu_category" type="button" value="주메뉴"
-			onclick="mainMenu()" /> <input id="sideMenu" name="menu_category"
-			type="button" value="사이드메뉴" onclick="sideMenu()" /> <input id="drink"
-			name="menu_category" type="button" value="음료" onclick="drinkMenu()" />
+		<div id="changeCategory">
+			<input class="btn btn-outline-primary" id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()" /> 
+			<input class="btn btn-outline-primary" id="sideMenu" name="menu_category" type="button" value="사이드메뉴" onclick="sideMenu()" /> 
+			<input class="btn btn-outline-primary" id="drink" name="menu_category" type="button" value="음료" onclick="drinkMenu()" />
+		</div>
 		<div class="tab-content">
 			<div id="menuList">
 				<c:forEach begin="0" end="${fn:length(menuList)}"
@@ -289,18 +296,18 @@ window.onload = function (){
 					<div id="menu${vs.count}" class="menu">
 						<img class="menuImg" src="${menu.fileDto.file_rurl}" alt="" /> 
 						<input id="mmenu${vs.count}" type="hidden" value="${menu.fileDto.file_rurl}" /> 
-						<input id="${menu.menu_seq}" type="button" name="addButton" value="추가" onclick="addMenu('menu${vs.count},${menu.menu_seq},${menu.menu_name},${menu.menu_price}')" />
+						<input class="btn btn-outline-primary" id="${menu.menu_seq}" type="button" name="addButton" value="추가" onclick="addMenu('menu${vs.count},${menu.menu_seq},${menu.menu_name},${menu.menu_price}')" />
 						<br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
 				</c:forEach>
 			</div>
 			<form id="regiForm" action="./regiCustomOrder.do" method="get">
 				<div id="requestStatus">
-					<table>
+					<table class="table">
 						<thead>
 							<tr>
-								<td style="width: 120px;">메뉴 이미지</td>
-								<td style="width: 120px;">메뉴명</td>
-								<td style="width: 150px;">수량</td>
+								<td style="width: 80px;">메뉴 이미지</td>
+								<td style="width: 70px;">메뉴명</td>
+								<td style="width: 60px;">수량</td>
 								<td style="width: 100px;">가격</td>
 							</tr>
 						</thead>
@@ -311,19 +318,18 @@ window.onload = function (){
 					</table>
 				</div>
 				<div id="resultDiv">
-					<table id="totalCal">
+					<table id="totalCal" class="table">
 						<tr>
-							<th colspan="2">합계</th>
 							<th>총금액</th>
 							<th>
-								<input id="totalPrice" type="text" class="txt" name="totalMenuPrice" value="0" readonly="readonly" style="text-align: right;">원
+								<input id="totalPrice" type="text" class="txt" name="totalMenuPrice" value="0" readonly="readonly" style="text-align: right;">
 							</th>
 						</tr>
 						<tr>
-							<th colspan="3">
+							<th>
 								<input type="button" class="btn btn-outline-success" value="주문 완료" onclick="customRequest()" />
 							</th>
-							<th colspan="3">
+							<th>
 								<input type="button" class="btn btn-outline-warning" value="주문 취소" onclick="cancelRequest()" /> 
 							</th>
 						</tr>

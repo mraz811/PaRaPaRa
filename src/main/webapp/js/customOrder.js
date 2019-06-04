@@ -14,7 +14,7 @@ function mainMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div id=\"menu"+cnt+"\" class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"mmenu"+cnt+"\" type=\"hidden\" value=\""+menu.file_rurl+"\" /><input id=\""+menu.menu_seq+"\" type=\"button\" name=\"addButton\" value=\"추가\" onclick=\"addMenu('menu"+cnt+++","+menu.menu_seq+","+menu.menu_name+","+menu.menu_price+"')\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div id=\"menu"+cnt+"\" class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"mmenu"+cnt+"\" type=\"hidden\" value=\""+menu.file_rurl+"\" /><input class=\"btn btn-outline-primary\"  id=\""+menu.menu_seq+"\" type=\"button\" name=\"addButton\" value=\"추가\" onclick=\"addMenu('menu"+cnt+++","+menu.menu_seq+","+menu.menu_name+","+menu.menu_price+"')\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -38,7 +38,7 @@ function sideMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div id=\"menu"+cnt+"\" class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"mmenu"+cnt+"\" type=\"hidden\" value=\""+menu.file_rurl+"\" /><input id=\""+menu.menu_seq+"\" type=\"button\" name=\"addButton\" value=\"추가\" onclick=\"addMenu('menu"+cnt+++","+menu.menu_seq+","+menu.menu_name+","+menu.menu_price+"')\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div id=\"menu"+cnt+"\" class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"mmenu"+cnt+"\" type=\"hidden\" value=\""+menu.file_rurl+"\" /><input class=\"btn btn-outline-primary\"  id=\""+menu.menu_seq+"\" type=\"button\" name=\"addButton\" value=\"추가\" onclick=\"addMenu('menu"+cnt+++","+menu.menu_seq+","+menu.menu_name+","+menu.menu_price+"')\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -62,7 +62,7 @@ function drinkMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){ 
 					$.each(value,function(key,menu){
-						htmlText += "<div id=\"menu"+cnt+"\" class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"mmenu"+cnt+"\" type=\"hidden\" value=\""+menu.file_rurl+"\" /><input  id=\""+menu.menu_seq+"\" type=\"button\" name=\"addButton\" value=\"추가\" onclick=\"addMenu('menu"+cnt+++","+menu.menu_seq+","+menu.menu_name+","+menu.menu_price+"')\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
+						htmlText += "<div id=\"menu"+cnt+"\" class=\"menu\"\"><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><input id=\"mmenu"+cnt+"\" type=\"hidden\" value=\""+menu.file_rurl+"\" /><input class=\"btn btn-outline-primary\"  id=\""+menu.menu_seq+"\" type=\"button\" name=\"addButton\" value=\"추가\" onclick=\"addMenu('menu"+cnt+++","+menu.menu_seq+","+menu.menu_name+","+menu.menu_price+"')\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</div>";
 					});
 				}
 			});
@@ -148,25 +148,25 @@ function addMenu(menu){ // requestSocket.js에서 실행시킬꺼임
     var mBody = document.getElementById("mBody");
     
 	mBody.appendChild(newTr).innerHTML = "<td>"
-											+"<img class=\"menuImg\" src=\""+file_rurl+"\" alt=\"\"/>"
+											+"<img style=\"width:80px;heigth:80px;\" src=\""+file_rurl+"\" alt=\"\"/>"
 										+"</td>"
 										+"<td>"
 											+"<input type=\"hidden\" name=\"newTr_id\" value=\""+newTr_id+"\"/>"
 											+"<input type=\"hidden\" name=\"menu_seq\" value=\""+menu_seq+"\"/>"
-											+"<input type=\"text\" name=\"menu_name\" value=\""+menu_name+"\"/>"
+											+"<input style=\"text-align: center;\" type=\"text\" name=\"menu_name\" value=\""+menu_name+"\"/>"
 										+"</td>"
 										+"<td>"
 											+"<input type=\"button\" class=\"upBtn\" value=\"추가\" onclick=\"plus(this)\">"
-											+"<input type=\"text\" class=\"menu_cnt\" name=\"menu_cnt\" value=\""+menu_qty+"\"/>"
+											+"<input style=\"width:40px;text-align: right;\" type=\"text\" class=\"menu_cnt\" name=\"menu_cnt\" value=\""+menu_qty+"\"/>"
 											+"<input type=\"button\" class=\"downBtn\" value=\"빼기\" onclick=\"minus(this)\">"
 										+"</td>"
 										+"<td>"
-											+"<input type=\"text\" name=\"menu_price\" value=\""+menu_price+"\"/>"
+											+"<input style=\"width:60px;text-align: right;\" type=\"text\" name=\"menu_price\" value=\""+menu_price+"\"/>"
 											+"<input type='hidden'  name='sumMenu_price' value='"+sum_price+"' readonly='readonly'>" 
 											+"<input type='hidden'  name='oneMenu_price' value='"+menu_price+"' readonly='readonly'>" 
 										+"</td>"
 										+"<td>" 
-									  		+"<input type='button' class='delBtn' value='삭제'  onclick='delChoice(this, \""+newTr_id+"\")'>" 
+									  		+"<input class=\"btn btn-outline-warning\" type='button' name='delBtn' value='삭제'  onclick='delChoice(this, \""+newTr_id+"\")'>" 
 									  	+"</td>";
 	
 	
@@ -179,10 +179,9 @@ function addMenu(menu){ // requestSocket.js에서 실행시킬꺼임
 }
 //선택 메뉴에서 해당 메뉴 삭제를 했을 때 빼줌
 function delChoice(line, lineId) {
-
 	// 현재 줄의 인덱스 번호
-	var idx = $('.delBtn').index(line);
-	//alert(idx);
+	var idx = $("input[name=delBtn]").index(line);
+//	alert(idx);
 	var menu_cnt = document.getElementsByName("menu_cnt")[idx].value;
 	var menuPrice = document.getElementsByName("menu_price")[idx].value;
 	
@@ -270,7 +269,6 @@ function cancelRequest(){
 		document.getElementById(temp).style.display = "block";
 	}
 	document.getElementById("mBody").innerHTML = "";
-	document.getElementById("rBody").innerHTML = "";
 	$('input[name=totalMewnuQty]').val("0");
 	$('input[name=totalMenuPrice]').val("0");
 }
