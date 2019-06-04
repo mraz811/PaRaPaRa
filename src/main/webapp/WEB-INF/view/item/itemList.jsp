@@ -32,7 +32,7 @@
 	<div class="bodyFrame">
 		<div class="bodyfixed">
 			<div class="oneDepth">
-				<p>매장</p>
+				<p>매　장</p>
 			</div>
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">
