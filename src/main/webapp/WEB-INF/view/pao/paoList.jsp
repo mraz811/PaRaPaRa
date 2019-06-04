@@ -11,8 +11,6 @@
 <title>업주 발주 리스트</title>
 <script type="text/javascript">
 
-
-	
 	//발주 상태 조회 셀렉트 박스 선택 및 날짜별 검색에 대한 이벤트
 	function selectStatusDate() {
 		var store_code = document.getElementById("store_code").value;
@@ -39,7 +37,7 @@
 						//alert(value.length);
 						if(key=="paoLists"){ // table을 만들어 줌
 							htmlTable += "<thead>"+
-											"<tr class='table-primary'>"+
+											"<tr class='table-primary' style='text-align: center;'>"+
 												"<th>발주번호</th>"+
 												"<th>매장명</th>"+
 												"<th>발주상태</th>"+
@@ -59,7 +57,7 @@
 								$.each(value,function(key, dto){
 									
 									htmlTable += "<tbody>"
-													+ "<tr onclick='paoDetail(this)'>"  
+													+ "<tr style='text-align: center;' onclick='paoDetail(this)'>"  
 										  				+ "<td>"
 								  								+dto.pao_seq
 								  								+"<input type='hidden' class='pao_seq' name='pao_seq' value='"+dto.pao_seq+"'>"
@@ -122,14 +120,14 @@
 		//alert(idx);
 		//alert(store_code);
 		
-		window.open("./paoDetailOpen.do?store_code="+store_code+"&pao_seq="+pao_seq, "발주 상세조회", "width=840, height=680, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+		window.open("./paoDetailOpen.do?store_code="+store_code+"&pao_seq="+pao_seq, "발주 상세조회", "width=860, height=600, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 	}
 	
 	// 발주 신청 버튼 이벤트
 	function paoRequest() {
 		var store_code = document.getElementById("store_code").value;
 		
-		window.open("./paoRequestOpen.do?store_code="+store_code, "발주신청", "width=840, height=680, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+		window.open("./paoRequestOpen.do?store_code="+store_code, "발주신청", "width=860, height=600, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 	}
 	
 	///////////////////////////////////////////////
@@ -238,7 +236,7 @@
 					//alert(count);
 					if(key=="paoLists"){ // table을 만들어 줌
 						htmlTable += "<thead>"+
-										"<tr class='table-primary'>"+
+										"<tr class='table-primary' style='text-align: center;'>"+
 											"<th>발주번호</th>"+
 											"<th>매장명</th>"+
 											"<th>발주상태</th>"+
@@ -258,7 +256,7 @@
 							$.each(value,function(key, dto){
 								
 								htmlTable += "<tbody>"
-												+ "<tr onclick='paoDetail(this)'>"  
+												+ "<tr style='text-align: center;' onclick='paoDetail(this)'>"  
 									  				+ "<td>"
 							  							+ dto.pao_seq 	
 							  							+ "<input type='hidden' class='pao_seq' name='pao_seq' value='"+dto.pao_seq+"'>"
@@ -318,9 +316,13 @@
 	#selectDate{
 		float: right;
 	}
-	
+	#paoList{
+		height: 337px;
+	}
 	#btnDiv{
-		float: right;
+		margin-top: 10px;
+		margin-left: 945px; 
+		position: absolute; 
 	}
 	.psCode1{
 		color: orange;
@@ -412,7 +414,13 @@
 							</select>
 						</div>
 						<div id="selectDate">	
-							날짜 선택 : <input type="date" name="startDate"> ~ <input type="date" name="endDate"> <input type="button" class="btn btn-secondary" value="검색" onclick="selectStatusDate()">
+							<div class="input-group date" style="margin-top: 5px;">
+								<input type="date" class="form-control" name="startDate">
+								&nbsp;&nbsp; ~ &nbsp;&nbsp;
+								<input type="date" class="form-control" name="endDate">
+								&nbsp;&nbsp;
+								<input type="button" class="btn btn-secondary" value="검색" onclick="selectStatusDate()">
+							</div>
 						</div>
 						
 						<div id="paoList">
@@ -421,7 +429,7 @@
 							
 							<table class="table table-hover" id="paoTable">
 								<thead>
-									<tr class="table-primary">
+									<tr class="table-primary" style="text-align: center;">
 										<th>발주번호</th><th>매장명</th><th>발주상태</th><th>날짜</th>
 									</tr>
 								</thead>
@@ -434,7 +442,7 @@
 										</c:when>
 										<c:otherwise>
 											<c:forEach var="dto" items="${paoLists}" varStatus="status">
-												<tr onclick="paoDetail(this)">
+												<tr style="text-align: center;" onclick="paoDetail(this)">
 													<td>
 														${dto.pao_seq}
 														<input type="hidden" class="pao_seq" name="pao_seq" value="${dto.pao_seq}">

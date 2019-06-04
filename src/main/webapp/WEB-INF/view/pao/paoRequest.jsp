@@ -247,7 +247,7 @@
 												"<input type='text' class='txt' name='sumPi_price' value='"+sumPiPrice+"' style='width:130px; padding-right:10px; text-align:right;' readonly='readonly'>원" +
 											  "</td>" +
 											  "<td width='50px;'>" +
-											  	"<input type='button'class='btn btn-secondary' name='delBtn' value='삭제'  onclick='delStock(this, \""+stockTr_id+"\")'>" +
+											  	"<input type='button'class='btn btn-secondary' name='delBtn' value='삭제' style='padding: 2px 5px 2px 5px;' onclick='delStock(this, \""+stockTr_id+"\")'>" +
 											  "</td>";
 		
 		
@@ -317,9 +317,6 @@
 		var piNames = document.getElementsByName("pi_name");	// 각각의 발주 품목명
 		
 		var storeCode = document.getElementById("store_code").value;	// 로그인한 업주의 매장코드
-		
-		//var itemSeqs = document.getElementsByName("item_seq");	
-		//var piQtys = document.getElementsByName("pi_qty");	
 
 		var itemSeqs = new Array();	// 발주 품목에 추가된 품목 각각의 원래 재고번호를 담을 배열
 		var piQtys = new Array();	// 발주 품목에 추가된 품목 각각의 갯수를 담을 배열
@@ -384,6 +381,7 @@
   		margin: 0 auto;
   		padding-top: 20px;
   		padding-left: 20px;
+  		width: 840px;
   	}
 	thead, tbody, tr, th, td>input{
 		border: 1px solid black;
@@ -393,9 +391,12 @@
 	tr{
 		height: 26px; 
 	}
+	hr{
+		width: 800px;
+		margin: 10px 0px 20px 0px;
+	}
 	#pageName{
-		height: 60px;
-		margin-bottom: 25px; 
+		height: 40px;
 	}
 	#stockList{
 		margin-bottom: 25px;
@@ -433,22 +434,24 @@
 	#sbody, #pbody{
 		position: relative;
 		width: 800px;
-		max-height:160px;
+		max-height:126px;
 		overflow-y:scroll;
 		display: block;
 		float:left;
 		margin-top: 28px;
-		height: 160px;
+		height: 126px;
 	}
 </style>
 </head>
 <body>
 	<div id="pageName">
-		<h1>발주신청</h1>
-		<hr>
+		<div style="width:200px; height:50px; font-size: 30px; font-weight: bold; float: left;">
+			발주 신청
+		</div>
 	</div>
+	<hr>
 	
-	<h3>■ 재고</h3>
+	<h4>▣ 재고</h4>
 	<div id="stockList">
 		<table>
 			<thead>
@@ -481,7 +484,7 @@
 									<input type="text" class="txt" name="stock_seq" value="${dto.itemDto.item_price}" style="width: 80px; text-align: right; margin-right: 10px;">원
 								</td>
 								<td width="60px;" style="padding-left: 5px;">
-									<input type="button" class='btn btn-secondary' value="추가" onclick="addStock('stockLine${status.count},${dto.itemDto.item_seq},${dto.stock_name},${dto.itemDto.item_price}')">
+									<input type="button" class='btn btn-secondary' value="추가" style="padding: 2px 5px 2px 5px;" onclick="addStock('stockLine${status.count},${dto.itemDto.item_seq},${dto.stock_name},${dto.itemDto.item_price}')">
 								</td>
 							</tr>
 						</c:forEach>
@@ -493,7 +496,7 @@
 	
 	<form action="./paoRequest.do" method="post" onsubmit="return reqPao();">
 		<input type='hidden' name='store_code' id='store_code' value='${stockLists[0].store_code}'>
-		<h3>■ 발주 품목</h3>
+		<h4>▣ 발주 품목</h4>
 		<div id="paoList">
 			<table>
 				<thead>
