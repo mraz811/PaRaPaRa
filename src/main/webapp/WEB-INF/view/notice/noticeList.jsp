@@ -31,7 +31,6 @@
 	right : 30px;
 	bottom : 83px;
 }
-
 </style>
 </head>
 <body>
@@ -60,7 +59,7 @@
 								<div style="height:300px;">
 								<table id="noticeTable" class="table table-hover">
 								
-									<tr class="table-primary">
+									<tr class="table-primary" style="text-align: center;">
 										<th>NO.</th>
 										<th>제목</th>
 										<th>작성자</th>
@@ -69,13 +68,13 @@
 								
 								<c:forEach var="dto" items="${lists}" varStatus="vs">
 									<tr>
-										<td>${vs.count}</td>
+										<td style="text-align: center;">${vs.count}</td>
 										<td><a href="./selNoticeDetail.do?notice_seq=${dto.notice_seq}&loginDtoAuth=${loginDto.auth}">${dto.notice_title}</a></td>
-										<td>${dto.notice_name}</td>
-										<td>${dto.notice_regdate}</td>
+										<td style="text-align: center;">${dto.notice_name}</td>
+										<td style="text-align: center;">${dto.notice_regdate}</td>
 									</tr>
 								</c:forEach>
-								
+
 								</table>
 								</div>
 
@@ -88,11 +87,11 @@
 									<ul class="pagination pagination-lg">
 										<li class="page-item"><a class="page-link" href="#" onclick="pageFirst(${noticRow.pageList},${noticRow.pageList})">&laquo;</a></li>
 										<li class="page-item"><a class="page-link" href="#" onclick="pagePre(${noticRow.pageNum},${noticRow.pageList})">&lsaquo;</a></li>
-										
+
 										<c:forEach var="i" begin="${noticRow.pageNum}" end="${noticRow.count}" step="1">
 											<li class="page-item"><a class="page-link" href="#" onclick="pageIndex(${i})">${i}</a></li>
 										</c:forEach>
-										
+
 										<li class="page-item"><a class="page-link" href="#" onclick="pageNext(${noticRow.pageNum},${noticRow.total},${noticRow.listNum},${noticRow.pageList})">&rsaquo;</a></li>
 										<li class="page-item"><a class="page-link" href="#" onclick="pageLast(${noticRow.pageNum},${noticRow.total},${noticRow.listNum},${noticRow.pageList})">&raquo;</a></li>
 									</ul>

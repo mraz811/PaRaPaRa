@@ -15,74 +15,55 @@
 <head>
 <meta charset="UTF-8">
 <style type="text/css">
--
-.in-line {
-	width: 1100px;
-	height: 40px;
-	/* 	text-align: left; */
+
+input {
+	outline: none;
 }
 
-a[id="replyName"] {
-	width: 20%;
-	height: 100%;
-	/* 	left : 20px; */
+#text {
 	border: none;
+	width: 700px;
+	height: 25px;
 	font-size: 14px;
 	padding-left: 5px;
-	padding: 0px;
 	margin-top: 5px;
-	display: inline;
-	outline: none;
-	box-sizing: border-box;
-	color: black;
-	/* 	text-decoration: none; */
-}
-
-input[id="text"] {
-	width: 55%;
-	height: 100%;
-	border: none;
-	font-size: 14px;
-	padding-left: 5px;
-	padding: 0px;
-	margin-top: 5px;
-	display: inline;
-	outline: none;
-	box-sizing: border-box;
 	color: black;
 }
 
-a[id="replyRegdate"] {
-	width: 15%;
-	height: 100%;
+#replyName {
 	border: none;
+	width: 100px;
+	height: 25px;
 	font-size: 14px;
 	padding-left: 5px;
-	padding: 0px;
 	margin-top: 5px;
-	display: inline;
-	outline: none;
-	box-sizing: border-box;
 	color: black;
-}
-
-input[id=del] {
-	width: 10%;
-	height: 105%;
-	right: 50px;
-	background-color: lightgray;
-	border: none;
-	background-color: white;
-	font-size: 14px;
-	/* 	color: #042AaC; */
-	color: red;
 	outline: none;
-	display: inline;
-	margin-left: 3px;
-	box-sizing: border-box;
 }
 
-input[id=del]:hover {
+#replyRegdate {
+ 	border: none;
+ 	font-size: 14px;
+ 	padding-left: 5px;
+ 	padding: 0px;
+ 	margin-top: 5px;
+ 	outline: none;
+ 	color: black;
+}
+
+#del { 
+	width:105px;
+ 	background-color: lightgray;
+ 	border: none;
+ 	background-color: white;
+ 	font-size: 14px;
+ 	color: red;
+ 	outline: none;
+ 	display: inline;
+ 	margin-left: 3px;
+}
+
+#del:hover {
 	background-color: lightgray;
 }
 
@@ -199,7 +180,7 @@ td {
 
 											<c:if test="${null ne Rlists[i].reply_content}">
 												<div class="in-line">
-													<a id="replyName">${Rlists[i].reply_name}</a>
+													<input id="replyName" style="width:100px;" value="${Rlists[i].reply_name}" />
 													<input id="text" name="name" readonly="readonly" value="${Rlists[i].reply_content}" />
 													<a id="replyRegdate">${Rlists[i].reply_regdate}</a>
 

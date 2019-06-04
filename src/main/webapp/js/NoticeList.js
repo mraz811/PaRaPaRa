@@ -127,7 +127,7 @@ var pageAjax = function(){
 				
 				if(key=="lists"){ // table을 만들어 줌
 //					alert(value);
-					htmlTable += "<tr class='table-primary'>"+
+					htmlTable += "<tr class='table-primary' style='text-align: center;'>"+
 					"<th>NO.</th>"+
 					"<th>제목</th>"+
 					"<th>작성자</th>"+
@@ -139,10 +139,10 @@ var pageAjax = function(){
 //						var regdate = fri.regdate.substring(0,fri.regdate.indexOf(" "));
 						
 						htmlTable +="<tr>" +
-								"<td>"+fri.rnum+"</td>" +
+								"<td style='text-align: center;'>"+fri.rnum+"</td>" +
 								"<td><a href='./selNoticeDetail.do?notice_seq="+fri.seq+"&loginDtoAuth="+loginDtoAuth+"'>"+fri.title+"</a></td>" +
-								"<td>"+fri.name+"</td>" +
-								"<td>"+fri.regdate+"</td></tr>";
+								"<td style='text-align: center;'>"+fri.name+"</td>" +
+								"<td style='text-align: center;'>"+fri.regdate+"</td></tr>";
 //						alert(htmlTable);
 					});
 

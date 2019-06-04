@@ -122,14 +122,14 @@
 							<table class="table table-hover">
 								<c:forEach var="dto" items="${lists}" varStatus="vs">
 										<tr>
-											<td style="width:65px; text-align: center;">${vs.count}</td>
-											<td style="width:500px; padding-left:80px;">
+											<td style="width:45px; text-align: center;">${vs.count}</td>
+											<td style="width:245px; padding-left:80px;">
 												<input type="hidden" name="Slists[${vs.count}].stock_seq" value="${dto.stock_seq}" />
 												<input type="hidden" name="Slists[${vs.count}].stock_name" value="${dto.stock_name}" readonly="readonly"
 													style="border:none; background-color: none;" />
 												${dto.stock_name}
 											</td>
-											<td style="width:253px;">
+											<td style="width:253px; padding-left:25px;">
 												<input type="number" min="0" class="stockQty" name="Slists[${vs.count}].stock_qty" value="${dto.stock_qty}" readonly="readonly"  onkeyup="changeQty(this)"/>
 											</td>
 											<c:if test="${empty dto.item_name}">
