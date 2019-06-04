@@ -38,7 +38,7 @@
 	      <li class="nav-item"><a class="nav-link" href="./selAdminList.do">
 	      	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="회원관리"></a>
 	      </li>
-	      <li class="nav-item"><a class="nav-link" href="./adminStatsIn.do">
+	      <li class="nav-item"><a class="nav-link" href="./superStats.do">
 	      	<input style="width: 160px;" type="button" class="btn btn-outline-primary" value="통　　계"></a>
 	      </li>
 	    </ul><br>
