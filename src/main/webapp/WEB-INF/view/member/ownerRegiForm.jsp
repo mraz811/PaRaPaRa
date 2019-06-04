@@ -86,7 +86,7 @@
 			<div class="invalid-feedback">유효한 이메일을 입력해주세요</div>
 		</div>
 		<div class="form-group">	
-			<label>매장명</label><br>
+			<label>매장코드</label><br>
 			<select class="form-control" name="store_code" required="required">
 				<option value="">선택하기</option>
 				
