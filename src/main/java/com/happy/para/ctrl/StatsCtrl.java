@@ -106,6 +106,9 @@ public class StatsCtrl {
 		map.put("end", end);
 
 	}
+	
+	
+	// 담당자, 관리자 통계 화면으로
 	@RequestMapping(value = "/adminStats.do", method = RequestMethod.GET)
 	public String adminStats(HttpSession session,Model model) {
 		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
@@ -115,25 +118,53 @@ public class StatsCtrl {
 		return "/stats/statsAdmin";
 	}
 	
-
-	@RequestMapping(value = "/adminStatsIn.do", method = RequestMethod.GET)
-	public void adminStatsIncome(Model model, String[] store_code, String start, String end) {
+	// 담당자, 관리자 수익/판매 메뉴 통계
+	@RequestMapping(value = "/adminStatsAll.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> adminStatsAll(Model model, String[] store_code, String start, String end) {
+		Map<String, String> mapp = new HashMap<String, String>();
+		String start1 = start.substring(0, 4);
+		String start2 = start.substring(5, 7);
+		String start3 = start.substring(8, 10);
+		start = start1 + start2 + start3;
+		
 		Map<String, Object> map = new HashMap<String, Object>();
+		for (int i = 0; i < store_code.length; i++) {
+			System.out.println(store_code[i]);
+		}
+		
+		System.out.println(start);
+		System.out.println(end);
 		map.put("store_code_", store_code);
 		map.put("start", start);
 		map.put("end", end);
-		int n = stats_IService.adminStatsIncome(map);
-		System.out.println("담당자 수익 통계에 쓸 값 : " + n);
+		
+		GoogleChartDTO jdata = new GoogleChartDTO();
+//		System.out.println("담당자 수익 통계에 쓸 값 : " + incomeMoney);
+		jdata.addColumn("stats", "통계", "", "string");
+		jdata.addColumn("money", "단위(원)", "", "number");
+		for (int i = 0; i < store_code.length; i++) {
+			int incomeMoney = stats_IService.adminStatsIncome(map);
+			jdata.addRow("수익", incomeMoney);
+		}
+//		System.out.println("관리자 수익 통계에 쓸 값 : " + incomeMoney + ":");
+		Gson gs = new Gson();
+		String jstr = gs.toJson(jdata);
+		
+		GoogleChartDTO jdata2 = new GoogleChartDTO();
+		Map<String, List<String>> resultMap = stats_IService.adminStatsMenu(map);
+		jdata2.addColumn("stats", "통계", "", "string");
+		jdata2.addColumn("count", "단위(개)", "", "number");
+		for (int i = 0; i < resultMap.get("menu").size(); i++) {
+			jdata2.addRow(resultMap.get("menu").get(i), Integer.parseInt(resultMap.get("cnt").get(i)));
+		}
+		System.out.println("업주 메뉴 통계에 쓸 값 : " + resultMap);
+		String jstr2 = gs.toJson(jdata2);
+		
+		mapp.put("jstr", jstr);
+		mapp.put("jstr2", jstr2);
+		return mapp;
 	}
 
-	@RequestMapping(value = "/adminStatsMenu.do", method = RequestMethod.GET)
-	public void adminStatsMenu(String[] store_code, String start, String end) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("store_code_", store_code);
-		map.put("start", start);
-		map.put("end", end);
-		Map<String, String> resultMap = stats_IService.adminStatsMenu(map);
-		System.out.println("담당자 메뉴 통계에 쓸 값 : " + resultMap);
-	}
 
 }

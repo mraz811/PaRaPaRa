@@ -25,7 +25,7 @@
 			<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" >PaRaPaRa</a>
+    			 <a class="nav-link active" data-toggle="tab" style="border: 1px solid rgb(21,140,186);" ><strong>PaRaPaRa</strong></a>
   				</li>
 			</ul>
 			<div class="tab-content">

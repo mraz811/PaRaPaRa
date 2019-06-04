@@ -146,7 +146,7 @@ function ownerMenuList(){
 				<div class="twoDepth">
 					<ul class="nav nav-tabs">
 						<li class="nav-item"><a class="nav-link" data-toggle="tab" onclick="ownerMenuList()">판매 메뉴</a></li>
-						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#">전체 메뉴</a></li>
+						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#" style="border: 1px solid rgb(21,140,186);"><strong>전체 메뉴</strong></a></li>
 					</ul>
 					<div class="menutabs">
 						<input class="btn btn-outline-primary" id="mainMenu" name="menu_category" type="button" value="주메뉴" onclick="mainMenu()" /> 
