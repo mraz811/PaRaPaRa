@@ -101,7 +101,6 @@
 	}
 	var regItem = function () {
 		var chkVal = $("#nameChkVal").val();
-		alert("이거 두번도는거 같아여");
 		if(chkVal == '1'){
 			$.ajax({
 				url :"./addItem.do",

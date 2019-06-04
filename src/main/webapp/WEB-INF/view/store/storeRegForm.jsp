@@ -37,12 +37,13 @@
 <%-- 	<%@include file="../header.jsp" %> --%>
 <!-- 		<form action="./regiStore.do" method="post"> -->
 	<div class="fullCtrl">
-		<form action="#" id="frm" method="post">
+		<form action="#" id="frm" method="post" onsubmit="return regStore()">
 			<fieldset>
-			<p class="writeform">매장 등록</p>
-<%-- 			<input type="hidden" name="loc_code" value="${loginDto.loc_code}"> --%>
-			<input type="hidden" name="admin_id" value="${loginDto.admin_id}">
-				
+				<p class="writeform">매장 등록</p>
+	<%-- 			<input type="hidden" name="loc_code" value="${loginDto.loc_code}"> --%>
+				<input type="hidden" name="admin_id" value="${loginDto.admin_id}">
+				<input type="hidden" id="nameChkVal" value="0">
+				<input type="hidden" id="nameList" value='${nameListJson}'>
 				<div class="form-group">
 					<label>매장코드</label>
 					<input class="form-control" type="text" readonly="readonly" name="store_code" value="${store_code}">
@@ -57,7 +58,9 @@
 				</div>
 				<div class="form-group">
 					<label>매장명</label>
-					<input class="form-control" type="text" id="name" name="store_name" placeholder="매장명" required="required" maxlength="20">
+					<input class="form-control" type="text" id="name" onkeyup="nameChk()" name="store_name" placeholder="매장명" required="required" maxlength="20">
+					<div class="valid-feedback">사용 가능한 매장명</div>
+					<div class="invalid-feedback">사용 불가능한 매장명</div>
 				</div>
 				<div class="form-group">
 					<label>매장주소</label>
@@ -74,29 +77,55 @@
 	</div>
 	
 <script type="text/javascript">
+
+	function nameChk() {
+		var nameVal = document.getElementById("name").value;
+// 		alert("작성한 매장명 : " + )
+		var nameList = document.getElementById("nameList").value;
+// 		alert("매장 이름 리스트 : " +  nameList);
+		
+		if(nameList.indexOf(nameVal)>-1){
+			$("#name").attr("class","form-control is-invalid");
+			$("#nameChkVal").val("0");
+		}else{
+			$("#name").attr("class","form-control is-valid");
+			$("#nameChkVal").val("1");
+		}
+		
+	}
+
 	function regStore() {
-		$.ajax({
-			url :"./regiStore.do",
-			type: "post",
-			async:true,
-			data:$("#frm").serialize(),
-			dataType:"json",
-			success:function(msg){
-// 				alert(msg.isc);
-				swal({
-					title: "등록 완료", 
-					text: "매장 등록이 완료되었습니다", 
-					type: "success"
-				},
-				function(){ 
-					opener.parent.location.reload();
-					regiCancel();
-				});
-			},error:function(){
-// 				alert("실패");
-				swal("등록 에러", "등록 중 문제가 발생하였습니다.", "error");
-			}
-		});
+		var nameChkVal = $("#nameChkVal").val();
+// 		alert("매장명 중복 확인 : " +nameChkVal );
+		if(nameChkVal == '1'){
+			$.ajax({
+				url :"./regiStore.do",
+				type: "post",
+				async:true,
+				data:$("#frm").serialize(),
+				dataType:"json",
+				success:function(msg){
+	// 				alert(msg.isc);
+					swal({
+						title: "등록 완료", 
+						text: "매장 등록이 완료되었습니다", 
+						type: "success"
+					},
+					function(){ 
+						opener.parent.location.reload();
+						regiCancel();
+					});
+				},error:function(){
+// 					alert("실패");
+					swal("등록 에러", "등록 중 문제가 발생하였습니다.", "error");
+					return false;
+				}
+			});
+		}else{
+			swal("등록 에러", "등록 중 문제가 발생하였습니다.", "error");
+			return false;
+		}
+		return false;
 	}
 	var regiCancel = function(){
 		self.close();
