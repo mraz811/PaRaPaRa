@@ -79,7 +79,7 @@ function reSell(menu_seq){
 						}else{
 							htmlText += "<div class='notSell'>"+
 							"<img class='menuImg' src="+menu.file_rurl+" alt=''/>"+
-							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
+							"<br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"<br>"+
 							"<small>판매 중지 </small>"+
 							"<input style='padding-left: 9px;' type='button' id='resellMenu' class='btn btn-outline-primary' value='재판매' onclick=\"reSell("+menu.menu_seq+")\">"+
 						"</div>";
@@ -109,7 +109,7 @@ function sideMenu(){
 						if(menu.menu_delflag == 'N'){
 							htmlText += "<div class=\"sell\" align='center'>"+
 							"<img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/>"+
-							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
+							"<br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"<br>"+
 							"<input class='btn btn-outline-success' id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/>"+
 							" <input class='btn btn-outline-warning' id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/>"+
 							"</div>";
@@ -146,7 +146,7 @@ function drinkMenu(){
 						if(menu.menu_delflag == 'N'){
 							htmlText += "<div class='sell' align='center'>"+
 							"<img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/>"+
-							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
+							"<br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"<br>"+
 							"<input class='btn btn-outline-success' id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/>"+
 							" <input class='btn btn-outline-warning' id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/>"+
 							"</div>";
@@ -196,7 +196,7 @@ function drinkMenu(){
 					<c:when test="${menu.menu_delflag eq 'N'}">
 						<div class="sell" align="center">
 							<img class="menuImg" src="${menu.fileDto.file_rurl}" alt=""/>
-							<br><small>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</small><br>
+							<br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}<br>
 							<input class="btn btn-outline-success" id="modiMenu" type="button" value="수정" onclick="menuModiForm(${vs.current.menu_seq})"/>
 							<input class="btn btn-outline-warning" id="delMenu" type="button" value="삭제" onclick="menuDel(${vs.current.menu_seq})"/>
 						</div>

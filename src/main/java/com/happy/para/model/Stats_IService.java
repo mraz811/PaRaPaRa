@@ -3,6 +3,8 @@ package com.happy.para.model;
 import java.util.List;
 import java.util.Map;
 
+import com.happy.para.dto.RequestDto;
+
 public interface Stats_IService {
 
 	// 업주 : 수익 통계
@@ -15,7 +17,7 @@ public interface Stats_IService {
 	public Map<String, List<String>> ownerStatsMenu(Map<String, String> map);
 
 	// 관리자,담당자 : 수익통계
-	public int adminStatsIncome(Map<String, Object> map);
+	public RequestDto adminStatsIncome(Map<String, Object> map);
 
 	// 관리자,담당자 : 상위판매메뉴 통계
 	public Map<String, List<String>> adminStatsMenu(Map<String, Object> map);

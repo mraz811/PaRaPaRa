@@ -74,7 +74,7 @@ function mainMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"><label><input id='checkbox' name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small></label></div>";
+						htmlText += "<div class=\"menu\"><label><input id='checkbox' name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</label></div>";
 					});
 				}
 			});
@@ -97,7 +97,7 @@ function sideMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"><label><input id='checkbox' name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small></label></div>";
+						htmlText += "<div class=\"menu\"><label><input id='checkbox' name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</label></div>";
 					});
 				}
 			});
@@ -121,7 +121,7 @@ function drinkMenu(){
 			$.each(obj,function(key,value){
 				if(key == "choiceMenu"){
 					$.each(value,function(key,menu){
-						htmlText += "<div class=\"menu\"><label><input id='checkbox' name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small></label></div>";
+						htmlText += "<div class=\"menu\"><label><input id='checkbox' name=\"menu_seq\" type=\"checkbox\" value=\""+menu.menu_seq+"\"/><img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/><br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</label></div>";
 					});
 				}
 			});
@@ -163,7 +163,7 @@ function ownerMenuList(){
 							<label>
 								<input id="checkbox" name="menu_seq" type="checkbox" value="${menu.menu_seq}" />
 								<img class="menuImg" src="${menu.fileDto.file_rurl}" alt="" /><br>
-								<small>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</small>
+								${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}
 							</label>
 							</div>
 							<c:if test="${vs.count mod 4 eq 0}">
