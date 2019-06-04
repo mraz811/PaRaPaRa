@@ -87,7 +87,7 @@
 						</c:if>
 						<c:if test="${ow.owner_end ne null}">
 							<td width="165px">${fn:substring(ow.owner_end,0,10)}</td>
-							<td width="100px"><input class="btn btn-secondary" type="button" value="계약연장" onclick="reCon('${ow.owner_seq}')"></td>	
+							<td width="100px"><input class="btn btn-outline-primary" type="button" value="계약연장" onclick="reCon('${ow.owner_seq}')"></td>	
 						</c:if>
 					</tr>
 				</table>
@@ -148,7 +148,7 @@
 // 업주 등록
 var toOwnerRegi = function(){
 	window.open("./ownerRegiForm.do","업주 등록 페이지", 
-	"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
+	"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500");
 };
 
 // 업주 계약 종료 시 

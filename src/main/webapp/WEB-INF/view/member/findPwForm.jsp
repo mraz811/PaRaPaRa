@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>비밀번호 찾기</title>
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
@@ -11,7 +12,7 @@
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <style type="text/css">
 #findPwForm{
-	margin: 100px auto;
+	margin: 60px auto;
 	width: 300px;
 }
 #paraPhoto img{

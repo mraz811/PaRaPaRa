@@ -138,14 +138,14 @@
 // 알바 상세조회
 var getAlbaDetail = function(seq){
 	window.open("./albaDetail.do?alba_seq="+seq, "아르바이트 상세 조회", 
-			"width=700, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, left=500, top=150");
+			"width=700, height=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, left=500");
 }
 
 
 // 알바 등록 폼으로
 var toAlbaRegi = function(){
 	window.open("./albaRegiForm.do", "아르바이트 등록",
-			"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
+			"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500");
 // 	location.href="./albaRegiForm.do";	
 };
 
