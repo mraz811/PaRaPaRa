@@ -13,7 +13,7 @@
 .regianddel{
 	width: 80px;
 	float: right;
-	margin-top: 8px;
+	margin-top: 20px;
 	margin-right: 16px;
 	position: relative;
 }

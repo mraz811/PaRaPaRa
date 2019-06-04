@@ -31,6 +31,7 @@
 
 #footer{
 	border: 1px solid rgba(0,0,0,0.1);
+	border-top: none;
 	width: 1060px;
 	height: 70px;
 	position: absolute;
@@ -40,6 +41,7 @@
 
 .bodyfixed{
 	border: 1px solid rgba(0,0,0,0.1);
+	border-bottom: none;
 	width: 1060px;
 	height: 540px;
 	right: 0px;
@@ -67,7 +69,7 @@
 }
 
 .twoDepth{
-	border-bottom: 1px solid rgba(0,0,0,0.1);
+/* 	border-bottom: 1px solid rgba(0,0,0,0.1); */
 	width: 1020px;
 	height: 460px;
 	margin: 10px 20px;
@@ -78,7 +80,7 @@
 
 #pagingForm{
 	position: absolute;
-	bottom: 5px;
+	bottom: -1px;
 /* 	left: 35%; */
 	left: 25%;
 }
