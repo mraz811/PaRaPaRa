@@ -427,26 +427,26 @@ public class TimesheetCtrl {
 			}
 
 			// alba_phone = ts_daywork, alba_address = ts_nightwork 로 Mapping
-			
+
 			Map<String, String> mapAll = new HashMap<String, String>();
 			mapAll.put("store_code", store_code);
 			mapAll.put("alba_seq", albaListsAll.get(i).getAlba_seq()+"");
 			mapAll.put("ts_date", getMonth);
 			List<TimeDto> workLists = timeSer.tsListAll(mapAll);
-			
+
 			System.out.println("알바가 그 달에 일한 횟수 workLists > "+workLists);
-			
-			// 주 15시간 이상 월 8일 이상 근로시 4대 보험 의무 가입. 아닌 경우 소득세(3.3%)만 급여에서 제외한다.
-			if(workLists.size()>=8 && chk>=wStartDate.length) { // 4대보험(장기요양보험료 포함)+소득세
+
+			// 주 15시간 이상(마지막 주는 조건에서 제외) 월 8일 이상 근로시 4대 보험 의무 가입. 아닌 경우 소득세(3.3%)만 급여에서 제외한다.
+			if(workLists.size()>=8 && chk>=wStartDate.length-1) { // 4대보험(장기요양보험료 포함)+소득세
 				salary[i] = (Math.ceil(Math.floor(((Double.parseDouble(albaListsAll.get(i).getAlba_phone()) * albaListsAll.get(i).getAlba_timesal()) +
 						(Double.parseDouble(albaListsAll.get(i).getAlba_address()) * albaListsAll.get(i).getAlba_timesal() * 1.5) +
-						weekSal)*0.8818)/10))*10;				
+						weekSal)*0.8818)/10))*10;
 			}else { // 소득세
 				salary[i] = (Math.ceil(Math.floor(((Double.parseDouble(albaListsAll.get(i).getAlba_phone()) * albaListsAll.get(i).getAlba_timesal()) +
 						(Double.parseDouble(albaListsAll.get(i).getAlba_address()) * albaListsAll.get(i).getAlba_timesal() * 1.5) +
 						weekSal)*0.967)/10))*10;								
 			}
-			
+
 			System.out.println("salary 담은 배열 > "+Arrays.toString(salary));
 
 			DecimalFormat dc = new DecimalFormat("###,###,###");
@@ -455,6 +455,7 @@ public class TimesheetCtrl {
 			}
 		
 		return "salary/salaryList";
+		
 	}
 
 }

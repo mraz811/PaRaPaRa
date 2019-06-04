@@ -7,6 +7,19 @@
 <head>
 <meta charset="UTF-8">
 <title>salaryList</title>
+<style type="text/css">
+
+#tableHeader{
+	margin: 0px;	
+}
+
+th, tr, td{
+	margin: 0px;
+	padding: 0px;
+	width:100px;
+}
+
+</style>
 </head>
 <body>
 
@@ -29,12 +42,12 @@
 		    			 <a class="nav-link" data-toggle="tab" id="albaLists">아르바이트</a>
 		  				</li>
 		  				<li class="nav-item">
-		    			 <a class="nav-link active" data-toggle="tab" href="#home">급여</a>
+		    			 <a class="nav-link active" data-toggle="tab" href="#home" style="border: 1px solid rgb(21,140,186);"><strong>급여</strong></a>
 		  				</li>
 					</ul>
 				<div class="tab-content">
 
- <script type="text/javascript">
+<script type="text/javascript">
 $(function(){
 	$("#timesheet").click(function(){
 		location.href="./selTimeSheet.do";
@@ -56,27 +69,34 @@ $(function(){
 
 </form>
 
-<table class="table table-hover">
-	<tr class="table-primary">
-		<th>No.</th><th>이름</th><th>근무 시간 (주간)</th><th>근무 시간(야간,추가)</th>
-		<th>시급</th><th>급여</th><th>퇴직금</th><th>은행명</th><th>계좌번호</th>
-	</tr>
+	<div>
+		<table id="tableHeader" class="table">
+				<tr class="table-primary">
+					<th style="width:40px;">No.</th><th style="text-align: center; width: 50px;">이름</th>
+					<th style="padding-left:30px;">근무 시간 (주간)</th><th>근무 시간 (야간)</th>
+					<th style="width:90px;">시급</th><th>급여</th><th style="padding-left:30px;">은행명</th>
+					<th style="padding-left:30px;">계좌번호</th>
+				</tr>
+		</table>
+	</div>
 	
-	<c:forEach var="dto" items="${albaLists}" varStatus="vs">
-		<tr>
-			<td>${vs.count}</td>
-			<td>${dto.alba_name}</td>
-			<td>${dto.alba_phone}</td>
-			<td>${dto.alba_address}</td>
-			<td>${dto.alba_timesal}</td>
-			<td>${dto.alba_delflag}원</td>
-			<td>-</td>
-			<td>${dto.alba_bank}</td>
-			<td>${dto.alba_account}</td>
-		</tr>
-	</c:forEach>
+	<div style="overflow-y: auto; height: 297px;">
+		<table class="table table-hover" style="height: 315px; overflow-y: auto;">
+			<c:forEach var="dto" items="${albaLists}" varStatus="vs">
+				<tr style="height:54px; padding:0px;">
+					<td style="width:40px;">${vs.count}</td>
+					<td style="text-align: center; width:70px;">${dto.alba_name}</td>
+					<td style="text-align: center;">${dto.alba_phone}</td>
+					<td style="text-align: center;">${dto.alba_address}</td>
+					<td style="padding-left:30px;">${dto.alba_timesal}</td>
+					<td>${dto.alba_delflag}원</td>
+					<td>${dto.alba_bank}</td>
+					<td>${dto.alba_account}</td>
+				</tr>
+			</c:forEach>
+		</table>	
+	</div>
 
-</table>
 
 </div><!-- div class=tab-content -->
 				</div><!-- div class twoDepth -->

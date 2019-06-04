@@ -84,26 +84,31 @@ public class CalendarCtrl {
 		String start = null;	
 		String startyear	= request.getParameter("startyear");		
 		String startmonth	= request.getParameter("startmonth");	
-		startmonth = DateModule.getInstance().changeDateFormat(startmonth);
+		startmonth = DateModule.getInstance().changeDateFormatForCalendar(startmonth);
 		String startday		= request.getParameter("startday");	
-		startday = DateModule.getInstance().changeDateFormat(startday);
+		startday = DateModule.getInstance().changeDateFormatForCalendar(startday);
 		String starthours	= request.getParameter("starthours");	
-		starthours = DateModule.getInstance().changeDateFormat(starthours);
+		starthours = DateModule.getInstance().changeDateFormatForCalendar(starthours);
 		String startminutes	= request.getParameter("startminutes");	
-		startminutes = DateModule.getInstance().changeDateFormat(startminutes);
+		startminutes = DateModule.getInstance().changeDateFormatForCalendar(startminutes);
 		start = startyear+"-"+startmonth+"-"+startday+" "+starthours+":"+startminutes+":00";
+		
+		System.out.println("startyear > "+startyear);
+		System.out.println("startmonth > "+startmonth);
+		System.out.println("startday > "+startday);
+		System.out.println("start > "+start);
 		
 		//종료일 연산
 		String end = null;
 		String endyear 		= request.getParameter("endyear");		
 		String endmonth 	= request.getParameter("endmonth");
-		endmonth = DateModule.getInstance().changeDateFormat(endmonth);
+		endmonth = DateModule.getInstance().changeDateFormatForCalendar(endmonth);
 		String endday		= request.getParameter("endday");
-		endday = DateModule.getInstance().changeDateFormat(endday);
+		endday = DateModule.getInstance().changeDateFormatForCalendar(endday);
 		String endhours		= request.getParameter("endhours");
-		endhours = DateModule.getInstance().changeDateFormat(endhours);
+		endhours = DateModule.getInstance().changeDateFormatForCalendar(endhours);
 		String endminutes	= request.getParameter("endminutes");
-		endminutes = DateModule.getInstance().changeDateFormat(endminutes);
+		endminutes = DateModule.getInstance().changeDateFormatForCalendar(endminutes);
 		end = endyear+"-"+endmonth+"-"+endday+" "+endhours+":"+endminutes+":00";		
 		
 		// Service 실행 
@@ -137,33 +142,33 @@ public class CalendarCtrl {
 			String start = null;	
 			String startyear	= request.getParameter("startyear");		
 			String startmonth	= request.getParameter("startmonth");	
-			startmonth = DateModule.getInstance().changeDateFormat(startmonth);
+			startmonth = DateModule.getInstance().changeDateFormatForCalendar(startmonth);
 			String startday		= request.getParameter("startday");	
-			startday = DateModule.getInstance().changeDateFormat(startday);
+			startday = DateModule.getInstance().changeDateFormatForCalendar(startday);
 			String starthours	= request.getParameter("starthours");	
-			starthours = DateModule.getInstance().changeDateFormat(starthours);
+			starthours = DateModule.getInstance().changeDateFormatForCalendar(starthours);
 			String startminutes	= request.getParameter("startminutes");	
-			startminutes = DateModule.getInstance().changeDateFormat(startminutes);
+			startminutes = DateModule.getInstance().changeDateFormatForCalendar(startminutes);
 			start = startyear+"-"+startmonth+"-"+startday+" "+starthours+":"+startminutes+":00";
 			
 			//종료일 연산
 			String end = null;
 			String endyear 		= request.getParameter("endyear");		
 			String endmonth 	= request.getParameter("endmonth");
-			endmonth = DateModule.getInstance().changeDateFormat(endmonth);
+			endmonth = DateModule.getInstance().changeDateFormatForCalendar(endmonth);
 			String endday		= request.getParameter("endday");
-			endday = DateModule.getInstance().changeDateFormat(endday);
+			endday = DateModule.getInstance().changeDateFormatForCalendar(endday);
 			String endhours		= request.getParameter("endhours");
-			endhours = DateModule.getInstance().changeDateFormat(endhours);
+			endhours = DateModule.getInstance().changeDateFormatForCalendar(endhours);
 			String endminutes	= request.getParameter("endminutes");
-			endminutes = DateModule.getInstance().changeDateFormat(endminutes);
+			endminutes = DateModule.getInstance().changeDateFormatForCalendar(endminutes);
 			end = endyear+"-"+endmonth+"-"+endday+" "+endhours+":"+endminutes+":00";		
 			
 			List<CalDto> lists = calSer.calList(store_code);
 			System.out.println(lists);
 			
 			String cal_seq = lists.get(0).getCal_seq();
-				
+
 			System.out.println("");
 			
 			// Service 실행 

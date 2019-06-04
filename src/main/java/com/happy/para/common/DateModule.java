@@ -19,7 +19,17 @@ private static DateModule dateModule;
 		return result;
 	}
 	
-
+	public String changeDateFormatForCalendar(String date) {
+		String result = null;
+		if(date.length() <= 1) {
+			result = "0"+date;
+		}		
+		else 
+			result = date;
+		
+		return result;
+	}
+	
 	public static DateModule getInstance() {
 		
 		if(dateModule == null) {

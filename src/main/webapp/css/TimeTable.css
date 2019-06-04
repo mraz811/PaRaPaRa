@@ -1,5 +1,6 @@
 :root{
-    --rgbTheme:19,113,71;
+/*     --rgbTheme:19,113,71; */
+    --rgbTheme:21,140,186;
     --rgbFont: 50, 50, 50;
     --rgbHeaderFont: 255, 255, 255;
     --rgbRow: 255, 255, 255;
@@ -50,7 +51,7 @@
     text-align: center;
 }
 .TimeTable__name{
-    width: 200px;
+    width: 80px;
     padding: 0 20px;
     position: relative;
     text-align: left;
@@ -133,6 +134,7 @@
     top: 0;
     width: 20px;
 }
+
 .barCanvas{
     cursor: pointer;
 }
@@ -142,3 +144,15 @@
     -webkit-transform: translateY(1px);
     transform: translateY(1px);
 }
+
+#download{
+	position: absolute;
+	right: 17px;
+}
+
+#inputDate{
+	text-align: center;
+}
+
+
+

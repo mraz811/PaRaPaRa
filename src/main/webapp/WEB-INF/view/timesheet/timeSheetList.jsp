@@ -24,7 +24,7 @@
 					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
-		    			 <a class="nav-link active" data-toggle="tab" href="#home">TimeSheet</a>
+		    			 <a class="nav-link active" data-toggle="tab" href="#home" style="border: 1px solid rgb(21,140,186);"><strong>TimeSheet</strong></a>
 		  				</li>
 		  				<li class="nav-item">
 		    			 <a class="nav-link" data-toggle="tab" id="albaLists">아르바이트</a>
@@ -51,19 +51,22 @@ function timeSheetDownload() {
 </script> 
 
 	<form action="#" method="get">
-
+	<div id ="inputDate">
 	<input type="date" id='currentDate' name="ts_date" value="${today}" onchange="changheDate()">
 <!-- 	<button onclick="changheDate()">날짜 변경</button> -->
-	<input type="button" value="엑셀로 다운로드" onclick="timeSheetDownload()">
+	<input type="button" class="btn btn-secondary" id="download" value="엑셀로 다운로드" onclick="timeSheetDownload()">
+	</div>
 	</form>
 
     <div id="test"></div>
+    <div id="timesheet" style="overflow-y: auto; height: 330px;">
 <!--     <button id="addRow">AddRow</button> -->
 <!--     <button id="colorChange">Change Random Color</button> -->
 <!--     <button id="getData">getData</button> -->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/createjs.min.js"></script>
     <script src="js/TimeTable.js"></script>
+    </div>
 	
 	
 	 
@@ -109,7 +112,7 @@ let obj = {
       workTime: true,
 //       bgcolor: ["#158cba"],
       bgcolor: ["#00FFFF"],
-      // Set true when using TimeTable inside of BootStrap class row
+      // Set true when using TimeTable insidhttp://localhost:8099/PaRaPaRa/selTimeSheet.do#homee of BootStrap class row
       useBootstrap: true
   }
 };

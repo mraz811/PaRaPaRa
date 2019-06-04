@@ -861,7 +861,7 @@ class TimeTable{    // eslint-disable-line no-unused-vars
         if(this.v.option["workTime"])this.setWorkTimeColumn();
         $(sel).append(this.table);
         if(this.v.option["selectBox"])this.changeNameId();
-        this.deleteRow();
+//        this.deleteRow();
         // Draw Chart
         this.can.init();
         $(window).resize(()=>this.refreshCanvas());
@@ -959,10 +959,12 @@ class TimeTable{    // eslint-disable-line no-unused-vars
             if(this.v.option["selectBox"]){
                 // Required to create selecttag as string (Why?)
                 let select = this.createSelectBox(INDEX[i],NAMES[i]);
-                nameColumn = (`<td class="TimeTable__name">${select}<button class="deleteRow js-deleteButton" data-nameid="${INDEX[i]}">x</button></td>`);
+//              nameColumn = (`<td class="TimeTable__name">${select}<button class="deleteRow js-deleteButton" data-nameid="${INDEX[i]}">x</button></td>`);
+                nameColumn = (`<td class="TimeTable__name">${select}</td>`);
                 //console.log(toString(this.selectbox));
             }else{
-                nameColumn = (`<td class="TimeTable__name">${NAMES[i]}<button class="deleteRow js-deleteButton" data-nameid="${INDEX[i]}">x</button></td>`);
+//            	nameColumn = (`<td class="TimeTable__name">${NAMES[i]}<button class="deleteRow js-deleteButton" data-nameid="${INDEX[i]}">x</button></td>`);
+            	nameColumn = (`<td class="TimeTable__name">${NAMES[i]}</td>`);
             }
             td.prepend($(nameColumn));
         }
@@ -1065,7 +1067,7 @@ class TimeTable{    // eslint-disable-line no-unused-vars
      * @return {[type]} [description]
      */
     deleteRow(){
-        let shift = this.v.shiftTime;
+       /* let shift = this.v.shiftTime;
         let refresh = ()=>{this.refreshCanvas();};
         $(document).on("click", ".js-deleteButton",function(){
         	
@@ -1083,7 +1085,7 @@ class TimeTable{    // eslint-disable-line no-unused-vars
                 }
             }
             refresh();
-        });
+        });*/
     }
     /**
      * [deleteRow description]
@@ -1095,7 +1097,8 @@ class TimeTable{    // eslint-disable-line no-unused-vars
         // Crate row
         let row = $("<tr></tr>", {class: "js-tdata TimeTable__row"});
         // Create Name Column
-        $(row).append("<td class=\"TimeTable__name\"><button class=\"deleteRow js-deleteButton\"\">x</button></td>");
+//        $(row).append("<td class=\"TimeTable__name\"><button class=\"deleteRow js-deleteButton\"\">x</button></td>");
+        $(row).append("<td class=\"TimeTable__name\"></td>");
         // Craete Table Data
         const COLUMNS = this.c.countColumns(this.v.startTime, this.v.endTime, this.v.divTime);
         for(let j = 0; j < COLUMNS; j++){
@@ -1128,9 +1131,8 @@ class TimeTable{    // eslint-disable-line no-unused-vars
             $(target).find(".js-workTime").remove();
             return;
         }
-        this.deleteRow();
+//        this.deleteRow();
         this.u.refreshWorkTime();
-        alert("worktime");
         this.refreshCanvas();
     }
     /**
@@ -1248,7 +1250,7 @@ class CanvasT extends CalculationT{
         this.canvasTag.height = lastCell.y - firstCell.y + this.cell.height;
         let canvas = $("<canvas>",{id:"timeBar",class:"barCanvas"});
         let top = this.canvasTag.y;
-        let left = 200;
+        let left = 80;
         if(this.useBootstrap){
             top = 32; // Height of Table Header
         }
@@ -1413,7 +1415,8 @@ class CanvasT extends CalculationT{
                     left : toolTipToDisplay.x,
                     top : toolTipToDisplay.y + yToMove
                 });
-            let deleteButton = $("<button class=\"toolTipDelete\">x</button>");
+//            let deleteButton = $("<button class=\"toolTipDelete\">x</button>");
+            let deleteButton = $("");
             // Add Event to delete bar and also Tool tip
             $(deleteButton).on("click", ()=>{
             	
@@ -1531,7 +1534,7 @@ class CanvasT extends CalculationT{
     * @param  {object} shift  Object of shift to modify
     */
     deleteShiftData(time, index){
-    	alert("선택한 일정이 삭제됩니다");
+//    	alert("선택한 일정이 삭제됩니다");
     	
     	var currentDate = document.getElementById("currentDate").value;
     	alert(currentDate);
