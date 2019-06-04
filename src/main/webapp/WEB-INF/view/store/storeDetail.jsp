@@ -4,18 +4,42 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<title>매장 상세보기</title>
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <script type="text/javascript" src="./js/bootstrap.js"></script>
+<style type="text/css">
+.form-control{
+	width: 300px;
+}
+
+.fullCtrl{
+	width: 320px;
+	margin: 10px auto;
+}
+.writeform{
+	width: 300px;
+	font-size: 30px; 
+	background-color: RGB(21,140,186); 
+	color:white; 
+	font-weight: bold; 
+	padding: 0px 10px; 
+	text-align: center;
+	border-radius: 0.2em;
+}
+</style>
+</head>
 <body>
 	<div id="container">
+		<div class="fullCtrl">
 		<form action="#" id="frm" method="post">
+		
 			<fieldset id="detailStore">
+			<p class="writeform">매장 상세보기</p>
+			
 				<div class="form-group">
 					<label>매장명</label>
 					<input class="form-control" type="text" readonly="readonly" id="store_name" name="store_name" value="${dto.store_name}">
@@ -40,13 +64,14 @@
 					<label>사번</label>
 					<input class="form-control" type="text" readonly="readonly" id="admin_id" name="admin_id" value="${dto.admin_id}">
 				</div>
-				<div id="btnDiv" align="right">
-					<input type="button" class="btn btn-outline-success" id="modiForm" value="수정" onclick="modiStoreForm()">
-					<input type="button" class="btn btn-outline-success" id="deleteStore" value="삭제" onclick="delStore('${dto.store_code}')">
-					<input type="button" class="btn btn-outline-success" id="close" value="닫기" onclick="modiCancel()">
+				<div id="btnDiv" style=" width: 300px; text-align: center; margin-top: 20px;">
+					<input style="width:97px;" type="button" class="btn btn-outline-success" id="modiForm" value="수　정" onclick="modiStoreForm()">
+					<input style="width:97px;" type="button" class="btn btn-outline-warning" id="deleteStore" value="삭　제" onclick="delStore('${dto.store_code}')">
+					<input style="width:97px;" type="button" class="btn btn-secondary" id="close" value="닫　기" onclick="modiCancel()">
 				</div>
 			</fieldset>
 		</form>
+		</div>
 	</div>
 	<script type="text/javascript">
 		function modiStoreForm() {
@@ -55,8 +80,8 @@
 			$("#store_address").removeAttr("readonly");
 			$("#admin_id").removeAttr("readonly");
 			var htmlBtn = "";
-			htmlBtn += "<input type='button' class='btn btn-outline-success' id='modi' value='수정완료' onclick='modiStore()'>"
-					+ "<input type='button' class='btn btn-outline-success' id='close' value='닫기' onclick='close()'>";
+			htmlBtn += "<input style='width:97px; margin: 0px 10px;' type='button' class='btn btn-outline-success' id='modi' value='수정완료' onclick='modiStore()'>"
+					+ "<input style='width:97px; margin: 0px 10px;' type='button' class='btn btn-secondary' id='close' value='닫　기' onclick='modiCancel()'>";
 // 		 	alert(htmlBtn);
 			$("#btnDiv").html(htmlBtn);
 		}
@@ -102,10 +127,10 @@
 											+"<label>사번</label>"
 											+"<input class='form-control' type='text' readonly='readonly' id='admin_id' name='admin_id' value='"+msg.admin_id+"'>"
 										+"</div>"
-										+"<div id='btnDiv' align='right'>"
-											+"<input type='button' class='btn btn-outline-success' id='modiForm' value='수정' onclick='modiStoreForm()'>"
-											+"<input type='button' class='btn btn-outline-success' id='deleteStore' value='삭제' onclick='delStore(\""+msg.store_code+"\")'>"
-											+"<input type='button' class='btn btn-outline-success' id='close' value='닫기' onclick='modiCancel()'>"
+										+"<div id='btnDiv' style='width: 300px; text-align: center; margin-top: 20px;'>"
+											+"<input style=width:97px;' type='button' class='btn btn-outline-success' id='modiForm' value='수　정' onclick='modiStoreForm()'>"
+											+"<input style=width:97px;' type='button' class='btn btn-outline-warning' id='deleteStore' value='삭　제' onclick='delStore(\""+msg.store_code+"\")'>"
+											+"<input style=width:97px;' type='button' class='btn btn-secondary' id='close' value='닫　기' onclick='modiCancel()'>"
 										+"</div>";
 						$("#detailStore").html(htmlDetail);
 						

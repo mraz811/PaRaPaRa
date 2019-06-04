@@ -148,7 +148,7 @@
 // 업주 등록
 var toOwnerRegi = function(){
 	window.open("./ownerRegiForm.do","업주 등록 페이지", 
-	"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
+	"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
 };
 
 // 업주 계약 종료 시 

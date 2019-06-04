@@ -21,7 +21,7 @@
 			<div class="twoDepth">
 				<ul class="nav nav-tabs">
 	  				<li class="nav-item">
-	    				<a class="nav-link active" data-toggle="tab" onclick="selStoreList()" href="#">매장 정보</a>
+	    				<a class="nav-link active" data-toggle="tab" style="border: 1px solid rgb(21,140,186);" onclick="selStoreList()" href="#"><strong>매장 정보</strong></a>
 	  				</li>
 	  				<li class="nav-item">
 	    				<a class="nav-link" data-toggle="tab" onclick="selPaoList()" href="#">발주</a>

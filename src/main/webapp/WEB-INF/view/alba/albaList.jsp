@@ -53,7 +53,7 @@
     			 <a class="nav-link" data-toggle="tab" id="timesheet" href="#home">TimeSheet</a>
   				</li>
   				<li class="nav-item">
-    			 <a class="nav-link active" data-toggle="tab" href="#home">아르바이트</a>
+    			 <a class="nav-link active" data-toggle="tab" style="border: 1px solid rgb(21,140,186);" href="#home"><strong>아르바이트</strong></a>
   				</li>
   				<li class="nav-item">
     			 <a class="nav-link" data-toggle="tab" id="salary" href="#home">급여</a>
@@ -145,7 +145,7 @@ var getAlbaDetail = function(seq){
 // 알바 등록 폼으로
 var toAlbaRegi = function(){
 	window.open("./albaRegiForm.do", "아르바이트 등록",
-			"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
+			"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
 // 	location.href="./albaRegiForm.do";	
 };
 
@@ -153,7 +153,7 @@ var toAlbaRegi = function(){
 var modiAlba = function(seq){
 // 	alert(seq);
 	window.open("./albaModiForm.do?alba_seq="+seq, "아르바이트 정보 수정",
-			"width=500, height=700, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
+			"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500, top=150");
 	
 }
 
