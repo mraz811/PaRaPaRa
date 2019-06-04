@@ -7,8 +7,8 @@
 <title>업주 조회 페이지</title>
 <style type="text/css">
 .owner_table{
-	margin: 5px 0px 10px 0px;
-	width: 1018px;
+	margin: 0px 0px 10px 0px;
+	width: 1020px;
 	height: 350px;
 }
 .center{
