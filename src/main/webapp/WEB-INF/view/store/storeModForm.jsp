@@ -12,6 +12,7 @@
 	<div class="fullCtrl">
 		<form action="./storeModi.do" method="post">
 			<input type="hidden" name="store_code" value="${dto.store_code}">
+			${nameListJson}
 			<p class="writeform">매장 수정</p>
 			<table>
 				<thead>

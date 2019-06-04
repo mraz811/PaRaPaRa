@@ -498,6 +498,7 @@ public class CommonCtrl {
 				cell.setCellStyle(bodyStyle);
 				cell.setCellValue(tDto.getTs_nightwork());
 			}
+			sheet.autoSizeColumn(i, true);
 			
 		}
 		int albaRow = 0;
