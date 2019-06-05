@@ -24,7 +24,7 @@ public class Interceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		logger.debug("인터셉터 시작 ----- {}", new Date());
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
 		if(session.getAttribute("loginDto") == null) {
 			response.sendRedirect("./index.jsp");
 			return false;
