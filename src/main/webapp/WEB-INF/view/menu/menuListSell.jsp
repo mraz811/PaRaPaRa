@@ -29,13 +29,37 @@ function cancelMenu(){
 		}
 	}
 	if(c > 0){
-		var frm = document.getElementById("frm");
-		frm.action = "./menuCancel.do";
-		frm.method = "post";
-		frm.submit();
-		return true;
+		var formData = new FormData(document.getElementById("frm"));
+		$.ajax({
+			url : "./menuCancel.do",
+			type : "post",
+			async : true,
+			data : formData,
+			processData: false,    // 반드시 작성
+		    contentType: false,    // 반드시 작성
+			success : function(obj){
+				if(obj == "성공"){
+					swal({
+						title: "메뉴 삭제 성공", 
+						text: "업주 메뉴 삭제에 성공했습니다", 
+					},
+					function(){ 
+						location.reload();
+					});
+				}
+			},error : function(obj){
+				if(obj == "실패"){
+					swal({
+						title: "메뉴 삭제 실패", 
+						text: "관리자에게 문의해주세요", 
+					},
+					function(){ 
+						
+					});
+				}
+			}
+		})
 	}else{
-// 		alert("선택된 메뉴가 없습니다.");
 		swal({
 			title: "메뉴 삭제 실패", 
 			text: "선택된 메뉴가 없습니다", 
@@ -163,7 +187,7 @@ function ownerAllMenuList(){
 						<label><input style="vertical-align:-4px;" type="checkbox" onclick="checkAllDel(this.checked)"/><small>전체선택</small></label>
 						<input class="btn btn-outline-warning" id="cancelMenu" type="button" value="판매 메뉴 삭제" onclick="cancelMenu()" />
 					</div>
-					<form id="frm" action="./menuCancel.do" method="post" onsubmit="return cancelMenu()">
+					<form id="frm" action="#" method="post" >
 						<div id="menuList">
 							<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
 								<div class="menu">

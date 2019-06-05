@@ -4,7 +4,7 @@
 	
 	<!-- 업주 : 수익 통계 -->
 	<select id="ownerStatsIncome" parameterType="java.util.Map" resultType="java.lang.Integer">
-	SELECT SUM(REQUEST_PRICE)
+	SELECT NVL(SUM(REQUEST_PRICE),0) AS REQUEST_PRICE
  	FROM REQUEST
 	WHERE STORE_CODE=#{store_code} AND (REQUEST_TIME BETWEEN #{start} AND #{end}) 
  	AND OS_CODE=3 GROUP BY STORE_CODE
@@ -12,7 +12,7 @@
 	
 	<!-- 업주 : 지출 통계 -->
 	<select id="ownerStatsOutcome" parameterType="java.util.Map" resultType="java.lang.Integer">
-	SELECT SUM(ITEM_PRICE*PI_QTY) 
+	SELECT NVL(SUM(ITEM_PRICE*PI_QTY),0)  
 			FROM (PAO JOIN PAO_ITEM ON PAO.PAO_SEQ=PAO_ITEM.PAO_SEQ) 
 			JOIN ITEM ON PAO_ITEM.ITEM_SEQ=ITEM.ITEM_SEQ
 			WHERE PAO.STORE_CODE=#{store_code} 

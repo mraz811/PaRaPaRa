@@ -138,9 +138,11 @@ public class MenuCtrl {
 	}
 
 	// 업주 : 메뉴 삭제 버튼
-	@RequestMapping(value = "/menuCancel.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/menuCancel.do", method = RequestMethod.POST, produces = "application/text; charset=UTF-8")
+	@ResponseBody
 	public String ownerMenuCancel(HttpSession session, String[] cancel_menu_seq) {
 		OwnerDto dto = (OwnerDto) session.getAttribute("loginDto");
+		boolean isc = false;
 		if (session.getAttribute("owner_menu") == null) {
 			String owner_menu = dto.getOwner_menu();
 			String owner_seq = Integer.toString(dto.getOwner_seq());
@@ -193,7 +195,7 @@ public class MenuCtrl {
 			Map<String, String> map2 = new HashMap<String, String>();
 			map2.put("owner_menu", newOwner_menu);
 			map2.put("owner_seq", owner_seq); // 세션에서 받아올꺼
-			boolean isc = menu_IService.ownerMenuChoice(map2);
+			isc = menu_IService.ownerMenuChoice(map2);
 			System.out.println("업주의 메뉴 선택 성공? : " + isc);
 			session.setAttribute("owner_menu", newOwner_menu);
 		} else {
@@ -250,13 +252,13 @@ public class MenuCtrl {
 			Map<String, String> map2 = new HashMap<String, String>();
 			map2.put("owner_menu", newOwner_menu);
 			map2.put("owner_seq", owner_seq); // 세션에서 받아올꺼
-			boolean isc = menu_IService.ownerMenuChoice(map2);
+			isc = menu_IService.ownerMenuChoice(map2);
 			System.out.println("업주의 메뉴 선택 성공? : " + isc);
 			session.removeAttribute("owner_menu");
 			session.setAttribute("owner_menu", newOwner_menu);
 		}
  
-		return "redirect:/ownerMenuList.do";
+		return isc?"성공":"실패";
 	}
 
 	// 업주 : 전체 메뉴 처음들어왔을때

@@ -38,7 +38,7 @@ function choiceMenu(){
 			if(obj == "success"){
 // 				alert("업주 메뉴 선택에 성공했습니다.");
 				swal({
-					title: "메뉴 삭제 성공", 
+					title: "메뉴 선택 성공", 
 					text: "업주 메뉴 선택에 성공했습니다", 
 				},
 				function(){ 
