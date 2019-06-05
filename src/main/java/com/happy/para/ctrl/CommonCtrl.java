@@ -1,5 +1,6 @@
 package com.happy.para.ctrl;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -96,7 +97,7 @@ public class CommonCtrl {
 		System.out.println("채팅방 조회 및 생성을 위한 업주/담당자 auth : " + auth);
 		ChatDto chatDto = null;
 		String store_codeTwo = "";
-		String content = null;
+		StringBuffer content = null;
 		if(auth.equalsIgnoreCase("A")) {
 			store_codeTwo = store_code;
 			System.out.println("담당자로 로그인 시 StoreCode : " + store_codeTwo);
@@ -108,13 +109,39 @@ public class CommonCtrl {
 				System.out.println("채팅방 생성 후 맨들어 진 ChatDto : " + chatDto);
 			}else {
 				System.out.println("채팅방이 있을 시 ChatDto : " + cDto);
-				File file = new File(path + "\\" + store_code + ".txt");
+				File file = new File(path + "\\" + store_code + "_A.txt");
 				try {
-					FileInputStream inputStream = new FileInputStream(file);
-					byte[] readBuffer = new byte[inputStream.available()];
-					while(inputStream.read(readBuffer)!= -1) {
+					File uFile = new File(path + "\\" + store_codeTwo + "_U.txt");
+					File aFile = new File(path + "\\" + store_codeTwo + "_A.txt");
+					FileReader uFileReader = new FileReader(uFile);
+					FileReader aFileReader = new FileReader(aFile);
+					
+					FileInputStream uStream = new FileInputStream(uFile);
+					FileInputStream aStream = new FileInputStream(aFile);
+					System.out.println("업주가 친 채팅 : " + uStream.available());
+					System.out.println("담당자가 친 채팅 : " + aStream.available());
+					String line = "";
+					if (uStream.available() <= aStream.available()) {
+//						BufferedReader Buffer = new BufferedReader(uFileReader);
+						byte[] readBuffer = new byte[aStream.available()];
+						while ((aStream.read(readBuffer))!=-1) {
+//							line = new String(readBuffer);
+							content = new StringBuffer(new String(readBuffer));
+							System.out.println("각 line : " + line);
+//							content.append(line);
+						}
+						System.out.println(content);
+					}else {
+						byte[] readBuffer = new byte[uStream.available()];
+						while(uStream.read(readBuffer)!= -1) {
+						}
+						line = new String(readBuffer);
+						line = line.replace("div class=\"form-me\"", "temp$%@");
+						
+						line = line.replace("div class=\"form-other\"", "div class=\"form-me\"");
+						line = line.replace("temp$%@", "div class=\"form-other\"");
+						content = new StringBuffer(line);
 					}
-					content = new String(readBuffer);
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -131,6 +158,7 @@ public class CommonCtrl {
 			System.out.println("업주로 로그인 시 StoreCode : " + store_codeTwo);
 			System.out.println("세션에 담긴 oDto 정보 : " + oDto);
 			ChatDto cDto = chatService.selectChatRoom(store_codeTwo);
+			
 			if(cDto == null) {
 				boolean isc = chatService.createChatRoom(store_codeTwo);
 				System.out.println("채팅방이 없을 시 생성 완료 : " + isc);
@@ -141,13 +169,38 @@ public class CommonCtrl {
 				System.out.println("채팅방이 있을 시 ChatDto : " + cDto);
 				chatDto = chatService.selectChatRoom(store_codeTwo);
 				System.out.println("채팅방이 있을 시 ChatDto : " + cDto);
-				File file = new File(path + "\\" + store_codeTwo + ".txt");
 				try {
-					FileInputStream inputStream = new FileInputStream(file);
-					byte[] readBuffer = new byte[inputStream.available()];
-					while(inputStream.read(readBuffer)!= -1) {
+					File uFile = new File(path + "\\" + store_codeTwo + "_U.txt");
+					File aFile = new File(path + "\\" + store_codeTwo + "_A.txt");
+					FileReader uFileReader = new FileReader(uFile);
+					FileReader aFileReader = new FileReader(aFile);
+					
+					FileInputStream uStream = new FileInputStream(uFile);
+					FileInputStream aStream = new FileInputStream(aFile);
+					System.out.println("업주가 친 채팅 : " + uStream.available());
+					System.out.println("담당자가 친 채팅 : " + aStream.available());
+					String line = "";
+					if (uStream.available() >= aStream.available()) {
+//						BufferedReader Buffer = new BufferedReader(uFileReader);
+						byte[] readBuffer = new byte[uStream.available()];
+						while ((uStream.read(readBuffer))!=-1) {
+//							line = new String(readBuffer);
+							content = new StringBuffer(new String(readBuffer));
+							System.out.println("각 line : " + line);
+//							content.append(line);
+						}
+						System.out.println(content);
+					}else {
+						byte[] readBuffer = new byte[aStream.available()];
+						while(aStream.read(readBuffer)!= -1) {
+						}
+						line = new String(readBuffer);
+						line = line.replace("div class=\"form-me\"", "temp$%@");
+						
+						line = line.replace("div class=\"form-other\"", "div class=\"form-me\"");
+						line = line.replace("temp$%@", "div class=\"form-other\"");
+						content = new StringBuffer(line);
 					}
-					content = new String(readBuffer);
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -168,13 +221,14 @@ public class CommonCtrl {
 	
 	@RequestMapping(value="/chatContentUpdate.do", method=RequestMethod.POST, produces = "application/text; charset=UTF-8")
 	@ResponseBody
-	public String updateChat(String chatTitle, String content) {
+	public String updateChat(String chatTitle, String content, String auth) {
 		try {
 			File fileDir = new File(path);
 			if(!fileDir.exists()) {
 				fileDir.mkdirs();
 			}
-			File chatFile = new File(path + "\\" + chatTitle+".txt");
+			System.out.println("content : " + content);
+			File chatFile = new File(path + "\\" + chatTitle+"_"+auth+".txt");
 			BufferedWriter bufferWriter = new BufferedWriter(new FileWriter(chatFile));
 			bufferWriter.write(content);
 			bufferWriter.flush();
@@ -263,6 +317,13 @@ public class CommonCtrl {
 	    
 	    headStyle.setAlignment(HorizontalAlignment.CENTER);
 	    
+	    CellStyle bodyStyleCenter =  workBook.createCellStyle();
+	    bodyStyleCenter.setBorderTop(BorderStyle.THIN);
+	    bodyStyleCenter.setBorderBottom(BorderStyle.THIN);
+	    bodyStyleCenter.setBorderLeft(BorderStyle.THIN);
+	    bodyStyleCenter.setBorderRight(BorderStyle.THIN);
+	    bodyStyleCenter.setAlignment(HorizontalAlignment.CENTER);
+	    
 	    CellStyle bodyStyle = workBook.createCellStyle();
 	    bodyStyle.setBorderTop(BorderStyle.THIN);
 	    bodyStyle.setBorderBottom(BorderStyle.THIN);
@@ -290,7 +351,7 @@ public class CommonCtrl {
 		
 		row = sheet.createRow(1);
 		cell = row.createCell(0);
-		cell.setCellStyle(bodyStyle);
+		cell.setCellStyle(bodyStyleCenter);
 	    cell.setCellValue(pao_seq);
 	    cell= row.createCell(1);
 	    cell.setCellStyle(bodyStyle);
@@ -337,7 +398,7 @@ public class CommonCtrl {
 	    for (ItemDto dto : piLists) {
 	    	row = sheet.createRow(rowNo++);
 	    	cell= row.createCell(0);
-	    	cell.setCellStyle(bodyStyle);
+	    	cell.setCellStyle(bodyStyleCenter);
 	    	cell.setCellValue(cnt++);
 	    	cell= row.createCell(1);
 	    	cell.setCellStyle(bodyStyle);
@@ -370,6 +431,13 @@ public class CommonCtrl {
 	    cell = row.createCell(4);
 	    cell.setCellStyle(bodyStyle);
 	    cell.setCellValue(totalPrice);
+	    
+	    for (int i = 0; i < 5; i++) {
+	    	sheet.autoSizeColumn(i);
+			sheet.setColumnWidth(i, sheet.getColumnWidth(i)+512);
+		}
+	    
+	    
 	    System.out.println("등록일 : " + paoDto.getPao_date());
 	    System.out.println("매장코드 : " + paoDto.getStore_code());
 	    System.out.println("등록일 바뀐거 : " + paoDto.getPao_date().replaceAll("-", "_").replaceAll(" ", "_"));
@@ -406,18 +474,19 @@ public class CommonCtrl {
 		String store_code = oDto.getStore_code();
 		System.out.println("로그인 업주의 store_code : "+store_code);
 		String excelPath = "C:\\timeSheetExcel";
-		List<AlbaDto> albaLists = timeSer.tsAlba(store_code);
-		System.out.println("로그인 업주의 albaLists : "+albaLists);
-
-		Date getDate = new Date();
-		String today = getDate.toString();
-		System.out.println("현재날짜 : "+ today);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println("현재날짜 : "+ sdf.format(getDate));
-		System.out.println("today : "+sdf.format(getDate));
+//		List<AlbaDto> albaLists = timeSer.tsAlba(store_code);
+//		System.out.println("로그인 업주의 albaLists : "+albaLists);
+		
+//		Date getDate = new Date();
+//		String today = getDate.toString();
+//		System.out.println("현재날짜 : "+ today);
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		System.out.println("현재날짜 : "+ sdf.format(getDate));
+//		System.out.println("today : "+sdf.format(getDate));
 		
 		Workbook workBook = new HSSFWorkbook();
 		Sheet sheet = workBook.createSheet("timesheet");
+	
 		Row row = null;
 		Cell cell = null;
 		int rowNo = 0;
@@ -438,133 +507,138 @@ public class CommonCtrl {
 	    bodyStyle.setBorderBottom(BorderStyle.THIN);
 	    bodyStyle.setBorderLeft(BorderStyle.THIN);
 	    bodyStyle.setBorderRight(BorderStyle.THIN);
+	    bodyStyle.setAlignment(HorizontalAlignment.CENTER);
 	    
 	    row = sheet.createRow(rowNo++);
 	    cell = row.createCell(0);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("타임시트 번호");
+	    cell.setCellValue("알바 번호");
 	    cell = row.createCell(1);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("알바 번호");
+	    cell.setCellValue("근무일");
 	    cell = row.createCell(2);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("근무일");
+	    cell.setCellValue("근무시간");
 	    cell = row.createCell(3);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("근무시간");
-	    cell = row.createCell(4);
-	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("주간 근무 시간");
-	    cell = row.createCell(5);
+	    cell = row.createCell(4);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("야간 근무 시간");
 //		JSONObject timeObj = null;
 //		String timeArr = "";
-		
-		for (int i = 0; i < albaLists.size(); i++) {
-
-//			JSONArray timeAr = new JSONArray();
-
-			dto.setAlba_seq(albaLists.get(i).getAlba_seq());
-			
-			if(ts_date == null) {
-				dto.setTs_date(sdf.format(getDate));				
-//				model.addAttribute("today", sdf.format(getDate));
-			}else {
+//		
+//		for (int i = 0; i < albaLists.size(); i++) {
+//
+////			JSONArray timeAr = new JSONArray();
+//
+//			dto.setAlba_seq(albaLists.get(i).getAlba_seq());
+//			
+//			if(ts_date == null) {
+//				dto.setTs_date(sdf.format(getDate));				
+////				model.addAttribute("today", sdf.format(getDate));
+//			}else {
 				dto.setTs_date(ts_date);								
 //				model.addAttribute("today", ts_date);
-			}
+//			}
 
-			List<TimeDto> lists = timeSer.tsList(dto);
-			System.out.println(lists);
-			for (TimeDto tDto : lists) {
-				row = sheet.createRow(rowNo++);
-				cell = row.createCell(0);
-				cell.setCellStyle(bodyStyle);
-				cell.setCellValue(tDto.getTs_seq());
-				cell = row.createCell(1);
-				cell.setCellStyle(bodyStyle);
-				cell.setCellValue(tDto.getAlba_seq());
-				cell = row.createCell(2);
-				cell.setCellStyle(bodyStyle);
-				cell.setCellValue(tDto.getTs_date());
-				cell = row.createCell(3);
-				cell.setCellStyle(bodyStyle);
-				cell.setCellValue(tDto.getTs_datetime());
-				cell = row.createCell(4);
-				cell.setCellStyle(bodyStyle);
-				cell.setCellValue(tDto.getTs_daywork());
-				cell = row.createCell(5);
-				cell.setCellStyle(bodyStyle);
-				cell.setCellValue(tDto.getTs_nightwork());
-			}
-			sheet.autoSizeColumn(i, true);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("store_code", store_code);
+		map.put("ts_date", ts_date);
+		List<TimeDto> lists = timeSer.tsPoiList(map);
+		System.out.println(lists);
+		for (TimeDto tDto : lists) {
+			row = sheet.createRow(rowNo++);
+			cell = row.createCell(0);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(tDto.getTs_seq());
+			cell = row.createCell(1);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(tDto.getTs_date());
+			cell = row.createCell(2);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(tDto.getTs_datetime());
+			cell = row.createCell(3);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(tDto.getTs_daywork());
+			cell = row.createCell(4);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(tDto.getTs_nightwork());
+		}
 			
+//		}
+		
+		
+		for (int i = 0; i < 5; i++) {
+			sheet.autoSizeColumn(i);
+			sheet.setColumnWidth(i, sheet.getColumnWidth(i)+512);
 		}
-		int albaRow = 0;
-		Sheet alba = workBook.createSheet("아르바이트");
-		row = alba.createRow(albaRow++);
-	    cell = row.createCell(0);
-	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("알바 번호");
-	    cell = row.createCell(1);
-	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("이름");
-	    cell = row.createCell(2);
-	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("전화번호");
-	    cell = row.createCell(3);
-	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("주소");
-	    cell = row.createCell(4);
-	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("시급");
-	    cell = row.createCell(5);
-	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("은행명");
-	    cell = row.createCell(6);
-	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("계좌번호");
-	    cell = row.createCell(7);
-	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("퇴사여부");
-	    cell = row.createCell(8);
-	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("근무 시작일");
-	    for (AlbaDto aDto : albaLists) {
-	    	row = alba.createRow(albaRow++);
-	    	cell = row.createCell(0);
-	    	cell.setCellStyle(bodyStyle);
-	    	cell.setCellValue(aDto.getAlba_seq());
-	    	cell = row.createCell(1);
-	    	cell.setCellStyle(bodyStyle);
-	    	cell.setCellValue(aDto.getAlba_name());
-	    	cell = row.createCell(2);
-	    	cell.setCellStyle(bodyStyle);
-	    	cell.setCellValue(aDto.getAlba_phone());
-	    	cell = row.createCell(3);
-	    	cell.setCellStyle(bodyStyle);
-	    	cell.setCellValue(aDto.getAlba_address());
-	    	cell = row.createCell(4);
-	    	cell.setCellStyle(bodyStyle);
-	    	cell.setCellValue(aDto.getAlba_timesal());
-	    	cell = row.createCell(5);
-	    	cell.setCellStyle(bodyStyle);
-	    	cell.setCellValue(aDto.getAlba_bank());
-	    	cell = row.createCell(6);
-	    	cell.setCellStyle(bodyStyle);
-	    	cell.setCellValue(aDto.getAlba_account());
-	    	cell = row.createCell(7);
-	    	cell.setCellStyle(bodyStyle);
-	    	if (aDto.getAlba_delflag().equalsIgnoreCase("Y")) {
-	    		cell.setCellValue("퇴사자");
-	    	}else {
-	    		cell.setCellValue("입사자");
-	    	}
-	    	cell = row.createCell(8);
-	    	cell.setCellStyle(bodyStyle);
-	    	cell.setCellValue(aDto.getAlba_regdate());
-		}
+		
+		
+//		int albaRow = 0;
+//		Sheet alba = workBook.createSheet("아르바이트");
+//		row = alba.createRow(albaRow++);
+//	    cell = row.createCell(0);
+//	    cell.setCellStyle(headStyle);
+//	    cell.setCellValue("알바 번호");
+//	    cell = row.createCell(1);
+//	    cell.setCellStyle(headStyle);
+//	    cell.setCellValue("이름");
+//	    cell = row.createCell(2);
+//	    cell.setCellStyle(headStyle);
+//	    cell.setCellValue("전화번호");
+//	    cell = row.createCell(3);
+//	    cell.setCellStyle(headStyle);
+//	    cell.setCellValue("주소");
+//	    cell = row.createCell(4);
+//	    cell.setCellStyle(headStyle);
+//	    cell.setCellValue("시급");
+//	    cell = row.createCell(5);
+//	    cell.setCellStyle(headStyle);
+//	    cell.setCellValue("은행명");
+//	    cell = row.createCell(6);
+//	    cell.setCellStyle(headStyle);
+//	    cell.setCellValue("계좌번호");
+//	    cell = row.createCell(7);
+//	    cell.setCellStyle(headStyle);
+//	    cell.setCellValue("퇴사여부");
+//	    cell = row.createCell(8);
+//	    cell.setCellStyle(headStyle);
+//	    cell.setCellValue("근무 시작일");
+//	    for (AlbaDto aDto : albaLists) {
+//	    	row = alba.createRow(albaRow++);
+//	    	cell = row.createCell(0);
+//	    	cell.setCellStyle(bodyStyle);
+//	    	cell.setCellValue(aDto.getAlba_seq());
+//	    	cell = row.createCell(1);
+//	    	cell.setCellStyle(bodyStyle);
+//	    	cell.setCellValue(aDto.getAlba_name());
+//	    	cell = row.createCell(2);
+//	    	cell.setCellStyle(bodyStyle);
+//	    	cell.setCellValue(aDto.getAlba_phone());
+//	    	cell = row.createCell(3);
+//	    	cell.setCellStyle(bodyStyle);
+//	    	cell.setCellValue(aDto.getAlba_address());
+//	    	cell = row.createCell(4);
+//	    	cell.setCellStyle(bodyStyle);
+//	    	cell.setCellValue(aDto.getAlba_timesal());
+//	    	cell = row.createCell(5);
+//	    	cell.setCellStyle(bodyStyle);
+//	    	cell.setCellValue(aDto.getAlba_bank());
+//	    	cell = row.createCell(6);
+//	    	cell.setCellStyle(bodyStyle);
+//	    	cell.setCellValue(aDto.getAlba_account());
+//	    	cell = row.createCell(7);
+//	    	cell.setCellStyle(bodyStyle);
+//	    	if (aDto.getAlba_delflag().equalsIgnoreCase("Y")) {
+//	    		cell.setCellValue("퇴사자");
+//	    	}else {
+//	    		cell.setCellValue("입사자");
+//	    	}
+//	    	cell = row.createCell(8);
+//	    	cell.setCellStyle(bodyStyle);
+//	    	cell.setCellValue(aDto.getAlba_regdate());
+//		}
 	    File xlsFile = null;
 	    String pathFinal = excelPath+"\\"+oDto.getStore_code()+"_"+ts_date.replaceAll("-", "_")+"_timesheet.xls";
 	    System.out.println("파일이 저장될 경로 : " + pathFinal);

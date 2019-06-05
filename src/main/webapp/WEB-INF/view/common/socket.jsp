@@ -40,7 +40,7 @@
 		padding: 10px 20px;
 		color: white;
 		background: #0B93F6;
-		border-radius: 25px;
+		border-radius: 15px;
 		float: right;
 	}
 	.from-me:before {
@@ -51,14 +51,14 @@
 		right: -7px;
 		height: 20px;
 		border-right: 20px solid #0B93F6;
-		border-bottom-left-radius: 16px 14px;
+		border-bottom-left-radius: 8px 6px;
 		-webkit-transform: translate(0, -2px);
 	}
 	.form-other{
 		position: relative;
 		padding: 10px 20px;
 		background: #E5E5EA;
-		border-radius: 25px;
+		border-radius: 15px;
 		color: black;
 		float: left;
 	}

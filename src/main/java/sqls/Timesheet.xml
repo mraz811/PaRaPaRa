@@ -15,6 +15,14 @@
 	<result property="store_code" column="STORE_CODE"/>
 </resultMap>
 
+<resultMap type="TimeDto" id="poiResultMap">
+	<result property="ts_seq" column="ALBA_NAME"/>
+	<result property="ts_date" column="TS_DATE"/>
+	<result property="ts_datetime" column="TS_DATETIME"/>
+	<result property="ts_daywork" column="TS_DAYWORK"/>
+	<result property="ts_nightwork" column="TS_NIGHTWORK"/>
+</resultMap>
+
 <!--추후 추가 해야됨!!!!! timeSheet 매장별 조회  -->
 	<select id="tsListAll" parameterType="java.util.Map" resultType="TimeDto">
 		SELECT TS_SEQ, ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DATETIME, TS_DAYWORK, TS_NIGHTWORK, TS_WORKHOUR
@@ -91,6 +99,12 @@
 								    CASE WHEN 0 > (ROUND((to_date(#{ts_end}, 'hh24:mi') - to_date('22:00', 'hh24:mi')) * 24 * 60 / 60 ,1)) THEN 0 
 								   		ELSE ROUND((to_date(#{ts_end}, 'hh24:mi') - to_date('22:00', 'hh24:mi')) * 24 * 60 / 60 ,1) END AS WORKTIME_NIGHT
 								   		FROM DUAL)
+	</select>
+	
+	<select id="tsPoiList" parameterType="java.util.Map" resultMap="poiResultMap">
+		SELECT ALBA_NAME, TS_DATE, TS_DATETIME, TS_DAYWORK, TS_NIGHTWORK
+		FROM TIMESHEET JOIN ALBA USING(ALBA_SEQ) WHERE STORE_CODE = #{store_code} AND TS_DATE = #{ts_date}
+		ORDER BY ALBA_NAME
 	</select>
 	
 	

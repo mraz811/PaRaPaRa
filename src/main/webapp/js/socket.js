@@ -88,7 +88,7 @@ $(document)
 			// 웹소켓 객체를 만들기 위해 매개변수로 url을 넣어 접속할 서버를 지정해준다.
 			// 파라미터로 내 아이디를 보내준다.
 			ws = new WebSocket(
-					"ws://192.168.11.38:8091/PaRaPaRa/wsChat.do?id="
+					"ws://192.168.4.19:8091/PaRaPaRa/wsChat.do?id="
 							+ mySessionId + "&target=" + targetId);
 			ws.binaryType = "arraybuffer";
 			
@@ -116,11 +116,11 @@ $(document)
 					console.log("append가 수행된다.");
 					viewMsg = "<div class='clear'></div>";
 					if (msg.auth == curAuth) {
-						viewMsg += "<div class='form-me'><p>" + msg.view + "</p></div>";
+						viewMsg += "<div class='form-me'><span>" + msg.view + "</span></div>";
 					}else if(msg.auth == "enterChat"){
-						viewMsg += "<div class='enter'><p>" + msg.view + "</p></div>";
+						viewMsg += "<div class='enter'><span>" + msg.view + "</span></div>";
 					}else{
-						viewMsg += "<div class='form-other'><p>" + msg.view + "</p></div>";
+						viewMsg += "<div class='form-other'><span>" + msg.view + "</span></div>";
 					}
 //					alert(viewMsg);
 					
@@ -137,7 +137,7 @@ $(document)
 					url : "./chatContentUpdate.do",
 					type : "post",	
 					//업데이트를 위해 db의 chatmember, content을 보냄
-					data : "chatTitle="+chatTitle+"&content="+allContent,
+					data : "chatTitle="+chatTitle+"&content="+allContent+"&auth="+curAuth,
 					success : function(msg) {
 						var isc = msg;
 						if(isc=="성공"){
@@ -240,6 +240,7 @@ function disconnect() {
 alert("접속 종료 디스커넥트");
 ws.close();
 ws = null;
+history.back(-1);
 }
 
 window.onbeforeunload = function() {
