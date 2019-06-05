@@ -149,7 +149,7 @@ td {
 								</tr>
 
 								<tr>
-									<td colspan="4" style="width: 1017px; height: 200px; border: 1px solid pink; text-align: left; overflow-y: scroll;">
+									<td colspan="4" style="width: 1017px; height: 200px; border: 1px solid lightgray; text-align: left; overflow-y: scroll;">
 										${dto.notice_content}</td>
 								</tr>
 

@@ -1067,7 +1067,7 @@ class TimeTable{    // eslint-disable-line no-unused-vars
      * @return {[type]} [description]
      */
     deleteRow(){
-       /* let shift = this.v.shiftTime;
+        let shift = this.v.shiftTime;
         let refresh = ()=>{this.refreshCanvas();};
         $(document).on("click", ".js-deleteButton",function(){
         	
@@ -1085,7 +1085,7 @@ class TimeTable{    // eslint-disable-line no-unused-vars
                 }
             }
             refresh();
-        });*/
+        });
     }
     /**
      * [deleteRow description]
@@ -1098,7 +1098,7 @@ class TimeTable{    // eslint-disable-line no-unused-vars
         let row = $("<tr></tr>", {class: "js-tdata TimeTable__row"});
         // Create Name Column
 //        $(row).append("<td class=\"TimeTable__name\"><button class=\"deleteRow js-deleteButton\"\">x</button></td>");
-        $(row).append("<td class=\"TimeTable__name\"></td>");
+        $(row).append("<td class=\"TimeTable__name\"><button class=\"deleteRow js-deleteButton\"\">x</button></td>");
         // Craete Table Data
         const COLUMNS = this.c.countColumns(this.v.startTime, this.v.endTime, this.v.divTime);
         for(let j = 0; j < COLUMNS; j++){
@@ -1131,7 +1131,7 @@ class TimeTable{    // eslint-disable-line no-unused-vars
             $(target).find(".js-workTime").remove();
             return;
         }
-//        this.deleteRow();
+        this.deleteRow();
         this.u.refreshWorkTime();
         this.refreshCanvas();
     }
@@ -1415,8 +1415,8 @@ class CanvasT extends CalculationT{
                     left : toolTipToDisplay.x,
                     top : toolTipToDisplay.y + yToMove
                 });
-//            let deleteButton = $("<button class=\"toolTipDelete\">x</button>");
-            let deleteButton = $("");
+            let deleteButton = $("<button class=\"toolTipDelete\">x</button>");
+//            let deleteButton = $("");
             // Add Event to delete bar and also Tool tip
             $(deleteButton).on("click", ()=>{
             	
@@ -1537,7 +1537,7 @@ class CanvasT extends CalculationT{
 //    	alert("선택한 일정이 삭제됩니다");
     	
     	var currentDate = document.getElementById("currentDate").value;
-    	alert(currentDate);
+//    	alert(currentDate);
     	
     	$.ajax({
 			url: "tsDelete.do",

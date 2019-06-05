@@ -53,16 +53,12 @@ function timeSheetDownload() {
 	<form action="#" method="get">
 	<div id ="inputDate">
 	<input type="date" id='currentDate' name="ts_date" value="${today}" onchange="changheDate()">
-<!-- 	<button onclick="changheDate()">날짜 변경</button> -->
 	<input type="button" class="btn btn-secondary" id="download" value="엑셀로 다운로드" onclick="timeSheetDownload()">
 	</div>
 	</form>
 
     <div id="test"></div>
     <div id="timesheet" style="overflow-y: auto; height: 330px;">
-<!--     <button id="addRow">AddRow</button> -->
-<!--     <button id="colorChange">Change Random Color</button> -->
-<!--     <button id="getData">getData</button> -->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/createjs.min.js"></script>
     <script src="js/TimeTable.js"></script>

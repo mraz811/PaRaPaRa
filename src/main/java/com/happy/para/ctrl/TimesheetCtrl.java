@@ -275,9 +275,16 @@ public class TimesheetCtrl {
 			model.addAttribute("month", sdf.format(Month));
 			getMonth = sdf.format(Month);
 		}else {
+			if(getMonth.length()<7) {
+				getMonth = getMonth.replace("-", "-0");
+				System.out.println("getMonth > " + getMonth);
+			}
 			model.addAttribute("month", getMonth);
 			System.out.println("화면에서 가져온 getMonth > "+getMonth);
 		}
+
+		System.out.println("getMonth > "+getMonth);
+		System.out.println("replace한 getMonth > "+getMonth);
 		
 		String getyear = getMonth.substring(0, getMonth.length()-3);
 		String getBeforeMonth = dateM.changeDateFormat(Integer.toString(Integer.parseInt(getMonth.substring(5))-1));
@@ -451,9 +458,9 @@ public class TimesheetCtrl {
 
 			DecimalFormat dc = new DecimalFormat("###,###,###");
 			albaListsAll.get(i).setAlba_delflag(dc.format(salary[i])+""); // delflag에 salary 담아서 화면으로 전달
-			
+
 			}
-		
+
 		return "salary/salaryList";
 		
 	}
