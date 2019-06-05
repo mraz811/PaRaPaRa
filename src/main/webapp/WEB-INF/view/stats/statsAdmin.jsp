@@ -17,6 +17,8 @@
 }
 #statsDiv {
 	position: absolute;
+	width:900px;
+	height:350px;
  	left : 150px;
 	top: 50px;
 }
@@ -24,6 +26,7 @@
 #stats {
 	position: relative;
 	width: 900px;
+	height: 350px;
 	right: 0px;
 }
 
@@ -63,6 +66,7 @@ span{
 	position: absolute;
 	left: 700px;
 }
+
 </style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
@@ -167,7 +171,7 @@ span{
 							function drawChart() {
 								var data = new google.visualization.DataTable(obj.jstr);
 								var options = {
-									title : '업주 수익/지출 통계',
+									title : '업주 수익 통계',
 									hAxis : {
 										titleTextStyle : {
 											fontSize : 18,
@@ -187,7 +191,7 @@ span{
 								};
 								var data2 = new google.visualization.DataTable(obj.jstr2);
 								var options2 = {
-									title : '선택 담당 지역 판매 TOP 5 메뉴 통계',
+									title : '선택 매장 판매 TOP 5 메뉴 통계',
 								};
 								var chart = new google.visualization.ColumnChart(
 										document.getElementById('money'));

@@ -15,8 +15,8 @@
 <title>Insert title here</title>
 <style type="text/css">
 #container {
-	width: 1020px;
-	height: 435px;
+ 	width: 1020px; 
+ 	height: 435px; 
 	position: relative;
 }
 
@@ -65,14 +65,14 @@
 
 #makingList {
 	width: 490px;
-	height: 295px;
+	height: 255px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
 
 #waitingList {
 	width: 490px;
-	height: 295px;
+	height: 255px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
@@ -80,7 +80,7 @@
 #makingDetail {
 	width: 490px;
 	height: 130px;
-	top: 460px;
+	top: 420px;
 	position: absolute;
 }
 
@@ -88,7 +88,7 @@
 	width: 490px;
 	height: 130px;
 	left: 550px;
-	top: 460px;
+	top: 420px;
 	position: absolute;
 }
 #waitMenu,#makeMenu{
@@ -155,8 +155,8 @@
 		height: 110px;
 	}
 	.downBtn,.upBtn{
-		width: 30px;
-		height: 30px;
+		width: 25px;
+		height: 25px;
 		font-size: 10px;
 		font-weight: bold;
 		color: black;
@@ -167,6 +167,15 @@
 	height: 300px;
 	font-size: 40pt;
 	align-content: center;
+}
+
+#choiceView{
+	width: 1020px;
+	height: 300px;
+}
+div.twoDepth{
+	width: 1020px;
+	height: 460px;
 }
 </style>
 </head>
@@ -186,16 +195,16 @@ window.onload = function (){
 		
 			<div class="bodyFrame">
 				<div class="bodyfixed">
-					<div class="oneDepth"><p>주문</p></div>
+					<div class="oneDepth"><p>주　문</p></div>
 					<div class="twoDepth">
 						<ul class="nav nav-tabs">
 							<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#" style="border: 1px solid rgb(21,140,186);"><strong>주문</strong></a></li>
 							<li class="nav-item"><a id="requestlist" class="nav-link" data-toggle="tab" onclick="selRequestList()">주문내역</a></li>
 						</ul>
-						<div id="choiceView" align="center">
-							<input id="sView" class="btn btn-outline-primary" type="button" value="주문현황" onclick="choiceViewStatus('${loginDto.owner_id}','${loginDto.store_code}')"/>
-							<input id="cView" class="btn btn-outline-success" type="button" value="고객주문" onclick="changeViewCustom('${loginDto.store_code}','${loginDto.owner_id}')"/>
-						</div>
+					<div id="choiceView" align="center">
+						<input id="sView" class="btn btn-outline-primary" type="button" value="주문현황" onclick="choiceViewStatus('${loginDto.owner_id}','${loginDto.store_code}')"/>
+						<input id="cView" class="btn btn-outline-success" type="button" value="고객주문" onclick="changeViewCustom('${loginDto.store_code}','${loginDto.owner_id}')"/>
+					</div>
 					<div id="request">
 						<div id="make">
 							<div id="making">
@@ -277,9 +286,6 @@ window.onload = function (){
 					</div>
 				</div>
 			</div>
-	
-		
-		
 		<%@include file="../footer.jsp"%>
 	</div>
 	<div id="custom" style="display: none;">
@@ -318,28 +324,27 @@ window.onload = function (){
 				</div>
 				<div id="resultDiv">
 					<table id="totalCal" class="table">
-						<tr>
-							<th>총금액</th>
+						<tr class="table-info" style="height: 53.6px;">
+							<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;총금액</th>
 							<th>
-								<input id="totalPrice" type="text" class="txt" name="totalMenuPrice" value="0" readonly="readonly" style="text-align: right;">
+								<label id="totalResultPrice" style="width: 85px;">0원</label>
+								<input id="totalPrice" type="hidden" class="txt" name="totalMenuPrice" value="0" readonly="readonly" style="text-align: right;background-color: highlight;width: 70px;">
 							</th>
 						</tr>
 						<tr>
 							<th>
-								<input type="button" class="btn btn-outline-success" value="주문 완료" onclick="customRequest()" />
+								<input style="height: 33px;" type="button" class="btn btn-outline-success" value="주문 완료" onclick="customRequest()" />
 							</th>
 							<th>
-								<input type="button" class="btn btn-outline-warning" value="주문 취소" onclick="cancelRequest()" /> 
+								<input style="height: 33px;" type="button" class="btn btn-outline-warning" value="주문 취소" onclick="cancelRequest()" /> 
 							</th>
 						</tr>
 					</table>
 				</div>
 			</form>
-			<div><!-- 고객 주문 화면에서는 SEOUL01_06 이 아이디 -->
-				<input type="hidden" id="nick" value="${loginDto.store_code}"/>
-				<input type="hidden" id="targetId" value="${loginDto.owner_id}"/>
-			</div>
 		</div>
 	</div><!-- 고객 주문 -->
+	<input type="hidden" id="targetId" value="${loginDto.owner_id}"/>
+	<input type="hidden" id="nick" value="${loginDto.store_code}"/>
 </body>
 </html>
