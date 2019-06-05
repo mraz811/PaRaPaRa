@@ -22,6 +22,11 @@
 	left: 450px;
 	position: absolute;
 }
+#card4{
+	top: 284px;
+	left: 450px;
+	position: absolute;
+}
 </style>
 </head>
 <body>
@@ -92,10 +97,45 @@
 				</div>
 			</div>
 			
+			<div class="card" id="card4">
+				<div class="card-body">
+    			<h4 class="card-title">발주 바로가기</h4>
+    			<h6 class="card-subtitle mb-2 text-muted">발주 조회 바로가기</h6>
+     			<br>
+    			<a href="./selAdminPaoList.do" class="card-link">발주 조회하러 가기 &lt;'-'&gt;</a>
+				</div>
+			</div>
+			
 			</c:if>
 			
 			<c:if test="${loginDto.auth eq 'U' }">
-				<jsp:forward page="/selRequestStatus.do"/>
+<%-- 				<jsp:forward page="/selRequestStatus.do"/> --%>
+			<div class="card">
+				<div class="card-body">
+    			<h4 class="card-title">공지사항</h4>
+    			<h6 class="card-subtitle mb-2 text-muted">업주 공지사항</h6>
+     			<br>
+    			<a href="./selNoticeList.do" class="card-link">공지사항 확인하러 가기!</a>
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="card-body">
+    			<h4 class="card-title">주문/고객주문 바로가기</h4>
+    			<h6 class="card-subtitle mb-2 text-muted"> </h6>
+     			<br>
+    			<a href="./selRequestStatus.do" class="card-link">주문 바로가기</a>
+				</div>
+			</div>
+			
+			<div class="card" id="card3">
+				<div class="card-body">
+    			<h4 class="card-title">발주 바로가기</h4>
+    			<h6 class="card-subtitle mb-2 text-muted">발주 리스트</h6>
+     			<br>
+    			<a href="./selPaoList.do" class="card-link">발주리스트 조회하러 가기 &lt;'-'&gt;</a>
+				</div>
+			</div>
 			</c:if>
 			
 			
