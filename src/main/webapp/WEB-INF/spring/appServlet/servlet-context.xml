@@ -55,6 +55,7 @@
 			<mvc:mapping path="/superStats.do"/>
 			<mvc:mapping path="/adminStats.do"/>
 			<!-- 업주 -->
+			<mvc:mapping path="/selRequestStatus.do"/>
 			<mvc:mapping path="/selRequestList.do"/>
 			<mvc:mapping path="/ownerAllMenuList.do"/>
 			<mvc:mapping path="/ownerMenuList.do"/>

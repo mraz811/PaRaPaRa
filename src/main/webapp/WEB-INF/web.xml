@@ -47,7 +47,11 @@
 	</error-page>
 	<error-page>
 		<error-code>400</error-code>
-		<location>/WEB-INF/view/error/400error.jpg</location>
+		<location>/WEB-INF/view/error/400error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/view/error/404error.jsp</location>
 	</error-page>
 
 	<filter>
