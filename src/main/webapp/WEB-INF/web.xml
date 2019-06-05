@@ -41,6 +41,15 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/view/error/myers.jpg</location>
+	</error-page>
+	<error-page>
+		<error-code>400</error-code>
+		<location>/WEB-INF/view/error/400error.jpg</location>
+	</error-page>
+
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

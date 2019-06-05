@@ -34,13 +34,45 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/main.do"/>
+			<mvc:mapping path="/selNoticeList.do"/>
+			<mvc:mapping path="/selNoticeDetail.do"/>
+			<mvc:mapping path="/regiNoticeForm.do"/>
+			<mvc:mapping path="/selAdminList.do"/>
+			<mvc:mapping path="/selOwnerList.do"/>
+			<mvc:mapping path="/adminRegiForm.do"/>
+			<mvc:mapping path="/ownerRegiForm.do"/>
+			<mvc:mapping path="/pwCheckForm.do"/>
+			<mvc:mapping path="/toMypage.do"/>
+			<mvc:mapping path="/adminAllMenuList.do"/>
+			<mvc:mapping path="/menuRegiForm.do"/>
+			<mvc:mapping path="/selStoreList.do"/>
+			<mvc:mapping path="/regiStoreForm.do"/>
+			<mvc:mapping path="/selAdminPaoList.do"/>
+			<mvc:mapping path="/selItemList.do"/>
+			<mvc:mapping path="/regItem.do"/>
+			<mvc:mapping path="/itemModiForm.do"/>
+			<mvc:mapping path="/chatList.do"/>
+			<mvc:mapping path="/superStats.do"/>
+			<mvc:mapping path="/adminStats.do"/>
+			<!-- 업주 -->
+			<mvc:mapping path="/selRequestList.do"/>
+			<mvc:mapping path="/ownerAllMenuList.do"/>
+			<mvc:mapping path="/ownerMenuList.do"/>
+			<mvc:mapping path="/selCal.do"/>
+			<mvc:mapping path="/selPaoList.do"/>
+			<mvc:mapping path="/paoRequestOpen.do"/>
+			<mvc:mapping path="/selStockOne.do"/>
+			<mvc:mapping path="/selTimeSheet.do"/>
+			<mvc:mapping path="/selAlbaList.do"/>
+			<mvc:mapping path="/salary.do"/>
+			<mvc:mapping path="/ownerStats.do"/>
 			<bean class="com.happy.para.interceptor.Interceptor"/>
 		</mvc:interceptor>
 	
 		<!-- 브라우저의 back 이동 페이지의 작동을 하지 못하도록 브라우저 캐쉬를 삭제 (뒤로가기 막기) -->
 		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
-		<!-- 실수로 뒤로 눌렀다가 다시 돌아가고 싶을 때를 위해 5초 정도 캐시 유지 후 삭제. -->
-			<property name="cacheSeconds" value="5"></property>
+		<!-- 실수로 뒤로 눌렀다가 다시 돌아가고 싶을 때를 위해 1초 정도 캐시 유지 후 삭제. -->
+			<property name="cacheSeconds" value="0"></property>
 			<property name="useExpiresHeader" value="true"></property>
 			<property name="useCacheControlHeader" value="true"></property>
 			<property name="useCacheControlNoStore" value="true"></property>
@@ -48,8 +80,7 @@
 			<!-- 캐시 삭제와 별개로  캐시를 삭제하지 않고 유지시킴 ex) 이미지, 동영상 -->
 			<property name="cacheMappings">
 				<props>
-					<!-- 캐시를 제어할 webapp의 위치 , 시간 60초, 60분 24시 = 86400 하루동안 유지 -->
-					<prop key="/image/**">86400</prop>
+					<prop key="/view/member/**">86400</prop>
 				</props>
 			</property>
 		</bean>
