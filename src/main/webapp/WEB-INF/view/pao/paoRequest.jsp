@@ -229,7 +229,7 @@
 		noListTr.style.display = "none";
 		
 		pbody.appendChild(newTr).innerHTML = "<td width='60px;'>" +
-												"<input type='hidden' name='item_seq' value='"+itemSeq+"'>" +
+												"<input type='hidden' name='item_seqs' value='"+itemSeq+"'>" +
 												"<input type='text' class='txt' name='pi_seq' value='"+piSeq+"' style='width:58px;' readonly='readonly'>" +
 											  "</td>" +
 											  "<td width='300px;'>" +
@@ -322,7 +322,7 @@
 		var piQtys = new Array();	// 발주 품목에 추가된 품목 각각의 갯수를 담을 배열
 		
 		for (var i = 0; i < piSeqs; i++) {
-			itemSeqs[i] = document.getElementsByName("item_seq")[i].value;	// 재고번호 입력
+			itemSeqs[i] = document.getElementsByName("item_seqs")[i].value;	// 재고번호 입력
 			piQtys[i] = document.getElementsByName("pi_qty")[i].value;	// 갯수 입력
 			
 			// 발주 품목 중 수량이 0인 품목이 있을 때
@@ -336,7 +336,7 @@
 				return false;
 			}
 		}
-		
+		alert("웃지마세요 : " + itemSeqs);
 		if(piSeqs == 0){	// 발주할 품목이 존재하지 않을 때
 			alert("발주하실 품목을 선택해 주세요!");	
 			return false;
