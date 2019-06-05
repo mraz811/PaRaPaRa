@@ -6,8 +6,21 @@
 <meta charset="UTF-8">
 <title>PaRaPaRa</title>
 <style type="text/css">
+.tab-content{
+	width: 1020px;
+	height: 400px;
+	display: inline-block;
+}
 .card{
-	margin-top: 10px;
+	width: 400px;
+	height: 150px;
+	margin-top: 20px;
+	display: inline-block;
+}
+#card3{
+	top: 114px;
+	left: 450px;
+	position: absolute;
 }
 </style>
 </head>
@@ -18,7 +31,6 @@
 	<div class="bodyfixed">
 		<div class="oneDepth">
 			<!-- oneDepth에 적힐 내용이 들어감 ex)매장관리 -->
-			
 			
 		</div> <!-- div class=oneDepth -->
 		<div class="twoDepth">
@@ -36,18 +48,17 @@
 				<div class="card-body">
     			<h4 class="card-title">공지사항</h4>
     			<h6 class="card-subtitle mb-2 text-muted">담당자 공지사항</h6>
-    			<p class="card-text">새로운 공지사항이 있는지 확인하러 가기!</p>
-    			<a href="./selNoticeList.do" class="card-link">여기를 클릭하세요</a>
-    			<a href="#" class="card-link">Another link</a>
+    			<br>
+    			<a href="./selNoticeList.do" class="card-link">공지사항 확인하러 가기!</a>
 				</div>
 			</div>
 
 			<div class="card">
 				<div class="card-body">
-    			<h4 class="card-title">담당자 등록 바로가기</h4>
-    			<h6 class="card-subtitle mb-2 text-muted">메인에 뭐넣지</h6>
-    			<p class="card-text">메인에 뭐넣을지 다같이 고민좀 해봅시다. 일단 담당자 등록~ 바로가기~ &lt;'-'&gt;</p>
-    			<a href="./adminRegiForm.do" target="_blank" class="card-link">담당자 등록</a>
+    			<h4 class="card-title">담당자 등록</h4>
+    			<h6 class="card-subtitle mb-2 text-muted"> 담당자 등록 바로가기~ &lt;'-'&gt;</h6>
+    			<br>
+    			<a href="#" onclick="toAdminRegi()" class="card-link">여기를 클릭하세요</a>
 				</div>
 			</div>
 			</c:if>
@@ -57,35 +68,34 @@
 				<div class="card-body">
     			<h4 class="card-title">공지사항</h4>
     			<h6 class="card-subtitle mb-2 text-muted">담당자 공지사항</h6>
-    			<p class="card-text">새로운 공지사항이 있는지 확인하러 가기!</p>
-    			<a href="./selNoticeList.do" class="card-link">여기를 클릭하세요</a>
-    			<a href="#" class="card-link">Another link</a>
+     			<br>
+    			<a href="./selNoticeList.do" class="card-link">공지사항 확인하러 가기!</a>
 				</div>
 			</div>
 
 			<div class="card">
 				<div class="card-body">
     			<h4 class="card-title">매장/업주 등록 바로가기</h4>
-    			<h6 class="card-subtitle mb-2 text-muted"> </h6>
-    			<p class="card-text">매장 등록 / 업주 등록 바로가기 &lt;'-'&gt;</p>
+    			<h6 class="card-subtitle mb-2 text-muted">매장/업주 등록 바로가기 </h6>
+     			<br>
     			<a href="#" onclick="insertStore()" class="card-link">매장 등록</a>
     			<a href="#" onclick="toOwnerRegi()" class="card-link">업주 등록</a>
 				</div>
 			</div>
 			
-			<div class="card" style="float: right; position: relative;">
+			<div class="card" id="card3">
 				<div class="card-body">
     			<h4 class="card-title">메뉴 등록 바로가기</h4>
-    			<h6 class="card-subtitle mb-2 text-muted"></h6>
-    			<p class="card-text">신메뉴 등록하러 가기~ &lt;'-'&gt;</p>
-    			<a href="#" onclick="regiMenu()" class="card-link">신메뉴 등록</a>
+    			<h6 class="card-subtitle mb-2 text-muted">신메뉴 등록 바로가기</h6>
+     			<br>
+    			<a href="#" onclick="regiMenu()" class="card-link">신메뉴 등록하러 가기 &lt;'-'&gt;</a>
 				</div>
 			</div>
 			
 			</c:if>
 			
 			<c:if test="${loginDto.auth eq 'U' }">
-				<jsp:forward page="/selNoticeList.do"/>
+				<jsp:forward page="/selRequestStatus.do"/>
 			</c:if>
 			
 			
@@ -102,6 +112,12 @@
 </div> <!-- div id=container -->
 </body>
 <script type="text/javascript">
+
+// 담당자 등록 폼
+var toAdminRegi = function(){
+	window.open("./adminRegiForm.do","담당자 등록", 
+			"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=300");
+};
 
 // 업주 등록
 var toOwnerRegi = function(){
