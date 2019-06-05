@@ -78,11 +78,16 @@ function minus(el) {
 	//document.getElementsByName("pi_qty")[0].value = new Number(su) - 1;
 	//alert($('.downBtn').index(el));
 	var idx = $('.downBtn').index(el);
-	if($(".menu_cnt:eq("+idx+")").val() < 1){
+	if($(".menu_cnt:eq("+idx+")").val() < 2){
 		return false;
 	}
 	var su = $(".menu_cnt:eq("+idx+")").val();
 	su = $(".menu_cnt:eq("+idx+")").val(su*1-1); 
+	
+	$(".htmlCnt:eq("+idx+")").html($(".menu_cnt:eq("+idx+")").val()); 
+	if($(".htmlCnt:eq("+idx+")").html()<1){
+		return false;
+	}
 	// 합계금액을 변경
 	var price = Number(document.getElementsByName("oneMenu_price")[idx].value);
 	var sumPrice = Number(document.getElementsByName("sumMenu_price")[idx].value);
@@ -269,6 +274,7 @@ function customRequest() { //requestSocket.js 에서 실행 시킬꺼임
 			swal(response.success);
 			document.getElementById("mBody").innerHTML = "";
 			document.getElementsByName("totalMenuPrice")[0].value = "0";
+			$("#totalResultPrice").html("");
 			request_seq = response.rDto.request_seq;
 			rnum = response.rDto.rnum;
 			var message = "";
@@ -292,5 +298,5 @@ function cancelRequest(){
 	$('input[name=totalMewnuQty]').val("0");
 	$('input[name=totalMenuPrice]').val("0");
 	
-	$("#totalResultPrice").html("");
+	$("#totalResultPrice").html("0원");
 }
