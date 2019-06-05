@@ -50,7 +50,7 @@
 		</div>
 		<hr>
 		<div align="right">
-			<a href="./findPwForm.do">비밀번호 찾기</a>
+			<a href="#" onclick="toFindPw()">비밀번호 찾기</a>
 		</div>
 	</form>
 
@@ -61,6 +61,12 @@
 </body>
 
 <script type="text/javascript">
+
+var toFindPw = function(){
+	window.open("./findPwForm.do","비밀번호 찾기", 
+	"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=300");
+	
+}
 
 function enterkey() {
     if (window.event.keyCode == 13) {
