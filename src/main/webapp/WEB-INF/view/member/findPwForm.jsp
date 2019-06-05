@@ -31,7 +31,7 @@
 	<form id="findPwForm" action="./findPw.do" method="post" onsubmit="return chkVal()">
 		<h3 align="center">비밀번호 찾기</h3>
 	<div id="paraPhoto">
-			<a href="loginForm.do">
+			<a href="#">
 				<img alt="parapara_logo" src="./imgs/logo2.jpg" class="logoImg" >
 			</a>
 		</div>
