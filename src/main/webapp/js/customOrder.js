@@ -92,10 +92,14 @@ function minus(el) {
 	document.getElementsByName("sumMenu_price")[idx].value = sumPrice;
 	document.getElementsByName("menu_price")[idx].value = sumPrice;
 	
+	document.getElementsByClassName("htmlPrice")[idx].innerHTML = sumPrice+"원";
+	
 	// 발주 품목에서 - 버튼을 누를 때 총 금액 값 변경
 	var totalMenuPrice = Number($('input[name=totalMenuPrice]').val());
 	totalMenuPrice -= Number(price);
 	$('input[name=totalMenuPrice]').val(totalMenuPrice);
+	
+	$("#totalResultPrice").html(totalMenuPrice+"원");
 	
 }
 //선택 메뉴 수량 추가해줌
@@ -106,6 +110,10 @@ function plus(el) {
 	var idx = $('.upBtn').index(el);
 	var su = $(".menu_cnt:eq("+idx+")").val();
 	su = $(".menu_cnt:eq("+idx+")").val(su*1+1); 
+	
+	
+	$(".htmlCnt:eq("+idx+")").html($(".menu_cnt:eq("+idx+")").val()); 
+	
 	// 합계금액을 변경
 	var price = Number(document.getElementsByName("oneMenu_price")[idx].value);
 	var sumPrice = Number(document.getElementsByName("sumMenu_price")[idx].value);
@@ -115,10 +123,16 @@ function plus(el) {
 	document.getElementsByName("sumMenu_price")[idx].value = sumPrice;
 	document.getElementsByName("menu_price")[idx].value = sumPrice;
 	
+	document.getElementsByClassName("htmlPrice")[idx].innerHTML = sumPrice+"원";
+	
+	
+	
 	// 메뉴 목록에서 추가 버튼을 누를 때 총 금액 값 변경
 	var totalMenuPrice = Number($('input[name=totalMenuPrice]').val());
 	totalMenuPrice += Number(price);
 	$('input[name=totalMenuPrice]').val(totalMenuPrice);
+	
+	$("#totalResultPrice").html(totalMenuPrice+"원");
 }
 function addMenu(menu){ // requestSocket.js에서 실행시킬꺼임
 	
@@ -147,27 +161,30 @@ function addMenu(menu){ // requestSocket.js에서 실행시킬꺼임
     
     var mBody = document.getElementById("mBody");
     
-	mBody.appendChild(newTr).innerHTML = "<td>"
+	mBody.appendChild(newTr).innerHTML = "<th>"
 											+"<img style=\"width:80px;heigth:80px;\" src=\""+file_rurl+"\" alt=\"\"/>"
-										+"</td>"
-										+"<td>"
+										+"</th>"
+										+"<th style=\"text-align: center;width: 140px;\">"
 											+"<input type=\"hidden\" name=\"newTr_id\" value=\""+newTr_id+"\"/>"
 											+"<input type=\"hidden\" name=\"menu_seq\" value=\""+menu_seq+"\"/>"
-											+"<input style=\"text-align: center;\" type=\"text\" name=\"menu_name\" value=\""+menu_name+"\"/>"
-										+"</td>"
-										+"<td>"
+											+"<input style=\"text-align: center;\" type=\"hidden\" name=\"menu_name\" value=\""+menu_name+"\"/>"
+											+""+menu_name+""
+										+"</th>"
+										+"<th>"
 											+"<input type=\"button\" class=\"upBtn\" value=\"추가\" onclick=\"plus(this)\">"
-											+"<input style=\"width:40px;text-align: right;\" type=\"text\" class=\"menu_cnt\" name=\"menu_cnt\" value=\""+menu_qty+"\"/>"
+											+"<input style=\"width:40px;text-align: right;\" type=\"hidden\" class=\"menu_cnt\" name=\"menu_cnt\" value=\""+menu_qty+"\"/>"
+											+"&nbsp;&nbsp;&nbsp;<span class=\"htmlCnt\">"+menu_qty+"</span>&nbsp;&nbsp;&nbsp;"
 											+"<input type=\"button\" class=\"downBtn\" value=\"빼기\" onclick=\"minus(this)\">"
-										+"</td>"
-										+"<td>"
-											+"<input style=\"width:60px;text-align: right;\" type=\"text\" name=\"menu_price\" value=\""+menu_price+"\"/>"
+										+"</th>"
+										+"<th style=\"text-align: center;width: 100px;\">"
+										+"<span class=\"htmlPrice\">"+menu_price+"원"+"</span>"
+											+"<input style=\"width:60px;text-align: right;\" type=\"hidden\" name=\"menu_price\" value=\""+menu_price+"\"/>"
 											+"<input type='hidden'  name='sumMenu_price' value='"+sum_price+"' readonly='readonly'>" 
 											+"<input type='hidden'  name='oneMenu_price' value='"+menu_price+"' readonly='readonly'>" 
-										+"</td>"
-										+"<td>" 
+										+"</th>"
+										+"<th>" 
 									  		+"<input class=\"btn btn-outline-warning\" type='button' name='delBtn' value='삭제'  onclick='delChoice(this, \""+newTr_id+"\")'>" 
-									  	+"</td>";
+									  	+"</th>";
 	
 	
 	// 메뉴 목록에서 추가 버튼을 누를 때 총 금액 값 변경
@@ -175,6 +192,7 @@ function addMenu(menu){ // requestSocket.js에서 실행시킬꺼임
 	totalMenuPrice += Number(menu_price);
 	$('input[name=totalMenuPrice]').val(totalMenuPrice);
 	
+	$("#totalResultPrice").html(totalMenuPrice+"원");
 	
 }
 //선택 메뉴에서 해당 메뉴 삭제를 했을 때 빼줌
@@ -190,6 +208,8 @@ function delChoice(line, lineId) {
 	var totalMenuPrice = Number($('input[name=totalMenuPrice]').val());
 	totalMenuPrice -= Number(menuPrice);
 	$('input[name=totalMenuPrice]').val(totalMenuPrice);
+	
+	$("#totalResultPrice").html(totalMenuPrice+"원");
 	
 	
 	// 선택 메뉴 에서 해당 메뉴를 삭제
@@ -271,4 +291,6 @@ function cancelRequest(){
 	document.getElementById("mBody").innerHTML = "";
 	$('input[name=totalMewnuQty]').val("0");
 	$('input[name=totalMenuPrice]').val("0");
+	
+	$("#totalResultPrice").html("");
 }

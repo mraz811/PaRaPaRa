@@ -72,6 +72,7 @@ span{
 	position: absolute;
 	left: 700px;
 }
+
 </style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
@@ -169,7 +170,7 @@ span{
 							function drawChart() {
 								var data = new google.visualization.DataTable(obj.jstr);
 								var options = {
-									title : '담당 매장 수익/지출 통계',
+									title : '담당 매장 수익 통계',
 									hAxis : {
 										titleTextStyle : {
 											fontSize : 18,
