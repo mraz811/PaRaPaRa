@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>재고 목록</title>
 <style type="text/css">
 
 .table {
@@ -63,7 +63,7 @@
         
         // 숫자, BackSpace(8), delete(46)를 입력했을 때
        	if( ((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 문자 및 특수문자, 스페이스바를 입력했을 때
-        	alert("숫자만 입력해주세요!!");
+        	alert("숫자만 입력해주세요.");
     		$(el).val(stockQty.substring(0, stockQty.length-1));
         }
         if(stockQty > 99999){
@@ -123,19 +123,22 @@
 								<c:forEach var="dto" items="${lists}" varStatus="vs">
 										<tr>
 											<td style="width:45px; text-align: center;">${vs.count}</td>
-											<td style="width:245px; padding-left:80px;">
+											<td style="width:245px; padding-left:120px;">
 												<input type="hidden" name="Slists[${vs.count}].stock_seq" value="${dto.stock_seq}" />
 												<input type="hidden" name="Slists[${vs.count}].stock_name" value="${dto.stock_name}" readonly="readonly"
 													style="border:none; background-color: none;" />
 												${dto.stock_name}
 											</td>
-											<td style="width:253px; padding-left:25px;">
+											<td style="width:220px; padding-left:140px;">
 												<input type="number" min="0" class="stockQty" name="Slists[${vs.count}].stock_qty" value="${dto.stock_qty}" readonly="readonly"  onkeyup="changeQty(this)"/>
 											</td>
 											<c:if test="${empty dto.item_name}">
-												<td>
-													<input type="button" onclick="location.href='./delStock.do?stock_seq=${dto.stock_seq}&store_code=${store_code}'" value="삭제" />
+												<td style="width:100px; padding-left: 0px;">
+													<input type="button" class="btn btn-outline-warning" onclick="location.href='./delStock.do?stock_seq=${dto.stock_seq}&store_code=${store_code}'" value="삭제" />
 												</td>
+											</c:if>
+											<c:if test="${!empty dto.item_name}">
+												<td style="width:100px;"></td>
 											</c:if>
 	
 										</tr>										

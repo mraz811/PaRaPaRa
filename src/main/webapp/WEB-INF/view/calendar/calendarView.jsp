@@ -70,9 +70,9 @@
 
 						<div id="calAll">
 							<div id="menu">
-								<button id="prev">◀</button>
-								<a id="now"></a>
-								<button id="next">▶</button>
+								<a href="#" id="prev">◀</a>
+								<span style="font-size:20px; color:rgb(21,140,186); margin-bottom:1px;" id="now"></span>
+								<a href="#" id="next">▶</a>
 							</div>
 								
 							<div id="cal">
@@ -234,8 +234,7 @@
 	  
 	  // 달력 시작일 설정
 	  //calendar.setDate(new Date('2019-05-01 10:00'));
-	  $("#now").html("<b>"+(calendar.getDate().getFullYear())+"년 "+(calendar.getDate().getMonth()+1)+"월</b>");
-	  
+	  $("#now").html("<b style='font-size:20px; color:rgb(21,140,186); margin-bottom:1px;'>"+(calendar.getDate().getFullYear())+"년 "+(calendar.getDate().getMonth()+1)+"월</b>");
 	  
 	// 스케쥴 생성
 		calendar.on('beforeCreateSchedule',function(schedule){		
