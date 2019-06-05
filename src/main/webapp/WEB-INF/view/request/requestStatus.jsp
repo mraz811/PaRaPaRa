@@ -327,16 +327,16 @@ window.onload = function (){
 						<tr class="table-info" style="height: 53.6px;">
 							<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;총금액</th>
 							<th>
-								<label id="totalResultPrice" style="width: 85px;"></label>
+								<label id="totalResultPrice" style="width: 85px;">0원</label>
 								<input id="totalPrice" type="hidden" class="txt" name="totalMenuPrice" value="0" readonly="readonly" style="text-align: right;background-color: highlight;width: 70px;">
 							</th>
 						</tr>
 						<tr>
 							<th>
-								<input type="button" class="btn btn-outline-success" value="주문 완료" onclick="customRequest()" />
+								<input style="height: 33px;" type="button" class="btn btn-outline-success" value="주문 완료" onclick="customRequest()" />
 							</th>
 							<th>
-								<input type="button" class="btn btn-outline-warning" value="주문 취소" onclick="cancelRequest()" /> 
+								<input style="height: 33px;" type="button" class="btn btn-outline-warning" value="주문 취소" onclick="cancelRequest()" /> 
 							</th>
 						</tr>
 					</table>
