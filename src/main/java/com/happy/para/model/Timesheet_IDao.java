@@ -33,4 +33,6 @@ public interface Timesheet_IDao {
 	// 급여 계산을 위한 근무시간 분배
 	public TimeDto salaryView(Map<String, String> map);
 	
+	// poi 다운로드를 위한 일별 근무시간 조회
+	public List<TimeDto> tsPoiList(Map<String, String> map);
 }

@@ -55,4 +55,9 @@ public class Timesheet_ServiceImpl implements Timesheet_IService {
 		return timeDao.salaryView(map);
 	}
 
+	@Override
+	public List<TimeDto> tsPoiList(Map<String, String> map) {
+		return timeDao.tsPoiList(map);
+	}
+
 }

@@ -59,6 +59,11 @@ public class Timesheet_DaoImpl implements Timesheet_IDao {
 	public TimeDto salaryView(Map<String, String> map) {
 		return sqlSession.selectOne("para.timesheet.salaryView", map);
 	}
+
+	@Override
+	public List<TimeDto> tsPoiList(Map<String, String> map) {
+		return sqlSession.selectList("para.timesheet.tsPoiList", map);
+	}
 	
 	
 }

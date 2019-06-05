@@ -82,7 +82,7 @@ public class MySocketHandler extends TextWebSocketHandler{
 				WebSocketDto dto = map.get(initMsg);
 				System.out.println("WebSocketDto : " + dto);
 				// Json 타입에 key를 "view", value를 접속한 사람의 id를 포함한 환영 메시지를 저장
-				rstJson.put("view", "<font color='green' size='4px'>" + initMsg + "님이 입장하였습니다. </font>");
+				rstJson.put("view", "");
 				// Json 타입에 key를 "auth", value를 사용자들이 채팅을 입력하는 것과 구분하기 위해 특정지은 값 "enterCht"으로 저장
 				rstJson.put("auth", "enterChat");
 				
