@@ -2,7 +2,6 @@ package com.happy.para.ctrl;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +15,6 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,7 +26,6 @@ import com.happy.para.dto.RequestDto;
 import com.happy.para.model.Menu_IService;
 import com.happy.para.model.Request_IService;
 
-import net.sf.json.JSON;
 
 @Controller
 public class RequestCtrl {
@@ -288,7 +284,7 @@ public class RequestCtrl {
 		System.out.println("주문 제조중 상세 : " + rDto);
 		return json;
 	}
-	// 업주 : 주문 현황 페이지, 주문 내역에서 셀렉트 박스 골라도 여기로 옴
+	// 업주 : 주문 현황 페이지, 고객주문,주문 내역에서 셀렉트 박스 골라도 여기로 옴
 		@RequestMapping(value = "/selRequestStatus.do", method = RequestMethod.GET)
 		public String requestListStatus(HttpSession session, Model model) {
 
@@ -374,12 +370,40 @@ public class RequestCtrl {
 				System.out.println("ccccccccccccccccccccccccccccccccccc");
 
 			}
+			
 			String menu_category = "주메뉴";
-			MenuDto dto = new MenuDto();
-			dto.setMenu_category(menu_category);
-			List<MenuDto> lists = menu_IService.allMenu(dto);
-			System.out.println("전체 메뉴 조회 : " + lists);
-			model.addAttribute("menuList", lists);
+			
+			if (session.getAttribute("owner_menu") == null) {
+				System.out.println("loginDto 세션에 값 있을때");
+				String owner_menu = oDto.getOwner_menu();
+				String[] menu_seq = new String[owner_menu.split(",").length];
+				for (int i = 0; i < owner_menu.split(",").length; i++) {
+					menu_seq[i] = owner_menu.split(",")[i];
+					System.out.print(owner_menu.split(",")[i]);
+				}
+				System.out.println("길이" + owner_menu.split(",").length);
+				Map<String, Object> ownerMap = new HashMap<String, Object>();
+				ownerMap.put("menu_seq_", menu_seq);
+				ownerMap.put("menu_category", menu_category);
+				List<MenuDto> lists = menu_IService.ownerMenuList(ownerMap);
+				System.out.println("업주가 선택한 메뉴 : " + lists.toString());
+				model.addAttribute("menuList", lists);
+			} else {
+				System.out.println("owner_menu 세션에 값 있을때");
+				String owner_menu = (String) session.getAttribute("owner_menu");
+				String[] menu_seq = new String[owner_menu.split(",").length];
+				for (int i = 0; i < owner_menu.split(",").length; i++) {
+					menu_seq[i] = owner_menu.split(",")[i];
+					System.out.print(owner_menu.split(",")[i]);
+				}
+				System.out.println("길이" + owner_menu.split(",").length);
+				Map<String, Object> ownerMap = new HashMap<String, Object>();
+				ownerMap.put("menu_seq_", menu_seq);
+				ownerMap.put("menu_category", menu_category);
+				List<MenuDto> lists = menu_IService.ownerMenuList(ownerMap);
+				System.out.println("업주가 선택한 메뉴 : " + lists.toString());
+				model.addAttribute("menuList", lists);
+			}
 
 			model.addAttribute("waitLists", waitLists);
 			model.addAttribute("makeLists", makeLists);
@@ -682,26 +706,82 @@ public class RequestCtrl {
 	
 	//고객 주문 화면
 	@RequestMapping(value = "/customAllMenuList.do", method = RequestMethod.GET)
-	public String customMenuList(Model model) {
+	public String customMenuList(HttpSession session,Model model) {
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
 		String menu_category = "주메뉴";
-		MenuDto dto = new MenuDto();
-		dto.setMenu_category(menu_category);
-		List<MenuDto> lists = menu_IService.allMenu(dto);
-		System.out.println("전체 메뉴 조회 : " + lists);
-		model.addAttribute("menuList", lists);
+		
+		if (session.getAttribute("owner_menu") == null) {
+			System.out.println("loginDto 세션에 값 있을때");
+			String owner_menu = oDto.getOwner_menu();
+			String[] menu_seq = new String[owner_menu.split(",").length];
+			for (int i = 0; i < owner_menu.split(",").length; i++) {
+				menu_seq[i] = owner_menu.split(",")[i];
+				System.out.print(owner_menu.split(",")[i]);
+			}
+			System.out.println("길이" + owner_menu.split(",").length);
+			Map<String, Object> ownerMap = new HashMap<String, Object>();
+			ownerMap.put("menu_seq_", menu_seq);
+			ownerMap.put("menu_category", menu_category);
+			List<MenuDto> lists = menu_IService.ownerMenuList(ownerMap);
+			System.out.println("업주가 선택한 메뉴 : " + lists.toString());
+			model.addAttribute("menuList", lists);
+		} else {
+			System.out.println("owner_menu 세션에 값 있을때");
+			String owner_menu = (String) session.getAttribute("owner_menu");
+			String[] menu_seq = new String[owner_menu.split(",").length];
+			for (int i = 0; i < owner_menu.split(",").length; i++) {
+				menu_seq[i] = owner_menu.split(",")[i];
+				System.out.print(owner_menu.split(",")[i]);
+			}
+			System.out.println("길이" + owner_menu.split(",").length);
+			Map<String, Object> ownerMap = new HashMap<String, Object>();
+			ownerMap.put("menu_seq_", menu_seq);
+			ownerMap.put("menu_category", menu_category);
+			List<MenuDto> lists = menu_IService.ownerMenuList(ownerMap);
+			System.out.println("업주가 선택한 메뉴 : " + lists.toString());
+			model.addAttribute("menuList", lists);
+		}
 		return "customRequest";
 	}
 
 	// 고객 : 카테고리 버튼 눌럿을때
 	@RequestMapping(value = "/CselAllMenuList.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject CallMenu(String menu_category) {
-		MenuDto dto = new MenuDto();
-		dto.setMenu_category(menu_category);
-		List<MenuDto> lists = menu_IService.allMenu(dto);
-		System.out.println("전체 메뉴 조회 : " + lists);
+	public JSONObject CallMenu(HttpSession session,String menu_category) {
+		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
 		JSONObject json = null;
-		json = objectJson(lists);
+		if (session.getAttribute("owner_menu") == null) {
+			System.out.println("loginDto 세션에 값 있을때");
+			String owner_menu = oDto.getOwner_menu();
+			String[] menu_seq = new String[owner_menu.split(",").length];
+			for (int i = 0; i < owner_menu.split(",").length; i++) {
+				menu_seq[i] = owner_menu.split(",")[i];
+				System.out.print(owner_menu.split(",")[i]);
+			}
+			System.out.println("길이" + owner_menu.split(",").length);
+			Map<String, Object> ownerMap = new HashMap<String, Object>();
+			ownerMap.put("menu_seq_", menu_seq);
+			ownerMap.put("menu_category", menu_category);
+			List<MenuDto> lists = menu_IService.ownerMenuList(ownerMap);
+			System.out.println("업주가 선택한 메뉴 : " + lists.toString());
+			json = objectJson(lists);
+		} else {
+			System.out.println("owner_menu 세션에 값 있을때");
+			String owner_menu = (String) session.getAttribute("owner_menu");
+			String[] menu_seq = new String[owner_menu.split(",").length];
+			for (int i = 0; i < owner_menu.split(",").length; i++) {
+				menu_seq[i] = owner_menu.split(",")[i];
+				System.out.print(owner_menu.split(",")[i]);
+			}
+			System.out.println("길이" + owner_menu.split(",").length);
+			Map<String, Object> ownerMap = new HashMap<String, Object>();
+			ownerMap.put("menu_seq_", menu_seq);
+			ownerMap.put("menu_category", menu_category);
+			List<MenuDto> lists = menu_IService.ownerMenuList(ownerMap);
+			System.out.println("업주가 선택한 메뉴 : " + lists.toString());
+			json = objectJson(lists);
+		}
+		
 		return json;
 	}
 	

@@ -1,12 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
-<%
-	response.setContentType("text/html; charset=UTF-8");
-%>
+<%request.setCharacterEncoding("UTF-8");%>
+<%response.setContentType("text/html; charset=UTF-8");%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +31,6 @@
 	position: absolute;
 	width: 330px;
 	height: 350px;
-	/* 		float: left; */
 	right: 15px;
 }
 
@@ -45,7 +39,6 @@
 	left: 110px; 
 	width : 450px;
 	height: 350px;
-	/* 		float: left; */
 }
 
 #choiceOwner {
@@ -53,7 +46,6 @@
 	left:0px;
 	width: 250px;
 	height: 345px;
-	/* 		float: left; */
 	overflow-y: scroll;
 }
 
@@ -62,11 +54,14 @@
 	position: absolute;
 	left: 250px;
 	top: 0px;
-/* 	float: left; */
 }
 
 #onclickStore1, #onclickStore2 {
 	cursor: pointer;
+}
+span{
+	position: absolute;
+	left: 700px;
 }
 </style>
 </head>
@@ -161,7 +156,7 @@
 					},
 					dataType : "json",
 					success : function(obj) {
-						if (obj.jstr == "0") {
+						if (obj.stats == "no") {
 							swal("선택지점의 수익이 없습니다.");
 						} else {
 
@@ -192,7 +187,7 @@
 								};
 								var data2 = new google.visualization.DataTable(obj.jstr2);
 								var options2 = {
-									title : '선택 담당 지역 판매 메뉴 통계',
+									title : '선택 담당 지역 판매 TOP 5 메뉴 통계',
 								};
 								var chart = new google.visualization.ColumnChart(
 										document.getElementById('money'));
@@ -234,15 +229,13 @@
 										<thead>
 											<tr>
 												<th width="20px">
-													
 													<input id="allChk" class="custom-control-input" type="checkbox" value="전체선택" onclick="checkAllDel(this.checked)" />
 													<label id="onclickStore1" class="custom-control-label" for="allChk">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;매장명</label>
 												</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach begin="0" end="${fn:length(ownerList)}"
-												items="${ownerList}" var="owner" varStatus="vs">
+											<c:forEach begin="0" end="${fn:length(ownerList)}" items="${ownerList}" var="owner" varStatus="vs">
 												<tr>
 													<td colspan="2">
 													<input id="chk${vs.count}" class="custom-control-input" name="store_code" type="checkbox" value="${owner.store_code}" />
@@ -255,8 +248,8 @@
 								</div>
 							</div>
 						</fieldset>
-						<input id="viewStats" class="btn btn-outline-primary"
-							type="button" value="통계보긔" onclick="adminStats()" />
+						<input id="viewStats" class="btn btn-outline-primary" type="button" value="통계보긔" onclick="adminStats()" />
+						<span>※미선택 시 전체기간 조회</span>
 						<div id="statsDiv">
 							<div id="stats">
 								<div id="money"></div>

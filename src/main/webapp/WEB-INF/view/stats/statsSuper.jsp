@@ -68,6 +68,10 @@
 #onclickStore1, #onclickStore2 {
 	cursor: pointer;
 }
+span{
+	position: absolute;
+	left: 700px;
+}
 </style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
@@ -185,7 +189,7 @@
 								};
 								var data2 = new google.visualization.DataTable(obj.jstr2);
 								var options2 = {
-									title : '선택 담당자 지역 판매 메뉴 통계',
+									title : '선택 담당자 지역 판매 TOP 5 메뉴 통계',
 								};
 								var chart = new google.visualization.ColumnChart(
 										document.getElementById('money'));
@@ -248,6 +252,7 @@
 						</fieldset>
 						<input id="viewStats" class="btn btn-outline-primary"
 							type="button" value="통계보긔" onclick="adminStats()" />
+							<span>※미선택 시 전체기간 조회</span>
 						<div id="statsDiv">
 							<div id="stats">
 								<div id="money"></div>

@@ -37,10 +37,10 @@
 
 #making {
 	width: 120px;
-	height: 20px;
+	height: 30px;
 	margin: 10px auto 10px 10px;
 	
-	font-size: 15px; 
+	font-size: 20px; 
 	background-color: RGB(21,140,186); 
 	color:white; 
 	font-weight: bold; 
@@ -51,10 +51,10 @@
 
 #waiting {
 	width: 120px;
-	height: 20px;
+	height: 30px;
 	margin: 10px 360px 10px auto;
 	
-	font-size: 15px; 
+	font-size: 20px; 
 	background-color: RGB(21,140,186); 
 	color:white; 
 	font-weight: bold; 
@@ -78,17 +78,17 @@
 }
 
 #makingDetail {
-	width: 510px;
+	width: 490px;
 	height: 130px;
-	top: 450px;
+	top: 460px;
 	position: absolute;
 }
 
 #waitingDetail {
-	width: 510px;
+	width: 490px;
 	height: 130px;
 	left: 550px;
-	top: 450px;
+	top: 460px;
 	position: absolute;
 }
 #waitMenu,#makeMenu{
@@ -168,7 +168,6 @@
 	font-size: 40pt;
 	align-content: center;
 }
-
 </style>
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>

@@ -23,13 +23,25 @@ public class Stats_DaoImpl implements Stats_IDao{
 	//업주 : 수익 통계
 	@Override
 	public int ownerStatsIncome(Map<String, String> map) {
-		return sqlSession.selectOne(NS+"ownerStatsIncome", map);
+		int n = 0;
+		if(sqlSession.selectOne(NS+"ownerStatsIncome", map) == null) {
+			n = 0;
+		}else {
+			n = sqlSession.selectOne(NS+"ownerStatsIncome", map);
+		}
+		return n;
 	}
 	
 	//업주 : 지출 통계
 	@Override
 	public int ownerStatsOutcome(Map<String, String> map) {
-		return sqlSession.selectOne(NS+"ownerStatsOutcome", map);
+		int n = 0;
+		if(sqlSession.selectOne(NS+"ownerStatsOutcome", map) == null) {
+			n = 0;
+		}else {
+			n = sqlSession.selectOne(NS+"ownerStatsOutcome", map);
+		}
+		return n;
 	}
 	
 	//업주 : 상위판매메뉴 통계
@@ -92,12 +104,65 @@ public class Stats_DaoImpl implements Stats_IDao{
 				count = 0;
 			}
 		}
+		String[] tempCntList = new String[cntList2.size()];
+		for (int i = 0; i < tempCntList.length; i++) {
+			tempCntList[i] = cntList2.get(i);
+		}
+		
+		String[] tempMenuList = new String[menuList2.size()];
+		for (int i = 0; i < tempMenuList.length; i++) {
+			tempMenuList[i] = menuList2.get(i);
+		}
 		//정렬하는거 해야됨
-		resultMap.put("menu", menuList2);
-		resultMap.put("cnt", cntList2);
+	 	Map<String, String[]> tempMap = bubble_sort(tempMenuList,tempCntList,tempCntList.length);
+		for (int i = 0; i < tempCntList.length; i++) {
+			System.out.println(tempMap.get("cntList")[i]);
+			System.out.println(tempMap.get("menuList")[i]);
+		}
+		List<String> resultMenu = new ArrayList<String>();
+		List<String> resultCnt = new ArrayList<String>();
+		if(tempCntList.length > 5 ) {
+			for (int i = 0; i < 5; i++) {
+				resultMenu.add(tempMap.get("menuList")[i]);
+				resultCnt.add(tempMap.get("cntList")[i]);
+			}
+		}else {
+			for (int i = 0; i < tempCntList.length; i++) {
+				resultMenu.add(tempMap.get("menuList")[i]);
+				resultCnt.add(tempMap.get("cntList")[i]);
+			}
+		}
+		
+		
+		resultMap.put("menu", resultMenu);
+		resultMap.put("cnt", resultCnt);
 		System.out.println("바뀌기전 카운트 : "+cntList);
+		System.out.println("메뉴메뉴 : "+menuList2);
 		System.out.println("바뀐후 카운트 : "+cntList2);
 		return resultMap;
+	}
+	
+	private Map<String,String[]> bubble_sort(String[] menuList, String[] cntList,int cntListLen){
+		int i, j, temp;
+		String tempMenu = "";
+		  for(i=cntListLen-1; i>0; i--){
+		    // 0 ~ (i-1)까지 반복
+		    for(j=0; j<i; j++){
+		      // j번째와 j+1번째의 요소가 크기 순이 아니면 교환
+		      if(Integer.parseInt(cntList[j])<Integer.parseInt(cntList[j+1])){
+		    	  temp = Integer.parseInt(cntList[j]);
+		    	  cntList[j] = cntList[j+1];
+		    	  cntList[j+1] = Integer.toString(temp);
+		    	  tempMenu = menuList[j];
+		    	  menuList[j] = menuList[j+1];
+		    	  menuList[j+1] = tempMenu;
+		      }
+		    }
+		  }
+		  Map<String, String[]> map = new HashMap<String,String[]>();
+		  map.put("cntList", cntList);
+		  map.put("menuList", menuList);
+		  return map;
 	}
 	
 	//관리자,담당자 : 수익통계
@@ -233,9 +298,38 @@ public class Stats_DaoImpl implements Stats_IDao{
 				count = 0;
 			}
 		}
+		String[] tempCntList = new String[cntList2.size()];
+		for (int i = 0; i < tempCntList.length; i++) {
+			tempCntList[i] = cntList2.get(i);
+		}
+		
+		String[] tempMenuList = new String[menuList2.size()];
+		for (int i = 0; i < tempMenuList.length; i++) {
+			tempMenuList[i] = menuList2.get(i);
+		}
 		//정렬하는거 해야됨
-		resultMap.put("menu", menuList2);
-		resultMap.put("cnt", cntList2);
+	 	Map<String, String[]> tempMap = bubble_sort(tempMenuList,tempCntList,tempCntList.length);
+		for (int i = 0; i < tempCntList.length; i++) {
+			System.out.println(tempMap.get("cntList")[i]);
+			System.out.println(tempMap.get("menuList")[i]);
+		}
+		List<String> resultMenu = new ArrayList<String>();
+		List<String> resultCnt = new ArrayList<String>();
+		if(tempCntList.length > 5 ) {
+			for (int i = 0; i < 5; i++) {
+				resultMenu.add(tempMap.get("menuList")[i]);
+				resultCnt.add(tempMap.get("cntList")[i]);
+			}
+		}else {
+			for (int i = 0; i < tempCntList.length; i++) {
+				resultMenu.add(tempMap.get("menuList")[i]);
+				resultCnt.add(tempMap.get("cntList")[i]);
+			}
+		}
+		
+		
+		resultMap.put("menu", resultMenu);
+		resultMap.put("cnt", resultCnt);
 		System.out.println("바뀌기전 카운트 : "+cntList);
 		System.out.println("바뀐후 카운트 : "+cntList2);
 		return resultMap;
