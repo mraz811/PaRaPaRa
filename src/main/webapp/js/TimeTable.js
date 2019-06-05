@@ -1545,9 +1545,9 @@ class CanvasT extends CalculationT{
 			asyn: false,
 			data: { 'ts_datetime' : time , 'alba_seq' : index , 'ts_date' : currentDate }, // 서버 전송 파라메터 
 			success: function(msg){
-				alert("성공");
+				alert("삭제되었습니다.");
 			}, error : function() {
-				alert("실패");
+				alert("삭제 실패");
 			}
 		});	
     	
@@ -1625,14 +1625,11 @@ class CanvasT extends CalculationT{
 			asyn: false, // true 비동기 false 동기
 			data: { 'index':index , 'name' : name ,'sTime': sTime, 'eTime' : eTime, 'ts_date' : ts_date }, // 서버 전송 파라메터 
 			success: function(msg){
-				alert("성공");
+				alert("등록이 완료되었습니다.");
 			}, error : function() {
-				alert("실패");
+				alert("등록 실패.");
 			}
 		});	
-        
-        
-
     }
     /**
      * Delete Bar from matched id

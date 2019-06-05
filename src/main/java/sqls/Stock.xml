@@ -4,8 +4,9 @@
 
 <!-- 매장 조회 -->
 	<select id="stockList" resultType="StockDto">
-		SELECT STOCK_SEQ, STORE_CODE, NVL(STOCK.STOCK_NAME,ITEM.ITEM_NAME) AS STOCK_NAME, ITEM_NAME, NVL(STOCK.STOCK_QTY,0) AS STOCK_QTY
+		SELECT STOCK_SEQ, STORE_CODE, NVL(STOCK.STOCK_NAME,ITEM.ITEM_NAME) AS STOCK_NAME, STOCK_DELFLAG, ITEM_DELFLAG, ITEM_NAME, NVL(STOCK.STOCK_QTY,0) AS STOCK_QTY
 			FROM STOCK FULL OUTER JOIN ITEM ON STOCK.STOCK_NAME = ITEM.ITEM_NAME
+				WHERE STOCK_DELFLAG = 'N'	
 					ORDER BY STOCK.STOCK_NAME
 	</select>
 
@@ -15,19 +16,20 @@
 			FROM STOCK
 	</select>
 	
-	
 <!-- Store 별 재고 조회 -->
 	<select id="stockOne" parameterType="java.lang.String" resultType="StockDto">
-		SELECT STOCK_SEQ, STORE_CODE, NVL(S.STOCK_NAME, I.ITEM_NAME) AS STOCK_NAME, ITEM_NAME, NVL(S.STOCK_QTY,0) AS STOCK_QTY
-			FROM (SELECT * FROM STOCK SS WHERE SS.STORE_CODE = #{store_code}) S FULL JOIN ITEM I
-    	  		ON S.STOCK_NAME = I.ITEM_NAME
-					ORDER BY S.STOCK_NAME
+		SELECT STOCK_SEQ, STORE_CODE, NVL(S.STOCK_NAME, I.ITEM_NAME) AS STOCK_NAME, STOCK_DELFLAG, ITEM_DELFLAG, ITEM_NAME, NVL(S.STOCK_QTY,0) AS STOCK_QTY
+			FROM (SELECT * FROM STOCK SS 
+				WHERE STOCK_DELFLAG IS NOT NULL
+					AND SS.STORE_CODE = #{store_code}) S FULL JOIN ITEM I
+    	  			ON S.STOCK_NAME = I.ITEM_NAME
+    	  				ORDER BY S.STOCK_NAME
 	</select>
 
 <!-- 재고 추가 -->
 	<insert id="stockAdd" parameterType="StockDto">
-		INSERT INTO STOCK(STOCK_SEQ, STORE_CODE, STOCK_NAME, STOCK_QTY)
-			VALUES(STOCK_SEQ.NEXTVAL, #{store_code}, #{stock_name}, #{stock_qty})
+		INSERT INTO STOCK(STOCK_SEQ, STORE_CODE, STOCK_NAME, STOCK_DELFLAG, STOCK_QTY)
+			VALUES(STOCK_SEQ.NEXTVAL, #{store_code}, #{stock_name}, 'N', #{stock_qty})
 	</insert>
 
 <!-- 재고 수정 -->
@@ -39,13 +41,23 @@
 	</update>
 
 <!-- 재고 삭제 = 매장 삭제시 매장의 재고 seq 찾아서 삭제할때 필요함. -->
-	<delete id="stockDelete" parameterType="java.lang.String">
-		DELETE FROM STOCK WHERE STOCK_SEQ = #{stock_seq}
-	</delete>
+	<update id="stockDelete" parameterType="java.lang.String">
+		UPDATE STOCK SET STOCK_DELFLAG = 'Y'
+			WHERE STOCK_SEQ = #{stock_seq}
+	</update>
 	
 <!-- 재고 삭제 = 매장의 모든 재고들 삭제!!! -->
 	<delete id="stockDeleteStore" parameterType="java.lang.String">
 		DELETE FROM STOCK WHERE STORE_CODE = #{store_code}
 	</delete>
 
+<!-- 재고 검색 -->
+	<select id="stockSearchList" parameterType="java.util.Map" resultType="StockDto">
+		SELECT STOCK_SEQ, STORE_CODE, NVL(STOCK.STOCK_NAME,ITEM.ITEM_NAME) AS STOCK_NAME, ITEM_DELFLAG, ITEM_NAME, NVL(STOCK.STOCK_QTY,0) AS STOCK_QTY
+			FROM STOCK FULL OUTER JOIN ITEM ON STOCK.STOCK_NAME = ITEM.ITEM_NAME
+				WHERE STOCK_NAME LIKE  '%' || #{stock_name}|| '%'
+				AND STORE_CODE = #{store_code}
+					ORDER BY STOCK.STOCK_NAME
+	</select>
+	
 </mapper>

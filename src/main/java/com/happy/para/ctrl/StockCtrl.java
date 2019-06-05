@@ -1,6 +1,8 @@
 package com.happy.para.ctrl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,12 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.dto.ItemDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.StockDto;
 import com.happy.para.model.Item_IService;
 import com.happy.para.model.Stock_IService;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 
 @Controller
@@ -53,7 +59,7 @@ public class StockCtrl {
 			model.addAttribute("itemList", itemList);
 			model.addAttribute("lists", lists);
 		}
-		
+
 //		List<StockDto> lists = ser.stockOne(store_code);
 //		model.addAttribute("lists", lists);
 		
@@ -133,5 +139,51 @@ public class StockCtrl {
 		return "redirect:/selStockOne.do?store_code="+store_code;
 	}
 
+	@RequestMapping(value="/searchStock.do", method=RequestMethod.GET, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String searchItemList(String stock_name, String store_code) {
+		JSONObject json = new JSONObject();
+		JSONArray jLists = new JSONArray();
+		JSONObject jList = null;
+		
+		System.out.println("store_code > "+store_code);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("store_code", store_code);
+		map.put("stock_name", stock_name);
+		
+		/*StockDto dto = new StockDto();
+		
+		dto.setStore_code(store_code);
+
+		for (int i = 1; i < dto.getSlists().size(); i++) {
+			if(dto.getSlists().get(i).getStock_seq() == 0) {
+				dto.setStock_name(dto.getSlists().get(i).getStock_name());
+				dto.setStock_qty(dto.getSlists().get(i).getStock_qty());			
+				stockSer.stockAdd(dto);
+				System.out.println("새로 추가된 품목"+dto.getSlists().get(i).getStock_name());
+			}else {
+				dto.setStock_seq(dto.getSlists().get(i).getStock_seq());
+	            dto.setStock_name(dto.getSlists().get(i).getStock_name());
+				dto.setStock_qty(dto.getSlists().get(i).getStock_qty());			
+				stockSer.stockModify(dto);				
+			}
+		}*/
+		
+		List<StockDto> lists = stockSer.stockSearchList(map);
+		int countList = lists.size();
+		System.out.println(lists);
+		for (StockDto dto : lists) {
+			jList = new JSONObject();
+			jList.put("stock_seq", dto.getStock_seq());
+			jList.put("stock_name", dto.getStock_name());
+			jList.put("stock_qty", dto.getStock_qty());
+			
+			jLists.add(jList);
+		}
+		json.put("lists", jLists);
+		json.put("count", countList);
+		return json.toString();
+	}
 
 }

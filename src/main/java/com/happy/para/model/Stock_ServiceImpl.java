@@ -1,6 +1,7 @@
 package com.happy.para.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,10 @@ public class Stock_ServiceImpl implements Stock_IService {
 	public boolean stockDeleteStore(String store_code) {
 		return stockDao.stockDeleteStore(store_code);
 	}
-	
-	
+
+	@Override
+	public List<StockDto> stockSearchList(Map<String, String> map) {
+		return stockDao.stockSearchList(map);
+	}
 	
 }
