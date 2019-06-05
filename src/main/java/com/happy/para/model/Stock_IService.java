@@ -1,6 +1,7 @@
 package com.happy.para.model;
 
 import java.util.List;
+import java.util.Map;
 
 import com.happy.para.dto.StockDto;
 
@@ -26,5 +27,8 @@ public interface Stock_IService {
 
 	// 매장별 재고 삭제
 	public boolean stockDeleteStore(String store_code);
+	
+	// 재고 검색
+	public List<StockDto> stockSearchList(Map<String, String> map);
 	
 }

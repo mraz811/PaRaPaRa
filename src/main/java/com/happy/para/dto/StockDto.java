@@ -15,14 +15,36 @@ public class StockDto implements Serializable {
 	private int stock_qty;
 	private List<StockDto> slists;
 	private String item_name;
-	
+	private String item_delflag;
+	private String stock_delflag;
+		
 	private ItemDto itemDto;
 	
 	
 	public StockDto() {
-		// TODO Auto-generated constructor stub
+	}
+	
+	public StockDto(int stock_seq, String store_code, String stock_name, int stock_qty, List<StockDto> slists,
+			String item_name, String item_delflag, String stock_delflag, ItemDto itemDto) {
+		super();
+		this.stock_seq = stock_seq;
+		this.store_code = store_code;
+		this.stock_name = stock_name;
+		this.stock_qty = stock_qty;
+		this.slists = slists;
+		this.item_name = item_name;
+		this.item_delflag = item_delflag;
+		this.stock_delflag = stock_delflag;
+		this.itemDto = itemDto;
 	}
 
+	public String getStock_delflag() {
+		return stock_delflag;
+	}
+
+	public void setStock_delflag(String stock_delflag) {
+		this.stock_delflag = stock_delflag;
+	}
 
 	public int getStock_seq() {
 		return stock_seq;
@@ -84,15 +106,18 @@ public class StockDto implements Serializable {
 		this.item_name = item_name;
 	}
 
+	public String getItem_delflag() {
+		return item_delflag;
+	}
+
+	public void setItem_delflag(String item_delflag) {
+		this.item_delflag = item_delflag;
+	}
 
 	@Override
 	public String toString() {
 		return "StockDto [stock_seq=" + stock_seq + ", store_code=" + store_code + ", stock_name=" + stock_name
-				+ ", stock_qty=" + stock_qty + ", slists=" + slists + ", item_name=" + item_name + ", itemDto="
-				+ itemDto + "]";
+				+ ", stock_qty=" + stock_qty + ", slists=" + slists + ", item_name=" + item_name + ", item_delflag="
+				+ item_delflag + ", stock_delflag=" + stock_delflag + ", itemDto=" + itemDto + "]";
 	}
-	
-	
-	
-
 }

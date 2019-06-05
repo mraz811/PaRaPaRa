@@ -1,6 +1,7 @@
 package com.happy.para.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class Stock_DaoImpl implements Stock_IDao {
 
 	@Override
 	public boolean stockDelete(String stock_seq) {
-		int n = sqlSession.delete("para.stock.stockDelete", stock_seq);
+		int n = sqlSession.update("para.stock.stockDelete", stock_seq);
 		return n>0?true:false;
 	}
 	
@@ -51,6 +52,11 @@ public class Stock_DaoImpl implements Stock_IDao {
 	public boolean stockDeleteStore(String store_code) {
 		int n = sqlSession.delete("para.stock.stockDeleteStore", store_code);
 		return n>0?true:false;
+	}
+
+	@Override
+	public List<StockDto> stockSearchList(Map<String, String> map) {
+		return sqlSession.selectList("para.stock.stockSearchList", map);
 	}
 	
 	
