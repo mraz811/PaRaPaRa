@@ -66,12 +66,22 @@
 			<div class="card">
 				<div class="card-body">
     			<h4 class="card-title">매장/업주 등록 바로가기</h4>
-    			<h6 class="card-subtitle mb-2 text-muted">메인에 뭐넣지</h6>
-    			<p class="card-text">메인에 뭐넣을지 다같이 고민좀 해봅시다. 일단 매장 등록~ 회원 등록~ 바로가기~ &lt;'-'&gt;</p>
-    			<a href="./regiStoreForm.do" target="_blank" class="card-link">매장 등록</a>
-    			<a href="./ownerRegiForm.do" target="_blank" class="card-link">업주 등록</a>
+    			<h6 class="card-subtitle mb-2 text-muted"> </h6>
+    			<p class="card-text">매장 등록 / 업주 등록 바로가기 &lt;'-'&gt;</p>
+    			<a href="#" onclick="insertStore()" class="card-link">매장 등록</a>
+    			<a href="#" onclick="toOwnerRegi()" class="card-link">업주 등록</a>
 				</div>
 			</div>
+			
+			<div class="card" style="float: right; position: relative;">
+				<div class="card-body">
+    			<h4 class="card-title">메뉴 등록 바로가기</h4>
+    			<h6 class="card-subtitle mb-2 text-muted"></h6>
+    			<p class="card-text">신메뉴 등록하러 가기~ &lt;'-'&gt;</p>
+    			<a href="#" onclick="regiMenu()" class="card-link">신메뉴 등록</a>
+				</div>
+			</div>
+			
 			</c:if>
 			
 			<c:if test="${loginDto.auth eq 'U' }">
@@ -91,4 +101,23 @@
 <%@include file="./footer.jsp" %>
 </div> <!-- div id=container -->
 </body>
+<script type="text/javascript">
+
+// 업주 등록
+var toOwnerRegi = function(){
+	window.open("./ownerRegiForm.do","업주 등록 페이지", 
+	"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=300");
+};
+
+// 매장 등록
+var insertStore = function() {
+	window.open("./regiStoreForm.do","_blank","width=600, height=600, left=300");
+}
+
+// 메뉴 등록
+var regiMenu = function(){
+	window.open('./menuRegiForm.do', '메뉴 등록', 'width=700, height=470, scrollbars=no, left=200px, top=150px;');
+}
+
+</script>
 </html>
