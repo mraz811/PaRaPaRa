@@ -48,7 +48,7 @@
 	</div>
 	<div>
 		<input style="width: 198px; height: 40px;" class="btn btn-outline-success" type="button" value="email로 임시 비밀번호 받기"  onclick="findpwchk()">
-		<input style="width: 98px; height: 40px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="location.href='./loginForm.do'">
+		<input style="width: 98px; height: 40px;" class="btn btn-outline-warning" type="button" value="취　소" onclick="self.close()">
 	</div>
 	<hr>
 	</form>

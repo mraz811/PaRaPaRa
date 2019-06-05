@@ -242,7 +242,7 @@
 // 담당자 등록 폼으로
 var toAdminRegi = function(){
 	window.open("./adminRegiForm.do","담당자 등록", 
-			"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=500");
+			"width=600, height=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, left=300");
 };
 
 
