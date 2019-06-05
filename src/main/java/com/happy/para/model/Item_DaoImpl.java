@@ -37,7 +37,7 @@ public class Item_DaoImpl implements Item_IDao {
 	// 품목 삭제
 	@Override
 	public boolean itemDelete(String item_seq) {
-		return sqlSession.delete(NS+"itemDelete", item_seq) > 0 ? true:false;
+		return sqlSession.update(NS+"itemDelete", item_seq) > 0 ? true:false;
 	}
 
 	@Override

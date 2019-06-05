@@ -4,12 +4,12 @@
 
 	<select id="itemList" resultType="ItemDto">
 		SELECT ITEM_SEQ, ITEM_NAME, ITEM_PRICE
-		FROM ITEM ORDER BY ITEM_NAME
+		FROM ITEM WHERE ITEM_DELFLAG = 'N' ORDER BY ITEM_NAME
 	</select>
 	
 	<insert id="itemInsert" parameterType="ItemDto">
-		INSERT INTO ITEM(ITEM_SEQ, ITEM_NAME, ITEM_PRICE)
-		VALUES(ITEM_SEQ.NEXTVAL, #{item_name}, #{item_price})
+		INSERT INTO ITEM(ITEM_SEQ, ITEM_NAME, ITEM_PRICE, ITEM_DELFLAG)
+		VALUES(ITEM_SEQ.NEXTVAL, #{item_name}, #{item_price}, 'N')
 	</insert>
 	
 	<update id="itemModify" parameterType="ItemDto">
@@ -18,10 +18,10 @@
 		WHERE ITEM_SEQ=#{item_seq}
 	</update>
 	
-	<delete id="itemDelete" parameterType="java.lang.String">
-		DELETE FROM ITEM
+	<update id="itemDelete" parameterType="java.lang.String">
+		UPDATE ITEM SET ITEM_DELFLAG = 'Y'
 		WHERE ITEM_SEQ=#{item_seq}
-	</delete>
+	</update>
 	
 	<select id="itemDetail" parameterType="java.lang.String" resultType="ItemDto">
 		SELECT ITEM_SEQ, ITEM_NAME, ITEM_PRICE
@@ -39,7 +39,7 @@
 	<select id="itemSearchList" parameterType="java.lang.String" resultType="ItemDto">
 		SELECT ITEM_SEQ, ITEM_NAME, ITEM_PRICE
 		FROM ITEM
-		WHERE ITEM_NAME LIKE  '%' || #{item_name}|| '%' 
+		WHERE ITEM_NAME LIKE  '%' || #{item_name}|| '%' AND ITEM_DELFLAG = 'N' 
 		ORDER BY ITEM_NAME
 	</select>
 	
