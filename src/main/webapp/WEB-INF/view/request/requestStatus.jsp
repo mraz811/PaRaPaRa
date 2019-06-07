@@ -14,6 +14,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+#totalCal{
+	width: 300px;
+	
+}
 #container {
  	width: 1020px; 
  	height: 435px; 
@@ -134,11 +138,11 @@
 		top: 30px;
 	}
 	#resultDiv{
-		width: 100px;
+		width: 130px;
 		height: 100px;
 /* 		float: left; */
 		position: absolute;
-		left: 760px;
+		left: 870px;
 		top: 480px;
 	}
 	div.twoDepth{
@@ -333,10 +337,10 @@ window.onload = function (){
 						</tr>
 						<tr>
 							<th>
-								<input style="height: 33px;" type="button" class="btn btn-outline-success" value="주문 완료" onclick="customRequest()" />
+								<input style="width:125px;height: 33px;" type="button" class="btn btn-outline-success" value="주문 완료" onclick="customRequest()" />
 							</th>
 							<th>
-								<input style="height: 33px;" type="button" class="btn btn-outline-warning" value="주문 취소" onclick="cancelRequest()" /> 
+								<input style="width:125px; height: 33px;" type="button" class="btn btn-outline-warning" value="주문 취소" onclick="cancelRequest()" /> 
 							</th>
 						</tr>
 					</table>
