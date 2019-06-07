@@ -46,26 +46,38 @@ public class StockCtrl {
 		// 전체 store_code 조회
 		List<String> storeLists = stockSer.selStore();
 		
-		// 새 매장이면 등록된 게 없어서 아이템 목록 가져온 다음
-		// 화면에 뿌리고 인풋을 그 매장으로 새로 넣어주어야 한다.
-
+		
 		// true 면 재고 데이터가 있는 매장, false 는 데이터가 없는 매장.(새로 넣어줘야 함)
 		if(storeLists.contains(store_code)) {
 			return "redirect:/selStockOne.do?store_code="+store_code;
 		}else {
-			// 새매장일때 리스트 뿌려주는 테스트
+			// 새매장
+			ItemDto iDto = new ItemDto();
+			StockDto dto = new StockDto();
+
 			List<StockDto> lists = stockSer.stockOne(store_code);
 			List<ItemDto> itemList = itemSer.itemList();
 			model.addAttribute("itemList", itemList);
 			model.addAttribute("lists", lists);
-		}
+			
+			System.out.println("itemList > " + itemList);
+			System.out.println("store_code > "+store_code);
+			
+			dto.setStore_code(store_code);
+			
+			for (int i = 0; i < itemList.size(); i++) {
+				dto.setStock_name(itemList.get(i).getItem_name());
+				dto.setStock_qty(0);			
+				stockSer.stockAdd(dto);
+			}
 
-//		List<StockDto> lists = ser.stockOne(store_code);
-//		model.addAttribute("lists", lists);
+			
+//			System.out.println("store_code1 > "+store_code);
+			model.addAttribute("store_code", store_code);
+			
+		}
 		
-		model.addAttribute("store_code", store_code);
-		
-		return "stock/newStockList";
+		return "redirect:/selStockOne.do";
 	}
 	
 	@RequestMapping(value="/selStockOne.do", method=RequestMethod.GET)
@@ -76,14 +88,34 @@ public class StockCtrl {
 // 아이템 Dto/ 서비스 수정
 		
 		List<ItemDto> itemList = itemSer.itemList();
-		
 		List<StockDto> lists = stockSer.stockOne(store_code);
+		
+		System.out.println("selStockOne의 lists >"+lists);
+
+		dto.setStore_code(store_code);
+		/*
+		int cnt = 0;
+		for (int i = 0; i < lists.size(); i++) {
+			if(lists.get(i).getStock_seq() == 0) {
+				dto.setStock_name(lists.get(i).getStock_name());
+				dto.setStock_qty(0);			
+				stockSer.stockAdd(dto);
+				System.out.println("새로 추가된 품목 > "+lists.get(i).getStock_name());
+
+				cnt ++;
+				System.out.println("새로 추가된 품목들 수량 > "+cnt);
+
+				String[] newItem = new String[cnt];
+
+//				newItem += lists.get(i).getStock_name();
+			}
+		}*/
+
 		
 		model.addAttribute("lists", lists);
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("store_code", store_code);
 		
-		 
 		return "stock/stockList";
 	}
 	
@@ -111,6 +143,7 @@ public class StockCtrl {
 		return "redirect:/selStockOne.do?store_code="+store_code;
 	}
 	
+	/*
 	@RequestMapping(value="/addStockItem.do", method=RequestMethod.POST)
 	public String StockAdd(StockDto dto, ItemDto iDto) {
 												
@@ -126,6 +159,7 @@ public class StockCtrl {
 		}
 		return "redirect:/selStockOne.do?store_code="+store_code;
 	}
+	*/
 	
 	@RequestMapping(value="/delStock.do", method=RequestMethod.GET)
 	public String stockDel(String stock_seq, String store_code) {
@@ -151,24 +185,7 @@ public class StockCtrl {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("store_code", store_code);
 		map.put("stock_name", stock_name);
-		
-		/*StockDto dto = new StockDto();
-		
-		dto.setStore_code(store_code);
-
-		for (int i = 1; i < dto.getSlists().size(); i++) {
-			if(dto.getSlists().get(i).getStock_seq() == 0) {
-				dto.setStock_name(dto.getSlists().get(i).getStock_name());
-				dto.setStock_qty(dto.getSlists().get(i).getStock_qty());			
-				stockSer.stockAdd(dto);
-				System.out.println("새로 추가된 품목"+dto.getSlists().get(i).getStock_name());
-			}else {
-				dto.setStock_seq(dto.getSlists().get(i).getStock_seq());
-	            dto.setStock_name(dto.getSlists().get(i).getStock_name());
-				dto.setStock_qty(dto.getSlists().get(i).getStock_qty());			
-				stockSer.stockModify(dto);				
-			}
-		}*/
+//		map.put("item_name", item_name);
 		
 		List<StockDto> lists = stockSer.stockSearchList(map);
 		int countList = lists.size();
@@ -178,6 +195,11 @@ public class StockCtrl {
 			jList.put("stock_seq", dto.getStock_seq());
 			jList.put("stock_name", dto.getStock_name());
 			jList.put("stock_qty", dto.getStock_qty());
+			jList.put("item_delflag", dto.getItem_delflag());
+			jList.put("stock_delflag", dto.getStock_delflag());
+			
+			System.out.println("item_delflag > "+dto.getItem_delflag());
+			System.out.println("stock_delflag > "+dto.getStock_delflag());
 			
 			jLists.add(jList);
 		}

@@ -80,9 +80,9 @@
 								<thead>
 									<tr class="table-primary">
 										<th style="width:100px;">재고 번호</th>
-										<th style="width:500px; text-align: center;">재고명</th>
+										<th style="width:500px; padding-left:85px; ">재고명</th>
 										<th>재고수량</th>
-										<th>삭제</th>
+										<th style="padding-left: 13px; width:150px;">삭제</th>
 									</tr>
 								</thead>
 							</table>
@@ -91,9 +91,12 @@
 							<table class="table table-hover">
 								<tbody>
 									<c:forEach var="dto" items="${lists}" varStatus="vs">
-										<c:if test="${dto.stock_delflag eq 'N' || dto.item_delflag eq 'N'}">
 											<tr>
-												<td style="width:45px; text-align: center;">${vs.count}</td>
+												<td style="width:45px; text-align: center;">
+													<c:if test="${dto.store_code eq NULL}">
+														<a style="color:red;">NEW</a>
+													</c:if>
+												${vs.count}</td>
 												<td style="width:245px; padding-left:120px;">
 													<input type="hidden" name="Slists[${vs.count}].stock_seq" value="${dto.stock_seq}" />
 													<input type="hidden" name="Slists[${vs.count}].stock_name" value="${dto.stock_name}" readonly="readonly"
@@ -103,16 +106,15 @@
 												<td style="width:220px; padding-left:140px;">
 													<input type="number" min="0" class="stockQty" name="Slists[${vs.count}].stock_qty" value="${dto.stock_qty}" readonly="readonly"  onkeyup="changeQty(this)"/>
 												</td>
-												<c:if test="${dto.item_delflag eq 'Y'}">
+												<c:if test="${dto.item_delflag eq NULL}">
 													<td style="width:100px; padding: 7px 0px 0px 0px;">
 														<input type="button" class="btn btn-outline-warning" onclick="location.href='./delStock.do?stock_seq=${dto.stock_seq}&store_code=${store_code}'" value="삭제" />
 													</td>
 												</c:if>
-												<c:if test="${dto.item_delflag ne 'Y'}">
+												<c:if test="${dto.item_delflag ne NULL}">
 													<td style="width:100px;"></td>
 												</c:if>
 											</tr>										
-										</c:if>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -120,7 +122,7 @@
 
 							<div id="stock_bottom">
 								<div id="searchBtn" class="form-group row">
-									<input style="width: 200px; margin-right: 5px;" class="form-control" type="text" id="searchStock" onkeypress="if(event.keyCode==13) $('#searchItemBtn').click()" width="400px;">
+									<input style="width: 200px; margin-right: 5px;" class="form-control" type="text" id="searchStock" onkeypress="if(event.keyCode==13) $('#searchStockBtn').click()" width="400px;">
 									<input type="button" id="searchStockBtn" class="btn btn-outline-primary" value="검색" onclick="searchStockList()">
 								</div>
 								<div id="regBtn">
@@ -153,8 +155,10 @@
 			// 		alert(aty.length);
 
 			var a = document.getElementsByName("Slists[" + 1 + "].stock_qty")[0];
-			alert(a.value);
+// 			alert(a.value);
 
+			alert(qty.length);
+			
 			for (var i = 1; i < qty.length + 1; i++) {
 				document.getElementsByName("Slists[" + i + "].stock_qty")[0].removeAttribute("readonly");
  				document.getElementsByName("Slists[" + i + "].stock_qty")[0].style.border = "2px solid #ff0000";
@@ -215,7 +219,7 @@
 						text: "검색된 항목이 존재하지 않습니다.", 
 						type: "warning"
 					},function(){
-// 						selStockList();
+						selStockList();
 					});
 				}else{
 					var htmlTable = "";
@@ -223,26 +227,33 @@
 					$.each(data, function(key,value){
 						if(key=="lists"){
 							$.each(value,function(key, val){
+// 								alert("val.item_delflag > "+val.item_delflag);
+// 								alert("val.stock_delflag > "+val.stock_delflag);
+								if(val.item_delflag == 'Y'){
 								htmlTable += 	"<tr>"+
-													"<td style='width:45px; text-align: center;'>"+cnt+"</td>"+
-													"<td style='width:245px; padding-left:120px;'>"+
-													"<input type='hidden' name='Slists["+cnt+"].stock_seq' value='"+val.stock_seq+"' />"+
-													"<input type='hidden' name='Slists["+cnt+"].stock_name' value='"+val.stock_name+"' readonly='readonly'"+
-													"		style='border:none; background-color: none;' />"+val.stock_name+"</td>"+
-													"<td style='width:220px; padding-left:140px;'>"+
-													"	<input type='number' min='0' class='stockQty' name='Slists["+cnt+"].stock_qty' value='"+val.stock_qty+"' readonly='readonly'  onkeyup='changeQty(this)'/>"+
-													"</td>"+
-													
-// 													"<c:if test='${empty dto.item_name}'>"+
-// 													"	<td style='width:100px; padding: 7px 0px 0px 0px;'>"+
-// 													"		<input type='button' class='btn btn-outline-warning' onclick='location.href=\"./delStock.do?stock_seq=${dto.stock_seq}&store_code=${store_code}\"' value='삭제' />"+
-// 													"	</td>"+
-// 													"</c:if>"+
-// 													"<c:if test='${!empty dto.item_name}'>"+
-// 													"	<td style='width:100px;'></td>"+
-// 													"</c:if>"+
-												
-												"</tr>";
+												"<td style='width:45px; text-align: center;'>"+cnt+"</td>"+
+												"<td style='width:245px; padding-left:120px;'>"+
+												"<input type='hidden' name='Slists["+cnt+"].stock_seq' value='"+val.stock_seq+"' />"+
+												"<input type='hidden' name='Slists["+cnt+"].stock_name' value='"+val.stock_name+"' readonly='readonly'"+
+												"		style='border:none; background-color: none;' />"+val.stock_name+"</td>"+
+												"<td style='width:220px; padding-left:140px;'>"+
+												"	<input type='number' min='0' class='stockQty' name='Slists["+cnt+"].stock_qty' value='"+val.stock_qty+"' readonly='readonly'  onkeyup='changeQty(this)'/>"+
+												"</td>"+
+												"<td style='width:100px; padding: 7px 0px 0px 0px;'>"+
+												"<input type='button' class='btn btn-outline-warning' onclick='location.href=\"./delStock.do?stock_seq=${dto.stock_seq}&store_code=${store_code}\"' value='삭제' />"+
+												"</td></tr>";
+							}else{
+								htmlTable += 	"<tr>"+
+												"<td style='width:45px; text-align: center;'>"+cnt+"</td>"+
+												"<td style='width:245px; padding-left:120px;'>"+
+												"<input type='hidden' name='Slists["+cnt+"].stock_seq' value='"+val.stock_seq+"' />"+
+												"<input type='hidden' name='Slists["+cnt+"].stock_name' value='"+val.stock_name+"' readonly='readonly'"+
+												"		style='border:none; background-color: none;' />"+val.stock_name+"</td>"+
+												"<td style='width:220px; padding-left:140px;'>"+
+												"	<input type='number' min='0' class='stockQty' name='Slists["+cnt+"].stock_qty' value='"+val.stock_qty+"' readonly='readonly'  onkeyup='changeQty(this)'/>"+
+												"</td>"+
+												"<td style='width:100px;'></td></tr>";
+							}
 								cnt = cnt+1;
 							}); 
 						} 
@@ -257,7 +268,8 @@
 	}
 	
 	function selStockList(){
-		location.href="./selStock.do";
+		var store_code = document.getElementsByName("store_code")[0].value;
+		location.href="./selStockOne.do?store_code="+store_code;
 	}
 	
 </script>
