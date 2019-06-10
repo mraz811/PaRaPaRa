@@ -188,7 +188,7 @@ span{
 						<div id="selectDate">
 							<strong>날짜 선택</strong> : <input id="start" type="date" value="시작일" />~~<input id="end" type="date" value="종료일" />
 						</div>
-						<input id="viewStats" class="btn btn-outline-primary" type="button" value="통계보긔" onclick="ownerStats()" />
+						<input id="viewStats" class="btn btn-outline-primary" type="button" value="통계보기" onclick="ownerStats()" />
 						<span>※미선택 시 전체기간 조회</span>
 						<div id="statsDiv">
 							<div id="stats">

@@ -51,8 +51,16 @@
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript">
 	var fDto = null;
-	function regiTempFile(){ //파일 임시 저장 후 미리보기
+	function regiTempFile(targetObj){ //파일 임시 저장 후 미리보기
 		var form = new FormData(document.getElementById("tempFrm"));
+	
+		var ext = targetObj.value.split(".").pop().toLowerCase();
+		if ($.inArray(ext, ["gif", "jpg", "jpeg", "png"]) == -1) {
+		 	alert("이미지 파일(gif, jpg, jpeg, png)만 업로드 가능합니다.");
+		 	 $("#selectedFile").val("");
+			return false;
+		} 
+	
 	
 		$.ajax({
 			url : "./insertMenuTempFile.do",
@@ -66,7 +74,7 @@
 				fDto = obj.fDtoSel;
 				document.getElementById("image").innerHTML = "<img id=\"menuImg\" alt=\"메뉴사진\" src=\""+obj.fDtoSel.file_rurl+"\">";
 			},error : function(obj){
-				alert("안되안되");
+				alert("관리자에게 문의해주세요.");
 			}
 		});
 	}
@@ -142,7 +150,7 @@
 	
 	<form id="tempFrm" action="#" method="post" enctype="multipart/form-data">
 	<div class="form-group">
-		<input type="file" class="form-control-file" id="selectedFile" name="file1" onchange="regiTempFile()"/>
+		<input type="file" class="form-control-file" id="selectedFile" name="file1" onchange="regiTempFile(this)"/>
 	</div>
 	</form>	
 	<div id="selectAndFile" class="form-group">
