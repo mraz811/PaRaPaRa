@@ -26,7 +26,7 @@
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#home">비밀번호 확인</a>
+    			 <a class="nav-link" data-toggle="tab" href="#home" style="border: 1px solid rgb(21,140,186);" ><strong>비밀번호 확인</strong></a>
   				</li>
 			</ul>
 			
