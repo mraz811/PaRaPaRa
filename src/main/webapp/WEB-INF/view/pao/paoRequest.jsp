@@ -37,15 +37,12 @@
 
 	// 발주 품목의 수량을 빼주는 이벤트
 	function minus(el) {
-		//var su = document.getElementsByName("pi_qty")[0].value;
-		//document.getElementsByName("pi_qty")[0].value = new Number(su) - 1;
-		//alert($('.downBtn').index(el));
 		var idx = $('.downBtn').index(el);
 		var su = $(".pi_qty:eq("+idx+")").val();
 		
-		// 발주 품목의 수량이 1보다 작을 때
+		// 발주 품목의 수량을 1보다 작게 설정하려 할 때
 		if(su<=1){
-			alert("1개 이상만 발주할 수 있습니다.");
+			swal("", "1개 이상만 발주할 수 있습니다.");
 		}else{
 			su = $(".pi_qty:eq("+idx+")").val(su*1-1); 
 			
@@ -74,9 +71,7 @@
 	
 	// 발주 품목의 수량을 늘려주는 이벤트
 	function plus(el) {
-		//var su = document.getElementsByName("pi_qty")[0].value;
-		//document.getElementsByName("pi_qty")[0].value = new Number(su) + 1;
-		//alert($('.upBtn').index(el));
+
 		var idx = $('.upBtn').index(el);
 		var su = $(".pi_qty:eq("+idx+")").val();
 		su = $(".pi_qty:eq("+idx+")").val(su*1+1); 
@@ -106,8 +101,6 @@
 		var idx = $('.pi_qty').index(el);
         var piQty = $(el).val();
         
-        //alert(piQty.length);
-        
         // 키를 눌렀을 때 해당 key의 코드를 받아옴 
         var keyValue = event.keyCode;
         
@@ -131,8 +124,7 @@
     			sumQty += Number(piQtyList[i].value);
     			sumPrice += Number(piSumPriceList[i].value);
 			}
-    		//alert(sumQty);
-    		 
+    		
     		// 발주 품목 수량 text에 직접 입력할 때 총 수량 값 변경
     		var totalPiQty = Number($('input[name=totalPiQty]').val());
     		totalPiQty = Number(sumQty);
@@ -145,61 +137,10 @@
     		$('input[name=totalPiPrice]').val(totalPiPrice);
     		
         }if( ((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 문자 및 특수문자, 스페이스바를 입력했을 때
-        	alert("숫자만 입력해주세요!!");
+        	swal("", "숫자만 입력해주세요!!");
     		$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
         }
-        /* 
-     	// 숫자, BackSpace(8), delete(46)를 입력했을 때
-        if( ((keyValue >= 96) && (keyValue <= 105)) || ((keyValue >= 48) && (keyValue <= 57)) || keyValue==8 || keyValue==46 ){
-        	// 합계금액을 변경
-    		var price = Number(document.getElementsByName("pi_price")[idx].value);
-    		var sumPiPrice = Number(document.getElementsByName("sumPi_price")[idx].value);
-    		
-    		sumPiPrice = price * piQty;	// 가격 * 현재 입력되어 있는 수량으로 합계금액을 계산
-    		
-    		document.getElementsByName("sumPi_price")[idx].value = sumPiPrice;
-    		
-    		// 발주 품목에 있는 모든 수량과 금액을 종합 함
-    		var piQtyList = document.getElementsByName("pi_qty");
-    		var piSumPriceList = document.getElementsByName("sumPi_price");
-    		var sumQty = 0;
-    		var sumPrice = 0;
-    		
-    		for (var i = 0; i < piQtyList.length; i++) {
-    			sumQty += Number(piQtyList[i].value);
-    			sumPrice += Number(piSumPriceList[i].value);
-			}
-    		//alert(sumQty);
-    		 
-    		// 발주 품목 수량 text에 직접 입력할 때 총 수량 값 변경
-    		var totalPiQty = Number($('input[name=totalPiQty]').val());
-    		totalPiQty = Number(sumQty);
-    		$('input[name=totalPiQty]').val(totalPiQty);
-    		
-    		
-    		// 발주 품목 수량 text에 직접 입력할 때 총 금액 값 변경
-    		var totalPiPrice = Number($('input[name=totalPiPrice]').val());
-    		totalPiPrice = Number(sumPrice);
-    		$('input[name=totalPiPrice]').val(totalPiPrice);
-    		
-        }
-     	if( ((keyValue >= 65) && (keyValue <= 90)) || ((keyValue >= 97) && (keyValue <= 122)) ){	// 문자를 입력했을 때 
-     		alert("숫자만 입력해주세요!!");
-    		$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
-     	}
-        if( ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 특수문자, 스페이스바(32)를 입력했을 때
-    		alert("숫자만 입력해주세요!!");
-			$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
-    	}
-     	/* 
-     	if( ((keyValue >= 33) && (keyValue <= 47)) || ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 58) && (keyValue <= 64)) || ((keyValue >= 91) && (keyValue <= 96)) || ((keyValue >= 123) && (keyValue <= 126)) ){
-     		alert("숫자만 입력해주세요!!");
-    		$(el).val(piQty.substring(0, piQty.length-1));	// 잘못 입력한 값을 지워줌
-     	}
-     	 */
-     	 
-     	
-          
+       
 	}
 	
 	// 재고 목록에서 해당 품목 추가를 했을 때 재고 목록에서는 사라지고 발주 품목에 추가되는 이벤트 
@@ -267,10 +208,9 @@
 
 		// 현재 줄의 인덱스 번호
 		var idx = $('input[name=delBtn]').index(line);
-		//alert(idx);
 		var piQty = document.getElementsByName("pi_qty")[idx].value;
 		var sumPiPrice = document.getElementsByName("sumPi_price")[idx].value;
-		//alert(piQty);
+
 		
 		// 발주 품목에서 삭제 버튼을 누를 때 총 수량 값 변경
 		var totalPiQty = Number($('input[name=totalPiQty]').val());
@@ -291,7 +231,7 @@
 		// 재고 목록에 삭제한 품목을 다시 보이게 함
 		var currentLine = document.getElementById(lineId);
 		currentLine.style.display = "";
-		cnt--;
+		cnt--;	// 발주 품목의 번호를  다시 계산해주기 위해 카운트 값 감소
 		
 		// 발주 품목의 번호를 다시 계산하기 위해 pi_seq들을 가져옴
 		var piSeq = document.getElementsByName("pi_seq").length;
@@ -327,41 +267,55 @@
 			
 			// 발주 품목 중 수량이 0인 품목이 있을 때
 			if(piQtys[i]==0){
-				alert((i+1)+"번째 발주 품목 [ "+piNames[i].value+" ]의 수량이 0 입니다.");
+				swal("", (i+1)+"번째 발주 품목 [ "+piNames[i].value+" ]의 수량이 0 입니다.");
 				return false;
 			}
 			// 발주 품목 중 수량이 숫자가 아닌 품목이 있을 때
 			if(isNaN(piQtys[i])){
-				alert((i+1)+"번째 발주 품목 [ "+piNames[i].value+" ]의 수량을 확인해주세요.");
+				swal("", (i+1)+"번째 발주 품목 [ "+piNames[i].value+" ]의 수량을 확인해주세요.");
 				return false;
 			}
 		}
-		alert("웃지마세요 : " + itemSeqs);
+
 		if(piSeqs == 0){	// 발주할 품목이 존재하지 않을 때
-			alert("발주하실 품목을 선택해 주세요!");	
+			swal("", "발주하실 품목을 선택해 주세요!");
 			return false;
 		}else{
-			var isc = confirm("해당 발주를 신청하시겠습니까??");
-			
-			if(isc){
+			 
+			swal({
+				title: "발주 신청",
+				text: "해당 발주를 신청하시겠습니까??",
+				showCancelButton: true,
+				confirmButtonColor: "lightgray",
+				confirmButtonText: "취 소",
+				cancelButtonText: "확 인",
+				closeOnConfirm: true,
+				closeOnCancel: false
 				
-				$.ajax({
-					url : "./paoRequest.do",	// 요청 URL
-					type : "post",	// 전송 처리 방식
-					asyn : false,	// trun 비동기식, false 동기식
-					data : "store_code="+storeCode+"&item_seqs="+itemSeqs+"&pi_qtys="+piQtys,	// 서버 전송 파라미터(매장코드, 재고번호, 수량)
-					success : function() {
-						alert("발주 신청이 완료되었습니다!");
-						opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
-						window.close();	// 발주 신청 창 닫음
+			}, function(isConfirm){
+				if(!isConfirm){
+					$.ajax({
+						url : "./paoRequest.do",	// 요청 URL
+						type : "post",	// 전송 처리 방식
+						asyn : false,	// trun 비동기식, false 동기식
+						data : "store_code="+storeCode+"&item_seqs="+itemSeqs+"&pi_qtys="+piQtys,	// 서버 전송 파라미터(매장코드, 재고번호, 수량)
+						success: function(){
+							swal({
+								title: "발주 신청 완료", 
+								text: "발주 신청이 완료되었습니다", 
+								type: "success"
+							},function(){
+								opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
+								window.close();	// 발주 신청 창 닫음	
+							});
+							
+						}, error: function(msg){
+							swal("발주 신청 실패", "발주 신청이 실패하였습니다", "error");	
+						}
 						
-					}, error : function() {
-						alert("발주 신청이 실패했습니다. 다시 신청해주세요.");
-					}
-				});
-				 
-			}
-			
+					});
+				}
+			}); 
 		}
 		
 		return false;
@@ -369,10 +323,28 @@
 	
 	// 닫기 버튼 클릭 이벤트
 	function closeWindow() {
-		var isc = confirm("해당 발주를 종료하시겠습니까??");
-		if(isc){
-			window.close();
-		}
+		
+		swal({
+			title: "발주 신청 종료",
+			text: "해당 발주를 종료하시겠습니까??",
+			showCancelButton: true,
+			confirmButtonColor: "lightgray",
+			confirmButtonText: "취 소",
+			cancelButtonText: "확 인",
+			closeOnConfirm: true,
+			closeOnCancel: false
+			
+		}, function(isConfirm){
+			if(!isConfirm){
+				swal({
+					title: "발주 신청 종료", 
+					type: "error"
+				},function(){
+					window.close();	// 발주 신청 창 닫음	
+				});
+
+			}
+		});
 	}
 	
 </script>

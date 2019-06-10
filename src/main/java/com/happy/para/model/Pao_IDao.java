@@ -34,14 +34,14 @@ public interface Pao_IDao {
 	// 담당자 : 매장 발주 상태 선택 조회 및 매장 발주 날짜 선택 조회한 발주 내역 갯수(페이징)
 	public int adminPaoStatusListRow(Map<String, Object> map);
 	
-	// 업주 : 발주 신청 시 재고 목록 조회
-	public List<StockDto> paoStockList(String store_code);
-	
-	// 업주 : 발주 상세보기(발주)
+	// 업주, 담당자 : 발주 상세보기(발주)
 	public PaoDto paoDetail(Map<String, String> map);
 	
-	// 업주 : 발주 상세보기(발주품목)
+	// 업주, 담당자 : 발주 상세보기(발주품목)
 	public List<ItemDto> paoPiDetail(String pao_seq);
+	
+	// 업주 : 발주 신청 시 재고 목록 조회
+	public List<StockDto> paoStockList(String store_code);
 	
 	// 업주 : 발주 신청(발주 테이블 INSERT)
 	public boolean paoInsert(Map<String, String> map);

@@ -26,81 +26,121 @@
 		location.href = "./poiPao.do?store_code=${paoDto.store_code}&pao_seq=${paoDto.pao_seq}";
 	}
 	
-
 	// 담당자가 발주 상세내역에서 발주 승인 처리 시 발생하는 이벤트
 	function approve() {
 		var pao_seq = document.getElementById("pao_seq").value;
-		var isc = confirm("해당 발주를 승인하시겠습니까??");
 		
-		if(isc){
+		swal({
+			title: "발주 승인",
+			text: "해당 발주를 승인하시겠습니까??",
+			showCancelButton: true,
+			confirmButtonColor: "lightgray",
+			confirmButtonText: "취 소",
+			cancelButtonText: "확 인",
+			closeOnConfirm: true,
+			closeOnCancel: false
 			
-			$.ajax({
-				url : "./approvePao.do",	// 요청 URL
-				type : "post",	// 전송 처리 방식
-				asyn : false,	// trun 비동기식, false 동기식
-				data : "pao_seq="+pao_seq,	// 서버 전송 파라미터(매장코드, 재고번호, 수량)
-				success : function() {
-					alert("발주 승인이 완료되었습니다!");
-					opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
-					window.close();	// 발주 상세내역 창 닫음
-					
-				}, error : function() {
-					alert("발주 승인 처리를 실패했습니다. 다시 처리해주세요.");
-				}
-			});
-			 
-		}
-		
+		}, function(isConfirm){
+			if(!isConfirm){
+				$.ajax({
+					url : "./approvePao.do",	// 요청 URL
+					type : "post",	// 전송 처리 방식
+					asyn : false,	// trun 비동기식, false 동기식
+					data : "pao_seq="+pao_seq,	// 서버 전송 파라미터(발주번호)
+					success: function(){
+						swal({
+							title: "발주 승인 완료", 
+							text: "발주 승인이 완료되었습니다", 
+							type: "success"
+						},function(){
+							opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
+							window.close();	// 발주 신청 창 닫음	
+						});
+						
+					}, error: function(msg){
+						swal("발주 승인 실패", "발주 승인이 실패하였습니다", "error");	
+					}
+				});
+			}
+		});
 	}
 	
 	// 담당자가 승인 처리를 한 발주를 업주가 발주 상세내역에서 발주 완료 처리 시 발생하는 이벤트
 	function complete() {
 		var pao_seq = document.getElementById("pao_seq").value;
-		var isc = confirm("해당 발주를 완료하시겠습니까??");
 		
-		if(isc){
+		swal({
+			title: "발주 완료",
+			text: "해당 발주를 완료하시겠습니까??",
+			showCancelButton: true,
+			confirmButtonColor: "lightgray",
+			confirmButtonText: "취 소",
+			cancelButtonText: "확 인",
+			closeOnConfirm: true,
+			closeOnCancel: false
 			
-			$.ajax({
-				url : "./completePao.do",	// 요청 URL
-				type : "post",	// 전송 처리 방식
-				asyn : false,	// trun 비동기식, false 동기식
-				data : "pao_seq="+pao_seq,	// 서버 전송 파라미터(매장코드, 재고번호, 수량)
-				success : function() {
-					alert("발주가 최종적으로 완료되었습니다!");
-					opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
-					window.close();	// 발주 상세내역 창 닫음
-					
-				}, error : function() {
-					alert("발주 완료 처리를 실패했습니다. 다시 처리해주세요.");
-				}
-			});
-			 
-		}
+		}, function(isConfirm){
+			if(!isConfirm){
+				$.ajax({
+					url : "./completePao.do",	// 요청 URL
+					type : "post",	// 전송 처리 방식
+					asyn : false,	// trun 비동기식, false 동기식
+					data : "pao_seq="+pao_seq,	// 서버 전송 파라미터(발주번호)
+					success: function(){
+						swal({
+							title: "발주 완료", 
+							text: "발주가 최종 완료되었습니다", 
+							type: "success"
+						},function(){
+							opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
+							window.close();	// 발주 신청 창 닫음	
+						});
+						
+					}, error: function(msg){
+						swal("발주 완료 실패", "발주 완료가 실패하였습니다", "error");	
+					}
+				});
+			}
+		});
 	}
 	
 	// 대기중인 발주를 업주가 발주 상세내역에서 발주 취소 처리 시 발생하는 이벤트
 	function cancle() {
 		var pao_seq = document.getElementById("pao_seq").value;
-		var isc = confirm("해당 발주를 취소하시겠습니까??");
 		
-		if(isc){
+		swal({
+			title: "발주 취소",
+			text: "해당 발주를 취소하시겠습니까??",
+			showCancelButton: true,
+			confirmButtonColor: "lightgray",
+			confirmButtonText: "취 소",
+			cancelButtonText: "확 인",
+			closeOnConfirm: true,
+			closeOnCancel: false
 			
-			$.ajax({
-				url : "./canclePao.do",	// 요청 URL
-				type : "post",	// 전송 처리 방식
-				asyn : false,	// trun 비동기식, false 동기식
-				data : "pao_seq="+pao_seq,	// 서버 전송 파라미터(매장코드, 재고번호, 수량)
-				success : function() {
-					alert("발주가 취소되었습니다!");
-					opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
-					window.close();	// 발주 상세내역 창 닫음
-					
-				}, error : function() {
-					alert("발주 취소 처리를 실패했습니다. 다시 처리해주세요.");
-				}
-			});
-			 
-		}
+		}, function(isConfirm){
+			if(!isConfirm){
+				$.ajax({
+					url : "./canclePao.do",	// 요청 URL
+					type : "post",	// 전송 처리 방식
+					asyn : false,	// trun 비동기식, false 동기식
+					data : "pao_seq="+pao_seq,	// 서버 전송 파라미터(발주번호)
+					success: function(){
+						swal({
+							title: "발주 취소 완료", 
+							text: "발주 취소가 완료되었습니다", 
+							type: "success"
+						},function(){
+							opener.parent.location.reload();	// 부모 페이지인 paoList.jsp 페이지 새로고침 실행
+							window.close();	// 발주 신청 창 닫음	
+						});
+						
+					}, error: function(msg){
+						swal("발주 취소 실패", "발주 취소가 실패하였습니다", "error");	
+					}
+				});
+			}
+		});
 	}
 </script>
 <style type="text/css">
@@ -192,8 +232,6 @@
 			</table>
 		</div>
 	</div>			
-				 
-				
 					
 	<h4>▣ 발주 품목</h4>
 	<div id="piList">

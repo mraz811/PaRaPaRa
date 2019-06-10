@@ -1,11 +1,5 @@
 package com.happy.para.ctrl;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,14 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.happy.para.dto.AdminDto;
 import com.happy.para.dto.ItemDto;
-import com.happy.para.dto.NoticeDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.PagingDto;
 import com.happy.para.dto.PaoDto;
 import com.happy.para.dto.StockDto;
 import com.happy.para.model.Pao_IService;
 
-import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -38,57 +30,13 @@ public class PaoCtrl {
 	@Autowired
 	private Pao_IService paoService;
 	
-	/*
-	@RequestMapping(value = "/test.do", method = RequestMethod.GET)
-	public void test(Model model) {
-		URL url = null;
-		URLConnection connection = null;
-		StringBuilder responseBody = new StringBuilder();
-		try {
-			url = new URL("https://pay.toss.im/api/v1/payments");
-			connection = url.openConnection();
-			connection.addRequestProperty("Content-Type", "application/json");
-			connection.setDoOutput(true);
-			connection.setDoInput(true);
-
-			org.json.simple.JSONObject jsonBody = new org.json.simple.JSONObject();
-			jsonBody.put("orderNo", "2015072012211");
-			jsonBody.put("amount", 10000);
-			jsonBody.put("amountTaxFree", 0);
-			jsonBody.put("productDesc", "테스트 결제");
-			jsonBody.put("apiKey", "sk_test_apikey1234567890");
-		    jsonBody.put("autoExecute", "true");
-		    jsonBody.put("resultCallback", "http://localhost:8099/PaRaPaRa/");
-		    jsonBody.put("retUrl", "http://YOUR-SITE.COM/ORDER-CHECK?orderno=1");
-		    jsonBody.put("retCancelUrl", "http://YOUR-SITE.COM/close");
-
-			BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
-			
-		    bos.write(jsonBody.toJSONString().getBytes(StandardCharsets.UTF_8));
-			bos.flush();
-			bos.close();
-
-			
-		    BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-			String line = null;
-			while ((line = br.readLine()) != null) {
-				responseBody.append(line);
-			}
-			br.close();
-		} catch (Exception e) {
-			responseBody.append(e);
-		}
-		System.out.println(responseBody.toString());
-	}
-	*/
-	
 	// 업주 : 발주 리스트 조회(페이징)
 	@RequestMapping(value="/selPaoList.do", method=RequestMethod.GET)
 	public String paoList(Model model, HttpSession session) {
 		OwnerDto loginDto = (OwnerDto) session.getAttribute("loginDto");	// 세션 정보 받아옴
 		String store_code = loginDto.getStore_code();	// 로그인한 업주의 매장코드
 		
-		System.out.println("=== 넘겨받은 매장코드 === : "+store_code);
+		System.out.println("=== 매장코드 === : "+store_code);
 		
 		PagingDto rowDto = null;
 		
@@ -115,6 +63,7 @@ public class PaoCtrl {
 		model.addAttribute("paoLists", paoLists);
 		model.addAttribute("paoRow", rowDto);
 		model.addAttribute("loginDto", loginDto);
+		
 		return "pao/paoList";
 	}
 	
@@ -149,6 +98,7 @@ public class PaoCtrl {
 		model.addAttribute("paoLists", paoLists);
 		model.addAttribute("paoRow", rowDto);
 		model.addAttribute("loginDto", loginDto);
+		
 		return "pao/paoList";
 	}
 
@@ -197,7 +147,7 @@ public class PaoCtrl {
 					endDate = "9999-12-31";
 				}
 				
-				// 조건에 맞는 발주 갯수를 구하기 위한 Map
+				// 조건에 맞는 발주 내역 갯수를 구하기 위한 Map
 				Map<String, Object> cntMap = new HashMap<>();
 				cntMap.put("store_code", store_code);
 				cntMap.put("status_list", statusLists);
@@ -219,8 +169,8 @@ public class PaoCtrl {
 		}
 		if(loginDtoAuth.equalsIgnoreCase("A")) { // 담당자
 			AdminDto loginDto = (AdminDto) session.getAttribute("loginDto");
-			store_code = loginDto.getLoc_code();	// 담당자의loc_code를 사용
-			System.out.println("========================= 스토어 코드 : "+store_code);
+			store_code = loginDto.getLoc_code();	// 담당자의 loc_code를 사용
+
 			// 날짜를 선택하지 않았을 때 보여줄 발주 내역
 			if( (paoStatus.equals("") || paoStatus==null) && (startDate.equals("") || startDate==null) && (endDate.equals("") || endDate==null) ) {	
 				pDto.setTotal(paoService.adminPaoListRow(store_code));	// 담당 지역 매장의 전체 발주 내역 갯수를 set(페이징 처리를 위해)
@@ -245,7 +195,7 @@ public class PaoCtrl {
 					endDate = "9999-12-31";
 				}
 				
-				// 조건에 맞는 발주 갯수를 구하기 위한 Map
+				// 조건에 맞는 발주 내역 갯수를 구하기 위한 Map
 				Map<String, Object> cntMap = new HashMap<>();
 				cntMap.put("store_code", store_code);
 				cntMap.put("status_list", statusLists);
@@ -269,7 +219,8 @@ public class PaoCtrl {
 		// 기존 발주 갯수를 지우고 현재 발주 갯수를 set  
 		session.removeAttribute("paoRow");
 		session.setAttribute("paoRow", pDto);
-		System.out.println("json.toString() : "+json.toString());
+		// System.out.println("json.toString() : "+json.toString());
+		
 		return json.toString();
 	}
 	
@@ -352,7 +303,7 @@ public class PaoCtrl {
 			OwnerDto loginDto = (OwnerDto) session.getAttribute("loginDto");
 			store_code = loginDto.getStore_code();	// 업주의 store_code를 사용
 			
-			// 조건에 맞는 발주 갯수를 구하기 위한 Map
+			// 조건에 맞는 발주 내역 갯수를 구하기 위한 Map
 			Map<String, Object> cntMap = new HashMap<>();
 			cntMap.put("store_code", store_code);
 			cntMap.put("status_list", statusLists);
@@ -381,7 +332,7 @@ public class PaoCtrl {
 			AdminDto loginDto = (AdminDto) session.getAttribute("loginDto");
 			store_code = loginDto.getLoc_code();	// 담당자의 loc_code를 사용
 			
-			// 조건에 맞는 발주 갯수를 구하기 위한 Map
+			// 조건에 맞는 발주 내역 갯수를 구하기 위한 Map
 			Map<String, Object> cntMap = new HashMap<>();
 			cntMap.put("store_code", store_code);
 			cntMap.put("status_list", statusLists);
@@ -400,27 +351,21 @@ public class PaoCtrl {
 			map.put("start", rowDto.getStart());
 			map.put("end", rowDto.getEnd());
 						
-			List<PaoDto> paoLists = paoService.adimPaoSelectStatusDate(map);
+			List<PaoDto> paoLists = paoService.adimPaoSelectStatusDate(map);	// 조건에 맞는 발주 내역
 					
 			System.out.println(paoLists);
 
 			json = objectJson(paoLists, rowDto);	// 조건에 맞는 발주 내역과 그 갯수를 JSONObject 타입으로 만듦			
 		}
 		
-		
-		
 		// 기존 발주 갯수를 지우고 현재 발주 갯수를 set  
 		session.removeAttribute("paoRow");
 		session.setAttribute("paoRow", rowDto);
-		
-		//obj.put("paoLists", paoLists);
-		//model.addAttribute("paoLists", paoLists);
-		//model.addAttribute("paoRow", rowDto);
-		
+
 		return json.toString();
 	}
 	
-	// 업주 : 발주 상세조회
+	// 업주, 담당자 : 발주 상세조회
 	@RequestMapping(value="/paoDetailOpen.do", method=RequestMethod.GET)
 	public String paoDetailView(String store_code, String pao_seq, Model model){
 		System.out.println("=== 넘겨받은 매장코드 === : "+store_code);
@@ -451,6 +396,7 @@ public class PaoCtrl {
 		System.out.println(stockLists);
 		
 		model.addAttribute("stockLists", stockLists);
+		
 		return "/pao/paoRequest";
 	}
 	
@@ -467,18 +413,17 @@ public class PaoCtrl {
 		map.put("store_code", store_code);
 		
 		ItemDto dto = new ItemDto(0, item_seqs, pi_qtys, 0);
-		System.out.println("===================== 디티오 =============== : "+dto.getItem_seqs()[0]+" : "+dto.getPi_qtys()[0]);
+		// System.out.println("================== 디티오 =============== : "+dto.getItem_seqs()[0]+" : "+dto.getPi_qtys()[0]);
 		int cnt = item_seqs.length;	// 발주 품목 갯수
 		
 		// 트랜잭션 처리
-		boolean isc = paoService.paoRequest(map, dto, item_seqs.length);
+		boolean isc = paoService.paoRequest(map, dto, cnt);
 		
 		if(isc) {
 			System.out.println("발주 신청 완료!!");
 		}else {
 			System.out.println("발주 신청 실패..");
 		}
-		
 		
 	}
 	

@@ -69,13 +69,13 @@ public class Pao_DaoImpl implements Pao_IDao {
 		return sqlSession.selectOne(NS+"adminPaoStatusListRow", map);
 	}
 	
-	// 업주 : 발주 상세보기(발주)
+	// 업주, 담당자 : 발주 상세보기(발주)
 	@Override
 	public PaoDto paoDetail(Map<String, String> map) {
 		return sqlSession.selectOne(NS+"paoDetail", map);
 	}
 	
-	// 업주 : 발주 상세보기(발주품목)
+	// 업주, 담당자 : 발주 상세보기(발주품목)
 	@Override
 	public List<ItemDto> paoPiDetail(String pao_seq) {
 		return sqlSession.selectList(NS+"paoPiDetail", pao_seq);
