@@ -1,7 +1,6 @@
 
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
@@ -111,7 +110,7 @@ td {
 	padding: 5px;
 }
 </style>
-<title>noticeDetail</title>
+<title>공지사항 상세 보기</title>
 
 </head>
 <body>

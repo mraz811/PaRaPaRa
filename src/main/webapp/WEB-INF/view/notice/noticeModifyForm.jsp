@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항 수정</title>
 <style type="text/css">
 #backBtn {
 	position: absolute;
@@ -20,6 +20,7 @@
 
 #subBtn {
 	position: absolute;
+	width: 62px;
 	right: 110px;
 	bottom: 383px;
 }
@@ -51,6 +52,23 @@ td {
 	function listMove() {
 		location.href = "./selNoticeList.do";
 	}
+	
+	function modi() {
+		
+		var WriteTitle = document.getElementById("writeTitle").value;
+		var writeContent = document.getElementById("writeContent").value;
+		
+		title = WriteTitle.replace(/ /g, "");
+		content = writeContent.replace(/ /g, "");
+		
+		if(title == "" || content == ""){
+			swal("등록 에러", "제목 및 내용을 입력하세요.", "warning");
+		}else{
+			var frm = document.forms[0];
+			frm.action = "./noticeModify.do";
+			frm.submit();			
+		}
+	}
 </script>
 <body>
 	<div id="container">
@@ -69,7 +87,7 @@ td {
 					</ul>
 					<div class="tab-content">
 
-						<form action="./noticeModify.do" method="post">
+						<form action="#" method="post">
 							<input type="hidden" name="notice_seq" value="${dto.notice_seq}">
 
 							<table>
@@ -86,19 +104,18 @@ td {
 							</table>
 							
 							<div id="titleWrite" style="width: 893px;">
-								<input class="form-control form-control" type="text" placeholder="${dto.notice_title}" name="notice_title"
-									required="required" value="${dto.notice_title}" />
+								<input class="form-control form-control" id="writeTitle" type="text" name="notice_title" value="${dto.notice_title}" />
 							</div>
 							
-							<input id="subBtn" class="btn btn-outline-success" type="submit" value="수　정">
+							<input id="subBtn" class="btn btn-outline-success" value="수　정" onclick="modi()">
 							<input id="backBtn" class="btn btn-outline-primary" type="button" onclick="listMove()" value="목　록">
 							
 							<table>
 								<tr>
 									<td style="padding: 2px; width: 1100px;">
 										<div class="form-group">
-											<textarea class="form-control" style="text-align: left;" rows="15" id="comment" name="notice_content"
-												placeholder="${dto.notice_content}" required="required">${dto.notice_content}</textarea>
+											<textarea class="form-control" id="writeContent" style="text-align: left;" rows="15" id="comment" name="notice_content"
+												>${dto.notice_content}</textarea>
 										</div>
 									</td>
 								</tr>

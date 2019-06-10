@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>TimeSheet</title>
 <link rel="stylesheet" type="text/css" href="css/TimeTable.css"/>
 </head>
 <body>

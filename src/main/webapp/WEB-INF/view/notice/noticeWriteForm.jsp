@@ -11,8 +11,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>noticeWriteForm</title>
+<title>공지사항 등록</title>
 <style type="text/css">
+
 #backBtn {
 	position: absolute;
 	right: 30px;
@@ -21,6 +22,7 @@
 
 #subBtn {
 	position: absolute;
+	width: 62px;
 	right: 110px;
 	bottom: 383px;
 }
@@ -52,6 +54,23 @@ td {
 	function listMove() {
 		location.href = "./selNoticeList.do";
 	}
+	
+	function regi() {
+		
+		var WriteTitle = document.getElementById("writeTitle").value;
+		var writeContent = document.getElementById("writeContent").value;
+		
+		title = WriteTitle.replace(/ /g, "");
+		content = writeContent.replace(/ /g, "");
+		
+		if(title == "" || content == ""){
+			swal("등록 에러", "제목 및 내용을 입력하세요.", "warning");
+		}else{
+			var frm = document.forms[0];
+			frm.action = "./regiNotice.do";
+			frm.submit();			
+		}
+	}
 </script>
 <body>
 
@@ -72,7 +91,8 @@ td {
 					<div class="tab-content">
 						<div>
 							<div>
-								<form role="form" action="./regiNotice.do" method="post">
+<!-- 								<form role="form" action="./regiNotice.do" method="post"> -->
+								<form role="form" action="#" method="post">
 									<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
 
 									<table>
@@ -89,19 +109,18 @@ td {
 									</table>
 									
 									<div id="titleWrite" style="width: 893px;">
-										<input class="form-control form-control" type="text" placeholder="제목을 입력하세요" name="notice_title"
-											required="required" />
+										<input class="form-control form-control" id="writeTitle" type="text" placeholder="제목을 입력하세요" name="notice_title"/>
 									</div>
 									
-									<input id="subBtn" class="btn btn-outline-success" type="submit" value="등　록">
+									<input id="subBtn" class="btn btn-outline-success" value="등　록" onclick="regi()">
 									<input id="backBtn" class="btn btn-outline-primary" type="button" onclick="listMove()" value="목　록">
 									
 									<table>
 										<tr>
 											<td style="padding: 2px; width: 1100px;">
 												<div class="form-group">
-													<textarea class="form-control" style="text-align: left;" rows="15" id="comment" name="notice_content"
-														placeholder="내용을 입력하세요" required="required"></textarea>
+													<textarea class="form-control" id="writeContent" style="text-align: left;" rows="15" id="comment" name="notice_content"
+														placeholder="내용을 입력하세요"></textarea>
 												</div>
 											</td>
 										</tr>
