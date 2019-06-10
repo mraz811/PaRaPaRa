@@ -33,12 +33,5 @@ public class Calendar_DaoImpl implements Calendar_IDao{
 	public List<CalDto> calList(String store_code) {
 		return sqlSession.selectList("para.calendar.calList", store_code);
 	}
-
-	@Override
-	public CalDto calDetail(CalDto dto) {
-		return sqlSession.selectOne("para.calendar.calDetail", dto);
-	}
-	
-	
 	
 }

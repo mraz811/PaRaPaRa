@@ -85,33 +85,13 @@ public class StockCtrl {
 	
 		String store_code = dto.getStore_code();
 		
-// 아이템 Dto/ 서비스 수정
-		
 		List<ItemDto> itemList = itemSer.itemList();
 		List<StockDto> lists = stockSer.stockOne(store_code);
 		
 		System.out.println("selStockOne의 lists >"+lists);
 
 		dto.setStore_code(store_code);
-		/*
-		int cnt = 0;
-		for (int i = 0; i < lists.size(); i++) {
-			if(lists.get(i).getStock_seq() == 0) {
-				dto.setStock_name(lists.get(i).getStock_name());
-				dto.setStock_qty(0);			
-				stockSer.stockAdd(dto);
-				System.out.println("새로 추가된 품목 > "+lists.get(i).getStock_name());
 
-				cnt ++;
-				System.out.println("새로 추가된 품목들 수량 > "+cnt);
-
-				String[] newItem = new String[cnt];
-
-//				newItem += lists.get(i).getStock_name();
-			}
-		}*/
-
-		
 		model.addAttribute("lists", lists);
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("store_code", store_code);
@@ -142,24 +122,6 @@ public class StockCtrl {
 		}
 		return "redirect:/selStockOne.do?store_code="+store_code;
 	}
-	
-	/*
-	@RequestMapping(value="/addStockItem.do", method=RequestMethod.POST)
-	public String StockAdd(StockDto dto, ItemDto iDto) {
-												
-		// 화면에 뿌려진 store_code 가져옴 , 굳이 리스트 화면에 뿌리지 않고 세션에서 가져오면 됨
-		String store_code = dto.getStore_code();
-
-		dto.setStore_code(store_code);
-
-		for (int i = 1; i < dto.getSlists().size(); i++) {
-				dto.setStock_name(iDto.getIlists().get(i).getItem_name());
-				dto.setStock_qty(dto.getSlists().get(i).getStock_qty());			
-				stockSer.stockAdd(dto);
-		}
-		return "redirect:/selStockOne.do?store_code="+store_code;
-	}
-	*/
 	
 	@RequestMapping(value="/delStock.do", method=RequestMethod.GET)
 	public String stockDel(String stock_seq, String store_code) {

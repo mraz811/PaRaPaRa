@@ -23,7 +23,7 @@
 	<result property="ts_nightwork" column="TS_NIGHTWORK"/>
 </resultMap>
 
-<!--추후 추가 해야됨!!!!! timeSheet 매장별 조회  -->
+<!-- timeSheet 매장별 조회  -->
 	<select id="tsListAll" parameterType="java.util.Map" resultType="TimeDto">
 		SELECT TS_SEQ, ALBA_SEQ, SUBSTR(TS_DATE, 0, 7) TS_DATE, TS_DATETIME, TS_DAYWORK, TS_NIGHTWORK, TS_WORKHOUR
 			FROM TIMESHEET

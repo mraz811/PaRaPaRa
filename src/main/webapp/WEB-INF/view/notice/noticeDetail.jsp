@@ -245,7 +245,7 @@ td {
 						alert("작성된 댓글이 없습니다.");
 					} else {
 						var frm = document.forms[0];
-						frm.action = "./replyWrite.do";
+						frm.action = "./writeReply.do";
 						frm.submit();
 					}
 				});
@@ -256,7 +256,7 @@ td {
 		var reply_seq = new String(seq);
 
 		var frm = document.forms[0];
-		frm.action = "./replyDel.do?reply_seq=" + reply_seq;
+		frm.action = "./delReply.do?reply_seq=" + reply_seq;
 		frm.submit();
 
 	}

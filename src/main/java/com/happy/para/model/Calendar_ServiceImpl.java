@@ -32,11 +32,5 @@ public class Calendar_ServiceImpl implements Calendar_IService {
 	public List<CalDto> calList(String store_code) {
 		return calDao.calList(store_code);
 	}
-
-	@Override
-	public CalDto calDetail(CalDto dto) {
-		return calDao.calDetail(dto);
-	}
-	
 	
 }

@@ -3,14 +3,6 @@
 <mapper namespace="para.stock">
 
 <!-- 매장 조회 -->
-	<select id="stockList" resultType="StockDto">
-		SELECT STOCK_SEQ, STORE_CODE, NVL(STOCK.STOCK_NAME,ITEM.ITEM_NAME) AS STOCK_NAME, STOCK_DELFLAG, ITEM_DELFLAG, ITEM_NAME, NVL(STOCK.STOCK_QTY,0) AS STOCK_QTY
-			FROM STOCK FULL OUTER JOIN ITEM ON STOCK.STOCK_NAME = ITEM.ITEM_NAME
-				WHERE STOCK_DELFLAG = 'N'	
-					ORDER BY STOCK.STOCK_NAME
-	</select>
-
-<!-- 매장 조회 -->
 	<select id="selStore" resultType="java.lang.String">
 		SELECT STORE_CODE
 			FROM STOCK
@@ -22,7 +14,7 @@
 			FROM (SELECT * FROM STOCK SS WHERE SS.STORE_CODE = #{store_code} AND SS.STOCK_DELFLAG = 'N') S 
 				FULL JOIN (SELECT * FROM ITEM WHERE ITEM_DELFLAG='N') I
     	  			ON S.STOCK_NAME = I.ITEM_NAME
-    	  				ORDER BY S.STOCK_NAME
+    	  				ORDER BY STORE_CODE DESC, S.STOCK_NAME
 	</select>
 
 <!-- 재고 추가 -->
@@ -58,14 +50,6 @@
 				AND STOCK_DELFLAG = 'N'
 				AND STOCK_NAME LIKE  '%' || #{stock_name}|| '%'
 					ORDER BY STOCK.STOCK_NAME
-				
-<!-- 				<if test="item_name != null"> -->
-<!-- 					WHERE ITEM_NAME LIKE  '%' || #{item_name}|| '%' -->
-<!-- 				</if> -->
-			
-<!-- 				WHERE STOCK_NAME LIKE  '%' || #{stock_name}|| '%' -->
-<!-- 				AND STORE_CODE = #{store_code} -->
-				
 	</select>
 	
 </mapper>
