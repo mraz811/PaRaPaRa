@@ -1412,9 +1412,15 @@ class CanvasT extends CalculationT{
                     id: "timeTableToolTip"})
                 .append(time)
                 .css({
-                    left : toolTipToDisplay.x,
-                    top : toolTipToDisplay.y + yToMove
+                    left : toolTipToDisplay.x-210,
+                    top : toolTipToDisplay.y + yToMove - 140
+//                	left : 0,
+//                	top : 0
                 });
+            
+//            alert("left >"+toolTipToDisplay.x);
+//            alert("top > "+toolTipToDisplay.y + yToMove);
+            
             let deleteButton = $("<button class=\"toolTipDelete\">x</button>");
 //            let deleteButton = $("");
             // Add Event to delete bar and also Tool tip
@@ -1490,6 +1496,10 @@ class CanvasT extends CalculationT{
                             time = `${super.int2Time(sTime)}-${super.int2Time(eTime)}`;
                             coordinate.x = this.startCoordinate.x;
                             coordinate.y = this.startCoordinate.y;
+//                            alert(coordinate.x);
+//                            alert(coordinate.y);
+//                            alert(coordinate);
+//                            alert(this.startCoordinate.x);
                             this.addTooltipEvent(shape, this.startCoordinate.index, time, coordinate);
                         });
                         startFlg = true;
@@ -1540,7 +1550,7 @@ class CanvasT extends CalculationT{
 //    	alert(currentDate);
     	
     	$.ajax({
-			url: "tsDelete.do",
+			url: "delTimeSheet.do",
 			type: "post",
 			asyn: false,
 			data: { 'ts_datetime' : time , 'alba_seq' : index , 'ts_date' : currentDate }, // 서버 전송 파라메터 

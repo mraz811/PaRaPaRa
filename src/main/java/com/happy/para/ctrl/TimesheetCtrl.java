@@ -241,9 +241,9 @@ public class TimesheetCtrl {
 
 	}
 
-	@RequestMapping(value="/tsDelete.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@RequestMapping(value="/delTimeSheet.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
-	public void timeDel(TimeDto dto, String ts_datetime, int alba_seq, String ts_date) {
+	public void delTimeSheet(TimeDto dto, String ts_datetime, int alba_seq, String ts_date) {
 
 		dto.setTs_datetime(ts_datetime);
 		dto.setAlba_seq(alba_seq);

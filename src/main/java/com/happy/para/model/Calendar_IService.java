@@ -19,7 +19,4 @@ public interface Calendar_IService {
 	// 일정 매장별 조회
 	public List<CalDto> calList(String store_code);
 	
-	// 일정 매장별 상세 조회
-	public CalDto calDetail(CalDto dto);
-	
 }

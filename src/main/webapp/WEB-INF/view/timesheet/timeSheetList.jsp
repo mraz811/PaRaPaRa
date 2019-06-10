@@ -56,9 +56,10 @@ function timeSheetDownload() {
 						</div>
 					</form>
 
+					<div id="timesheet" style="overflow-y: auto; height: 340px;">
+
 					<div id="test"></div>
 
-					<div id="timesheet" style="overflow-y: auto; height: 330px;">
 						<script src="js/jquery-3.2.1.min.js"></script>
 						<script src="js/createjs.min.js"></script>
 						<script src="js/TimeTable.js"></script>
@@ -78,9 +79,6 @@ function timeSheetDownload() {
 </body>
 
 <script type="text/javascript">
-
-// document.getElementById("currentDate").value = new Date().toISOString().substring(0, 10);
-
 function changheDate() {
 	
 	var ts_date = document.getElementById("currentDate").value;

@@ -133,8 +133,8 @@ public class NoticeCtrl {
 		return isc? "redirect:/selNoticeList.do" : "redirect:/selNoticeList.do";
 	}
 
-	@RequestMapping(value="/replyWrite.do", method=RequestMethod.POST)
-	public String replyWrite(ReplyDto dto, HttpSession session, Model model, String loginDtoAuth) {
+	@RequestMapping(value="/writeReply.do", method=RequestMethod.POST)
+	public String writeReply(ReplyDto dto, HttpSession session, Model model, String loginDtoAuth) {
 
 		System.out.println("loginDtoAuth? : "+loginDtoAuth);
 
@@ -158,8 +158,8 @@ public class NoticeCtrl {
 		return "redirect:/selNoticeDetail.do?notice_seq="+dto.getNotice_seq()+"&loginDtoAuth="+loginDtoAuth;
 	}
 
-	@RequestMapping(value="/replyDel.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public String replyDel(String loginDtoAuth, String notice_seq, @RequestParam("reply_seq")String reply_seq) {
+	@RequestMapping(value="/delReply.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public String delReply(String loginDtoAuth, String notice_seq, @RequestParam("reply_seq")String reply_seq) {
 
 		noticeSer.replyDelete(reply_seq);
 	

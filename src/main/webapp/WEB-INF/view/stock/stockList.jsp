@@ -93,15 +93,15 @@
 									<c:forEach var="dto" items="${lists}" varStatus="vs">
 											<tr>
 												<td style="width:45px; text-align: center;">
-													<c:if test="${dto.store_code eq NULL}">
-														<a style="color:red;">NEW</a>
-													</c:if>
 												${vs.count}</td>
 												<td style="width:245px; padding-left:120px;">
 													<input type="hidden" name="Slists[${vs.count}].stock_seq" value="${dto.stock_seq}" />
 													<input type="hidden" name="Slists[${vs.count}].stock_name" value="${dto.stock_name}" readonly="readonly"
 														style="border:none; background-color: none;" />
 													${dto.stock_name}
+													<c:if test="${dto.store_code eq NULL}">
+														<a style="color:red;">NEW</a>
+													</c:if>
 												</td>
 												<td style="width:220px; padding-left:140px;">
 													<input type="number" min="0" class="stockQty" name="Slists[${vs.count}].stock_qty" value="${dto.stock_qty}" readonly="readonly"  onkeyup="changeQty(this)"/>
