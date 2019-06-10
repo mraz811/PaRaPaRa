@@ -252,7 +252,7 @@ span{
 							</div>
 						</fieldset>
 						<input id="viewStats" class="btn btn-outline-primary"
-							type="button" value="통계보긔" onclick="adminStats()" />
+							type="button" value="통계보기" onclick="adminStats()" />
 							<span>※미선택 시 전체기간 조회</span>
 						<div id="statsDiv">
 							<div id="stats">

@@ -72,7 +72,7 @@ function reSell(menu_seq){
 						if(menu.menu_delflag == 'N'){
 							htmlText += "<div class=\"sell\" align='center'>"+
 							"<img class=\"menuImg\" src=\""+menu.file_rurl+"\" alt=\"\"/>"+
-							"<br><small>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"</small><br>"+
+							"<br>"+menu.menu_name+"&nbsp;&nbsp;"+menu.menu_price+"<br>"+
 							"<input class='btn btn-outline-success' id=\"modiMenu\" type=\"button\" value=\"수정\" onclick=\"menuModiForm("+menu.menu_seq+")\"/>"+
 							" <input class='btn btn-outline-warning' id=\"delMenu\" type=\"button\" value=\"삭제\" onclick=\"menuDel("+menu.menu_seq+")\"/>"+
 							"</div>";
