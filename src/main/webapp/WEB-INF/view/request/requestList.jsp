@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>주문 내역</title>
 <link rel="stylesheet" href="./css/requestList.css">
 </head>
 <script type="text/javascript" src="./js/requestList.js"></script>

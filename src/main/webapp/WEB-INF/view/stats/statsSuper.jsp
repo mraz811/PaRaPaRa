@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>업주:수익/지출 통계</title>
+<title>관리자:수익/지출 통계</title>
 <style type="text/css">
 #frm{
 	position: relative;

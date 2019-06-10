@@ -91,8 +91,8 @@
 	        return false;
 	    }
 		
-		var menu_name = document.getElementById("menu_name").value;
-		var menu_price = document.getElementById("menu_price").value;
+		var menu_name = document.getElementById("menu_name").value.trim();
+		var menu_price = document.getElementById("menu_price").value.trim();
 		var select = document.getElementsByTagName("select")[0];
 		var index = select.selectedIndex;
 		var menu_category = select.options[index].value;
