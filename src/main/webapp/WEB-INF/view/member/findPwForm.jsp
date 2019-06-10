@@ -171,7 +171,17 @@ var findpwchk = function(){
 			success: function(msg){
 				if(msg=="성공"){
 					findPwForm.submit();
-					swal("이메일 확인", "임시 비밀번호로 로그인 해주세요","success");
+// 					swal("이메일 확인", "임시 비밀번호로 로그인 해주세요","success");
+					swal({
+						title: "이메일 전송 완료", 
+						text: "임시 비밀번호로 로그인 해주세요", 
+						type: "success"
+					},
+					function(){ 
+						self.close();
+					});
+					
+					
 				}else{
 					swal("비밀번호 찾기","아이디와 이메일을 확인해 주세요", "error");
 				}
