@@ -79,7 +79,7 @@ public class Pao_ServiceImpl implements Pao_IService {
 		return pao_IDao.adminPaoStatusListRow(map);
 	}
 	
-	// 업주 : 발주 상세보기(발주)
+	// 업주, 담당자 : 발주 상세보기(발주)
 	@Override
 	public PaoDto paoDetail(Map<String, String> map) {
 		logger.info("paoDetail : {}", map);
@@ -87,7 +87,7 @@ public class Pao_ServiceImpl implements Pao_IService {
 	}
 
 
-	// 업주 : 발주 상세보기(발주품목)
+	// 업주, 담당자 : 발주 상세보기(발주품목)
 	@Override
 	public List<ItemDto> paoPiDetail(String pao_seq) {
 		logger.info("paoPiDetail : {}", pao_seq);

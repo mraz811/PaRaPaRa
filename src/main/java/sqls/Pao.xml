@@ -26,7 +26,6 @@
 		ORDER BY (CASE PS_NAME WHEN '발주 승인' THEN 1 WHEN '발주 대기' THEN 2 WHEN '발주 취소' THEN 3 ELSE 4 END), PAO_SEQ DESC
 	</select>
 	 -->
-	 
 	<!-- 업주 : 매장 발주 내역 조회(페이징) -->
 	<select id="paoList" parameterType="java.util.Map" resultType="PaoDto">
 		SELECT RNUM, PAO_SEQ, STORE_CODE, STORE_NAME, PS_CODE, PS_NAME, PAO_DATE
@@ -136,7 +135,7 @@
 		    	 ]]>
 	</select>
 	 
-	<!-- 업주 : 발주 상세보기(발주) -->
+	<!-- 업주, 담당자 : 발주 상세보기(발주) -->
 	<select id="paoDetail" parameterType="java.util.Map" resultType="PaoDto">
 		SELECT PAO_SEQ, STORE_CODE, STORE_NAME, PS_CODE, PS_NAME, PAO_DATE
 		FROM PAOINFO
