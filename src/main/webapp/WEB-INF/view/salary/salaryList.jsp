@@ -128,7 +128,7 @@ function nextCalendar() {
 					<th style="padding-left:30px;">근무 시간 (주간)</th>
 					<th style="padding-left:30px;">근무 시간 (야간)</th>
 					<th style="width:90px; padding-left:35px;">시급</th>
-					<th style="padding-left:25px;">급여</th><th style="padding-left:30px;">은행명</th>
+					<th style="padding-left:25px;">급여</th><th style="padding-left:20px;">은행명</th>
 					<th style="padding-left:30px;">계좌번호</th>
 				</tr>
 		</table>

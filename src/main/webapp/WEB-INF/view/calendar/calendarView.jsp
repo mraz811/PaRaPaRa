@@ -120,7 +120,7 @@
 		    },
 		    endDatePlaceholder: function() {
 		      return '종료일';
-		    },		
+		    },
 		    // 입력 팝업 관련
 		    popupSave: function() {			    	
 		      return '저장';
@@ -258,22 +258,18 @@
 						'endyear': endday.getFullYear(), 'endmonth' : endday.getMonth()+1,
 						'endday' : endday.getDate() , 'endhours' : endday.getHours(),
 						'endminutes' : endday.getMinutes(),
-<%-- 						'store_code' : '<%=ldto.getStore_code()%>', --%>
 						'store_code' : '${store_code}',
-// 						'store_code' : 'Store_test1',
-			
 						'state' : schedule.state
 				}, // 서버 전송 파라메터
 				dataType: "json", // 서버에서 받는 데이터 타입
 				success: function(msg){
-					alert("성공");
-					alert(msg.id);
+					swal("등록 완료", "일정이 등록되었습니다.", "success");
 					var createcal = {						
 						    calendarId: schedule.calendarId,
 						    id: msg.id,
 						    title: schedule.title,
 						    location : schedule.location,
-// 						    isAllDay: schedule.isAllDay,					   
+// 						    isAllDay: schedule.isAllDay,				   
 						    start: schedule.start,
 						    end: schedule.end,
 						    category: schedule.isAllDay? 'allday' : 'time',
@@ -282,24 +278,40 @@
 				 	};
 					 calendar.createSchedules([createcal]);	
 				}, error : function() {
-					alert("실패");
+					swal("", "제목과 내용을 모두 입력해주세요.");
 				}
 			});
 		});
 
+	
+	
 		// 일정 변경 
 	 	calendar.on('beforeUpdateSchedule', function(event) {
 	 	         var schedule = event.schedule;
 	 	         var startTime = event.start;
 	 	         var endTime = event.end;	
 	 	         
-	 	         if(confirm("일정을 변경하시겠습니까?")){
-	 	        	 
-	 	        	 $.ajax({
-	 					url: "calModi.do", //요청 url
-	 					type: "post", // 전송 처리방식
-	 					asyn: false, // true 비동기 false 동기
-	 					data: { 'id' : schedule.id,
+	 	        swal({
+		 	   		title: "수정 확인",
+		 	   		text: "선택한 일정을 변경하시겠습니까?",
+		 	   		showCancelButton: true,
+		 	   		confirmButtonColor: "lightgray",
+		 	   		confirmButtonText: "취 소",
+		 	   		cancelButtonText: "확 인",
+		 	   		closeOnConfirm: false,
+			 	   	closeOnCancel: false
+			 	   	},
+		 	   	function(isConfirm){
+		 	   		if(isConfirm){ // confirmButtonText
+		 	   			swal("취소", "일정이 수정되지 않았습니다.", "error");
+//		 	    			return false;
+		 	   		} else{ // cancelButtonText
+		 	   			// 확인 했을 때
+		 	   			$.ajax({
+			 	   			url: "calModi.do", //요청 url
+		 					type: "post", // 전송 처리방식
+		 					asyn: false, // true 비동기 false 동기
+		 					data: { 'id' : schedule.id,
 	 							'title' : schedule.title ,
 	 							'content' : schedule.location ,  'isAllDay' : schedule.isAllDay ,
 	 							'startyear': startTime.getFullYear(), 'startmonth' : startTime.getMonth()+1,
@@ -310,25 +322,68 @@
 	 							'endminutes' : endTime.getMinutes(),
 	 							'store_code' : '${store_code}',
 	 							'state' : schedule.state
-	 					}, // 서버 전송 파라메터
-	 					dataType: "json", // 서버에서 받는 데이터 타입
-	 					success: function(msg){
-	 						alert("성공");
-	 						alert(msg.id);		
-	 						// 일정 수정
-	 						 calendar.updateSchedule(schedule.id, schedule.calendarId, {
-	 			 	             start: startTime,
-	 			 	             end: endTime,
-	 			 	             location : schedule.location,
-	 			 	             title : schedule.title	,
-// 	 			 	             isAllDay: schedule.isAllDay,			 	             
-	 			 	             state : schedule.state
-	 			 	         });	 						 
-	 					}, error : function() {
-	 						alert("실패");
-	 					}
-	 				});	
-	 			}
+	 						},
+	 						dataType: "json",
+		 	   				async : false,
+	   						success: function(msg){	
+	   							calendar.updateSchedule(schedule.id, schedule.calendarId, {
+	 	 			 	             start: startTime,
+	 	 			 	             end: endTime,
+	 	 			 	             location : schedule.location,
+	 	 			 	             title : schedule.title	,
+	// 	 			 	             isAllDay: schedule.isAllDay,			 	             
+	 	 			 	             state : schedule.state
+	 	 			 	         });
+	   							swal("성공", "성공적으로 수정되었습니다.", "success");
+	   						},
+		 	   		        error: function (data) {
+		 	   		        	swal("수정 에러", "일정이 수정되지 않았습니다.", "error");
+		 	   		        }
+		 	   			});
+		 	   		}
+		 	   	});
+	 	         
+	 	         
+	 	         
+	 	         
+	 	         
+// 	 	         if(confirm("일정을 변경하시겠습니까?")){
+
+// 	 	        	 $.ajax({
+// 	 					url: "calModi.do", //요청 url
+// 	 					type: "post", // 전송 처리방식
+// 	 					asyn: false, // true 비동기 false 동기
+// 	 					data: { 'id' : schedule.id,
+// 	 							'title' : schedule.title ,
+// 	 							'content' : schedule.location ,  'isAllDay' : schedule.isAllDay ,
+// 	 							'startyear': startTime.getFullYear(), 'startmonth' : startTime.getMonth()+1,
+// 	 							'startday' : startTime.getDate() , 'starthours' : startTime.getHours(),
+// 	 							'startminutes' : startTime.getMinutes(),
+// 	 							'endyear': endTime.getFullYear(), 'endmonth' : endTime.getMonth()+1,
+// 	 							'endday' : endTime.getDate() , 'endhours' : endTime.getHours(),
+// 	 							'endminutes' : endTime.getMinutes(),
+// 	 							'store_code' : '${store_code}',
+// 	 							'state' : schedule.state
+// 	 					}, // 서버 전송 파라메터
+// 	 					dataType: "json", // 서버에서 받는 데이터 타입
+// 	 					success: function(msg){
+// 	 						swal("", "일정 수정이 완료되었습니다.");
+// 	 						// 일정 수정
+// 	 						 calendar.updateSchedule(schedule.id, schedule.calendarId, {
+// 	 			 	             start: startTime,
+// 	 			 	             end: endTime,
+// 	 			 	             location : schedule.location,
+// 	 			 	             title : schedule.title	,
+// // 	 			 	             isAllDay: schedule.isAllDay,			 	             
+// 	 			 	             state : schedule.state
+// 	 			 	         });	 						 
+// 	 					}, error : function() {
+// 	 						swal("", "일정 수정이 실패하였습니다.");
+// 	 					}
+// 	 				});	
+// 	 			}
+	 	         
+	 	         
 	 	     });
 		
 		// 스케쥴 클릭시 이벤트
@@ -349,27 +404,55 @@
 	 	
 	 	// 삭제시
 	 	calendar.on('beforeDeleteSchedule', function(event) {
-	 	         var schedule = event.schedule;	 	
-	 	         alert(schedule.id);
-	 	         if(confirm("정말 삭제하시겠습니까?")){	 	        	 
-	 	        	 $.ajax({
-		 					url: "delCal.do", //요청 url
-		 					type: "post", // 전송 처리방식
-		 					asyn: false, // true 비동기 false 동기
-		 					data: { 'cal_seq' : schedule.id,
-		 					}, // 서버 전송 파라메터
-		 					dataType: "json", // 서버에서 받는 데이터 타입
-		 					success: function(msg){		 						
-		 						if(msg.isc >= 1){					
-		 							alert("성공");
-		 							calendar.deleteSchedule (schedule.id, schedule.calendarId,false); 
-		 						}
-		 					}, error : function() {
-		 						alert("실패");
-		 						
-		 					}
-		 				});		 	         	
-	 	         }
+	 	        var schedule = event.schedule;	 	
+	 	         
+	 	        swal({
+	 	   		title: "삭제 확인",
+	 	   		text: "선택한 일정을 삭제하시겠습니까?",
+	 	   		type: "warning",
+	 	   		showCancelButton: true,
+	 	   		confirmButtonColor: "lightgray",
+	 	   		confirmButtonText: "취 소",
+	 	   		cancelButtonText: "확 인",
+	 	   		closeOnConfirm: false,
+		 	   	closeOnCancel: false
+		 	   	},
+	 	   	function(isConfirm){
+	 	   		if(isConfirm){ // confirmButtonText
+	 	   			swal("취소", "일정이 삭제되지 않았습니다.", "error");
+//	 	    			return false;
+	 	   		} else{ // cancelButtonText
+	 	   			// 확인 했을 때
+	 	   			$.ajax({
+		 	   			url: "delCal.do", //요청 url
+	 					type: "post", // 전송 처리방식
+	 					asyn: false, // true 비동기 false 동기
+	 					data: { 'cal_seq' : schedule.id },
+	 	   				async : false,
+   						success: function(msg){		 						
+	 						if(msg.isc >= 1){
+	 							calendar.deleteSchedule (schedule.id, schedule.calendarId,false); 
+	 						}
+ 							swal({
+	 	   						title: "삭제 완료", 
+	 	   						text: "일정 삭제가 완료되었습니다", 
+	 	   						type: "success"
+	 	   					},
+	 	   					function(){ 
+	 	   						location.reload();
+	 	   					});
+	 	   				},
+	 	   		        error: function (data) {
+	 	   		        	swal("삭제 에러", "일정이 삭제되지 않았습니다.", "error");
+	 	   		        }
+	 	   			});
+	 	   		}
+	 	   	});
+	 	         
+	 	         
+	 	         
+	 	         
+	 	         
 	 	});
 
 	 	// 달 이동

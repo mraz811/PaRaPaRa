@@ -98,7 +98,7 @@
 								</div>
 								</div>
 								
-								<c:if test="${loginDto.auth eq 'A'}">
+								<c:if test="${loginDto.auth eq 'A' or loginDto.auth eq 'S'}">
 									<div id="writeBtn">
 										<input type="button" class="btn btn-outline-success" value="게시글 등록" onclick="location.href='./regiNoticeForm.do'">
 									</div>
