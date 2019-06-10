@@ -55,16 +55,16 @@
 					<input class="form-control" type="text" readonly="readonly" name="loc_code" value="${loginDto.loc_code}">
 				</div>
 				<div class="form-group">
-					<label>매장전화번호</label>
-					<input class="form-control" type="text" id="phone" name="store_phone" placeholder="매장전화번호" required="required" maxlength="20">
-					<div class="valid-feedback">사용 가능한 전화번호</div>
-					<div class="invalid-feedback">-를 포함해서 입력해주세요</div>
-				</div>
-				<div class="form-group">
 					<label>매장명</label>
 					<input class="form-control" type="text" id="name" onkeyup="nameChk()" name="store_name" placeholder="매장명" required="required" maxlength="20">
 					<div class="valid-feedback">사용 가능한 매장명</div>
 					<div class="invalid-feedback">사용 불가능한 매장명</div>
+				</div>
+				<div class="form-group">
+					<label>매장전화번호</label>
+					<input class="form-control" type="text" id="phone" name="store_phone" placeholder="매장전화번호" required="required" maxlength="20">
+					<div class="valid-feedback">사용 가능한 전화번호</div>
+					<div class="invalid-feedback">-를 포함해서 입력해주세요</div>
 				</div>
 				<div class="form-group">
 					<label>매장주소</label>
@@ -83,7 +83,7 @@
 <script type="text/javascript">
 
 	function nameChk() {
-		var nameVal = document.getElementById("name").value;
+		var nameVal = document.getElementById("name").value.trim();
 // 		alert("작성한 매장명 : " + )
 		var nameList = document.getElementById("nameList").value;
 // 		alert("매장 이름 리스트 : " +  nameList);

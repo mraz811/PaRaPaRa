@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>채팅 목록</title>
 <style type="text/css">
 	#chatList{
 		margin-left: 300px;
@@ -53,7 +53,7 @@
 						<c:forEach items="${lists}" var="list">
 							<div class="chatTarget">	
 								<div class="chatClick">
-									<a href="./socketOpen.do?id=${list.owner_id}&auth=${loginDto.auth}&store_code=${list.store_code}">${list.owner_id}</a>
+									<a href="./socketOpen.do?id=${list.owner_id}&auth=${loginDto.auth}&store_code=${list.store_code}">${list.store_name}(${list.owner_name})</a>
 								</div>								
 							</div>
 						</c:forEach>
@@ -61,7 +61,7 @@
 					<c:if test="${loginDto.auth eq 'U'}">
 						<div class="chatTarget">
 							<div class="chatClick">
-								<a class="chatClick" href="./socketOpen.do?id=${adminDto.admin_id}&auth=${loginDto.auth}">${adminDto.admin_id}</a>
+								<a class="chatClick" href="./socketOpen.do?id=${adminDto.admin_id}&auth=${loginDto.auth}">${adminDto.admin_name}</a>
 							</div>
 						</div>
 					</c:if>

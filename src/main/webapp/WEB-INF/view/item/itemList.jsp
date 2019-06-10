@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>품목 전체조회</title>
 <link rel="stylesheet" href="./css/storeList.css">
 <style type="text/css">
 	#item_bottom{
@@ -108,12 +108,12 @@
 		}
 	}
 	var regItem = function() {
-		window.open("./regItem.do","_blank","width=400, height=300, left=500");
+		window.open("./regItem.do","_blank","width=400, height=450, left=500");
 // 		location.href = "./regItem.do";
 	}
 	
 	var modItem = function(itemSeq){
-		window.open("./itemModiForm.do?item_seq="+itemSeq, "_blank","width=400, height=300, left=500");
+		window.open("./itemModiForm.do?item_seq="+itemSeq, "_blank","width=400, height=450, left=500");
 	}
 	
 	var searchItemList = function(){

@@ -3,8 +3,8 @@
 <mapper namespace="para.chat">
 	
 	<select id="selectOwner" parameterType="java.lang.String" resultType="OwnerDto">
-		SELECT OWNER_SEQ, OWNER_ID, OWNER_PW, OWNER_NAME, OWNER_PHONE, OWNER_EMAIL, AUTH, ADMIN_ID, STORE_CODE, OWNER_START, OWNER_END, OWNER_MENU 
-		FROM OWNER WHERE ADMIN_ID = #{admin_id}
+		SELECT OWNER_NAME, STORE_NAME, OWNER_ID, STORE_CODE
+		FROM OWNER JOIN STORE USING(STORE_CODE) WHERE OWNER.ADMIN_ID = #{admin_id}
 	</select>
 	
 	<select id="selectAdmin" resultType="AdminDto" parameterType="java.lang.String">

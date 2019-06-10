@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>채팅방</title>
 <style type="text/css">
 	.dragDropDiv{
 		width: 1020px;

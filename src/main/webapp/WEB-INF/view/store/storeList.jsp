@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>매장 전체조회</title>
 <link rel="stylesheet" href="./css/storeList.css">
 </head>
 <body>

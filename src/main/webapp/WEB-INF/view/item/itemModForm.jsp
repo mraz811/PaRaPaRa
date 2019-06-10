@@ -40,7 +40,7 @@
 			<p class="writeform">품목 수정</p>
 				<input type="hidden" name="item_seq" value="${dto.item_seq}">
 				<input type="hidden" id="nameChkVal" value="0">
-				<input type="hidden" id="nameList" value="${nameListJson}">
+				<input type="hidden" id="nameList" value='${nameListJson}'>
 <%-- 			<input type="hidden" name="loc_code" value="${loginDto.loc_code}"> --%>
 <%-- 				<input type="hidden" naSme="admin_id" value="${loginDto.admin_id}"> --%>
 				
@@ -67,7 +67,7 @@
 	function nameChk() {
 		var orginalName = '${dto.item_name}';
 		
-		var nameVal = document.getElementById("item_name").value;
+		var nameVal = document.getElementById("item_name").value.trim();
 	// 		alert("작성한 매장명 : " + )
 		var nameList = document.getElementById("nameList").value;
 	// 		alert("매장 이름 리스트 : " +  nameList);
