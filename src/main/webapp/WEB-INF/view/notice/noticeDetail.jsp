@@ -131,7 +131,7 @@ td {
 					</ul>
 					<div class="tab-content">
 
-						<form action="#" method="post" id="frm">
+						<form id="frm">
 
 							<input type="hidden" id="notice_seq" name="notice_seq" value="${dto.notice_seq}">
 							<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
@@ -166,7 +166,7 @@ td {
 							<input class="btn btn-outline-primary" type="button" onclick="listMove()" id="backBtn" value="목　록" />
 
 							<div>
-								<input type="text" name="reply_content" id="reply_content" class="form-control form-control" maxlength="65" />
+								<input type="text" name="reply_content" id="reply_content" class="form-control" maxlength="65" />
 								<input type="button" class="btn btn-link" value="댓글 입력" id="replyBtn" />
 							</div>
 
@@ -246,6 +246,7 @@ td {
 					} else {
 						var frm = document.forms[0];
 						frm.action = "./writeReply.do";
+						frm.method ='post';
 						frm.submit();
 					}
 				});
@@ -257,6 +258,7 @@ td {
 
 		var frm = document.forms[0];
 		frm.action = "./delReply.do?reply_seq=" + reply_seq;
+		frm.method ='post';
 		frm.submit();
 
 	}
