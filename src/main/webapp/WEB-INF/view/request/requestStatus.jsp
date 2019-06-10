@@ -352,7 +352,7 @@ window.onload = function (){
 <!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
 <!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
 <!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
-				<img alt="peng1" src="./imgs/pen.png" style="width: 10px; height: 10px;" onclick="backToMain()">
+				<img alt="peng1" src="./imgs/pen.png" style="width: 10px; height: 10px;" onclick="toChkPw()">
 			</div>
 		</div>
 	</div><!-- 고객 주문 -->
@@ -360,25 +360,30 @@ window.onload = function (){
 	<input type="hidden" id="nick" value="${loginDto.store_code}"/>
 </body>
 <script type="text/javascript">
-var backToMain = function(){
+// var backToMain = function(){
 	
-	swal({
-		title: "로그 아웃",
-		text: "로그아웃 하시겠습니까?",
-		showCancelButton: true,
-		confirmButtonColor: "lightgray",
-		confirmButtonText: "취 소",
-		cancelButtonText: "확 인",
-		closeOnConfirm: true,
-		closeOnCancel: false
-	},
-	function(isConfirm){
-		if(isConfirm){ // confirmButtonText
-			return false;
-		} else{
-			location.href="logout.do?auth=U";
-		}
-	});
+// 	swal({
+// 		title: "로그 아웃",
+// 		text: "로그아웃 하시겠습니까?",
+// 		showCancelButton: true,
+// 		confirmButtonColor: "lightgray",
+// 		confirmButtonText: "취 소",
+// 		cancelButtonText: "확 인",
+// 		closeOnConfirm: true,
+// 		closeOnCancel: false
+// 	},
+// 	function(isConfirm){
+// 		if(isConfirm){ // confirmButtonText
+// 			return false;
+// 		} else{
+// 			location.href="logout.do?auth=U";
+// 		}
+// 	});
+// }
+
+var toChkPw = function(){
+	window.open("./requestChk.do", "로그아웃 확인",
+	"width=400, height=200, toolbar=no, menubar=no, scrollbars=no, resizable=yes, left=400, top=200");
 }
 
 </script>
