@@ -1,21 +1,14 @@
 package com.happy.para.ctrl;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -36,18 +29,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.happy.para.dto.AdminDto;
-import com.happy.para.dto.AlbaDto;
 import com.happy.para.dto.ChatDto;
-import com.happy.para.dto.FileDto;
 import com.happy.para.dto.ItemDto;
 import com.happy.para.dto.OwnerDto;
 import com.happy.para.dto.PaoDto;
@@ -91,6 +79,7 @@ public class CommonCtrl {
 		return "common/chattingList";
 	}
 	
+	@SuppressWarnings("resource")
 	@RequestMapping(value="/socketOpen.do", method=RequestMethod.GET)
 	public String chattingRoom(String id, String auth, String store_code, HttpSession session, Model model) {
 		System.out.println("채팅방 조회 및 생성을 위한 업주/담당자 ID : " + id);
@@ -109,12 +98,9 @@ public class CommonCtrl {
 				System.out.println("채팅방 생성 후 맨들어 진 ChatDto : " + chatDto);
 			}else {
 				System.out.println("채팅방이 있을 시 ChatDto : " + cDto);
-				File file = new File(path + "\\" + store_code + "_A.txt");
 				try {
 					File uFile = new File(path + "\\" + store_codeTwo + "_U.txt");
 					File aFile = new File(path + "\\" + store_codeTwo + "_A.txt");
-					FileReader uFileReader = new FileReader(uFile);
-					FileReader aFileReader = new FileReader(aFile);
 					
 					FileInputStream uStream = new FileInputStream(uFile);
 					FileInputStream aStream = new FileInputStream(aFile);
@@ -122,13 +108,10 @@ public class CommonCtrl {
 					System.out.println("담당자가 친 채팅 : " + aStream.available());
 					String line = "";
 					if (uStream.available() <= aStream.available()) {
-//						BufferedReader Buffer = new BufferedReader(uFileReader);
 						byte[] readBuffer = new byte[aStream.available()];
 						while ((aStream.read(readBuffer))!=-1) {
-//							line = new String(readBuffer);
 							content = new StringBuffer(new String(readBuffer));
 							System.out.println("각 line : " + line);
-//							content.append(line);
 						}
 						System.out.println(content);
 					}else {
@@ -172,8 +155,6 @@ public class CommonCtrl {
 				try {
 					File uFile = new File(path + "\\" + store_codeTwo + "_U.txt");
 					File aFile = new File(path + "\\" + store_codeTwo + "_A.txt");
-					FileReader uFileReader = new FileReader(uFile);
-					FileReader aFileReader = new FileReader(aFile);
 					
 					FileInputStream uStream = new FileInputStream(uFile);
 					FileInputStream aStream = new FileInputStream(aFile);
@@ -181,13 +162,10 @@ public class CommonCtrl {
 					System.out.println("담당자가 친 채팅 : " + aStream.available());
 					String line = "";
 					if (uStream.available() >= aStream.available()) {
-//						BufferedReader Buffer = new BufferedReader(uFileReader);
 						byte[] readBuffer = new byte[uStream.available()];
 						while ((uStream.read(readBuffer))!=-1) {
-//							line = new String(readBuffer);
 							content = new StringBuffer(new String(readBuffer));
 							System.out.println("각 line : " + line);
-//							content.append(line);
 						}
 						System.out.println(content);
 					}else {
@@ -252,41 +230,8 @@ public class CommonCtrl {
 		return isc == true ? "성공" : "실패";
 	}
 	
-	@RequestMapping(value="/regiFile.do", method=RequestMethod.POST, produces="application/text; charset-utf-8;")
-	@ResponseBody
-	public String fileUpload(FileDto dto,  MultipartHttpServletRequest mtsRequest, String chat_seq) throws IOException {
-		logger.info("file Upload Controller");
-		boolean isc = false;
-		Iterator<String> itr = mtsRequest.getFileNames();
-		System.out.println("파일이름 : " + itr);
-		String originalName = null;
-		while(itr.hasNext()) {
-			MultipartFile file = mtsRequest.getFile(itr.next());
-			originalName = file.getOriginalFilename();
-			String savedName = "";
-			System.out.println("Orginal Name : " + originalName);
-			// 이름이 겹치지 않기위해 랜덤 생성
-			UUID uuid = UUID.randomUUID();
-			savedName = uuid.toString()+"_"+originalName;
-			File dir = new File(chatUploadPath);
-			File target = new File(chatUploadPath, savedName);
-			// 폴더가 없다면 폴더를 생성
-			if(!dir.exists()) {
-				dir.mkdirs();
-			}
-			
-			// 파일을 서버에 저장
-			FileCopyUtils.copy(file.getBytes(), target);
-			
-			// argument로 받아온 dto에 파일 이름이 들어가 있지 않아서 직접 set
-			dto.setFile_rname(originalName);
-			dto.setFile_tname(savedName);
-			isc = chatService.uploadFile(dto);
-			System.out.println("파일업로드 성공 : " + isc);
-		}
-		return chatUploadPath + "\\" + originalName;
-	}
 	
+	@SuppressWarnings("resource")
 	@RequestMapping(value="/poiPao.do", method=RequestMethod.GET)
 	public ModelAndView poiPaoDownload(String store_code, String pao_seq) {
 		
@@ -297,7 +242,7 @@ public class CommonCtrl {
 		System.out.println("pao_seq 값 : " + pao_seq);
 		System.out.println("store_code 값 : " + store_code);
 		PaoDto paoDto = paoService.paoDetail(map);	// 발주
-		
+		logger.info("apache Poi 발주 : {}", paoDto);
 		List<ItemDto> piLists = paoService.paoPiDetail(pao_seq);	// 발주한 품목
 		
 		Workbook workBook = new HSSFWorkbook();
@@ -311,7 +256,6 @@ public class CommonCtrl {
 	    headStyle.setBorderLeft(BorderStyle.THIN);
 	    headStyle.setBorderRight(BorderStyle.THIN);
 	    
-//	    headStyle.setFillBackgroundColor(HSSFColorPredefined.YELLOW.getIndex());
 	    headStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
 	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 	    
@@ -468,21 +412,13 @@ public class CommonCtrl {
 	}
 	
 	
+	@SuppressWarnings("resource")
 	@RequestMapping(value="/poiTimeSheet.do", method=RequestMethod.GET)
 	public ModelAndView poiTimeSheetDownload(HttpSession session, TimeDto dto, String ts_date) {
 		OwnerDto oDto = (OwnerDto) session.getAttribute("loginDto");
 		String store_code = oDto.getStore_code();
 		System.out.println("로그인 업주의 store_code : "+store_code);
 		String excelPath = "C:\\timeSheetExcel";
-//		List<AlbaDto> albaLists = timeSer.tsAlba(store_code);
-//		System.out.println("로그인 업주의 albaLists : "+albaLists);
-		
-//		Date getDate = new Date();
-//		String today = getDate.toString();
-//		System.out.println("현재날짜 : "+ today);
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//		System.out.println("현재날짜 : "+ sdf.format(getDate));
-//		System.out.println("today : "+sdf.format(getDate));
 		
 		Workbook workBook = new HSSFWorkbook();
 		Sheet sheet = workBook.createSheet("timesheet");
@@ -496,7 +432,6 @@ public class CommonCtrl {
 	    headStyle.setBorderLeft(BorderStyle.THIN);
 	    headStyle.setBorderRight(BorderStyle.THIN);
 	    
-//	    headStyle.setFillBackgroundColor(HSSFColorPredefined.YELLOW.getIndex());
 	    headStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
 	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 	    
@@ -525,22 +460,7 @@ public class CommonCtrl {
 	    cell = row.createCell(4);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("야간 근무 시간");
-//		JSONObject timeObj = null;
-//		String timeArr = "";
-//		
-//		for (int i = 0; i < albaLists.size(); i++) {
-//
-////			JSONArray timeAr = new JSONArray();
-//
-//			dto.setAlba_seq(albaLists.get(i).getAlba_seq());
-//			
-//			if(ts_date == null) {
-//				dto.setTs_date(sdf.format(getDate));				
-////				model.addAttribute("today", sdf.format(getDate));
-//			}else {
-				dto.setTs_date(ts_date);								
-//				model.addAttribute("today", ts_date);
-//			}
+		dto.setTs_date(ts_date);								
 
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("store_code", store_code);
@@ -575,70 +495,6 @@ public class CommonCtrl {
 		}
 		
 		
-//		int albaRow = 0;
-//		Sheet alba = workBook.createSheet("아르바이트");
-//		row = alba.createRow(albaRow++);
-//	    cell = row.createCell(0);
-//	    cell.setCellStyle(headStyle);
-//	    cell.setCellValue("알바 번호");
-//	    cell = row.createCell(1);
-//	    cell.setCellStyle(headStyle);
-//	    cell.setCellValue("이름");
-//	    cell = row.createCell(2);
-//	    cell.setCellStyle(headStyle);
-//	    cell.setCellValue("전화번호");
-//	    cell = row.createCell(3);
-//	    cell.setCellStyle(headStyle);
-//	    cell.setCellValue("주소");
-//	    cell = row.createCell(4);
-//	    cell.setCellStyle(headStyle);
-//	    cell.setCellValue("시급");
-//	    cell = row.createCell(5);
-//	    cell.setCellStyle(headStyle);
-//	    cell.setCellValue("은행명");
-//	    cell = row.createCell(6);
-//	    cell.setCellStyle(headStyle);
-//	    cell.setCellValue("계좌번호");
-//	    cell = row.createCell(7);
-//	    cell.setCellStyle(headStyle);
-//	    cell.setCellValue("퇴사여부");
-//	    cell = row.createCell(8);
-//	    cell.setCellStyle(headStyle);
-//	    cell.setCellValue("근무 시작일");
-//	    for (AlbaDto aDto : albaLists) {
-//	    	row = alba.createRow(albaRow++);
-//	    	cell = row.createCell(0);
-//	    	cell.setCellStyle(bodyStyle);
-//	    	cell.setCellValue(aDto.getAlba_seq());
-//	    	cell = row.createCell(1);
-//	    	cell.setCellStyle(bodyStyle);
-//	    	cell.setCellValue(aDto.getAlba_name());
-//	    	cell = row.createCell(2);
-//	    	cell.setCellStyle(bodyStyle);
-//	    	cell.setCellValue(aDto.getAlba_phone());
-//	    	cell = row.createCell(3);
-//	    	cell.setCellStyle(bodyStyle);
-//	    	cell.setCellValue(aDto.getAlba_address());
-//	    	cell = row.createCell(4);
-//	    	cell.setCellStyle(bodyStyle);
-//	    	cell.setCellValue(aDto.getAlba_timesal());
-//	    	cell = row.createCell(5);
-//	    	cell.setCellStyle(bodyStyle);
-//	    	cell.setCellValue(aDto.getAlba_bank());
-//	    	cell = row.createCell(6);
-//	    	cell.setCellStyle(bodyStyle);
-//	    	cell.setCellValue(aDto.getAlba_account());
-//	    	cell = row.createCell(7);
-//	    	cell.setCellStyle(bodyStyle);
-//	    	if (aDto.getAlba_delflag().equalsIgnoreCase("Y")) {
-//	    		cell.setCellValue("퇴사자");
-//	    	}else {
-//	    		cell.setCellValue("입사자");
-//	    	}
-//	    	cell = row.createCell(8);
-//	    	cell.setCellStyle(bodyStyle);
-//	    	cell.setCellValue(aDto.getAlba_regdate());
-//		}
 	    File xlsFile = null;
 	    String pathFinal = excelPath+"\\"+oDto.getStore_code()+"_"+ts_date.replaceAll("-", "_")+"_timesheet.xls";
 	    System.out.println("파일이 저장될 경로 : " + pathFinal);

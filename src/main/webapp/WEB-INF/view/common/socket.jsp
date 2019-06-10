@@ -90,29 +90,27 @@
 	  				</li>
 				</ul>
 				<div class="tab-content">
-					<div class="dragDropDiv">
-						<c:if test="${loginDto.auth eq 'A'}">
-							<input type="hidden" id="nickName" value="${loginDto.admin_id}" style="display: none;">
-							<input type="hidden" id="sessionId" value="${loginDto.admin_id}" style="display: none;">
-						</c:if>
-						<c:if test="${loginDto.auth eq 'U'}">
-							<input type="hidden" id="nickName" value="${loginDto.owner_id}" style="display: none;">
-							<input type="hidden" id="sessionId" value="${loginDto.owner_id}" style="display: none;">
-						</c:if>
+					<c:if test="${loginDto.auth eq 'A'}">
+						<input type="hidden" id="nickName" value="${loginDto.admin_id}" style="display: none;">
+						<input type="hidden" id="sessionId" value="${loginDto.admin_id}" style="display: none;">
+					</c:if>
+					<c:if test="${loginDto.auth eq 'U'}">
+						<input type="hidden" id="nickName" value="${loginDto.owner_id}" style="display: none;">
+						<input type="hidden" id="sessionId" value="${loginDto.owner_id}" style="display: none;">
+					</c:if>
 <!-- 						<input type="text" value="hello"> -->
-						<input type="hidden" id="targetId" value="${target}">
-						<input type="hidden" id="auth" value="${loginDto.auth}">
-						<input type="hidden" id="storeCode" value="${store_code}">
-						<div id="receive_msg" class='chattingDiv' style="border: 1px">
-							<section id="chatMsgBox">
-								${content}
-							</section>
-						</div>
-						<div id="sendBox">
-							<input type="text" id="chat" onKeypress="if(event.keyCode==13) $('#chat_btn').click();" />
-							<input type="button" id="chat_btn" class="btn btn-outline-success" value="입력" />
-							<input type="button"  class="btn btn-outline-warning" value="나가기" onclick="disconnect()">
-						</div>
+					<input type="hidden" id="targetId" value="${target}">
+					<input type="hidden" id="auth" value="${loginDto.auth}">
+					<input type="hidden" id="storeCode" value="${store_code}">
+					<div id="receive_msg" class='chattingDiv' style="border: 1px">
+						<section id="chatMsgBox">
+							${content}
+						</section>
+					</div>
+					<div id="sendBox">
+						<input type="text" id="chat" onKeypress="if(event.keyCode==13) $('#chat_btn').click();" />
+						<input type="button" id="chat_btn" class="btn btn-outline-success" value="입력" />
+						<input type="button"  class="btn btn-outline-warning" value="나가기" onclick="disconnect()">
 					</div>
 				</div>
 			</div>

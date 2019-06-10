@@ -67,9 +67,23 @@ public class ItemCtrl {
 	@RequestMapping(value="/itemModiForm.do", method=RequestMethod.GET)
 	public String modItemForm(String item_seq, Model model) {
 		logger.info("Modify Item Controller : {}", item_seq);
-		
+		List<ItemDto> lists = itemService.itemList();
 		ItemDto dto = itemService.itemDetail(item_seq);
+		
+		JSONObject json = new JSONObject(); // 최종적으로 담는애는 여긴데
+		JSONArray jLists = new JSONArray(); // 어레이리스트를 담을때는 여기에
+		JSONObject jList = null; // 그냥 얘는 제이슨 타입으로
+		
+		for (ItemDto iDto : lists) {
+			jList = new JSONObject();
+			jList.put("item_name", iDto.getItem_name());
+			
+			jLists.add(jList);
+		}
+		json.put("nameList", jLists);
+		
 		System.out.println("품목 상세 조회 : " + dto);
+		model.addAttribute("nameListJson", json.toString());
 		model.addAttribute("dto", dto);
 		
 		return "item/itemModForm";
@@ -125,34 +139,48 @@ public class ItemCtrl {
 	}
 	
 	
+	// 품목명 검색 후 화면에 출력 
 	@RequestMapping(value="/searchItem.do", method=RequestMethod.GET, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String searchItemList(String item_name) {
 		logger.info("search item List controller : {}" + item_name);
+		// 품목 검색 시 나온 JSON 타입의 List들을 하나로 묶어 보내기 위해 선언
 		JSONObject json = new JSONObject();
+		// 품목 검색 시 나온 List를 JSON 형태로 만들기 위해 선언
 		JSONArray jLists = new JSONArray();
+		// JSONArray에 쿼리 실행 후 나온 ItemDto 값 하나하나를 JSONArray에 담기위해 선언
 		JSONObject jList = null;
-		List<ItemDto> lists = itemService.itemSearchList(item_name);
+		// 품목 검색
+		List<ItemDto> lists = itemService.itemSearchList(item_name.trim());
+		// 검색된 품목의 갯수(검색된 값이 없을 시 처리를 위하여)
 		int countList = lists.size();
 		System.out.println(lists);
 		for (ItemDto dto : lists) {
+			// JSONObject 객체를 계속해서 새로 만들기 위해
+			// 객체를 새로 만들지 않으면 key가 같기 때문에 맨 마지막 값만이 JSONArray에 입력됨
 			jList = new JSONObject();
 			jList.put("item_seq", dto.getItem_seq());
 			jList.put("item_name", dto.getItem_name());
 			jList.put("item_price", dto.getItem_price());
 			
+			// 검색시 나온 JSONObject 객체 하나하나를 JSONArray에 담아줌
 			jLists.add(jList);
 		}
+		
+		// JSONArray에 담긴 품목 검색된 값들과 검색된 품목 갯수를 담아줌
 		json.put("lists", jLists);
 		json.put("count", countList);
 		return json.toString();
 	}
 	
-	
+	// 품목 등록 시 중복되는 품목명이 없도록 하기위해
 	@RequestMapping(value="/itemValid.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String itemNameChk(String item_name) {
-		int n = itemService.itemNameChk(item_name);
+		// 입력한 품목명을 조건으로 넣어 count(*)가 1일 때 중복되는 이름이 있다는 것임
+		// 0일 때 사용 가능, 0이 아닐 때 사용 불가능 return
+		// return 값으로 화면에서 처리
+		int n = itemService.itemNameChk(item_name.trim());
 		return (n==0)? "사용 가능":"사용 불가능";
 	}
 	

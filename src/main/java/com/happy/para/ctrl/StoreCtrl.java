@@ -35,40 +35,36 @@ public class StoreCtrl {
 	@Autowired
 	private Stock_IService stockService;
 	
-//	@RequestMapping(value="/selStoreList.do", method=RequestMethod.GET)
-//	public String locStoreList(HttpSession session, Model model) {
-//		AdminDto aDto = (AdminDto) session.getAttribute("loginDto");
-//		String loc_code= aDto.getLoc_code();
-//		logger.info("storeList Controller : {}", loc_code);
-//		StoreDto dto = new StoreDto();
-//		if(loc_code.equalsIgnoreCase("all")) {
-//			System.out.println("관리자");
-//		}else {
-//			dto.setLoc_code(loc_code);
-//		}
-//		System.out.println(loc_code);
-//		List<StoreDto> lists = storeService.storeList(dto);
-//		model.addAttribute("lists", lists);
-//		return "store/kakaoStoreList";
-//	}
 	
-	
+	// 담당자가 담당하는 매장 전체 조회
+	// 페이징 처리가 되어있음
 	@RequestMapping(value="/selStoreList.do", method=RequestMethod.GET)
 	public String pagingStore(HttpSession session, Model model) {
+		// 페이징 처리에 대한 객체
 		PagingDto rowDto = null;
+		// 페이징 처리가 된 매장 리스트가 담길 객체
 		List<StoreDto> lists = null;
+		// 쿼리의 조건문에 넣어줄 parameter map으로 처리할 예정
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
+		// session에 담긴 매장 paging 객체가 없다면 
 		if(session.getAttribute("storeRow")==null) {
+			// 페이징 객체 새로 생성
 			rowDto = new PagingDto();
 		}else {
+			// session에 담긴 매장 paging 객체가 있을 시
+			// session에서 가져옴
 			rowDto = (PagingDto) session.getAttribute("storeRow");
 		}
+		// paging 객체에 담당자가 담당하는 매장 전체 갯수 set
 		rowDto.setTotal(storeService.storeListRow(aDto.getAdmin_id()+""));
+		
+		// 쿼리에 담을 parameter 값
 		map.put("admin_id", aDto.getAdmin_id());
 		map.put("start", rowDto.getStart());
 		map.put("end", rowDto.getEnd());
 		
+		// 페이징 처리된 매장 리스트 생성
 		lists = storeService.storeListPaging(map);
 		
 		model.addAttribute("lists", lists);
@@ -76,6 +72,8 @@ public class StoreCtrl {
 		return "store/storeList";
 	}
 	
+	// 매장 상세 조회
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/selStoreDetail.do", method=RequestMethod.GET)
 	public String detailStore(String store_code, Model model) {
 		System.out.println("매장상세 조회를 위한 store_code 값 : " + store_code);
@@ -101,6 +99,7 @@ public class StoreCtrl {
 		return "store/storeDetail";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/regiStoreForm.do", method=RequestMethod.GET)
 	public String addStoreForm(HttpSession session, Model model) {
 		AdminDto aDto = (AdminDto) session.getAttribute("loginDto");
@@ -142,31 +141,9 @@ public class StoreCtrl {
 		model.addAttribute("loc_code", loc_code);
 		return "store/storeRegForm";
 	}
-//	@RequestMapping(value="/regiStoreForm.do", method=RequestMethod.GET)
-//	public String addStoreForm(HttpSession session, Model model) {
-//		AdminDto aDto = (AdminDto) session.getAttribute("loginDto");
-//		System.out.println("로그인 된 담당자 DTO : " + aDto);
-//		String store_code = storeService.selectMaxStoreCode(aDto.getLoc_code());
-//		int cnt = 0;
-//		if(store_code == null) {
-//			store_code = aDto.getLoc_code()+"_01";
-//		}else {
-//			String subStoreCode = store_code.substring(store_code.indexOf("_")+1);
-//			System.out.println("잘린 store_code : " + subStoreCode);
-//			cnt = Integer.parseInt(subStoreCode) + 1;
-//			System.out.println(cnt);
-//			if(cnt/10 == 0) {
-//				store_code = aDto.getLoc_code() + "_0"+cnt;
-//			}else {
-//				store_code = aDto.getLoc_code() + "_"+cnt;
-//			}
-//		}
-//		System.out.println("완성된 이후 store_code : " + store_code);
-//		model.addAttribute("store_code", store_code);
-//		return "store/storeRegForm";
-//	}
 	
 	//regiStore.do
+	// 매장 등록
 	@RequestMapping(value="/regiStore.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String addStore(StoreDto sDto) {
@@ -181,61 +158,7 @@ public class StoreCtrl {
 		}
 		return json.toString();
 	}
-//	@RequestMapping(value="/regiStore.do", method=RequestMethod.POST)
-//	public String addStore(StoreDto sDto) {
-//		logger.info("insert Store Controller : {}", sDto);
-//		boolean isc = storeService.storeInsert(sDto);
-//		System.out.println("매장 등록 완료 : "+isc);
-//		return "redirect:/selStoreList.do";
-//	}
 	
-	
-	
-//	@RequestMapping(value="/regiStoreForm.do", method=RequestMethod.GET)
-//	public String addStore(HttpSession session, Model model) {
-//		AdminDto aDto = (AdminDto) session.getAttribute("loginDto");
-//		System.out.println("로그인 된 담당자 DTO : " + aDto);
-//		int cnt = storeService.storeRow(aDto.getAdmin_id()+"");
-//		String store_code = aDto.getLoc_code()+"_";
-//		System.out.println("완성되기 전 store_code : " + store_code);
-//		if(cnt == 0) {
-//			store_code += "01";
-//		}else if(cnt/10 == 0) {
-//			store_code += "0"+cnt;
-//		}else {
-//			store_code += cnt;
-//		}
-//		System.out.println("완성된 이후 store_code : " + store_code);
-//		model.addAttribute("store_code", store_code);
-//		return "store/storeRegForm";
-//	}
-	
-	@RequestMapping(value="/storeModiForm.do", method=RequestMethod.GET)
-	public String modStoreForm(String store_code, Model model) {
-		System.out.println("매장상세 조회를 위한 store_code 값 : " + store_code);
-		StoreDto dto = storeService.storeDetail(store_code);
-		logger.info("select Store Detail Controller : {}", dto);
-		
-		List<StoreDto> nameChkList = null;
-		StoreDto sDto = new StoreDto();
-		nameChkList = storeService.storeList(sDto);
-		System.out.println("전체 매장 정보 : " + nameChkList);
-		JSONObject json = new JSONObject(); // 최종적으로 담는애는 여긴데
-		JSONArray jLists = new JSONArray(); // 어레이리스트를 담을때는 여기에
-		JSONObject jList = null; // 그냥 얘는 제이슨 타입으로
-		
-		for (StoreDto nameDto : nameChkList) {
-			jList = new JSONObject();
-			jList.put("store_name", nameDto.getStore_name());
-			
-			jLists.add(jList);
-		}
-		json.put("nameList", jLists);
-		model.addAttribute("nameListJson", json.toString());
-		
-		model.addAttribute("dto", dto);
-		return "store/storeModForm";
-	}
 	
 	@RequestMapping(value="/storeModi.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
@@ -291,6 +214,7 @@ public class StoreCtrl {
 	}
 	
 	// JSONArray 형태로 페이징 처리된 매장 리스트를 담을 예정
+	@SuppressWarnings("unchecked")
 	private JSONObject objectJson(List<StoreDto> lists , PagingDto storeRow) {
 		JSONObject json = new JSONObject(); // 최종적으로 담는애는 여긴데
 		JSONArray jLists = new JSONArray(); // 어레이리스트를 담을때는 여기에
