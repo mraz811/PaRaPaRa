@@ -559,4 +559,10 @@ public class MemberCtrl {
 			memService.ownerDelete(map);
 		}
 		
+		// 고객 주문 화면에서 나가기 위해 비밀번호 확인 page
+		@RequestMapping(value="/requestChk.do", method=RequestMethod.GET)
+		public String requestChk() {
+			return "/member/chkPw";
+		}
+		
 }
