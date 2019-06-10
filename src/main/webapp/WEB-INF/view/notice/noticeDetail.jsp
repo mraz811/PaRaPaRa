@@ -217,23 +217,72 @@ td {
 			var notice_seq = document.getElementsByName("notice_seq");
 			var frm = document.forms[0];
 			frm.action = "./noticeModifyForm.do";
+			frm.method = "post";
 			frm.submit();
+// 			swal("수정 완료", "게시글이 수정되었습니다.", "success")
 		});
 	});
 
 	$(function() {
 		$("#delete").click(function() {
 // 			var notice_seq = document.getElementsByName("notice_seq");
-			var frm = document.forms[0];
-			if (confirm("선택한 게시글을 삭제하시겠습니까?") == true) {
-				frm.action = "./noticeDelete.do";
-				frm.submit();
-			} else {
-				return;
-			}
-		});
+
+			var frm = $("#frm");
+			
+// 			if (confirm("선택한 게시글을 삭제하시겠습니까?") == true) {
+// 				frm.action = "./noticeDelete.do";
+// 				frm.method = "post";
+// 				frm.submit();
+// 			} else {
+// 				return;
+// 			}
+			
+			swal({
+	 	   		title: "삭제 확인",
+	 	   		text: "선택한 게시글을 삭제하시겠습니까?",
+	 	   		showCancelButton: true,
+	 	   		confirmButtonColor: "lightgray",
+	 	   		confirmButtonText: "취 소",
+	 	   		cancelButtonText: "확 인",
+	 	   		closeOnConfirm: false,
+		 	   	closeOnCancel: false
+		 	   	},
+	 	   	function(isConfirm){
+	 	   		if(isConfirm){ // confirmButtonText
+	 	   			swal("취소", "취소되었습니다.", "error");
+//	 	    			return false;
+	 	   		} else{ // cancelButtonText
+	 	   			$.ajax({
+	 	   				type: "post",
+	 	   				url: "./noticeDelete.do",
+	 	   				data: frm.serialize(),
+	 	   				async: false,
+	 	   				success: function(data){
+	 	   					swal({
+								title: "삭제 완료", 
+								text: "게시글 삭제가 완료되었습니다", 
+								type: "success"
+							},
+							function(){ 
+								location.href="./selNoticeList.do";
+							});
+	 	   				}, error: function(data){
+	 	   					
+	 	   				}
+	 	   			});
+	 	   			
+// 	 	   			// 확인 했을 때
+// 	 	   			frm.action = "./noticeDelete.do";
+// 					frm.method = "post";
+// 					frm.submit();
+   				}
+	 	   	});
+		
+	 	});
+		
 	});
 
+	
 	$(function() {
 		$("#replyBtn").click(
 				function() {
@@ -242,7 +291,7 @@ td {
 					var notice_seq = document.getElementsByName("notice_seq");
 
 					if (reply_content[0].value == "") {
-						alert("작성된 댓글이 없습니다.");
+						swal("등록 실패", "작성된 댓글이 없습니다.");
 					} else {
 						var frm = document.forms[0];
 						frm.action = "./writeReply.do";

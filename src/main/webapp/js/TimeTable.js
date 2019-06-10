@@ -1548,19 +1548,17 @@ class CanvasT extends CalculationT{
     	
     	var currentDate = document.getElementById("currentDate").value;
 //    	alert(currentDate);
-    	
-    	$.ajax({
-			url: "delTimeSheet.do",
-			type: "post",
-			asyn: false,
-			data: { 'ts_datetime' : time , 'alba_seq' : index , 'ts_date' : currentDate }, // 서버 전송 파라메터 
-			success: function(msg){
-				alert("삭제되었습니다.");
-			}, error : function() {
-				alert("삭제 실패");
-			}
-		});	
-    	
+	    	$.ajax({
+				url: "delTimeSheet.do",
+				type: "post",
+				asyn: false,
+				data: { 'ts_datetime' : time , 'alba_seq' : index , 'ts_date' : currentDate }, // 서버 전송 파라메터 
+				success: function(msg){
+					swal("삭제 성공", "선택한 일정이 삭제되었습니다.", "success");					
+				}, error : function() {
+					swal("", "삭제가 실패했습니다.");
+				}
+			});	
         let shift = this.v.shiftTime;
         //let firstIndex = super.getIndexFromStartId(index);
         // Access to Object rooted to Index Key
@@ -1635,9 +1633,9 @@ class CanvasT extends CalculationT{
 			asyn: false, // true 비동기 false 동기
 			data: { 'index':index , 'name' : name ,'sTime': sTime, 'eTime' : eTime, 'ts_date' : ts_date }, // 서버 전송 파라메터 
 			success: function(msg){
-				alert("등록이 완료되었습니다.");
+				swal("등록 성공", "일정 등록이 완료되었습니다.", "success");
 			}, error : function() {
-				alert("등록 실패.");
+				swal("", "일정 등록이 실패했습니다.");
 			}
 		});	
     }

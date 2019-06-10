@@ -11,12 +11,6 @@
 	margin: 0px;
 }
 
-/* #modifyQty { */
-/* 	position: absolute; */
-/* 	right: 30px; */
-/* 	bottom : 15px; */
-/* } */
-
 #tableHeader{
 	margin: 0px;
 }
@@ -79,10 +73,10 @@
 							<table id="tableHeader" class="table">
 								<thead>
 									<tr class="table-primary">
-										<th style="width:100px;">재고 번호</th>
-										<th style="width:500px; padding-left:85px; ">재고명</th>
-										<th>재고수량</th>
-										<th style="padding-left: 13px; width:150px;">삭제</th>
+										<th style="width:100px; text-align: center;">재고 번호</th>
+										<th style="width:500px; padding-left:85px;">재고명</th>
+										<th style="padding-left:60px;">재고수량</th>
+										<th style="padding-left:25px; width:150px;">삭제</th>
 									</tr>
 								</thead>
 							</table>
@@ -92,9 +86,9 @@
 								<tbody>
 									<c:forEach var="dto" items="${lists}" varStatus="vs">
 											<tr>
-												<td style="width:45px; text-align: center;">
+												<td style="width:75px; text-align: center;">
 												${vs.count}</td>
-												<td style="width:245px; padding-left:120px;">
+												<td style="width:400px; padding-left:85px;">
 													<input type="hidden" name="Slists[${vs.count}].stock_seq" value="${dto.stock_seq}" />
 													<input type="hidden" name="Slists[${vs.count}].stock_name" value="${dto.stock_name}" readonly="readonly"
 														style="border:none; background-color: none;" />
@@ -103,11 +97,11 @@
 														<a style="color:red;">NEW</a>
 													</c:if>
 												</td>
-												<td style="width:220px; padding-left:140px;">
+												<td style="width:220px;">
 													<input type="number" min="0" class="stockQty" name="Slists[${vs.count}].stock_qty" value="${dto.stock_qty}" readonly="readonly"  onkeyup="changeQty(this)"/>
 												</td>
 												<c:if test="${dto.item_delflag eq NULL}">
-													<td style="width:100px; padding: 7px 0px 0px 0px;">
+													<td style="width:100px; padding: 7px 0px 0px 12px;">
 														<input type="button" class="btn btn-outline-warning" onclick="location.href='./delStock.do?stock_seq=${dto.stock_seq}&store_code=${store_code}'" value="삭제" />
 													</td>
 												</c:if>
@@ -155,20 +149,19 @@
 			// 		alert(aty.length);
 
 			var a = document.getElementsByName("Slists[" + 1 + "].stock_qty")[0];
-// 			alert(a.value);
-
-			alert(qty.length);
 			
 			for (var i = 1; i < qty.length + 1; i++) {
 				document.getElementsByName("Slists[" + i + "].stock_qty")[0].removeAttribute("readonly");
  				document.getElementsByName("Slists[" + i + "].stock_qty")[0].style.border = "2px solid #ff0000";
 			}
 		} else {
-			modiQty.value == "수정 하기"
-
-			var frm = document.forms[0];
-			frm.action = "./stockModi.do";
-			frm.submit();
+			if(confirm("입력한 수량으로 수정하시겠습니까?")){
+				modiQty.value == "수정 하기"
+				var frm = document.forms[0];
+				frm.action = "./stockModi.do";
+				frm.submit();
+				swal("수정이 완료되었습니다.");
+			}
 		}
 	}
 	
@@ -183,13 +176,12 @@
         
         // 숫자, BackSpace(8), delete(46)를 입력했을 때
        	if( ((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 문자 및 특수문자, 스페이스바를 입력했을 때
-        	alert("숫자만 입력해주세요.");
+        	swal("", "숫자만 입력해주세요.");
     		$(el).val(stockQty.substring(0, stockQty.length-1));
         }
         if(stockQty > 99999){
-        	alert("입력 범위를 넘었습니다.");
+        	swal("", "입력 범위를 넘었습니다.");
     		$(el).val(99999);
-        	
         }
 	}
 	
@@ -207,7 +199,6 @@
 		$.ajax({
 			post : "get",
 			url : "./searchStock.do",
-// 			data : "stock_name="+searchVal, "store_code="+store_code,
 			data : {"stock_name": searchVal, "store_code":store_code},
 			dataType : "json",
 			async : false,
@@ -231,25 +222,25 @@
 // 								alert("val.stock_delflag > "+val.stock_delflag);
 								if(val.item_delflag == 'Y'){
 								htmlTable += 	"<tr>"+
-												"<td style='width:45px; text-align: center;'>"+cnt+"</td>"+
-												"<td style='width:245px; padding-left:120px;'>"+
+												"<td style='width:75px; text-align: center;'>"+cnt+"</td>"+
+												"<td style='width:400px; padding-left:85px;'>"+
 												"<input type='hidden' name='Slists["+cnt+"].stock_seq' value='"+val.stock_seq+"' />"+
 												"<input type='hidden' name='Slists["+cnt+"].stock_name' value='"+val.stock_name+"' readonly='readonly'"+
 												"		style='border:none; background-color: none;' />"+val.stock_name+"</td>"+
-												"<td style='width:220px; padding-left:140px;'>"+
+												"<td style='width:220px;'>"+
 												"	<input type='number' min='0' class='stockQty' name='Slists["+cnt+"].stock_qty' value='"+val.stock_qty+"' readonly='readonly'  onkeyup='changeQty(this)'/>"+
 												"</td>"+
-												"<td style='width:100px; padding: 7px 0px 0px 0px;'>"+
+												"<td style='width:100px; padding: 7px 0px 0px 12px;'>"+
 												"<input type='button' class='btn btn-outline-warning' onclick='location.href=\"./delStock.do?stock_seq=${dto.stock_seq}&store_code=${store_code}\"' value='삭제' />"+
 												"</td></tr>";
 							}else{
 								htmlTable += 	"<tr>"+
-												"<td style='width:45px; text-align: center;'>"+cnt+"</td>"+
-												"<td style='width:245px; padding-left:120px;'>"+
+												"<td style='width:75px; text-align: center;'>"+cnt+"</td>"+
+												"<td style='width:400px; padding-left:85px;'>"+
 												"<input type='hidden' name='Slists["+cnt+"].stock_seq' value='"+val.stock_seq+"' />"+
 												"<input type='hidden' name='Slists["+cnt+"].stock_name' value='"+val.stock_name+"' readonly='readonly'"+
 												"		style='border:none; background-color: none;' />"+val.stock_name+"</td>"+
-												"<td style='width:220px; padding-left:140px;'>"+
+												"<td style='width:220px;'>"+
 												"	<input type='number' min='0' class='stockQty' name='Slists["+cnt+"].stock_qty' value='"+val.stock_qty+"' readonly='readonly'  onkeyup='changeQty(this)'/>"+
 												"</td>"+
 												"<td style='width:100px;'></td></tr>";

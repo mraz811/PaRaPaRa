@@ -118,19 +118,29 @@ public class NoticeCtrl {
 	}
 	
 	@RequestMapping(value="/noticeModify.do", method=RequestMethod.POST)
-	public String noticeModify(NoticeDto dto) {
+	public String noticeModify(HttpSession session, NoticeDto dto) {
 		
 		boolean isc = noticeSer.noticeModify(dto);
+//		String notice_seq = dto.getNotice_seq();
 		
+//		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
+//		String loginDtoAuth = aDto.getAuth();
+//		
+//		System.out.println("notice_seq notice_"+notice_seq);
+//		System.out.println("loginDtoAuth_"+loginDtoAuth);
+//		
 		return isc? "redirect:/selNoticeList.do" : "notice/noticeModifyForm";
+//		return isc? "notice/noticeDetail?notice_seq="+notice_seq+"&loginDtoAuth="+loginDtoAuth : "notice/noticeModifyForm";
 	}
 	
-	@RequestMapping(value="/noticeDelete.do", method=RequestMethod.POST)
+	@RequestMapping(value="/noticeDelete.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
+	@ResponseBody
 	public String noticeDelete(String notice_seq) {
 		
 		boolean isc = noticeSer.noticeDelete(notice_seq);
 		
-		return isc? "redirect:/selNoticeList.do" : "redirect:/selNoticeList.do";
+//		return isc? "redirect:/selNoticeList.do" : "redirect:/selNoticeList.do";
+		return isc? "성공":"실패";
 	}
 
 	@RequestMapping(value="/writeReply.do", method=RequestMethod.POST)
