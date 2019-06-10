@@ -76,12 +76,14 @@ public class ItemCtrl {
 		
 		for (ItemDto iDto : lists) {
 			jList = new JSONObject();
-			jList.put("item_name", iDto.getItem_name());
+			if (!dto.getItem_name().equals(iDto.getItem_name())) {
+				jList.put("item_name", iDto.getItem_name());
+			}
 			
 			jLists.add(jList);
 		}
 		json.put("nameList", jLists);
-		
+		System.out.println("품목 이름 전체 조회"+json.toString());
 		System.out.println("품목 상세 조회 : " + dto);
 		model.addAttribute("nameListJson", json.toString());
 		model.addAttribute("dto", dto);

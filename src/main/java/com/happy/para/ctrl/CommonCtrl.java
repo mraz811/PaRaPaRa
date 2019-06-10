@@ -68,7 +68,10 @@ public class CommonCtrl {
 	public String selectChatList(String auth, Model model, HttpSession session) {
 		if(auth.equalsIgnoreCase("A")) {
 			AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
+			System.out.println("담당자 DTO : " + aDto);
+			System.out.println("담당자 id : " + aDto.getAdmin_id()+"");
 			List<OwnerDto> lists = chatService.selectOwner(aDto.getAdmin_id()+"");
+			logger.info("list : {}", lists);
 			model.addAttribute("lists", lists);
 		}
 		if(auth.equalsIgnoreCase("U")) {

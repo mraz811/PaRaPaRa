@@ -89,8 +89,9 @@ public class StoreCtrl {
 		
 		for (StoreDto nameDto : nameChkList) {
 			jList = new JSONObject();
-			jList.put("store_name", nameDto.getStore_name());
-			
+			if (!dto.getStore_name().equals(nameDto.getStore_name())) {
+				jList.put("store_name", nameDto.getStore_name());
+			}
 			jLists.add(jList);
 		}
 		json.put("nameList", jLists);
