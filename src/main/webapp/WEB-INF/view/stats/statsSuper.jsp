@@ -160,7 +160,7 @@ span{
 					dataType : "json",
 					success : function(obj) {
 						if (obj.jstr == "0") {
-							swal("선택지점의 수익이 없습니다.");
+							swal("선택지점 수익이 없습니다.");
 						} else {
 
 							google.charts.load('current', {
