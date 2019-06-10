@@ -331,6 +331,9 @@
 		color: red;
 		font-weight: bold;
 	}
+	tr{
+		cursor: pointer;
+	}
 </style>
 </head>
 <body>

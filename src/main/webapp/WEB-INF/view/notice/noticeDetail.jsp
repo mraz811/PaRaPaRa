@@ -15,7 +15,6 @@
 <head>
 <meta charset="UTF-8">
 <style type="text/css">
-
 input {
 	outline: none;
 }
@@ -42,25 +41,25 @@ input {
 }
 
 #replyRegdate {
- 	border: none;
- 	font-size: 14px;
- 	padding-left: 5px;
- 	padding: 0px;
- 	margin-top: 5px;
- 	outline: none;
- 	color: black;
+	border: none;
+	font-size: 14px;
+	padding-left: 5px;
+	padding: 0px;
+	margin-top: 5px;
+	outline: none;
+	color: black;
 }
 
-#del { 
-	width:105px;
- 	background-color: lightgray;
- 	border: none;
- 	background-color: white;
- 	font-size: 14px;
- 	color: red;
- 	outline: none;
- 	display: inline;
- 	margin-left: 3px;
+#del {
+	width: 105px;
+	background-color: lightgray;
+	border: none;
+	background-color: white;
+	font-size: 14px;
+	color: red;
+	outline: none;
+	display: inline;
+	margin-left: 3px;
 }
 
 #del:hover {
@@ -92,8 +91,9 @@ input {
 }
 
 .allReply {
+	margin-top: 2px; height : 86px;
+	overflow-y: auto;
 	height: 86px;
-	overflow-y: scroll;
 }
 
 table {
@@ -127,17 +127,20 @@ td {
 				<div class="twoDepth">
 					<!-- onDepth 안에 있는 twoDepth가 들어감 ex)1depth가 매장관리일 경우 a 태그에 적힐 내용은 일정관리, 재고, 발주 등  -->
 					<ul class="nav nav-tabs">
-						<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#home" style="border: 1px solid rgb(21,140,186);"><strong>공지사항</strong></a></li>
+						<li class="nav-item"><a class="nav-link active"
+							data-toggle="tab" href="#home"
+							style="border: 1px solid rgb(21, 140, 186);"><strong>공지사항</strong></a></li>
 					</ul>
 					<div class="tab-content">
 
 						<form id="frm">
 
-							<input type="hidden" id="notice_seq" name="notice_seq" value="${dto.notice_seq}">
-							<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
+							<input type="hidden" id="notice_seq" name="notice_seq"
+								value="${dto.notice_seq}"> <input type="hidden"
+								name="loginDtoAuth" value="${loginDto.auth}">
 
 							<table>
-								<tr style="border: 1px solid lightgray;">
+								<tr style="border-bottom: 1px solid lightgray;">
 									<th class="table-primary">작 성 자</th>
 									<td style="text-align: left; width: 265px;">${dto.notice_name}</td>
 									<th class="table-primary">작 성 일</th>
@@ -149,7 +152,8 @@ td {
 								</tr>
 
 								<tr>
-									<td colspan="4" style="width: 1017px; height: 200px; border: 1px solid lightgray; text-align: left; overflow-y: scroll;">
+									<td colspan="4"
+										style="width: 1017px; height: 200px; border: 1px solid lightgray; text-align: left; overflow-y: scroll;">
 										${dto.notice_content}</td>
 								</tr>
 
@@ -157,39 +161,49 @@ td {
 
 							<!-- 세션 id와 작성자의 일치 여부 판단 -->
 							<c:if test="${admin_id eq dto.notice_id}">
-								<input class="btn btn-outline-success" type="submit" id="modify" value="수　정" />
+								<input class="btn btn-outline-success" type="submit" id="modify"
+									value="수　정" />
 							</c:if>
 
 							<c:if test="${admin_id eq dto.notice_id}">
-								<input class="btn btn-outline-warning" type="button" id="delete" value="삭　제" />
+								<input class="btn btn-outline-warning" type="button" id="delete"
+									value="삭　제" />
 							</c:if>
-							<input class="btn btn-outline-primary" type="button" onclick="listMove()" id="backBtn" value="목　록" />
+							<input class="btn btn-outline-primary" type="button"
+								onclick="listMove()" id="backBtn" value="목　록" />
 
 							<div>
-								<input type="text" name="reply_content" id="reply_content" class="form-control" maxlength="65" />
-								<input type="button" class="btn btn-link" value="댓글 입력" id="replyBtn" />
+								<input type="text" name="reply_content" id="reply_content"
+									class="form-control" maxlength="48" /> <input type="button"
+									class="btn btn-link" value="댓글 입력" id="replyBtn" />
 							</div>
 
 							<div class="allReply">
 								<c:choose>
 									<c:when test="${empty Rlists}">
-										<span style="color: gray;"> 작성된 댓글이 없습니다. 첫 번째 댓글을 달아주세요! :)</span>
+										<span style="color: gray;"> 작성된 댓글이 없습니다. 첫 번째 댓글을
+											달아주세요! :)</span>
 									</c:when>
 									<c:otherwise>
-										<c:forEach var="i" begin="0" end="${fn:length(Rlists)}" step="1">
+										<c:forEach var="i" begin="0" end="${fn:length(Rlists)}"
+											step="1">
 
 											<c:if test="${null ne Rlists[i].reply_content}">
 												<div class="in-line">
-													<input id="replyName" style="width:100px;" value="${Rlists[i].reply_name}" />
-													<input id="text" name="name" readonly="readonly" value="${Rlists[i].reply_content}" />
-													<a id="replyRegdate">${Rlists[i].reply_regdate}</a>
+													<input id="replyName" style="width: 100px;"
+														value="${Rlists[i].reply_name}" /> <input id="text"
+														name="name" readonly="readonly"
+														value="${Rlists[i].reply_content}" /> <a
+														id="replyRegdate">${Rlists[i].reply_regdate}</a>
 
 													<!-- 세션 id와 작성자의 일치 여부 판단 -->
 													<c:if test="${admin_id eq Rlists[i].reply_id}">
-														<input type="button" id="del" name="reply_seq" value="삭제" onclick="delReply('${Rlists[i].reply_seq}')" />
+														<input type="button" id="del" name="reply_seq" value="삭제"
+															onclick="delReply('${Rlists[i].reply_seq}')" />
 													</c:if>
 													<c:if test="${owner_id eq Rlists[i].reply_id}">
-														<input type="button" id="del" name="reply_seq" value="삭제" onclick="delReply('${Rlists[i].reply_seq}')" />
+														<input type="button" id="del" name="reply_seq" value="삭제"
+															onclick="delReply('${Rlists[i].reply_seq}')" />
 													</c:if>
 												</div>
 											</c:if>
@@ -212,6 +226,13 @@ td {
 </body>
 
 <script type="text/javascript">
+	//모든 엘리먼트에 keydown이벤트 추가 후 엔터키 이벤트 제거
+	document.addEventListener('keydown', function(event) {
+		if (event.keyCode === 13) {
+			event.preventDefault();
+		}
+	}, true);
+
 	$(function() {
 		$("#modify").click(function() {
 			var notice_seq = document.getElementsByName("notice_seq");
@@ -219,75 +240,60 @@ td {
 			frm.action = "./noticeModifyForm.do";
 			frm.method = "post";
 			frm.submit();
-// 			swal("수정 완료", "게시글이 수정되었습니다.", "success")
 		});
 	});
 
 	$(function() {
 		$("#delete").click(function() {
-// 			var notice_seq = document.getElementsByName("notice_seq");
 
 			var frm = $("#frm");
-			
-// 			if (confirm("선택한 게시글을 삭제하시겠습니까?") == true) {
-// 				frm.action = "./noticeDelete.do";
-// 				frm.method = "post";
-// 				frm.submit();
-// 			} else {
-// 				return;
-// 			}
-			
+
 			swal({
-	 	   		title: "삭제 확인",
-	 	   		text: "선택한 게시글을 삭제하시겠습니까?",
-	 	   		showCancelButton: true,
-	 	   		confirmButtonColor: "lightgray",
-	 	   		confirmButtonText: "취 소",
-	 	   		cancelButtonText: "확 인",
-	 	   		closeOnConfirm: false,
-		 	   	closeOnCancel: false
-		 	   	},
-	 	   	function(isConfirm){
-	 	   		if(isConfirm){ // confirmButtonText
-	 	   			swal("취소", "취소되었습니다.", "error");
-//	 	    			return false;
-	 	   		} else{ // cancelButtonText
-	 	   			$.ajax({
-	 	   				type: "post",
-	 	   				url: "./noticeDelete.do",
-	 	   				data: frm.serialize(),
-	 	   				async: false,
-	 	   				success: function(data){
-	 	   					swal({
-								title: "삭제 완료", 
-								text: "게시글 삭제가 완료되었습니다", 
-								type: "success"
-							},
-							function(){ 
-								location.href="./selNoticeList.do";
+				title : "삭제 확인",
+				text : "선택한 게시글을 삭제하시겠습니까?",
+				showCancelButton : true,
+				confirmButtonColor : "lightgray",
+				confirmButtonText : "취 소",
+				cancelButtonText : "확 인",
+				closeOnConfirm : false,
+				closeOnCancel : false
+			}, function(isConfirm) {
+				if (isConfirm) { // confirmButtonText
+					swal("취소", "취소되었습니다.", "error");
+				} else { // cancelButtonText
+					$.ajax({
+						type : "post",
+						url : "./noticeDelete.do",
+						data : frm.serialize(),
+						async : false,
+						success : function(data) {
+							swal({
+								title : "삭제 완료",
+								text : "게시글 삭제가 완료되었습니다",
+								type : "success"
+							}, function() {
+								location.href = "./selNoticeList.do";
 							});
-	 	   				}, error: function(data){
-	 	   					
-	 	   				}
-	 	   			});
-	 	   			
-// 	 	   			// 확인 했을 때
-// 	 	   			frm.action = "./noticeDelete.do";
-// 					frm.method = "post";
-// 					frm.submit();
-   				}
-	 	   	});
-		
-	 	});
-		
+						},
+						error : function(data) {
+
+						}
+					});
+
+				}
+			});
+
+		});
+
 	});
 
-	
 	$(function() {
 		$("#replyBtn").click(
 				function() {
-					var loginDtoAuth = document.getElementsByName("loginDtoAuth")[0].value;
-					var reply_content = document.getElementsByName("reply_content");
+					var loginDtoAuth = document
+							.getElementsByName("loginDtoAuth")[0].value;
+					var reply_content = document
+							.getElementsByName("reply_content");
 					var notice_seq = document.getElementsByName("notice_seq");
 
 					if (reply_content[0].value == "") {
@@ -295,7 +301,7 @@ td {
 					} else {
 						var frm = document.forms[0];
 						frm.action = "./writeReply.do";
-						frm.method ='post';
+						frm.method = 'post';
 						frm.submit();
 					}
 				});
@@ -307,7 +313,7 @@ td {
 
 		var frm = document.forms[0];
 		frm.action = "./delReply.do?reply_seq=" + reply_seq;
-		frm.method ='post';
+		frm.method = 'post';
 		frm.submit();
 
 	}
@@ -315,6 +321,5 @@ td {
 	function listMove() {
 		location.href = "./selNoticeList.do";
 	}
-
 </script>
 </html>

@@ -76,7 +76,7 @@ td {
 									<input type="hidden" name="loginDtoAuth" value="${loginDto.auth}">
 
 									<table>
-										<tr style="border: 1px solid lightgray;">
+										<tr style="border-bottom: 1px solid lightgray;">
 											<th class="table-primary">작 성 자</th>
 											<td style="text-align: left; width: 265px;">${admin_name}</td>
 											<th class="table-primary">작 성 일</th>

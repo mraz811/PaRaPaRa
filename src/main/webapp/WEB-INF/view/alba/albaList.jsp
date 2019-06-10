@@ -29,7 +29,6 @@
 	height: 45px;
 }
 
-
 </style>
 </head>
 <body>
@@ -98,7 +97,7 @@
 					<table class="table table-hover">
 						<c:forEach var="alba" items="${albaList}" varStatus="vs">
 						<input type="hidden" name="alba_seq" value="${alba.alba_seq}">
-						<tr>
+						<tr style="cursor: pointer;">
 							<td width="100px;" onclick="getAlbaDetail('${alba.alba_seq}')">${alba.alba_name}</td>
 							<td width="130px;" onclick="getAlbaDetail('${alba.alba_seq}')">${alba.alba_phone}</td>
 							<c:if test="${fn:length(alba.alba_address) > 12}">

@@ -70,17 +70,9 @@ public class RequestCtrl {
 		String start4 = start1.substring(8, 10);
 		String start = start2 + start3 + start4;
 		System.out.println("@@@@시작일@@@@" + start);
-//		Date date = new Date();
-//		SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
-//		String tempEnd = day.format(date);
-//		int a = Integer.parseInt(tempEnd) + 1;
-//		String end = Integer.toString(a);
-//		System.out.println("@@@@종료일@@@@" + end);
 		map.put("store_code", store_code);
 		map.put("start", start);
-//		map.put("end", end);
 		map.put("dayStart", start);
-//		map.put("dayEnd", end);
 		map.put("pageStart", rowDto.getStart() + "");
 		map.put("pageEnd", rowDto.getEnd() + "");
 		map.put("os_code", os_code);
@@ -146,17 +138,10 @@ public class RequestCtrl {
 		String start4 = start1.substring(8, 10);
 		String start = start2 + start3 + start4;
 		System.out.println("@@@@시작일@@@@" + start);
-//		Date date = new Date();
-//		SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
-//		String tempEnd = day.format(date);
-//		int a = Integer.parseInt(tempEnd) + 1;
-//		String end = Integer.toString(a);
-//		System.out.println("@@@@종료일@@@@" + end);
 
 		String os_code = (String) session.getAttribute("os_code");
 		map.put("store_code", store_code);
 		map.put("dayStart", start);
-//		map.put("dayEnd", end);
 		map.put("pageStart", pDto.getStart() + "");
 		map.put("pageEnd", pDto.getEnd() + "");
 		map.put("os_code", os_code);
