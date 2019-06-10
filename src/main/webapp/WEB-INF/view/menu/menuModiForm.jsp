@@ -73,8 +73,8 @@ function regiTempFile(){ //파일 임시 저장 후 미리보기
 
 function modiMenu(){
 	var menu_seq = document.getElementById("menu_seq").value;
-	var menu_price = document.getElementById("menu_price").value;
-	var menu_name = document.getElementById("menu_name").value;
+	var menu_price = document.getElementById("menu_price").value.trim();
+	var menu_name = document.getElementById("menu_name").value.trim();
 	
 	if(fDto == null){
 		var file_seq = document.getElementById("file_seq").value;
