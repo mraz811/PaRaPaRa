@@ -86,6 +86,11 @@
 			var nameList = document.getElementById("nameList").value;
 	// 		alert("매장 이름 리스트 : " +  nameList);
 			
+			if(orginalName == nameVal){
+				$("#store_name").attr("class","form-control is-valid");
+				$("#nameChkVal").val("1");
+			}
+			
 			if(nameList.indexOf(nameVal)>-1){
 				$("#store_name").attr("class","form-control is-invalid");
 				$("#nameChkVal").val("0");
@@ -93,11 +98,6 @@
 				$("#store_name").attr("class","form-control is-valid");
 				$("#nameChkVal").val("1");
 			}
-			if(orginalName == nameVal){
-				$("#store_name").attr("class","form-control is-valid");
-				$("#nameChkVal").val("1");
-			}
-			
 		}
 	
 	
@@ -106,6 +106,16 @@
 			$("#store_phone").removeAttr("readonly");
 			$("#store_address").removeAttr("readonly");
 			$("#admin_id").removeAttr("readonly");
+			var orginalName = '${dto.store_name}';
+			var nameVal = document.getElementById("store_name").value;
+			// 		alert("작성한 매장명 : " + )
+			var nameList = document.getElementById("nameList").value;
+			// 		alert("매장 이름 리스트 : " +  nameList);
+					
+			if(orginalName == nameVal){
+				$("#store_name").attr("class","form-control is-valid");
+				$("#nameChkVal").val("1");
+			}
 			var htmlBtn = "";
 			htmlBtn += "<input style='width:97px; margin: 0px 10px;' type='button' class='btn btn-outline-success' id='modi' value='수정완료' onclick='modiStore()'>"
 					+ "<input style='width:97px; margin: 0px 10px;' type='button' class='btn btn-secondary' id='close' value='닫　기' onclick='modiCancel()'>";

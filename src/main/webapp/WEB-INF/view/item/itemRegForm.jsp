@@ -81,8 +81,6 @@
 						$("#item_name").attr("class","form-control is-invalid");
 						$("#nameChkVal").val("0");
 					}
-				},error : function() {
-					alert("what?");
 				}
 			});
 			

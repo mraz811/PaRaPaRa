@@ -1,35 +1,4 @@
 var allContent = "";
-var fd = new FormData();
-function handleFileUpload(files) {
-	//파일의 길이만큼 반복하며 formData에 셋팅해준다.
-	alert(files.length);
-	var megaByte = 1024*1024;
-	for (var i = 0; i < files.length; i++) {
-		alert("what??");
-		alert(files[i].name);
-		if((files[i].size/megaByte) <= 10 ){
-//		if(map.containsValue(files[i].name) == false && (files[i].size/megaByte) <= 10 ){
-			alert("for문실행");
-			fd.append(files[i].name, files[i]);
-			//파일 중복 업로드를 방지하기 위한 설정
-//			map.put(files[i].name, files[i].name);
-			// 파일 이름과 정보를 추가해준다.
-//			var tag = createFile(files[i].name, files[i].size);
-//			$('#fileTable').append(tag);
-		}else{
-			alert("뭐지");
-			//중복되는 정보 확인 위해 콘솔에 찍음
-			if((files[i].size/megaByte) > 10){
-				alert(files[i].name+"은(는) \n 10메가 보다 커서 업로드가 할 수 없습니다.");
-			}else{
-				alert('파일 중복 : ' + files[i].name);
-			}
-		}
-	}
-	
-
-	
-}
 
 
 
@@ -69,7 +38,7 @@ $(document)
 			var chatTitle = $('#storeCode').val();
 //			alert("업데이트를 위한 고유값 : " + chatTitle);
 			var mySessionId = $('#sessionId').val();
-			alert(mySessionId);
+//			alert(mySessionId);
 			var targetId = $('#targetId').val();
 //			$("#nickName").focus();
 			var chatMsgBox = document.getElementById("chatMsgBox");
@@ -151,14 +120,6 @@ $(document)
 				});
 				
 				
-//				if ($(".chattingDiv").hasScrollBar()) {
-//					var objDiv = $(".chattingDiv");
-//					console.log("담긴 객체 정보 = " + objDiv);
-//					console.log(objDiv);
-//					$(".chattingDiv").scrollTop(
-//							$('.chattingDiv')[0].scrollHeight + 20);
-//				}
-				// console.log(msg.view + " / " + msg.session);
 			}
 			
 			// 예외가 발생했을 때 수행된다.
@@ -182,57 +143,6 @@ $(document)
 			function beforeUnloadHandler() {
 				return 'message';
 			}
-			var objDragDrop = $(".dragDropDiv");
-			// div 영역으로 드래그 이벤트호출
-			$(".dragDropDiv").on("dragover",
-					function(e) {
-				e.stopPropagation();
-				e.preventDefault();
-				$(this).css('border', '2px solid red');
-			});
-			// 해당 파일 드랍시 호출 이벤트
-			$(".dragDropDiv").on("drop", function(e) {
-				$(this).css('border', '2px solid green');
-				//브라우저로 이동되는 이벤트를 방지하고 드랍 이벤트를 우선시 한다.
-				e.preventDefault();
-				//DROP 되는 위치에 들어온 파일 정보를 배열 형태로 받아온다.
-				var files = e.originalEvent.dataTransfer.files;
-				alert(files);
-				//DIV에 DROP 이벤트가 발생 했을 때 다음을 호출한다.
-				handleFileUpload(files);
-//				alert("ajax실행");
-				$.ajax({
-					type : "POST",
-					url : "./regiFile.do", //Upload URL
-					data : fd,
-					contentType : false,
-					processData : false,
-					cache : false,
-					success : function(data) {
-						if(data) {
-//							alert("성공이여");
-//							alert(data);
-							filename = data;
-							alert(filename);
-							ws.send("%^filename_"+filename);
-//							return filename;
-//							location.href='./boardList.do';
-						}else {
-							alert('실패');
-						}
-					}
-				});
-				
-				
-			});
-			// div 영역빼고 나머지 영역에 드래그 원래색변경
-			$(document).on('dragover', function(e) {
-				e.stopPropagation();
-				e.preventDefault();
-				objDragDrop.css('border', '2px solid green');
-				sendFile();
-				
-			});
 
 		});
 

@@ -11,6 +11,7 @@
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <script type="text/javascript" src="./js/bootstrap.js"></script>
+<script type="text/javascript" src="./js/member/validationChk.js"></script>
 <style type="text/css">
 .form-control{
 	width: 300px;
@@ -43,6 +44,7 @@
 	<%-- 			<input type="hidden" name="loc_code" value="${loginDto.loc_code}"> --%>
 				<input type="hidden" name="admin_id" value="${loginDto.admin_id}">
 				<input type="hidden" id="nameChkVal" value="0">
+				<input type="hidden" id="phnchkVal" value="0">
 				<input type="hidden" id="nameList" value='${nameListJson}'>
 				<div class="form-group">
 					<label>매장코드</label>
@@ -55,6 +57,8 @@
 				<div class="form-group">
 					<label>매장전화번호</label>
 					<input class="form-control" type="text" id="phone" name="store_phone" placeholder="매장전화번호" required="required" maxlength="20">
+					<div class="valid-feedback">사용 가능한 전화번호</div>
+					<div class="invalid-feedback">-를 포함해서 입력해주세요</div>
 				</div>
 				<div class="form-group">
 					<label>매장명</label>
@@ -96,8 +100,9 @@
 
 	function regStore() {
 		var nameChkVal = $("#nameChkVal").val();
+		var phoneChkVal = $("#phnchkVal").val();
 // 		alert("매장명 중복 확인 : " +nameChkVal );
-		if(nameChkVal == '1'){
+		if(nameChkVal == '1' && phoneChkVal == '1'){
 			$.ajax({
 				url :"./regiStore.do",
 				type: "post",
