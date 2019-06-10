@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>salaryList</title>
+<title>급여</title>
 <style type="text/css">
 
 #tableHeader{
@@ -139,9 +139,24 @@ function nextCalendar() {
 			<c:forEach var="dto" items="${albaLists}" varStatus="vs">
 				<tr style="padding:0px;">
 					<td style="width:50px;">${vs.count}</td>
-					<td style="text-align: center; width:62px;">${dto.alba_name}</td>
-					<td style="text-align: center;">${dto.alba_phone}</td>
-					<td style="text-align: center;">${dto.alba_address}</td>
+					<c:if test="${fn:length(dto.alba_name) > 3}">
+						<td style="text-align: center; width:62px;">${fn:substring(dto.alba_name,0,3)}..</td>
+					</c:if>
+					<c:if test="${fn:length(dto.alba_name) <= 3}">
+						<td style="text-align: center; width:62px;">${dto.alba_name}</td>					
+					</c:if>
+					<c:if test="${fn:substring(dto.alba_phone,0,1) == '.'}">
+						<td style="text-align: center;">0${dto.alba_phone}</td>
+					</c:if>
+					<c:if test="${fn:substring(dto.alba_phone,0,1) != '.'}">
+						<td style="text-align: center;">${dto.alba_phone}</td>
+					</c:if>
+					<c:if test="${fn:substring(dto.alba_address,0,1) == '.'}">
+						<td style="text-align: center;">0${dto.alba_address}</td>
+					</c:if>
+					<c:if test="${fn:substring(dto.alba_address,0,1) != '.'}">
+						<td style="text-align: center;">${dto.alba_address}</td>
+					</c:if>
 					<td style="padding-left:30px;">${dto.alba_timesal}원</td>
 					<td>${dto.alba_delflag}원</td>
 					<td>${dto.alba_bank}</td>

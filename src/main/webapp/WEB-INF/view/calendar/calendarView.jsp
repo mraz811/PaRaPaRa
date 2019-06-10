@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>calendar</title>
+<title>매장 일정</title>
 <style type="text/css">
 
 #calAll{

@@ -96,8 +96,13 @@ public class TimesheetCtrl {
 				timeAr.add(timeObj);
 
 				JSONObject objW = new JSONObject();
-				objW.put(albaLists.get(i).getAlba_name(), timeAr); // 키에 알바 이름
 
+				if(albaLists.get(i).getAlba_name().length()>3) {
+					objW.put(albaLists.get(i).getAlba_name().substring(0, 3)+"..", timeAr); // 키에 알바 이름
+				}else {
+					objW.put(albaLists.get(i).getAlba_name(), timeAr); // 키에 알바 이름					
+				}
+				
 				JSONObject objWW = new JSONObject();
 				objWW.put(albaLists.get(i).getAlba_seq(), objW); // 키에 알바 seq
 
@@ -116,7 +121,12 @@ public class TimesheetCtrl {
 				}
 
 				JSONObject objW = new JSONObject();
-				objW.put(albaLists.get(i).getAlba_name(), timeAr); // 키에 알바 이름
+				
+				if(albaLists.get(i).getAlba_name().length()>3) {
+					objW.put(albaLists.get(i).getAlba_name().substring(0, 3)+"..", timeAr); // 키에 알바 이름
+				}else {
+					objW.put(albaLists.get(i).getAlba_name(), timeAr); // 키에 알바 이름					
+				}
 
 				JSONObject objWW = new JSONObject();
 				objWW.put(albaLists.get(i).getAlba_seq(), objW); // 키에 알바 seq
