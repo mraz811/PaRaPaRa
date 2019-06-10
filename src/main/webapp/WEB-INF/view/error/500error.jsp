@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>500 Error</title>
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 <style type="text/css">
 body {
 	height: 610px;
@@ -19,7 +20,7 @@ img{
 <div style="width:870px; margin: 10px auto;">
 	<input style="width: 808px;" type="button" class="btn btn-outline-primary" value="메인 페이지로" onclick="toLoginForm()">
 	<a href="./loginForm.do">
-		<img alt="500error" src="./imgs/500error.jpg">
+		<img alt="500error" src="./imgs/500error.png">
 	</a>
 </div>
 
