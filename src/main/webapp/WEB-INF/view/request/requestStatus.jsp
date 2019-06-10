@@ -114,7 +114,6 @@
 		float: left;
 		margin-right: 30px;
 		margin-bottom: 20px;
-		text-align: center;
 	}
 	#menuList{
 		width: 720px;
@@ -306,7 +305,7 @@ window.onload = function (){
 						<img class="menuImg" src="${menu.fileDto.file_rurl}" alt="" /> 
 						<input id="mmenu${vs.count}" type="hidden" value="${menu.fileDto.file_rurl}" /> 
 						<input class="btn btn-outline-primary" id="${menu.menu_seq}" type="button" name="addButton" value="추가" onclick="addMenu('menu${vs.count},${menu.menu_seq},${menu.menu_name},${menu.menu_price}')" />
-						<br>${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
+						<br>&nbsp;${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}</div>
 				</c:forEach>
 			</div>
 			<form id="regiForm" action="./regiCustomOrder.do" method="get">

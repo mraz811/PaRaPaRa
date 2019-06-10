@@ -89,14 +89,26 @@
 		var index = select.selectedIndex;
 		var menu_category = select.options[index].value;
 		
+		
+		if(menu_category == ""){
+			alert("메뉴 카테고리를 선택해주세요.");
+			return false;
+		}
+		if(menu_name == ""){
+			alert("메뉴명을 입력해주세요.");
+			return false;
+		}
+		if(menu_price == ""){
+			alert("메뉴가격을 입력해주세요.");
+			return false;
+		}
+		
 		var file_seq = fDto.file_seq;
 		var file_tname = fDto.file_tname;
 		var file_rname = fDto.file_rname;
 		var file_size = fDto.file_size;
 		var file_aurl = fDto.file_aurl;
 		var file_rurl = fDto.file_rurl;
-// 		FILE_SEQ, FILE_TNAME, FILE_RNAME, 
-// 		FILE_SIZE, MENU_SEQ, FILE_AURL, FILE_RURL
 		
 		$.ajax({
 			url : "./regiNewMenu.do",
@@ -125,7 +137,7 @@
 <div id="container">
 	<p class="writeform">메뉴등록</p>
 	<div id="image" class="form_group">
-		<img id="menuImg" alt="메뉴사진" src="">
+		<img id="menuImg" alt="메뉴사진" src="./imgs/noImage.gif">
 	</div>
 	
 	<form id="tempFrm" action="#" method="post" enctype="multipart/form-data">

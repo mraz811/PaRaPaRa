@@ -92,6 +92,15 @@ function modiMenu(){
 		var file_rurl = fDto.file_rurl;
 	}
 	
+	if(menu_name == ""){
+		alert("메뉴명을 입력해주세요.");
+		return false;
+	}
+	if(menu_price == ""){
+		alert("메뉴가격을 입력해주세요.");
+		return false;
+	}
+	
 	var isc = confirm("수정하시겠습니까?");
 	if(isc){
 		$.ajax({
