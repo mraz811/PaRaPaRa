@@ -120,6 +120,14 @@ function modiMenu(){
 	}
 	
 }
+function regiPrice(val){ //메뉴 금액 유효값
+	 // 키를 눌렀을 때 해당 key의 코드를 받아옴 
+   var keyValue = event.keyCode;
+	if(((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 문자 및 특수문자, 스페이스바를 입력했을 때
+   	alert("메뉴 금액란에 숫자만 입력해주세요.");
+   	document.getElementById("menu_price").value = "";
+   }
+}
 </script>
 <body>
 <div id="container">
@@ -146,7 +154,7 @@ function modiMenu(){
 	</div>
 	<div id="menu" class="form-group row" align="left" style="margin:10px 0px;">
 		<input class="form-control" id="menu_name" style="width: 200px;" type="text" name="menu_name" required="required" value="${menuDto.menu_name}"/>
-		<input class="form-control" id="menu_price" style="width: 95px;" name="menu_price" type="text" required="required" value="${menuDto.menu_price}"/>
+		<input class="form-control" id="menu_price" style="width: 95px;" name="menu_price" type="text" required="required" value="${menuDto.menu_price}" onkeyup="regiPrice(this)"/>
 		<input id="menu_seq" type="hidden" name="menu_seq" value="${menuDto.menu_seq}"/>
 	</div>
 	<div id="confirm" align="left">

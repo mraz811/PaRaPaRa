@@ -123,7 +123,7 @@ span{
 			dataType : "json",
 			success : function(obj) {
 				if(obj.stats == "no"){
-					swal("선택기간의 수익/지출이 없습니다.");
+					swal( "선택기간 수익/지출이 없습니다.");
 				}else{
 					
 					google.charts.load('current', {
