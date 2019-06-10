@@ -42,7 +42,7 @@ margin-top: 25px;
 		<div class="twoDepth">
 			<ul class="nav nav-tabs">
   				<li class="nav-item">
-    			 <a class="nav-link" data-toggle="tab" href="#home">마이페이지</a>
+    			 <a class="nav-link" data-toggle="tab" href="#home" style="border: 1px solid rgb(21,140,186);" ><strong>마이페이지</strong></a>
   				</li>
 			</ul>
 			

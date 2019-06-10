@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>주 문</title>
 <style type="text/css">
 #totalCal{
 	width: 300px;
@@ -346,9 +346,41 @@ window.onload = function (){
 					</table>
 				</div>
 			</form>
+			<div id="pengimgs" style="position: absolute; top: 0px; right: 0px; float: right;">
+<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
+<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
+<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
+<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
+<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
+<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
+				<img alt="peng1" src="./imgs/pen.png" style="width: 10px; height: 10px;" onclick="backToMain()">
+			</div>
 		</div>
 	</div><!-- 고객 주문 -->
 	<input type="hidden" id="targetId" value="${loginDto.owner_id}"/>
 	<input type="hidden" id="nick" value="${loginDto.store_code}"/>
 </body>
+<script type="text/javascript">
+var backToMain = function(){
+	
+	swal({
+		title: "로그 아웃",
+		text: "로그아웃 하시겠습니까?",
+		showCancelButton: true,
+		confirmButtonColor: "lightgray",
+		confirmButtonText: "취 소",
+		cancelButtonText: "확 인",
+		closeOnConfirm: true,
+		closeOnCancel: false
+	},
+	function(isConfirm){
+		if(isConfirm){ // confirmButtonText
+			return false;
+		} else{
+			location.href="logout.do?auth=U";
+		}
+	});
+}
+
+</script>
 </html>
