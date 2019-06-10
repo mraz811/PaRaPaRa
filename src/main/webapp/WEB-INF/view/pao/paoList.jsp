@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>업주 발주 리스트</title>
+<title>발주 리스트</title>
 <script type="text/javascript">
 
 	//발주 상태 조회 셀렉트 박스 선택 및 날짜별 검색에 대한 이벤트
