@@ -138,9 +138,9 @@ var pageAjax = function(){
 											"<td style=\"width: 50px;\">"+fri.rnum+"</td>" +
 											"<td id=\"detailMenu\" style=\"width: 300px;\" onclick=\"menuDetail("+fri.request_seq+","+fri.os_code+")\">"+subMenu+"..."+"</td>" +
 											"<td style=\"width: 100px;\">"+fri.request_price+"원"+"</a></td>" +
-											"<td style=\"width: 100px;\">"+requestTime+"</td>+" +
+											"<td style=\"width: 150px;\">"+fri.request_time+"</td>+" +
 											"<td style=\"width: 100px;\">"+fri.request_bank+"</td>+" +
-											"<td style=\"width: 180px;\">"+fri.request_account+"</td>+" +
+											"<td style=\"width: 130px;\">"+fri.request_account+"</td>+" +
 											"<td style=\"width: 50px;\">"+os_code+"</td>+" +
 											"<td style=\"width: 45px; padding: 5px 0px;\"><input style=\" width:45px; height: 30px;\" class=\"btn btn-outline-warning\" type=\"button\" value=\"환불\" onclick=\"changeStatusCode0("+fri.request_seq+")\"/></td></tr>";
 							}else if(osCode == "0"){
@@ -148,9 +148,9 @@ var pageAjax = function(){
 											"<td style=\"width: 50px;\">"+fri.rnum+"</td>" +
 											"<td id=\"detailMenu\" style=\"width: 300px;\" onclick=\"menuDetail("+fri.request_seq+","+fri.os_code+")\">"+subMenu+"..."+"</td>" +
 											"<td style=\"width: 100px;\">"+fri.request_price+"원"+"</a></td>" +
-											"<td style=\"width: 100px;\">"+requestTime+"</td>+" +
+											"<td style=\"width: 150px;\">"+fri.request_time+"</td>+" +
 											"<td style=\"width: 100px;\">"+fri.request_bank+"</td>+" +
-											"<td style=\"width: 180px;\">"+fri.request_account+"</td>+" +
+											"<td style=\"width: 130px;\">"+fri.request_account+"</td>+" +
 											"<td style=\"width: 50px;\">"+os_code+"</td>+" +
 											"<td style=\"width: 45px;\"></td></tr>";
 								
@@ -162,9 +162,9 @@ var pageAjax = function(){
 								"<td style=\"width: 50px;\">"+fri.rnum+"</td>" +
 								"<td id=\"detailMenu\" style=\"width: 300px;\" onclick=\"menuDetail("+fri.request_seq+","+fri.os_code+")\">"+fri.menu_name+"</td>" +
 								"<td style=\"width: 100px;\">"+fri.request_price+"원"+"</a></td>" +
-								"<td style=\"width: 100px;\">"+requestTime+"</td>+" +
+								"<td style=\"width: 150px;\">"+fri.request_time+"</td>+" +
 								"<td style=\"width: 100px;\">"+fri.request_bank+"</td>+" +
-								"<td style=\"width: 180px;\">"+fri.request_account+"</td>+" +
+								"<td style=\"width: 130px;\">"+fri.request_account+"</td>+" +
 								"<td style=\"width: 50px;\">"+os_code+"</td>+" +
 								"<td style=\"width: 45px; padding: 5px 0px;\"><input style=\" width:45px; height: 30px;\" class=\"btn btn-outline-warning\" type=\"button\" value=\"환불\" onclick=\"changeStatusCode0("+fri.request_seq+")\"/></td></tr>";
 							}else if(osCode == "0"){
@@ -172,9 +172,9 @@ var pageAjax = function(){
 								"<td style=\"width: 50px;\">"+fri.rnum+"</td>" +
 								"<td id=\"detailMenu\" style=\"width: 300px;\" onclick=\"menuDetail("+fri.request_seq+","+fri.os_code+")\">"+fri.menu_name+"</td>" +
 								"<td style=\"width: 100px;\">"+fri.request_price+"원"+"</a></td>" +
-								"<td style=\"width: 100px;\">"+requestTime+"</td>+" +
+								"<td style=\"width: 150px;\">"+fri.request_time+"</td>+" +
 								"<td style=\"width: 100px;\">"+fri.request_bank+"</td>+" +
-								"<td style=\"width: 180px;\">"+fri.request_account+"</td>+" +
+								"<td style=\"width: 130px;\">"+fri.request_account+"</td>+" +
 								"<td style=\"width: 50px;\">"+os_code+"</td>+" +
 								"<td style=\"width: 45px;\"></td></tr>";
 								

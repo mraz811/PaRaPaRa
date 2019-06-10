@@ -66,7 +66,7 @@ function regiTempFile(){ //파일 임시 저장 후 미리보기
 			fDto = obj.fDtoSel;
 			document.getElementById("image").innerHTML = "<img id=\"menuImg\" alt=\"메뉴사진\" src=\""+obj.fDtoSel.file_rurl+"\">";
 		},error : function(obj){
-			alert("안돼안돼");
+			alert("관리자에게 문의해주세요.");
 		}
 	});
 }
@@ -110,7 +110,7 @@ function modiMenu(){
 			data : {"file_seq":file_seq,"file_tname":file_tname,"file_rname":file_rname,"file_size":file_size,"file_aurl":file_aurl,"file_rurl":file_rurl,"menu_seq":menu_seq,"menu_name":menu_name,"menu_price":menu_price},
 			dataType : "json",
 			success : function(obj){
-				alert("메뉴명이 "+"\""+obj.detailMenu.menu_name+"\""+"(으)로 수정되었습니다");
+				alert("수정이 완료되었습니다.");
 				window.opener.location.reload();
 				window.close();
 			},error : function(obj){

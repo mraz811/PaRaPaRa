@@ -246,7 +246,7 @@ public class CommonCtrl {
 		List<ItemDto> piLists = paoService.paoPiDetail(pao_seq);	// 발주한 품목
 		
 		Workbook workBook = new HSSFWorkbook();
-		Sheet sheet = workBook.createSheet("pao");
+		Sheet sheet = workBook.createSheet("발주내역");
 		Row row = null;
 		Cell cell = null;
 		int rowNo = 4;
@@ -447,7 +447,7 @@ public class CommonCtrl {
 	    row = sheet.createRow(rowNo++);
 	    cell = row.createCell(0);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("알바 번호");
+	    cell.setCellValue("이름");
 	    cell = row.createCell(1);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("근무일");

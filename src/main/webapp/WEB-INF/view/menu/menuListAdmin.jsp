@@ -13,10 +13,10 @@
 </head>
 <script type="text/javascript">
 function regiMenu(){
-	window.open('./menuRegiForm.do', '메뉴 등록', 'width=700, height=470, scrollbars=no, left=200px, top=150px;');
+	window.open('./menuRegiForm.do', '메뉴 등록', 'width=450, height=450, scrollbars=no, left=240px, top=50px;');
 }
 function menuModiForm(menu_seq){
-	window.open('./modifyMenuForm.do?menu_seq='+menu_seq,'메뉴 수정','width=700, height=470, scrollbars=no, left=200px, top=150px;');
+	window.open('./modifyMenuForm.do?menu_seq='+menu_seq,'메뉴 수정','width=450, height=450, scrollbars=no, left=240px, top=50px;');
 }
 function menuDel(menu_seq){
 	swal({
