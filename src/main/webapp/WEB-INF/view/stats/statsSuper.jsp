@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자:수익/지출 통계</title>
+<title>업주:수익/지출 통계</title>
 <style type="text/css">
 #frm{
 	position: relative;
@@ -161,7 +161,9 @@ span{
 					success : function(obj) {
 						if (obj.jstr == "0") {
 							swal("선택지점 수익이 없습니다.");
-						} else {
+						}else if(obj.jstr=="1"){
+							swal("등록된 매장이 없습니다.");
+						}else {
 
 							google.charts.load('current', {
 								packages : [ 'corechart' ]
@@ -202,7 +204,7 @@ span{
 						}
 					},
 					error : function(obj) {
-						alert("등록에 실패하였습니다."); //성공햇는데 error로 넘어옴 ㅡㅡ; producer 없애고 JSONObject로 던져서 해결함
+						alert("관리자에게 문의해주세요."); 
 					}
 				});
 

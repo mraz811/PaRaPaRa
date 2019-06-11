@@ -31,7 +31,7 @@ function pageAjax(){
 						"<th width='100px'></th>"+
 					"</tr>";
 					if(msg.listSize==0){
-						htmlTable+="<tr><td colspan='8' style='color: red; text-align: center;' >등록된 업주가 없습니다.</td></tr>";
+						htmlTable+="<tr><td colspan='8' style='text-align: center; color: red; font-weight: bold;'>등록된 업주가 없습니다.</td></tr>";
 						htmlTable += "</table>";
 					}else{
 						htmlTable += "</table>";

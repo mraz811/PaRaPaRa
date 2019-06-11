@@ -117,23 +117,9 @@
 								<tbody>
 									<c:choose>
 										<c:when test="${fn:length(requestList) eq 0}">
-											<c:choose>
-												<c:when test="${os_code eq '0'}">
-													<tr>
-														<th colspan="7">환불 내역이 없습니다.</th>
-													</tr>
-												</c:when>
-												<c:when test="${os_code eq '3'}">
-													<tr>
-														<th colspan="7">주문 완료 내역이 없습니다.</th>
-													</tr>
-												</c:when>
-												<c:otherwise>
-													<tr>
-														<th colspan="7">주문 완료,환불 내역이 없습니다.</th>
-													</tr>
-												</c:otherwise>
-											</c:choose>
+											<tr>
+												<th colspan="7" style="text-align: center; color: red; font-weight: bold;">내역이 없습니다.</th>
+											</tr>
 										</c:when>
 										<c:otherwise>
 											<c:forEach begin="0" end="${fn:length(requestList)}"

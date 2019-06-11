@@ -338,7 +338,7 @@
 			if(!isConfirm){
 				swal({
 					title: "발주 신청 종료", 
-					type: "error"
+					type: "warning"
 				},function(){
 					window.close();	// 발주 신청 창 닫음	
 				});
