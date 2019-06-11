@@ -83,7 +83,8 @@ public class RequestCtrl {
 
 		Map<String, Object> map1 = new HashMap<>();
 
-		for (int i = 0; i < lists.size(); i++) { // 1:2,2:1,3:2,4:3,5:4,
+		// 1:1,2:1,3:1, 로 디비에 저장되어있는 주문메뉴를 문자열 자르기를 통해 정제하는 로직
+		for (int i = 0; i < lists.size(); i++) { 
 			String temp = lists.get(i).getRequest_menu();
 			int tempLen = temp.length();
 			int templenChange = temp.replaceAll(",", "").length();
@@ -152,6 +153,7 @@ public class RequestCtrl {
 
 		Map<String, Object> map1 = new HashMap<>();
 
+		// 1:1,2:1,3:1, 로 디비에 저장되어있는 주문메뉴를 문자열 자르기를 통해 정제하는 로직
 		for (int i = 0; i < lists.size(); i++) { // 1:2,2:1,3:2,4:3,5:4
 			String temp = lists.get(i).getRequest_menu();
 			int tempLen = temp.length();
@@ -239,6 +241,7 @@ public class RequestCtrl {
 
 		Map<String, Object> map = new HashMap<>();
 
+		// 1:1,2:1,3:1, 로 디비에 저장되어있는 주문메뉴를 문자열 자르기를 통해 정제하는 로직
 		String temp = rDto.getRequest_menu();
 		int tempLen = temp.length();
 		int templenChange = temp.replaceAll(",", "").length();
@@ -290,7 +293,8 @@ public class RequestCtrl {
 			List<RequestDto> waitLists = request_IService.requestListWait(map);
 			Map<String, Object> map1 = new HashMap<>();
 
-			for (int i = 0; i < waitLists.size(); i++) { // 1:2,2:1,3:2,4:3,5:4
+			// 1:1,2:1,3:1, 로 디비에 저장되어있는 주문메뉴를 문자열 자르기를 통해 정제하는 로직
+			for (int i = 0; i < waitLists.size(); i++) { 
 				String temp = waitLists.get(i).getRequest_menu();
 				int tempLen = temp.length();
 				int templenChange = temp.replaceAll(",", "").length();
@@ -324,6 +328,8 @@ public class RequestCtrl {
 			List<RequestDto> makeLists = request_IService.requestListMake(map);
 
 			Map<String, Object> map2 = new HashMap<>();
+			
+			// 1:1,2:1,3:1, 로 디비에 저장되어있는 주문메뉴를 문자열 자르기를 통해 정제하는 로직
 			for (int i = 0; i < makeLists.size(); i++) { // 1:4,2:3,3:1
 				String temp = makeLists.get(i).getRequest_menu();
 				int tempLen = temp.length();
@@ -358,6 +364,8 @@ public class RequestCtrl {
 			
 			String menu_category = "주메뉴";
 			
+			//1,2,3,4, 로 업주테이블에 저장된 업주선택메뉴를 문자열자르기를 통해 정제하는 로직
+			//loginDto 세션에 값 있을때 
 			if (session.getAttribute("owner_menu") == null) {
 				System.out.println("loginDto 세션에 값 있을때");
 				String owner_menu = oDto.getOwner_menu();
@@ -373,7 +381,7 @@ public class RequestCtrl {
 				List<MenuDto> lists = menu_IService.ownerMenuList(ownerMap);
 				System.out.println("업주가 선택한 메뉴 : " + lists.toString());
 				model.addAttribute("menuList", lists);
-			} else {
+			} else { //owner_menu 세션에 값 있을때
 				System.out.println("owner_menu 세션에 값 있을때");
 				String owner_menu = (String) session.getAttribute("owner_menu");
 				String[] menu_seq = new String[owner_menu.split(",").length];
@@ -396,167 +404,6 @@ public class RequestCtrl {
 		}
 	
 
-	// 업주 : 주문 현황 페이지 REST
-//	@SuppressWarnings("unchecked")
-//	@RequestMapping(value = "/selRequestStatusRest.do", method = { RequestMethod.GET, RequestMethod.POST })
-//	@ResponseBody
-//	public JSONObject requestListStatusRest(HttpSession session,String[] menu_seq,String[] menu_cnt,String[] menu_price) {
-//		JSONObject json = new JSONObject();
-//		
-//		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
-//		
-//		RequestDto dto = new RequestDto();
-//		
-//		if(menu_seq != null) {
-//			dto.setStore_code(oDto.getStore_code()); //세션에서 스토어코드 가져와서 셋팅
-//			
-//			String request_menu = "";
-//			for (int i = 0; i < menu_seq.length; i++) {
-//				request_menu += menu_seq[i]+":"+menu_cnt[i]+",";
-//			}
-//			dto.setRequest_menu(request_menu); // 1:3,2:4, 형식의 주문 메뉴 생성해서 셋팅해줌
-//			
-//			int totalPrice = 0;
-//			for (int i = 0; i < menu_price.length; i++) {
-//				totalPrice += Integer.parseInt(menu_price[i]); 
-//			}
-//			dto.setRequest_price(totalPrice); // 메뉴 가격 다합쳐서 셋팅해줌
-//			
-//			dto.setRequest_bank("우리은행");
-//			dto.setRequest_account("1002-651-065588");
-//			
-//			boolean isc = request_IService.customOrder(dto);
-//			System.out.println("주문 등록 성공 ? : " + isc);
-//			
-//			json.put("success", "주문이 완료되었습니다");
-//		}else if(menu_seq == null) {
-//			
-//			System.out.println("들어옴");
-//			String store_code = oDto.getStore_code();
-//			Date date = new Date();
-//			SimpleDateFormat day = new SimpleDateFormat("yyyyMMdd");
-//			String start = day.format(date);
-//			System.out.println(day.format(date));
-//			Map<String, String> map = new HashMap<>();
-//			int start111 = Integer.parseInt(start);
-//			start = Integer.toString(start111);
-//			System.out.println("==============시작일 : " + start);
-//			map.put("store_code", store_code);
-//			map.put("start", start);
-//			int end = Integer.parseInt(start) + 1;
-//			map.put("end", Integer.toString(end));
-//			System.out.println("===========종료일 : " + end);
-//			List<RequestDto> waitLists = request_IService.requestListWait(map);
-//			Map<String, Object> map1 = new HashMap<>();
-//			
-//			for (int i = 0; i < waitLists.size(); i++) { // 1:2,2:1,3:2,4:3,5:4
-//				String temp = waitLists.get(i).getRequest_menu();
-//				int tempLen = temp.length();
-//				int templenChange = temp.replaceAll(",", "").length();
-//				int arraySize = tempLen - templenChange;
-//				
-//				String[] menu = new String[arraySize];
-//				String[] cnt = new String[arraySize];
-//				StringTokenizer temp1 = new StringTokenizer(temp, ",");
-//				int num = 0;
-//				while (temp1.hasMoreTokens()) {
-//					String str1 = temp1.nextToken();
-//					int idx = str1.indexOf(":");
-//					menu[num] = str1.substring(0, idx);
-//					cnt[num] = str1.substring(idx + 1);
-//					num++;
-//				}
-//				String[] menu_name = new String[menu.length];
-//				map1.put("menu_seq_", menu);
-//				menu_name = request_IService.requestMenuName(map1);
-//				String request_menu = "";
-//				for (int j = 0; j < menu_name.length; j++) {
-//					request_menu += menu_name[j] + cnt[j] + ",";
-//				}
-//				waitLists.get(i).setMenu_name(request_menu.substring(0, request_menu.lastIndexOf(",")));
-//				System.out.println(waitLists.get(i));
-//				System.out.println(Arrays.toString(menu) + "메뉴");
-//				System.out.println(Arrays.toString(cnt) + "갯수");
-//				System.out.println("dfdlkflnclvncxlncklnvkcvnlnlvn");
-//			}
-//			
-//			List<RequestDto> makeLists = request_IService.requestListMake(map);
-//			
-//			Map<String, Object> map2 = new HashMap<>();
-//			for (int i = 0; i < makeLists.size(); i++) { // 1:4,2:3,3:1
-//				String temp = makeLists.get(i).getRequest_menu();
-//				int tempLen = temp.length();
-//				int templenChange = temp.replaceAll(",", "").length();
-//				int arraySize = tempLen - templenChange;
-//				
-//				String[] menu = new String[arraySize];
-//				String[] cnt = new String[arraySize];
-//				StringTokenizer temp1 = new StringTokenizer(temp, ",");
-//				int num = 0;
-//				while (temp1.hasMoreTokens()) {
-//					String str1 = temp1.nextToken();
-//					int idx = str1.indexOf(":");
-//					menu[num] = str1.substring(0, idx);
-//					cnt[num] = str1.substring(idx + 1);
-//					num++;
-//				}
-//				String[] menu_name = new String[menu.length];
-//				map2.put("menu_seq_", menu);
-//				menu_name = request_IService.requestMenuName(map2);
-//				String request_menu = "";
-//				for (int j = 0; j < menu_name.length; j++) {
-//					request_menu += menu_name[j] + cnt[j] + ",";
-//				}
-//				makeLists.get(i).setMenu_name(request_menu.substring(0, request_menu.lastIndexOf(",")));
-//				System.out.println(makeLists.get(i));
-//				System.out.println(Arrays.toString(menu) + "메뉴");
-//				System.out.println(Arrays.toString(cnt) + "갯수");
-//				System.out.println("ccccccccccccccccccccccccccccccccccc");
-//				
-//			}
-//			
-//			json = restJson(waitLists, makeLists);
-//		}
-//		
-//		
-//		
-//		return json;
-//	}
-//	//REST 
-//	@SuppressWarnings("unchecked")
-//	private JSONObject restJson(List<RequestDto> waitLists,List<RequestDto> makeLists) {
-//		JSONObject json = new JSONObject();
-//		JSONArray wLists = new JSONArray();
-//		JSONArray mLists = new JSONArray();
-//		JSONObject jList = null;
-//		for (int i = 0; i < waitLists.size(); i++) {
-//			jList = new JSONObject();
-//			jList.put("rnum", waitLists.get(i).getRnum());
-//			jList.put("menu_name", waitLists.get(i).getMenu_name());
-//			jList.put("request_seq", waitLists.get(i).getRequest_seq());
-//			jList.put("request_menu", waitLists.get(i).getRequest_menu());
-//			jList.put("request_time", waitLists.get(i).getRequest_time());
-//			jList.put("os_code", waitLists.get(i).getOs_code());
-//
-//			wLists.add(jList);
-//		}
-//		json.put("wait", wLists);
-//		for (int i = 0; i < makeLists.size(); i++) {
-//			jList = new JSONObject();
-//			jList.put("rnum", makeLists.get(i).getRnum());
-//			jList.put("menu_name", makeLists.get(i).getMenu_name());
-//			jList.put("request_seq", makeLists.get(i).getRequest_seq());
-//			jList.put("request_menu", makeLists.get(i).getRequest_menu());
-//			jList.put("request_time", makeLists.get(i).getRequest_time());
-//			jList.put("os_code", makeLists.get(i).getOs_code());
-//
-//			mLists.add(jList);
-//		}
-//		json.put("make", mLists);
-//		System.out.println(json + "ㄱㄱㄱㄱㄱㄱ");
-//		System.out.println(json.toString() + "ㄴㄴㄴㄴㄴㄴ");
-//		return json;
-//	}
 
 	// 업주 : 주문 대기중 상세조회
 	@SuppressWarnings("unchecked")
@@ -573,6 +420,7 @@ public class RequestCtrl {
 
 		Map<String, Object> map = new HashMap<>();
 
+		// 1:1,2:1,3:1, 로 디비에 저장되어있는 주문메뉴를 문자열 자르기를 통해 정제하는 로직
 		String temp = rDto.getRequest_menu();
 		int tempLen = temp.length();
 		int templenChange = temp.replaceAll(",", "").length();
@@ -617,6 +465,8 @@ public class RequestCtrl {
 		RequestDto rDto = request_IService.requestDetailMake(dto);
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 1:1,2:1,3:1, 로 디비에 저장되어있는 주문메뉴를 문자열 자르기를 통해 정제하는 로직
 		String temp = rDto.getRequest_menu();
 		int tempLen = temp.length();
 		int templenChange = temp.replaceAll(",", "").length();
@@ -695,6 +545,7 @@ public class RequestCtrl {
 		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
 		String menu_category = "주메뉴";
 		
+		//1,2,3,4, 로 업주테이블에 저장된 업주선택메뉴를 문자열자르기를 통해 정제하는 로직
 		if (session.getAttribute("owner_menu") == null) {
 			System.out.println("loginDto 세션에 값 있을때");
 			String owner_menu = oDto.getOwner_menu();
@@ -735,6 +586,8 @@ public class RequestCtrl {
 	public JSONObject CallMenu(HttpSession session,String menu_category) {
 		OwnerDto oDto = (OwnerDto)session.getAttribute("loginDto");
 		JSONObject json = null;
+		
+		//1,2,3,4, 로 업주테이블에 저장된 업주선택메뉴를 문자열자르기를 통해 정제하는 로직
 		if (session.getAttribute("owner_menu") == null) {
 			System.out.println("loginDto 세션에 값 있을때");
 			String owner_menu = oDto.getOwner_menu();

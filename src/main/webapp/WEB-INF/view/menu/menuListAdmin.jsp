@@ -12,12 +12,15 @@
 <link rel="stylesheet" type="text/css" href="./css/menu.css">
 </head>
 <script type="text/javascript">
+//메뉴 등록 새창 열기
 function regiMenu(){
 	window.open('./menuRegiForm.do', '메뉴 등록', 'width=450, height=450, scrollbars=no, left=240px, top=50px;');
 }
+//메뉴 수정 새창 열기
 function menuModiForm(menu_seq){
 	window.open('./modifyMenuForm.do?menu_seq='+menu_seq,'메뉴 수정','width=450, height=450, scrollbars=no, left=240px, top=50px;');
 }
+//메뉴 삭제
 function menuDel(menu_seq){
 	swal({
 		  title: "메뉴를 삭제하시겠습니까?",
@@ -36,6 +39,7 @@ function menuDel(menu_seq){
 		  } 
 		});
 }
+//메뉴 재판매
 function reSell(menu_seq){
 	swal({
 		  title: "메뉴를 재판매 하시겠습니까?",
@@ -54,7 +58,7 @@ function reSell(menu_seq){
 		  } 
 		});
 }
-
+//메뉴 카테고리에서 주메뉴 눌렀을 때 작동
 	function mainMenu(){
 	var menu_category = "주메뉴";
 	var menuList = document.getElementById("menuList");
@@ -93,6 +97,7 @@ function reSell(menu_seq){
 		}
 	})
 }
+//메뉴 카테고리에서 사이드메뉴 눌렀을 때 작동
 function sideMenu(){
 	var menu_category = "사이드메뉴";
 	$.ajax({
@@ -130,6 +135,7 @@ function sideMenu(){
 		}
 	})
 }
+//메뉴 카테고리에서 음료 눌렀을 때 작동
 function drinkMenu(){
 	var menu_category = "음료";
 	$.ajax({

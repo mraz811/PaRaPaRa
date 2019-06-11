@@ -71,6 +71,7 @@ public class Request_ServiceImpl implements Request_IService{
 	}
 
 	// 고객 주문 시 주문 등록
+	// 주문 등록 후 등록한 메뉴 상세조회 하는 로직
 	@Override
 	public RequestDto customOrder(RequestDto dto) {
 		logger.info("customOrder Service : {} ", dto);

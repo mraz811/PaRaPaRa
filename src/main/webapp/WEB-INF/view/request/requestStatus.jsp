@@ -121,7 +121,6 @@
 		margin-top : 40px;
 		overflow-y: scroll;
 		overflow-x: hidden;
-/* 		float: left; */
 		position: absolute;
 		left: 40px;
 		top: 50px;
@@ -129,7 +128,6 @@
 	#requestStatus{
 		width: 500px;
 		height: 440px;
-/* 		float: left; */
 		overflow-y: scroll;
 		overflow-x: hidden;
 		position: absolute;
@@ -139,7 +137,6 @@
 	#resultDiv{
 		width: 130px;
 		height: 100px;
-/* 		float: left; */
 		position: absolute;
 		left: 870px;
 		top: 480px;
@@ -215,14 +212,6 @@ window.onload = function (){
 							</div>
 							<div id="makingList">
 								<table class="table">
-<!-- 									<thead> -->
-<!-- 										<tr> -->
-<!-- 											<td style="width: 60px; height: 28px">번호</td> -->
-<!-- 											<td style="width: 270px; height: 28px">주문메뉴명</td> -->
-<!-- 											<td style="width: 100px; height: 28px">주문시간</td> -->
-<!-- 											<td style="width: 55px; height: 28px">완료</td> -->
-<!-- 										</tr> -->
-<!-- 									</thead> -->
 									<tbody id="makeBody">
 										<c:forEach begin="0" end="${fn:length(makeLists)}" items="${makeLists}" var="make" varStatus="vs">
 											<tr>
@@ -251,15 +240,6 @@ window.onload = function (){
 							<div id="waiting">대기중</div>
 							<div id="waitingList">
 								<table class="table">
-<!-- 									<thead> -->
-<!-- 										<tr> -->
-<!-- 											<td width="60px">번호</td> -->
-<!-- 											<td width="220px;">주문메뉴명</td> -->
-<!-- 											<td width="90px;">주문시간</td> -->
-<!-- 											<td style="width: 45px; padding: 12px 0px;">제조</td> -->
-<!-- 											<td style="width: 45px; padding: 12px 0px;">환불</td> -->
-<!-- 										</tr> -->
-<!-- 									</thead> -->
 									<tbody id="waitBody">
 										<c:forEach begin="0" end="${fn:length(waitLists)}" items="${waitLists}" var="wait" varStatus="vs">
 											<tr>
@@ -346,12 +326,6 @@ window.onload = function (){
 				</div>
 			</form>
 			<div id="pengimgs" style="position: absolute; top: 0px; right: 0px; float: right;">
-<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
-<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
-<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
-<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
-<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
-<!-- 				<img alt="peng1" src="./imgs/guin.png" style="width: 10px; height: 10px;"> -->
 				<img alt="peng1" src="./imgs/pen.png" style="width: 10px; height: 10px;" onclick="toChkPw()">
 			</div>
 		</div>
@@ -360,31 +334,9 @@ window.onload = function (){
 	<input type="hidden" id="nick" value="${loginDto.store_code}"/>
 </body>
 <script type="text/javascript">
-// var backToMain = function(){
-	
-// 	swal({
-// 		title: "로그 아웃",
-// 		text: "로그아웃 하시겠습니까?",
-// 		showCancelButton: true,
-// 		confirmButtonColor: "lightgray",
-// 		confirmButtonText: "취 소",
-// 		cancelButtonText: "확 인",
-// 		closeOnConfirm: true,
-// 		closeOnCancel: false
-// 	},
-// 	function(isConfirm){
-// 		if(isConfirm){ // confirmButtonText
-// 			return false;
-// 		} else{
-// 			location.href="logout.do?auth=U";
-// 		}
-// 	});
-// }
-
 var toChkPw = function(){
 	window.open("./requestChk.do", "로그아웃 확인",
 	"width=400, height=200, toolbar=no, menubar=no, scrollbars=no, resizable=yes, left=400, top=200");
 }
-
 </script>
 </html>
