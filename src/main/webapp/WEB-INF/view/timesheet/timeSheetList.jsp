@@ -88,9 +88,10 @@ function changheDate() {
 	var frm = document.forms[0];
 	frm.action = "./selTimeSheet.do?ts_date="+ts_date;
 	frm.submit();
-	
 }
 
+// timeArr >  "2" : { "Jason Paige": [ {"3" : "11:00-12:30"}, {"5" : "14:00-19:30"},] } 형태로 만들어서
+// shiftObj 에 담아준다.
 var shiftObj = ${timeArr};
 
 let obj = {

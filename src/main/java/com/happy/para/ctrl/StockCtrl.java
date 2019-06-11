@@ -33,6 +33,7 @@ public class StockCtrl {
 	@Autowired
 	private Item_IService itemSer;
 
+	// 재고 조회
 	@RequestMapping(value="/selStock.do", method=RequestMethod.GET)
 	public String StockList(Model model, HttpSession session) {
 		
@@ -46,7 +47,6 @@ public class StockCtrl {
 		// 전체 store_code 조회
 		List<String> storeLists = stockSer.selStore();
 		
-		
 		// true 면 재고 데이터가 있는 매장, false 는 데이터가 없는 매장.(새로 넣어줘야 함)
 		if(storeLists.contains(store_code)) {
 			return "redirect:/selStockOne.do?store_code="+store_code;
@@ -55,7 +55,10 @@ public class StockCtrl {
 			ItemDto iDto = new ItemDto();
 			StockDto dto = new StockDto();
 
+			// 매장별 재고 리스트
 			List<StockDto> lists = stockSer.stockOne(store_code);
+			
+			// 등록된 품목 전체 리스트
 			List<ItemDto> itemList = itemSer.itemList();
 			model.addAttribute("itemList", itemList);
 			model.addAttribute("lists", lists);
@@ -65,12 +68,12 @@ public class StockCtrl {
 			
 			dto.setStore_code(store_code);
 			
+			// 등록된 품목 모두 새로운 매장에 추가
 			for (int i = 0; i < itemList.size(); i++) {
 				dto.setStock_name(itemList.get(i).getItem_name());
 				dto.setStock_qty(0);			
 				stockSer.stockAdd(dto);
 			}
-
 			
 //			System.out.println("store_code1 > "+store_code);
 			model.addAttribute("store_code", store_code);
@@ -80,14 +83,17 @@ public class StockCtrl {
 		return "redirect:/selStockOne.do";
 	}
 	
+	// 매장별 재고 조회
 	@RequestMapping(value="/selStockOne.do", method=RequestMethod.GET)
 	public String StockListOne(Model model, StockDto dto) {
 	
 		String store_code = dto.getStore_code();
 		
 		List<ItemDto> itemList = itemSer.itemList();
+
+		// 매장별 재고 리스트
 		List<StockDto> lists = stockSer.stockOne(store_code);
-		
+
 		System.out.println("selStockOne의 lists >"+lists);
 
 		dto.setStore_code(store_code);
@@ -95,10 +101,11 @@ public class StockCtrl {
 		model.addAttribute("lists", lists);
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("store_code", store_code);
-		
+
 		return "stock/stockList";
 	}
 	
+	// 매장별 재고 수량 수정
 	@RequestMapping(value="/stockModi.do", method=RequestMethod.POST)
 	public String StockModi(StockDto dto, ItemDto iDto) {
 												
@@ -108,12 +115,12 @@ public class StockCtrl {
 		dto.setStore_code(store_code);
 
 		for (int i = 1; i < dto.getSlists().size(); i++) {
-			if(dto.getSlists().get(i).getStock_seq() == 0) {
+			if(dto.getSlists().get(i).getStock_seq() == 0) { // 새로 추가된 품목
 				dto.setStock_name(dto.getSlists().get(i).getStock_name());
 				dto.setStock_qty(dto.getSlists().get(i).getStock_qty());			
 				stockSer.stockAdd(dto);
 				System.out.println("새로 추가된 품목"+dto.getSlists().get(i).getStock_name());
-			}else {
+			}else { // 기존에 추가된 품목으로, 수량만 수정하면 되는 품목들
 				dto.setStock_seq(dto.getSlists().get(i).getStock_seq());
 	            dto.setStock_name(dto.getSlists().get(i).getStock_name());
 				dto.setStock_qty(dto.getSlists().get(i).getStock_qty());			
@@ -123,6 +130,7 @@ public class StockCtrl {
 		return "redirect:/selStockOne.do?store_code="+store_code;
 	}
 	
+	// 품목리스트에서 제외된 품목만 재고리스트에서 삭제 가능
 	@RequestMapping(value="/delStock.do", method=RequestMethod.GET)
 	public String stockDel(String stock_seq, String store_code) {
 		
@@ -135,6 +143,7 @@ public class StockCtrl {
 		return "redirect:/selStockOne.do?store_code="+store_code;
 	}
 
+	// 재고 리스트 조회
 	@RequestMapping(value="/searchStock.do", method=RequestMethod.GET, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String searchItemList(String stock_name, String store_code) {
@@ -147,8 +156,8 @@ public class StockCtrl {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("store_code", store_code);
 		map.put("stock_name", stock_name);
-//		map.put("item_name", item_name);
 		
+		// 매장별 재고 품목 조회
 		List<StockDto> lists = stockSer.stockSearchList(map);
 		int countList = lists.size();
 		System.out.println(lists);
@@ -157,8 +166,8 @@ public class StockCtrl {
 			jList.put("stock_seq", dto.getStock_seq());
 			jList.put("stock_name", dto.getStock_name());
 			jList.put("stock_qty", dto.getStock_qty());
-			jList.put("item_delflag", dto.getItem_delflag());
-			jList.put("stock_delflag", dto.getStock_delflag());
+			jList.put("item_delflag", dto.getItem_delflag()); // 삭제 버튼 표시
+			jList.put("stock_delflag", dto.getStock_delflag()); // 재고 리스트에서 삭제
 			
 			System.out.println("item_delflag > "+dto.getItem_delflag());
 			System.out.println("stock_delflag > "+dto.getStock_delflag());

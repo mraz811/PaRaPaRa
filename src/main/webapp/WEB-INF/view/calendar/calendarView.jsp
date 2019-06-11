@@ -149,10 +149,7 @@
 			},
 		  };
 
-  $(document).ready(function (){	
-	  
-// 	  var store_code = document.getElementById("store_code").value;
-// 	  alert(store_code);
+  $(document).ready(function (){
 	  
 	  // 테마 설정
 	  var COMMON_CUSTOM_THEME = {
@@ -167,7 +164,7 @@
 	  // template : 달력 양식 지정
 	  // calendars : 일정 양식 지정
 	  var calendar = new Calendar('#calendar', {
-		  defaultView: 'month',			  
+		  defaultView: 'month',
 		  template: templates,
 		  useCreationPopup: true,
 		  useDetailPopup: true	,
@@ -211,26 +208,24 @@
 	  
 	  <%for (int i = 0; i < lists.size(); i++) {%>
 	  
-	  var result  =  {
-				
-				calendarId: '<%=lists.get(i).getCal_id()%>',
-			    id: '<%=lists.get(i).getCal_seq()%>',
-			    title: '<%=lists.get(i).getCal_title()%>',
-			    location : '<%=lists.get(i).getCal_content()%>',
-// 			    isAllDay: true,				   
-			    start: '<%=lists.get(i).getCal_start()%>',
-			    end: '<%=lists.get(i).getCal_end()%>',				    
-			    category: 'time',
-// 			    color : '#000000',					   
-			    state : 'Free',
-			    store_code : '${store_code}',
-			    
-				};		 
+		  var result  =  {
+					calendarId: '<%=lists.get(i).getCal_id()%>',
+				    id: '<%=lists.get(i).getCal_seq()%>',
+				    title: '<%=lists.get(i).getCal_title()%>',
+				    location : '<%=lists.get(i).getCal_content()%>',
+	// 			    isAllDay: true,				   
+				    start: '<%=lists.get(i).getCal_start()%>',
+				    end: '<%=lists.get(i).getCal_end()%>',				    
+				    category: 'time',
+	// 			    color : '#000000',					   
+				    state : 'Free',
+				    store_code : '${store_code}',
+				    
+					};
 		 
 	  calendar.createSchedules([result]);
 	  
 	  <%}%>	  
-	  
 	  
 	  // 달력 시작일 설정
 	  //calendar.setDate(new Date('2019-05-01 10:00'));
@@ -283,8 +278,6 @@
 			});
 		});
 
-	
-	
 		// 일정 변경 
 	 	calendar.on('beforeUpdateSchedule', function(event) {
 	 	         var schedule = event.schedule;
@@ -342,48 +335,6 @@
 		 	   			});
 		 	   		}
 		 	   	});
-	 	         
-	 	         
-	 	         
-	 	         
-	 	         
-// 	 	         if(confirm("일정을 변경하시겠습니까?")){
-
-// 	 	        	 $.ajax({
-// 	 					url: "calModi.do", //요청 url
-// 	 					type: "post", // 전송 처리방식
-// 	 					asyn: false, // true 비동기 false 동기
-// 	 					data: { 'id' : schedule.id,
-// 	 							'title' : schedule.title ,
-// 	 							'content' : schedule.location ,  'isAllDay' : schedule.isAllDay ,
-// 	 							'startyear': startTime.getFullYear(), 'startmonth' : startTime.getMonth()+1,
-// 	 							'startday' : startTime.getDate() , 'starthours' : startTime.getHours(),
-// 	 							'startminutes' : startTime.getMinutes(),
-// 	 							'endyear': endTime.getFullYear(), 'endmonth' : endTime.getMonth()+1,
-// 	 							'endday' : endTime.getDate() , 'endhours' : endTime.getHours(),
-// 	 							'endminutes' : endTime.getMinutes(),
-// 	 							'store_code' : '${store_code}',
-// 	 							'state' : schedule.state
-// 	 					}, // 서버 전송 파라메터
-// 	 					dataType: "json", // 서버에서 받는 데이터 타입
-// 	 					success: function(msg){
-// 	 						swal("", "일정 수정이 완료되었습니다.");
-// 	 						// 일정 수정
-// 	 						 calendar.updateSchedule(schedule.id, schedule.calendarId, {
-// 	 			 	             start: startTime,
-// 	 			 	             end: endTime,
-// 	 			 	             location : schedule.location,
-// 	 			 	             title : schedule.title	,
-// // 	 			 	             isAllDay: schedule.isAllDay,			 	             
-// 	 			 	             state : schedule.state
-// 	 			 	         });	 						 
-// 	 					}, error : function() {
-// 	 						swal("", "일정 수정이 실패하였습니다.");
-// 	 					}
-// 	 				});	
-// 	 			}
-	 	         
-	 	         
 	 	     });
 		
 		// 스케쥴 클릭시 이벤트
@@ -448,11 +399,6 @@
 	 	   			});
 	 	   		}
 	 	   	});
-	 	         
-	 	         
-	 	         
-	 	         
-	 	         
 	 	});
 
 	 	// 달 이동
