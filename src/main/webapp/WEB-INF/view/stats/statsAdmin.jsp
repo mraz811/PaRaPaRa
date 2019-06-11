@@ -73,6 +73,7 @@ span{
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
+//체크박스 전체 선택
 	function checkAllDel(bool) {
 		var checks = document.getElementsByName("store_code");
 		for (var i = 0; i < checks.length; i++) {
@@ -80,6 +81,7 @@ span{
 		}
 	}
 
+//화면에서 입력받은 날짜를 20190501 형식으로 포멧
 	function getFormatDate(date) {
 		var year = date.getFullYear(); //yyyy 
 		var month = (1 + date.getMonth()); //M 
@@ -203,7 +205,7 @@ span{
 						}
 					},
 					error : function(obj) {
-						alert("등록에 실패하였습니다."); //성공햇는데 error로 넘어옴 ㅡㅡ; producer 없애고 JSONObject로 던져서 해결함
+						alert("관리자에게 문의해주세요."); 
 					}
 				});
 

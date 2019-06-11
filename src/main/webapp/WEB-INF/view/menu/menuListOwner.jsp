@@ -13,13 +13,14 @@
 </head>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript">
+// 체크박스 전체 선택
 function checkAllDel(bool){
 	var checks = document.getElementsByName("menu_seq");
-//	alert(checks.length);
 	for (var i = 0; i < checks.length; i++) {
 		checks[i].checked = bool;
 	}
 }
+//업주 선택메뉴 버튼 눌렀을 때 작동
 function choiceMenu(){
 	var checks = document.getElementsByName("menu_seq");
 	var checkedBox = "";
@@ -36,7 +37,6 @@ function choiceMenu(){
 		data : {"menu_seqs":menu_seq},
 		success :function(obj){
 			if(obj == "success"){
-// 				alert("업주 메뉴 선택에 성공했습니다.");
 				swal({
 					title: "메뉴 선택 성공", 
 					text: "업주 메뉴 선택에 성공했습니다", 
@@ -47,7 +47,6 @@ function choiceMenu(){
 			}
 		},error : function(obj){
 			if(obj == "fail"){
-// 				alert("업주 메뉴 선택에 실패했습니다. 관리자에게 문의해주세요.");
 				swal({
 					title: "메뉴 선택 실패", 
 					text: "업주 메뉴 선택에 실패했습니다", 
@@ -60,6 +59,7 @@ function choiceMenu(){
 	});
 	
 }
+//메뉴 카테고리에서 주메뉴 눌렀을 때 작동
 function mainMenu(){
 	var menu_category = "주메뉴";
 	var menuList = document.getElementById("menuList");
@@ -80,10 +80,11 @@ function mainMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-// 			alert("관리자에게 문의해주세요"); 
+			alert("관리자에게 문의해주세요"); 
 		}
 	})
 }
+//메뉴 카테고리에서 사이드메뉴 눌렀을 때 작동
 function sideMenu(){
 	var menu_category = "사이드메뉴";
 	$.ajax({
@@ -103,11 +104,11 @@ function sideMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-// 			alert("관리자에게 문의해주세요");
-			swal("메뉴 선택 실패", "업주 메뉴 선택에 실패했습니다","error");
+			alert("관리자에게 문의해주세요");
 		}
 	})
 }
+//메뉴 카테고리에서 음료 눌렀을 때 작동
 function drinkMenu(){
 	var menu_category = "음료";
 	$.ajax({

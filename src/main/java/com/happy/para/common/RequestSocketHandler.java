@@ -50,6 +50,7 @@ public class RequestSocketHandler extends TextWebSocketHandler{
 		map.put(mySessionId, dto);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		System.out.println("handleTextMessage()");
@@ -141,18 +142,14 @@ public class RequestSocketHandler extends TextWebSocketHandler{
 		System.out.println("SendDto 값들이영 : " + sendDto);
 		System.out.println("SendSession 값들이영 : " + sendSession);
 		
+		@SuppressWarnings("unused")
 		WebSocketDto reciveDto = null;
 		reciveDto = map.get(sendDto.getReciver()); // 999-99-99999
 		
-//		if(reciveDto.getReciver().equals(myId)) {
-//			webso
-//		}
 		
 		String target = obj.get("to").toString();
 		System.out.println("보낸 사람이 담당자일 때 받는 사람은 업주 : " + target);
 		
-//		rstJson.put("view", sendMessage);
-//		rstJson.put("auth", senderAuth);
 		if(map.get(target) == null) {
 			System.out.println("상대방이 접속하지 않음");
 			sendSession.sendMessage(new TextMessage(rstJson.toString()));

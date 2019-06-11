@@ -38,6 +38,8 @@ public class MenuCtrl {
 		String menu_category = "주메뉴";
 		OwnerDto dto = (OwnerDto) session.getAttribute("loginDto");
 		System.out.println(dto);
+		
+		//1,2,3,4, 로 업주테이블에 저장된 업주선택메뉴를 문자열자르기를 통해 정제하는 로직
 		if (session.getAttribute("owner_menu") == null) {
 			System.out.println("loginDto 세션에 값 있을때");
 			String owner_menu = dto.getOwner_menu();
@@ -79,6 +81,8 @@ public class MenuCtrl {
 		System.out.println("-----------------" + menu_category);
 		OwnerDto dto = (OwnerDto) session.getAttribute("loginDto");
 		JSONObject json = null;
+		
+		//1,2,3,4, 로 업주테이블에 저장된 업주선택메뉴를 문자열자르기를 통해 정제하는 로직
 		if (session.getAttribute("owner_menu") == null) {
 			String owner_menu = dto.getOwner_menu();
 			String[] menu_seq = new String[owner_menu.split(",").length];
@@ -143,6 +147,9 @@ public class MenuCtrl {
 	public String ownerMenuCancel(HttpSession session, String[] cancel_menu_seq) {
 		OwnerDto dto = (OwnerDto) session.getAttribute("loginDto");
 		boolean isc = false;
+		
+		//1,2,3,4, 로 업주테이블에 저장된 업주선택메뉴를 문자열자르기를 통해 정제하는 로직
+		//업주가 삭제하기 위해 선택한 메뉴와 업주가 선택한 메뉴가 같다면 삭제 아니면 삭제하지 않음
 		if (session.getAttribute("owner_menu") == null) {
 			String owner_menu = dto.getOwner_menu();
 			String owner_seq = Integer.toString(dto.getOwner_seq());

@@ -20,6 +20,7 @@
 	function selRequestStatus(){
 		location.href="./selRequestStatus.do";
 	}
+	//주문 완료, 환분, 전체 조회 셀렉트 박스 선택시 작동
 	function changeStatus(){
 		   var select = document.getElementById("selectBox");
 		   var selectBoxFrm = document.getElementById("selectBoxFrm");
@@ -27,6 +28,7 @@
 		   selectBoxFrm.action = "./selRequestList.do";
 		   selectBoxFrm.submit();
 	}
+	//환불버튼 클릭 시 작동
 	function changeStatusCode0(request_seq){
 		var os_code = "0";
 		swal({
@@ -54,6 +56,7 @@
 				})
 			});
 	}
+	//주문 메뉴명 클릭시 작동
 	function menuDetail(request_seq,os_code){
 		var detailMenu = document.getElementById("detailMenu");
 		$.ajax({

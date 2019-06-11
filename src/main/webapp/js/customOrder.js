@@ -74,9 +74,7 @@ function drinkMenu(){
 }
 //선택 메뉴 수량빼줌
 function minus(el) {
-	//var su = document.getElementsByName("pi_qty")[0].value;
-	//document.getElementsByName("pi_qty")[0].value = new Number(su) - 1;
-	//alert($('.downBtn').index(el));
+	// 수량 변경
 	var idx = $('.downBtn').index(el);
 	if($(".menu_cnt:eq("+idx+")").val() < 2){
 		return false;
@@ -99,7 +97,7 @@ function minus(el) {
 	
 	document.getElementsByClassName("htmlPrice")[idx].innerHTML = sumPrice+"원";
 	
-	// 발주 품목에서 - 버튼을 누를 때 총 금액 값 변경
+	// 고객 주문에서 - 버튼을 누를 때 총 금액 값 변경
 	var totalMenuPrice = Number($('input[name=totalMenuPrice]').val());
 	totalMenuPrice -= Number(price);
 	$('input[name=totalMenuPrice]').val(totalMenuPrice);
@@ -109,9 +107,7 @@ function minus(el) {
 }
 //선택 메뉴 수량 추가해줌
 function plus(el) {
-	//var su = document.getElementsByName("pi_qty")[0].value;
-	//document.getElementsByName("pi_qty")[0].value = new Number(su) + 1;
-	//alert($('.upBtn').index(el));
+	// 수량 변경
 	var idx = $('.upBtn').index(el);
 	var su = $(".menu_cnt:eq("+idx+")").val();
 	su = $(".menu_cnt:eq("+idx+")").val(su*1+1); 
@@ -139,7 +135,7 @@ function plus(el) {
 	
 	$("#totalResultPrice").html(totalMenuPrice+"원");
 }
-function addMenu(menu){ // requestSocket.js에서 실행시킬꺼임
+function addMenu(menu){ 
 	
 	var menuInfo = menu.split(",");
 	var newTr_id = menuInfo[0];
@@ -160,7 +156,6 @@ function addMenu(menu){ // requestSocket.js에서 실행시킬꺼임
     	}
     }
 	
-//	document.getElementById(menu_seq).style.display = "none"; //버튼 아예 없애버리긔
 	var newTr = document.createElement("tr"); //새로운 tr 생성
     newTr.setAttribute("id", newTr_id);
     
@@ -204,7 +199,6 @@ function addMenu(menu){ // requestSocket.js에서 실행시킬꺼임
 function delChoice(line, lineId) {
 	// 현재 줄의 인덱스 번호
 	var idx = $("input[name=delBtn]").index(line);
-//	alert(idx);
 	var menu_cnt = document.getElementsByName("menu_cnt")[idx].value;
 	var menuPrice = document.getElementsByName("menu_price")[idx].value;
 	
@@ -223,7 +217,7 @@ function delChoice(line, lineId) {
 	mBody.removeChild(selectTr);
 	
 }
-function customRequest() { //requestSocket.js 에서 실행 시킬꺼임
+function customRequest() { 
 	var xhttp = new XMLHttpRequest();
 	
 	//메뉴 번호, 수량, 가격  msg 로 보냄
@@ -287,7 +281,7 @@ function customRequest() { //requestSocket.js 에서 실행 시킬꺼임
 	};
 
 }
-
+// 주문 취소 버튼 눌렀을 때 작동
 function cancelRequest(){
 	var newTr_id = document.getElementsByName("newTr_id");
 	for (var i = 0; i < newTr_id.length; i++) {

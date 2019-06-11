@@ -49,11 +49,24 @@
 <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <script type="text/javascript" src="./js/jquery-3.3.1.js"></script>
 <script type="text/javascript">
+//임시 저장한 파일의 정보를 저장하는 변수
 var fDto = null;
-function regiTempFile(){ //파일 임시 저장 후 미리보기
+//파일 임시 저장 후 미리보기
+function regiTempFile(){ 
 	var form = new FormData(document.getElementById("tempFrm"));
 	form.append("file_seq", document.getElementById("file_seq").value);
 
+	//확장자를 확인해 이미지 파일만 업로드 가능하게함
+	var ext = targetObj.value.split(".").pop().toLowerCase();
+	if ($.inArray(ext, ["gif", "jpg", "jpeg", "png"]) == -1) {
+	 	alert("이미지 파일(gif, jpg, jpeg, png)만 업로드 가능합니다.");
+	 	
+	 	//input에 저장된 파일 지워줌
+	 	 $("#selectedFile").val("");
+	 	
+		return false;
+	} 
+	
 	$.ajax({
 		url : "./modifyMenuTempFile.do",
 		type : "post",
@@ -71,11 +84,13 @@ function regiTempFile(){ //파일 임시 저장 후 미리보기
 	});
 }
 
+//메뉴 수정
 function modiMenu(){
 	var menu_seq = document.getElementById("menu_seq").value;
 	var menu_price = document.getElementById("menu_price").value.trim();
 	var menu_name = document.getElementById("menu_name").value.trim();
 	
+	//메뉴의 이미지 파일을 수정하였는지 변수를 통해 판단
 	if(fDto == null){
 		var file_seq = document.getElementById("file_seq").value;
 		var file_tname = document.getElementById("file_tname").value;
@@ -120,7 +135,8 @@ function modiMenu(){
 	}
 	
 }
-function regiPrice(val){ //메뉴 금액 유효값
+//메뉴 금액 유효값
+function regiPrice(val){ 
 	 // 키를 눌렀을 때 해당 key의 코드를 받아옴 
    var keyValue = event.keyCode;
 	if(((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){	// 문자 및 특수문자, 스페이스바를 입력했을 때

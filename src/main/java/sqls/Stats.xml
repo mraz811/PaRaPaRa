@@ -19,7 +19,7 @@
 			AND (PAO_DATE BETWEEN #{start} AND #{end}) AND PS_CODE=3
 	</select>
 	
-	<!-- 업주 : 상위판매메뉴 통계 -->
+	<!-- 업주 : 상위 판매 메뉴 통계 -->
 	<select id="ownerStatsMenu" parameterType="java.util.Map" resultType="RequestDto">
 	SELECT REQUEST_MENU
  	FROM REQUEST
@@ -49,7 +49,7 @@
 		<result property="menu_name" column="MENU_NAME"/>
 		<collection property="storeDto" resultMap="StoreResultMap"></collection>
 	</resultMap>
-	
+	 
 	<resultMap type="StoreDto" id="StoreResultMap">
 		<result property="store_code" column="STORE_CODE"/>
 		<result property="loc_code" column="LOC_CODE"/>
@@ -72,26 +72,8 @@
  			AND (REQUEST_TIME BETWEEN #{start} AND #{end}) 
  			AND OS_CODE=3) GROUP BY STORE_NAME
 	</select>
-<!-- 	<select id="adminStatsIncome" parameterType="java.util.Map" resultType="java.lang.Integer"> -->
-<!-- 	SELECT NVL(SUM(REQUEST_PRICE),0)  -->
-<!-- 	FROM (SELECT REQUEST_PRICE -->
-<!--  			FROM REQUEST -->
-<!--  			WHERE STORE_CODE IN  -->
-<!--  			<foreach item="store_code" collection="store_code_" -->
-<!--       		open="(" separator="," close=")"> -->
-<!--         		#{store_code} -->
-<!--  			</foreach> -->
-<!--  			AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3) -->
-<!-- 	</select> -->
 	
-	<!-- 관리자,담당자 : 상위판매메뉴 통계 -->
-<!-- 	<select id="adminStatsMenu" parameterType="java.util.Map" resultMap="RequestResultMap"> -->
-<!-- 	SELECT REQUEST_MENU,STORE_NAME -->
-<!-- 	FROM REQUEST JOIN OWNER ON REQUEST.STORE_CODE = OWNER.STORE_CODE -->
-<!--  				JOIN STORE ON OWNER.STORE_CODE = STORE.STORE_CODE -->
-<!--  			WHERE REQUEST.STORE_CODE = #{store_code} -->
-<!-- 	AND (REQUEST_TIME BETWEEN #{start} AND #{end}) AND OS_CODE=3 -->
-<!-- 	</select> -->
+	<!-- 관리자,담당자 : 상위 판매 메뉴 통계 -->
 	<select id="adminStatsMenu" parameterType="java.util.Map" resultType="RequestDto">
 	SELECT REQUEST_MENU 
 	FROM REQUEST 

@@ -1,4 +1,5 @@
-	function makeMenuDetail(request_seq,rnum){
+// 제조 중인 메뉴 상세 조회
+function makeMenuDetail(request_seq,rnum){
 		$.ajax({
 			url : "./selMakeReqDetail.do",
 			type : "post",
@@ -28,6 +29,7 @@
 			}
 		})
 	}
+// 대기 중인 메뉴 상세 조회
 	function waitMenuDetail(request_seq,rnum){
 		$.ajax({
 			url : "./selWaitReqDetail.do",
@@ -58,6 +60,7 @@
 			}
 		})
 	}
+	//주문 완료로 주문 상태 변경
 	function changeStatusCode3(line,request_seq){
 		var os_code = "3";
 		$.ajax({
@@ -75,6 +78,7 @@
 			}
 		})
 	}
+	//주문 제조 중으로 주문 상태 변경
 	function changeStatusCode2(line,request){
 		var requestInfo = request.split("!");
 		var request_seq = requestInfo[0]; //주문 seq
@@ -117,6 +121,7 @@
 			}
 		})
 	}
+	//환불로 주문 상태 변경
 	function changeStatusCode0(line,request_seq){
 		var os_code = "0";
 		swal({
@@ -153,21 +158,3 @@
 	function selRequestList(){
 		location.href="./selRequestList.do";
 	}
-function loadDoc() {
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var response = JSON.parse(this.responseText);
-			$.each(response,function(key,value){
-				if(key == "wait"){
-					$.each(value,function(key,menu){
-			  			$("#print").append();
-					});
-				}
-			});
-		}
-	};
-	xhttp.open("GET", "http://localhost:8091/PaRaPaRa/selRequestStatusRest.do", true);
-	xhttp.setRequestHeader("waitList", "makeLists");
-	xhttp.send();
-}

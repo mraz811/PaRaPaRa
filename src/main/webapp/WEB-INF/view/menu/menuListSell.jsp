@@ -12,15 +12,15 @@
 <link rel="stylesheet" type="text/css" href="./css/menu.css">
 </head>
 <script type="text/javascript">
+//체크박스 전체 선택
 function checkAllDel(bool){
 	var checks = document.getElementsByName("cancel_menu_seq");
-//	alert(checks.length);
 	for (var i = 0; i < checks.length; i++) {
 		checks[i].checked = bool;
 	}
 }
+//업주 선택 메뉴 삭제 눌렀을 때 작동
 function cancelMenu(){
-//	alert("작동");
 	var checks = document.getElementsByName("cancel_menu_seq");
 	var c = 0;
 	for (var i = 0; i < checks.length; i++) {
@@ -70,6 +70,7 @@ function cancelMenu(){
 		return false;
 	}
 }
+//메뉴 카테고리에서 주메뉴 눌렀을 때 작동
 function mainMenu(){
 	var menu_category = "주메뉴";
 	var menuList = document.getElementById("menuList");
@@ -90,17 +91,11 @@ function mainMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-// 			alert("관리자에게 문의해주세요"); 
-			swal({
-				title: "메뉴 삭제 실패", 
-				text: "관리자에게 문의해주세요", 
-			},
-			function(){ 
-				
-			});
+			alert("관리자에게 문의해주세요"); 
 		}
 	})
 }
+//메뉴 카테고리에서 사이드메뉴 눌렀을 때 작동
 function sideMenu(){
 	var menu_category = "사이드메뉴";
 	$.ajax({
@@ -120,18 +115,12 @@ function sideMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-// 			alert("관리자에게 문의해주세요");
-			swal({
-				title: "메뉴 삭제 실패", 
-				text: "관리자에게 문의해주세요", 
-			},
-			function(){ 
-				
-			});
+			alert("관리자에게 문의해주세요");
 		}
 		
 	})
 }
+//메뉴 카테고리에서 음료 눌렀을 때 작동
 function drinkMenu(){
 	var menu_category = "음료";
 	$.ajax({
@@ -151,14 +140,7 @@ function drinkMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-// 			alert("관리자에게 문의해주세요");
-			swal({
-				title: "메뉴 삭제 실패", 
-				text: "관리자에게 문의해주세요", 
-			},
-			function(){ 
-				
-			});
+			alert("관리자에게 문의해주세요");
 		}
 	})
 }
