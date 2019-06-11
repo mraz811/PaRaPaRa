@@ -52,10 +52,10 @@
 //임시 저장한 파일의 정보를 저장하는 변수
 var fDto = null;
 //파일 임시 저장 후 미리보기
-function regiTempFile(){ 
+function regiTempFile(targetObj){ 
 	var form = new FormData(document.getElementById("tempFrm"));
 	form.append("file_seq", document.getElementById("file_seq").value);
-
+	alert("eeee");
 	//확장자를 확인해 이미지 파일만 업로드 가능하게함
 	var ext = targetObj.value.split(".").pop().toLowerCase();
 	if ($.inArray(ext, ["gif", "jpg", "jpeg", "png"]) == -1) {
@@ -66,7 +66,7 @@ function regiTempFile(){
 	 	
 		return false;
 	} 
-	
+	alert("dddd");
 	$.ajax({
 		url : "./modifyMenuTempFile.do",
 		type : "post",
@@ -154,7 +154,7 @@ function regiPrice(val){
 	
 	<form id="tempFrm" action="#" method="post" enctype="multipart/form-data">
 	<div class="form-group">
-		<input type="file" class="form-control-file" id="selectedFile" name="file1" onchange="regiTempFile()"/>
+		<input type="file" class="form-control-file" id="selectedFile" name="file1" onchange="regiTempFile(this)"/>
 	</div>
 	</form>	
 	

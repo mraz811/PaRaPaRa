@@ -514,7 +514,8 @@ public class MenuCtrl {
 		
 		String rurl = fDtoSel.getFile_rurl();
 		System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
-		fDtoSel.setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
+		String subRurl = rurl.substring(rurl.indexOf("\\upload"), rurl.length());
+		fDtoSel.setFile_rurl("."+subRurl.replace("\\", "/"));
 		System.out.println("업주 파일의 상대경로 자르기 후 : "+fDtoSel.getFile_rurl());
 		
 		JSONObject json = new JSONObject();
@@ -556,7 +557,10 @@ public class MenuCtrl {
 		fDto.setFile_seq(Integer.parseInt(file_seq));
 		Map<String,String> map = fileUploadService.restore(file1,relativePath);
 		fDto.setFile_aurl(map.get("file_aurl")); //절대 경로
-		fDto.setFile_rurl(map.get("file_rurl").substring(map.get("file_rurl").indexOf("\\PaRaPaRa"), map.get("file_rurl").length()));//절대 경로
+		
+		String subRurl = map.get("file_rurl").substring(map.get("file_rurl").indexOf("\\upload"), map.get("file_rurl").length());
+		
+		fDto.setFile_rurl("."+subRurl.replace("\\", "/"));//절대 경로
 		fDto.setFile_tname(map.get("file_tname"));
 		fDto.setFile_rname(map.get("file_rname"));
 		fDto.setFile_size(Integer.parseInt(map.get("file_size")));
@@ -581,18 +585,12 @@ public class MenuCtrl {
 		MenuDto dto = new MenuDto();
 		dto.setMenu_category(menu_category);
 		List<MenuDto> lists = menu_IService.allMenu(dto);
-		for (int i = 0; i < lists.size(); i++) {
-			String rurl = lists.get(i).getFileDto().getFile_rurl();
-			System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
-			lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
-			System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
-		}
 		System.out.println("전체 메뉴 조회 : " + lists);
 		model.addAttribute("menuList", lists);
 		return "/menu/menuListAdmin";
 	}
 
-	// 담당자 : 메뉴 삭제
+	// 담당자 : 메뉴 재판매
 	@RequestMapping(value = "/reSellMenu.do", method = RequestMethod.GET)
 	public String reSellMenu(String menu_seq, Model model) {
 		System.out.println("넘겨받은 menu_seq : " + menu_seq);
@@ -602,12 +600,6 @@ public class MenuCtrl {
 		MenuDto dto = new MenuDto();
 		dto.setMenu_category(menu_category);
 		List<MenuDto> lists = menu_IService.allMenu(dto);
-		for (int i = 0; i < lists.size(); i++) {
-			String rurl = lists.get(i).getFileDto().getFile_rurl();
-			System.out.println("업주 파일의 상대경로 자르기 전 : "+rurl);
-			lists.get(i).getFileDto().setFile_rurl(rurl.substring(rurl.indexOf("\\PaRaPaRa"), rurl.length()));
-			System.out.println("업주 파일의 상대경로 자르기 후 : "+lists.get(i).getFileDto().getFile_rurl());
-		}
 		System.out.println("전체 메뉴 조회 : " + lists);
 		model.addAttribute("menuList", lists);
 		return "/menu/menuListAdmin";
