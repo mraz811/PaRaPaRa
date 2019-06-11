@@ -121,37 +121,41 @@ var pageAjax = function(){
 				var htmlTable = "";
 				var n = $(".table tr:eq(0) th").length;
 //				alert(n);
-				
+			
 				if(key=="lists"){ // table을 만들어 줌
-					
-		
-					// 내용을 출력해 준다(lists:[{key,value},{},{}])
-					$.each(value,function(key,fri){
+					if(value.length==0){
+						htmlTable += "<tr>" +
+										 "<th colspan='4' style='text-align:center; color: red; font-weight: bold;'>등록된 매장이 없습니다.</th>" +
+								   	 "</tr>";
+					}else{
 						
-		//				var regdate = fri.regdate.substring(0,fri.regdate.indexOf(" "));
-						
-						htmlTable +="<tr>" +
-								"<td>"+fri.store_code+"</td>" +
-								"<td><a href='#' onclick=storeDetail('"+fri.store_code+"')>"+fri.store_name+"</a></td>" +
-								"<td>"+fri.store_address+"</td>+" +
-								"<td>"+fri.store_phone+"</td></tr>";
-					});
-
+						// 내용을 출력해 준다(lists:[{key,value},{},{}])
+						$.each(value,function(key,fri){
+							
+			//				var regdate = fri.regdate.substring(0,fri.regdate.indexOf(" "));
+							
+							htmlTable +="<tr>" +
+									"<td>"+fri.store_code+"</td>" +
+									"<td><a href='#' onclick=storeDetail('"+fri.store_code+"')>"+fri.store_name+"</a></td>" +
+									"<td>"+fri.store_address+"</td>+" +
+									"<td>"+fri.store_phone+"</td></tr>";
+						});
+					}
 				}else{ // key=row는 paging를 만들어 줌
 
 					htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageFirst("+value.pageList+","+value.pageList+")'>&laquo;</a></li>";
 					htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pagePre("+value.pageNum+","+value.pageList+")'>&lsaquo;</a></li>";
-					
+						
 					for (var i =value.pageNum ; i <= value.count; i++) {
 						htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageIndex("+i+")'>"+i+"</a></li>";
 					}
-									
+										
 					htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageNext("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&rsaquo;</a></li>";
 					htmlTable +="<li class='page-item'><a class='page-link' href='#' onclick='pageLast("+value.pageNum+","+value.total+","+value.listNum+","+value.pageList+")'>&raquo;</a></li>";
+						
+//					alert(htmlTable);
 				}
-
-//				alert(htmlTable);
-				
+					
 				if(key=="lists"){
 					$(".table > tbody").html(htmlTable);
 				}else{

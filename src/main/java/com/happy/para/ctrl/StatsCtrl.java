@@ -186,50 +186,54 @@ public class StatsCtrl {
 
 		List<OwnerDto> lists = member_IService.ownerListAll(loc_code);
 		String[] store_code = new String[lists.size()];
-
-		for (int j = 0; j < lists.size(); j++) {
-			store_code[j] = lists.get(j).getStore_code();
-		}
-
-		for (int i = 0; i < store_code.length; i++) {
-			System.out.println(store_code[i]);
-		}
-
-		GoogleChartDTO jdata = new GoogleChartDTO();
-		jdata.addColumn("stats", "통계", "", "string");
-		jdata.addColumn("money", "단위(원)", "", "number");
-		for (int i = 0; i < store_code.length; i++) {
-			map.put("store_code", store_code[i]);
-			map.put("start", start);
-			map.put("end", end);
-			RequestDto rDto = stats_IService.adminStatsIncome(map);
-			if (rDto != null) {
-				System.out.println("이거뭐냐응??" + rDto);
-				jdata.addRow(rDto.getStoreDto().getStore_name(), rDto.getRequest_price());
-			} else {
-
+		
+		if(lists.size()==0) {
+			mapp.put("jstr", "1");
+		}else {
+			for (int j = 0; j < lists.size(); j++) {
+				store_code[j] = lists.get(j).getStore_code();
 			}
 
+			for (int i = 0; i < store_code.length; i++) {
+				System.out.println(store_code[i]);
+			}
+
+			GoogleChartDTO jdata = new GoogleChartDTO();
+			jdata.addColumn("stats", "통계", "", "string");
+			jdata.addColumn("money", "단위(원)", "", "number");
+			for (int i = 0; i < store_code.length; i++) {
+				map.put("store_code", store_code[i]);
+				map.put("start", start);
+				map.put("end", end);
+				RequestDto rDto = stats_IService.adminStatsIncome(map);
+				if (rDto != null) {
+					System.out.println("이거뭐냐응??" + rDto);
+					jdata.addRow(rDto.getStoreDto().getStore_name(), rDto.getRequest_price());
+				} else {
+
+				}
+
+			}
+			Gson gs = new Gson();
+			String jstr = gs.toJson(jdata);
+
+			map.put("store_code_", store_code);
+			map.put("start", start);
+			map.put("end", end);
+
+			GoogleChartDTO jdata2 = new GoogleChartDTO();
+			Map<String, List<String>> resultMap = stats_IService.adminStatsMenu(map);
+			jdata2.addColumn("stats", "통계", "", "string");
+			jdata2.addColumn("count", "단위(개)", "", "number");
+			for (int i = 0; i < resultMap.get("menu").size(); i++) {
+				jdata2.addRow(resultMap.get("menu").get(i), Integer.parseInt(resultMap.get("cnt").get(i)));
+			}
+			System.out.println("업주 메뉴 통계에 쓸 값 : " + resultMap);
+			String jstr2 = gs.toJson(jdata2);
+
+			mapp.put("jstr", jstr);
+			mapp.put("jstr2", jstr2);
 		}
-		Gson gs = new Gson();
-		String jstr = gs.toJson(jdata);
-
-		map.put("store_code_", store_code);
-		map.put("start", start);
-		map.put("end", end);
-
-		GoogleChartDTO jdata2 = new GoogleChartDTO();
-		Map<String, List<String>> resultMap = stats_IService.adminStatsMenu(map);
-		jdata2.addColumn("stats", "통계", "", "string");
-		jdata2.addColumn("count", "단위(개)", "", "number");
-		for (int i = 0; i < resultMap.get("menu").size(); i++) {
-			jdata2.addRow(resultMap.get("menu").get(i), Integer.parseInt(resultMap.get("cnt").get(i)));
-		}
-		System.out.println("업주 메뉴 통계에 쓸 값 : " + resultMap);
-		String jstr2 = gs.toJson(jdata2);
-
-		mapp.put("jstr", jstr);
-		mapp.put("jstr2", jstr2);
 		return mapp;
 	}
 

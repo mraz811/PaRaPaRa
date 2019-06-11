@@ -48,7 +48,7 @@
 										<c:choose>
 											<c:when test="${fn:length(lists) eq 0}">
 												<tr>
-													<th colspan="4">등록된 매장이 없습니다.</th>
+													<th colspan="4" style="text-align: center; color: red; font-weight: bold;">등록된 매장이 없습니다.</th>
 												</tr>
 											</c:when>
 											<c:otherwise>
