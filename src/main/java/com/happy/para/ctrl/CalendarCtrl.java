@@ -27,17 +27,20 @@ public class CalendarCtrl {
 	@Autowired
 	private Calendar_IService calSer;
 	
+	// 일정 조회
 	@RequestMapping(value="/selCal.do", method=RequestMethod.GET)
 	public String calMonthCtrl(Model model, HttpSession session, HttpServletRequest request) {	
 		
 		OwnerDto own = (OwnerDto) session.getAttribute("loginDto");
 		String store_code = own.getStore_code();
+		
+		// 매장별 일정 list
 		List<CalDto> lists = calSer.calList(store_code);
 
 		model.addAttribute("lists", lists);
 		model.addAttribute("store_code", store_code);
 		
-		// ????
+		// 매장별 일정 list
 		request.setAttribute("lists", lists);
 		
 		System.out.println("접속한 매장 코드 : "+store_code);
@@ -46,6 +49,7 @@ public class CalendarCtrl {
 		return "calendar/calendarView";
 	}
 	
+	// 일정 삭제
 	@RequestMapping(value="/delCal.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String deletecalCtrl(HttpServletRequest request) {
@@ -53,24 +57,24 @@ public class CalendarCtrl {
 		String cal_seq = request.getParameter("cal_seq");
 		
 		int isc = calSer.calDelete(cal_seq);
-				
+
 		// ajax 데이터 반환
 		Map<String,Integer> mapl = new HashMap<String,Integer>();
-		mapl.put("isc", isc);	
-		
+		mapl.put("isc", isc);
+
 		JSONObject obj = JSONObject.fromObject(mapl);
 		
 		System.out.println(obj.toString());
-		
+
 		return obj.toString();
 	}
 	
+	// 일정 등록
 	@RequestMapping(value="/regiCal.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String InsertCalCtrl(HttpServletRequest request) {
 		
 		// 일정 정보 가져오기 
-		
 		String calid = request.getParameter("calendarId");		
 		char[] chcalid = calid.toCharArray();
 		
@@ -115,6 +119,7 @@ public class CalendarCtrl {
 		CalDto dto = new CalDto("", chcalid[0], title, content, start, end, store_code, "");
 		calSer.calRgister(dto);	
 		
+		// 매장별 일정 list
 		List<CalDto> lists = calSer.calList(store_code);
 		System.out.println(lists);
 		
@@ -128,6 +133,7 @@ public class CalendarCtrl {
 		return obj.toString();
 	}
 	
+	// 일정 수정
 	@RequestMapping(value="/calModi.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String UpdateCalCtrl(HttpServletRequest request) {
@@ -165,12 +171,10 @@ public class CalendarCtrl {
 			end = endyear+"-"+endmonth+"-"+endday+" "+endhours+":"+endminutes+":00";		
 			
 			List<CalDto> lists = calSer.calList(store_code);
-			System.out.println(lists);
+//			System.out.println(lists);
 			
 			String cal_seq = lists.get(0).getCal_seq();
 
-			System.out.println("");
-			
 			// Service 실행 
 			CalDto dto = new CalDto(cal_seq, title, content, start, end);
 			calSer.calModify(dto);

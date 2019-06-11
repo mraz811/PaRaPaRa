@@ -30,6 +30,7 @@ public class NoticeCtrl {
 	@Autowired
 	private Notice_IService noticeSer;
 	
+	// 공지사항 조회
 	@RequestMapping(value="/selNoticeList.do", method=RequestMethod.GET)
 	public String noticeList(HttpSession session, Model model) {
 		
@@ -45,21 +46,22 @@ public class NoticeCtrl {
 		}
 
 		rowDto.setTotal(noticeSer.noticeListRow());
-		
+
 		lists = noticeSer.noticeList(rowDto);
-		
+
 		model.addAttribute("lists", lists);
 		model.addAttribute("noticRow", rowDto);
 		
 		return "notice/noticeList";
 	}
 
+	// 공지사항 등록 폼으로 이동
 	@RequestMapping(value="/regiNoticeForm.do", method=RequestMethod.GET)
 	public String noticeWriteForm(HttpSession session, Model model) {
 		
 		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
 		model.addAttribute("admin_name", aDto.getAdmin_name());
-		
+
 		Date getDate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		model.addAttribute("today", sdf.format(getDate));
@@ -67,6 +69,7 @@ public class NoticeCtrl {
 		return "notice/noticeWriteForm";
 	}
 	
+	// 공지사항 등록
 	@RequestMapping(value="/regiNotice.do", method=RequestMethod.POST)
 	public String noticeWrite(NoticeDto dto, String loginDtoAuth, Model model, HttpSession session) {
 		
@@ -81,6 +84,7 @@ public class NoticeCtrl {
 		return isc? "redirect:/selNoticeList.do" : "notice/noticeWriteForm";
 	}
 	
+	// 공지사항 상세 조회
 	@RequestMapping(value="/selNoticeDetail.do", method=RequestMethod.GET)
 	public String noticeDetail(Model model, String notice_seq, HttpSession session, String loginDtoAuth) {
 		
@@ -106,6 +110,7 @@ public class NoticeCtrl {
 		return "notice/noticeDetail";
 	}
 	
+	// 공지사항 수정 폼으로 이동
 	@RequestMapping(value="/noticeModifyForm.do", method=RequestMethod.POST)
 	public String noticeModifyForm(Model model, NoticeDto dto) {
 
@@ -117,32 +122,26 @@ public class NoticeCtrl {
 		return "notice/noticeModifyForm";
 	}
 	
+	// 공지사항 수정
 	@RequestMapping(value="/noticeModify.do", method=RequestMethod.POST)
 	public String noticeModify(HttpSession session, NoticeDto dto) {
 		
 		boolean isc = noticeSer.noticeModify(dto);
-//		String notice_seq = dto.getNotice_seq();
-		
-//		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
-//		String loginDtoAuth = aDto.getAuth();
-//		
-//		System.out.println("notice_seq notice_"+notice_seq);
-//		System.out.println("loginDtoAuth_"+loginDtoAuth);
-//		
+
 		return isc? "redirect:/selNoticeList.do" : "notice/noticeModifyForm";
-//		return isc? "notice/noticeDetail?notice_seq="+notice_seq+"&loginDtoAuth="+loginDtoAuth : "notice/noticeModifyForm";
 	}
 	
+	// 공지사항 삭제
 	@RequestMapping(value="/noticeDelete.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String noticeDelete(String notice_seq) {
 		
 		boolean isc = noticeSer.noticeDelete(notice_seq);
 		
-//		return isc? "redirect:/selNoticeList.do" : "redirect:/selNoticeList.do";
 		return isc? "성공":"실패";
 	}
 
+	// 공지사항 댓글 등록
 	@RequestMapping(value="/writeReply.do", method=RequestMethod.POST)
 	public String writeReply(ReplyDto dto, HttpSession session, Model model, String loginDtoAuth) {
 
@@ -168,6 +167,7 @@ public class NoticeCtrl {
 		return "redirect:/selNoticeDetail.do?notice_seq="+dto.getNotice_seq()+"&loginDtoAuth="+loginDtoAuth;
 	}
 
+	// 공지사항 댓글 삭제
 	@RequestMapping(value="/delReply.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String delReply(String loginDtoAuth, String notice_seq, @RequestParam("reply_seq")String reply_seq) {
 
@@ -176,22 +176,23 @@ public class NoticeCtrl {
 		return "redirect:/selNoticeDetail.do?notice_seq="+notice_seq+"&loginDtoAuth="+loginDtoAuth;
 	}
 	
+	// 공지사항 페이징
 	@RequestMapping(value="/noticePaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String paging(Model model, HttpSession session, PagingDto pDto) {
 		
 		JSONObject json = null;
-		
+
 		pDto.setTotal(noticeSer.noticeListRow());
 		json = objectJson(noticeSer.noticeList(pDto), pDto);
-		
+
 		session.removeAttribute("noticRow");
 		session.setAttribute("noticRow", pDto);
 		System.out.println("json.toString() : "+json.toString());
 		return json.toString();
 	}
 
-//	"lists":{{seq:1},{title:tt},{}} << 이런식으로 담을거야 어레이 리스트로 담고 맴 형태로
+//	"lists":{{seq:1},{title:tt},{}}
 	@SuppressWarnings({ "unchecked", "unused" })
 	private JSONObject objectJson(List<NoticeDto> lists, PagingDto noticRow) {
 		JSONObject json = new JSONObject(); // 최종적으로 담는애는 여긴데
