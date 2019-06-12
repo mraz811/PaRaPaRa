@@ -21,12 +21,12 @@ function pageAjax(){
 				if(key=="owLists"){
 					htmlTable += "<table id='ownerList' class='table table-hover' style='margin-bottom: 0px;'>"+
 					"<tr class='table-primary'>"+
-						"<th width='110px'>사업자번호</th>"+
+						"<th width='115px'>사업자번호</th>"+
 						"<th width='90px'>업주명</th>"+
 						"<th width='120px'>전화번호</th>"+
-						"<th width='190px'>이메일</th>"+
+						"<th width='195px'>이메일</th>"+
 						"<th width='115px'>매장명</th>"+
-						"<th width='120px'>계약시작</th>"+
+						"<th width='110px'>계약시작</th>"+
 						"<th width='165px'>계약종료</th>"+
 						"<th width='100px'></th>"+
 					"</tr>";
@@ -41,12 +41,12 @@ function pageAjax(){
 					"<input type='hidden' name='owner_seq' value="+val.owner_seq+">"+
 					"<table class='table table-hover' style='margin-bottom: 0px; height: 59px;'>"+
 						"<tr>"+
-							"<td width='110px'>"+val.owner_id+"</td>"+		
+							"<td width='115px'>"+val.owner_id+"</td>"+		
 							"<td width='90px'>"+val.owner_name+"</td>"+	
 							"<td width='120px'>"+val.owner_phone+"</td>"+		
-							"<td width='190px'>"+val.owner_email+"</td>"+
+							"<td width='195px'>"+val.owner_email+"</td>"+
 							"<td width='115px'>"+val.store_name+"</td>"+
-							"<td width='120px'>"+(val.owner_start).substr(0, 10)+"</td>";
+							"<td width='110px'>"+(val.owner_start).substr(0, 10)+"</td>";
 							
 							if(val.owner_end == null){
 								htmlTable +=
