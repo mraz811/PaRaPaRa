@@ -57,7 +57,7 @@ public class NoticeCtrl {
 
 	// 공지사항 등록 폼으로 이동
 	@RequestMapping(value="/regiNoticeForm.do", method=RequestMethod.GET)
-	public String noticeWriteForm(HttpSession session, Model model) {
+	public String noticeRegForm(HttpSession session, Model model) {
 		
 		AdminDto aDto = (AdminDto)session.getAttribute("loginDto");
 		model.addAttribute("admin_name", aDto.getAdmin_name());
@@ -66,7 +66,7 @@ public class NoticeCtrl {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		model.addAttribute("today", sdf.format(getDate));
 		
-		return "notice/noticeWriteForm";
+		return "notice/noticeRegForm";
 	}
 	
 	// 공지사항 등록
@@ -81,7 +81,7 @@ public class NoticeCtrl {
 		
 		boolean isc = noticeSer.noticeWrite(dto);
 		
-		return isc? "redirect:/selNoticeList.do" : "notice/noticeWriteForm";
+		return isc? "redirect:/selNoticeList.do" : "notice/noticeRegForm";
 	}
 	
 	// 공지사항 상세 조회
@@ -111,15 +111,15 @@ public class NoticeCtrl {
 	}
 	
 	// 공지사항 수정 폼으로 이동
-	@RequestMapping(value="/noticeModifyForm.do", method=RequestMethod.POST)
-	public String noticeModifyForm(Model model, NoticeDto dto) {
+	@RequestMapping(value="/noticeModForm.do", method=RequestMethod.POST)
+	public String noticeModForm(Model model, NoticeDto dto) {
 
 		String notice_seq = dto.getNotice_seq();
 
 		NoticeDto nDto = noticeSer.noticeDetail(notice_seq);
 		model.addAttribute("dto", nDto);
 
-		return "notice/noticeModifyForm";
+		return "notice/noticeModForm";
 	}
 	
 	// 공지사항 수정
@@ -128,7 +128,7 @@ public class NoticeCtrl {
 		
 		boolean isc = noticeSer.noticeModify(dto);
 
-		return isc? "redirect:/selNoticeList.do" : "notice/noticeModifyForm";
+		return isc? "redirect:/selNoticeList.do" : "notice/noticeModForm";
 	}
 	
 	// 공지사항 삭제

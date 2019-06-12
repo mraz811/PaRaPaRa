@@ -236,7 +236,7 @@ td {
 		$("#modify").click(function() {
 			var notice_seq = document.getElementsByName("notice_seq");
 			var frm = document.forms[0];
-			frm.action = "./noticeModifyForm.do";
+			frm.action = "./noticeModForm.do";
 			frm.method = "post";
 			frm.submit();
 		});
