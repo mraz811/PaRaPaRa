@@ -102,21 +102,30 @@
 <%-- 	${lists} --%>
 <%-- 	${storeRow} --%>
 <script type="text/javascript">
+	
+	// 품목 조회 시 키보드의 enter 시 조회가 되도록 처리 
+	// enter의 keyCode 값은 13
 	var enterSearch = function(){
 		if (window.event.keyCode == 13) {
+			// 품목 조회 function
 			searchItemList();
 		}
 	}
+	
+	// 품목 등록 버튼 클릭 시 새 창으로 띄워줌
 	var regItem = function() {
 		window.open("./regItem.do","_blank","width=400, height=450, left=500");
 // 		location.href = "./regItem.do";
 	}
 	
+	// 품목 수정 버튼 클릭 시 새창으로 띄워줌 
 	var modItem = function(itemSeq){
 		window.open("./itemModiForm.do?item_seq="+itemSeq, "_blank","width=400, height=450, left=500");
 	}
 	
+	// 품목 조회
 	var searchItemList = function(){
+		// 앞 뒤에 띄워쓰기가 있을 수 있으므로 trim으로 잘라줌
 		var searchVal = document.getElementById("searchItem").value.trim();
 // 		alert("trim 한 searchVal : " + searchVal);
 		$.ajax({
@@ -133,11 +142,6 @@
 						text: "검색된 항목이 존재하지 않습니다.", 
 						type: "warning"
 					},function(){
-// 						var htmlTable="";
-// 						htmlTable += 	"<tr>"
-// 											+"<th colspan='5'>등록된 품목이 없습니다.</th>"
-// 										+"</tr>";
-// 						$(".table > tbody").html(htmlTable);
 						selItemList();
 					});
 				}else{
@@ -167,6 +171,7 @@
 		});
 	}
 	
+	// 품목 삭제 버튼 클릭 시
 	var delItem = function(itemSeq) {
 		swal({
 			title: "삭제 확인",
@@ -226,12 +231,6 @@
 			}
 		});
 	}
-// 	function selStoreList(){
-// 		location.href="./selStoreList.do";
-// 	}
-// 	function selItemList(){
-// 		location.href="./selItemList.do";
-// 	}
 </script>
 
 </body>

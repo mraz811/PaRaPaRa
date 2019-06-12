@@ -82,6 +82,8 @@
 	
 <script type="text/javascript">
 
+
+	// 매장 등록 시 매장명 중복 확인
 	function nameChk() {
 		var nameVal = document.getElementById("name").value.trim();
 // 		alert("작성한 매장명 : " + )
@@ -97,7 +99,8 @@
 		}
 		
 	}
-
+	
+	// 매장 등록 Controller 이동
 	function regStore() {
 		var nameChkVal = $("#nameChkVal").val();
 		var phoneChkVal = $("#phnchkVal").val();

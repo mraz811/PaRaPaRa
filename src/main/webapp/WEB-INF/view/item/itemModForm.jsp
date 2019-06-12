@@ -41,8 +41,6 @@
 				<input type="hidden" name="item_seq" value="${dto.item_seq}">
 				<input type="hidden" id="nameChkVal" value="0">
 				<input type="hidden" id="nameList" value='${nameListJson}'>
-<%-- 			<input type="hidden" name="loc_code" value="${loginDto.loc_code}"> --%>
-<%-- 				<input type="hidden" naSme="admin_id" value="${loginDto.admin_id}"> --%>
 				
 				<div class="form-group">
 					<label>품목명</label>
@@ -64,6 +62,8 @@
 	</div>
 <script type="text/javascript">
 	
+	// 품목 수정 시 다른 품목과 품목명이 겹치지 않게 하기위한 처리
+	// nameChkVal의 값이 1일 시 Controller 호출
 	function nameChk() {
 		var orginalName = '${dto.item_name}';
 		
@@ -72,11 +72,14 @@
 		var nameList = document.getElementById("nameList").value;
 	// 		alert("매장 이름 리스트 : " +  nameList);
 		
+		// 품목 가격만 수정할 수 있으므로 이름을 바꾸지 않을 시 값을 1로 지정
 		if(orginalName == nameVal){
 			$("#item_name").attr("class","form-control is-valid");
 			$("#nameChkVal").val("1");
 		}
 		
+		// json으로 받은 품목 명 리스트를 indexOf로 비교
+		// -1이 아닐 시 같은 품목명이 있다는 의미이므로 수정이 진행되어서는 안됨
 		if(nameList.indexOf(nameVal)>-1){
 			$("#item_name").attr("class","form-control is-invalid");
 			$("#nameChkVal").val("0");
@@ -86,16 +89,20 @@
 		}
 	}
 
-
+	// 품목 가격에 숫자만 입력되게 처리
 	function numberOnly(){
 		var iPrice = $("#item_price").val();
 		var keyValue = event.keyCode;
+		// numpad와 숫자 키를 제외한 모든 keyCode 입력 시 오류창 표시
 		if( ((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){
 			swal("등록 에러", "숫자만 입력해주세요.", "error");
+			// 잘못 입력한 값을 substring으로 잘라줌
+			
 			$("#item_price").val(iPrice.substring(0,iPrice.length-1));
 		}
 	}
-
+	
+	// 품목 수정 시 Controller로 이동
 	function modiItem() {
 		
 		var orginalName = '${dto.item_name}';
