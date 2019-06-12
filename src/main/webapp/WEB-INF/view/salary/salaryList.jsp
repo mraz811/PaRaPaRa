@@ -79,6 +79,7 @@ $(function(){
 // document.write(thisMonth.substr( 0, 4 ));
 // document.write(thisMonth.substr( 5, 2 ));
 
+// 전 달로 이동
 function prevCalendar() {
 	
 	var thisMonth = document.getElementsByName("getMonth")[0].value;
@@ -96,6 +97,7 @@ function prevCalendar() {
 	monthGet(getMonth);
 }
 
+// 다음달로 이동
 function nextCalendar() {
 	
 	var thisMonth = document.getElementsByName("getMonth")[0].value;
@@ -116,10 +118,9 @@ function nextCalendar() {
 <div id="salAll">
 	<div id="menu">
 		<a href="#" onclick="prevCalendar()" style="text-decoration: none;">◀</a>
-		<input id="viewMonth" name="getMonth" value="${month}"/>
+		<input id="viewMonth" name="getMonth" value="${month}"/> <!-- 컨트롤러에서 현재 달을 화면으로 보냄 -->
 		<a href="#" onclick="nextCalendar()" style="text-decoration: none;">▶</a>
 	</div>
-
 
 	<div>
 		<table id="tableHeader" class="table">
@@ -139,12 +140,16 @@ function nextCalendar() {
 			<c:forEach var="dto" items="${albaLists}" varStatus="vs">
 				<tr style="padding:0px;">
 					<td style="width:50px;">${vs.count}</td>
+					
+					<!-- 아르바이트 이름이 4자리 이상일 경우 뒤에 .. 을 넣고 3자리까지만 표현 -->
 					<c:if test="${fn:length(dto.alba_name) > 3}">
 						<td style="text-align: center; width:62px;">${fn:substring(dto.alba_name,0,3)}..</td>
 					</c:if>
 					<c:if test="${fn:length(dto.alba_name) <= 3}">
 						<td style="text-align: center; width:62px;">${dto.alba_name}</td>					
 					</c:if>
+					
+					<!-- ex) .5 -> 경우 앞에 0을 붙여준다 -->
 					<c:if test="${fn:substring(dto.alba_phone,0,1) == '.'}">
 						<td style="text-align: center;">0${dto.alba_phone}</td>
 					</c:if>
@@ -157,7 +162,10 @@ function nextCalendar() {
 					<c:if test="${fn:substring(dto.alba_address,0,1) != '.'}">
 						<td style="text-align: center;">${dto.alba_address}</td>
 					</c:if>
+					
 					<td style="padding-left:30px;">${dto.alba_timesal}원</td>
+					
+					<!-- 한달 급여가 alba_delflag 에 담김 -->
 					<td>${dto.alba_delflag}원</td>
 					<td>${dto.alba_bank}</td>
 					<td>${dto.alba_account}</td>

@@ -86,13 +86,13 @@
 								<tbody>
 									<c:forEach var="dto" items="${lists}" varStatus="vs">
 											<tr>
-												<td style="width:75px; text-align: center;">
-												${vs.count}</td>
+												<td style="width:75px; text-align: center;">${vs.count}</td>
 												<td style="width:400px; padding-left:85px;">
 													<input type="hidden" name="Slists[${vs.count}].stock_seq" value="${dto.stock_seq}" />
 													<input type="hidden" name="Slists[${vs.count}].stock_name" value="${dto.stock_name}" readonly="readonly"
 														style="border:none; background-color: none;" />
 													${dto.stock_name}
+													<!-- 추가된 품목들은 stock_name 옆에 new 글자를 띄워줌 // db 에 저장된 것이 아니기 때문에 검색이 되지 않음 -->
 													<c:if test="${dto.store_code eq NULL}">
 														<a style="color:red;">NEW</a>
 													</c:if>
@@ -100,6 +100,7 @@
 												<td style="width:220px;">
 													<input type="number" min="0" class="stockQty" name="Slists[${vs.count}].stock_qty" value="${dto.stock_qty}" readonly="readonly"  onkeyup="changeQty(this)"/>
 												</td>
+												<!-- 삭제된 품목에 한해서만 업주가 재고 목록에서 삭제할 수 있다. 남은 재고가 있을 수 있으므로, 목록에서 바로 삭제 하지 않음. -->
 												<c:if test="${dto.item_delflag eq NULL}">
 													<td style="width:100px; padding: 7px 0px 0px 12px;">
 														<input type="button" class="btn btn-outline-warning" onclick="location.href='./delStock.do?stock_seq=${dto.stock_seq}&store_code=${store_code}'" value="삭제" />
@@ -150,7 +151,7 @@
 
 			var a = document.getElementsByName("Slists[" + 1 + "].stock_qty")[0];
 			
-			for (var i = 1; i < qty.length + 1; i++) {
+			for (var i = 1; i < qty.length + 1; i++) { // readonly 옵션 제거 및 input tag 테두리 빨간색으로 변경
 				document.getElementsByName("Slists[" + i + "].stock_qty")[0].removeAttribute("readonly");
  				document.getElementsByName("Slists[" + i + "].stock_qty")[0].style.border = "2px solid #ff0000";
 			}

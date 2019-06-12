@@ -17,7 +17,7 @@
 <title>공지사항 목록</title>
 <!-- <link rel="stylesheet" href="./css/NoticeList.css"> -->
 <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="./js/NoticeList.js"></script>
+<script type="text/javascript" src="./js/noticeList.js"></script>
 <style type="text/css">
 
 .center{
