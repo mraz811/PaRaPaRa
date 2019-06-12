@@ -1,8 +1,6 @@
 package com.happy.para.ctrl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,7 +28,7 @@ public class AlbaCtrl {
 	// 아르바이트 등록 폼으로 
 	@RequestMapping(value="/albaRegiForm.do", method=RequestMethod.GET)
 	public String albaRegiForm() {
-		return "/alba/albaRegiForm";
+		return "/alba/albaRegForm";
 	}
 	
 	// 아르바이트 등록
@@ -43,31 +41,6 @@ public class AlbaCtrl {
 		System.out.println("------------------------\n"+albaDto+"\n----------------------");
 		alService.albaRegister(albaDto);
 	}
-	
-	// 아르바이트 전체 조회 (페이징) - 사용안함
-//	@RequestMapping(value="/selAlbaList.do", method=RequestMethod.GET)
-//	public String selAlbaList(HttpSession session, Model model) {
-//		OwnerDto ownDto = (OwnerDto) session.getAttribute("loginDto");
-//		String store_code = ownDto.getStore_code();
-//		
-//		PagingDto pagingDto = new PagingDto();
-//		Map<String, String> albamap = new HashMap<String,String>();
-//		albamap.put("store_code", store_code);
-//		albamap.put("alba_delflag", "N");
-//		pagingDto.setTotal(alService.albaListRow(albamap));
-//		
-//		Map<String, String> map = new HashMap<String, String>();
-//		map.put("start", pagingDto.getStart()+"");
-//		map.put("end", pagingDto.getEnd()+"");
-//		map.put("store_code", store_code);
-//		map.put("alba_delflag", "N");
-//		
-//		List<AlbaDto> albaList =  alService.albaList(map);
-//		model.addAttribute("albaList", albaList);
-//		model.addAttribute("albaRow", pagingDto);
-//		
-//		return "/alba/albaList";
-//	}
 	
 	@RequestMapping(value="/selAlbaList.do", method=RequestMethod.GET)
 	public String selAlbaList(HttpSession session, Model model) {
@@ -95,7 +68,7 @@ public class AlbaCtrl {
 	public String albaModiForm(String alba_seq, Model model) {
 		AlbaDto albaDetail = alService.getAlbaDetail(alba_seq);
 		model.addAttribute("alba", albaDetail);
-		return "/alba/albaModiForm";
+		return "/alba/albaModForm";
 	}
 	
 	// 아르바이트 정보 수정

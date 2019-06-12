@@ -124,7 +124,7 @@ public class MemberCtrl {
 		// 담당자 회원 등록 페이지로 보내주는 메소드
 		@RequestMapping(value="adminRegiForm.do", method=RequestMethod.GET)
 		public String adminRegiForm() {
-			return "/member/adminRegiForm";
+			return "/member/adminRegForm";
 		}
 		
 		// 담당자 회원 등록 메소드
@@ -148,7 +148,7 @@ public class MemberCtrl {
 			AdminDto adto = (AdminDto)session.getAttribute("loginDto");
 			List<String> store_code = memService.selStoreCodeList(adto.getAdmin_id()+"");
 			model.addAttribute("store_code", store_code);
-			return "/member/ownerRegiForm";
+			return "/member/ownerRegForm";
 		}
 		
 		// 업주 회원 등록 메소드 (실행 시 업주 등록, 해당 매장 코드의 매장 업주등록여부 1로 업데이트)
@@ -488,7 +488,6 @@ public class MemberCtrl {
 			
 			json.put("owLists", jLists);
 			json.put("owPaging", jList);
-//			json.put("listSize", ownerList.size());
 			
 			return json;
 		}
@@ -503,7 +502,7 @@ public class MemberCtrl {
 			}
 			PagingDto pagingDto = null;
 			
-//			// 주석 풀면 SESSION에 페이지 정보 저장 가능하지만 그냥 첫페이지로 보냅니다.
+//			// 주석 풀면 SESSION에 페이지 정보 저장 가능
 //			if(session.getAttribute("ownerRow")==null) {
 				pagingDto = new PagingDto();
 //			}else {
