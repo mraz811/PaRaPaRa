@@ -88,15 +88,20 @@
 		
 		
 	});
-		
+	
+	// 품목 가격 입력 시 숫자만 입력되게
 	function numberOnly(){
 		var iPrice = $("#item_price").val();
 		var keyValue = event.keyCode;
+		// numpad와 숫자 키를 제외한 모든 keyCode 입력 시 오류 창
 		if( ((keyValue >= 65) && (keyValue <= 90)) ||  ((keyValue >= 106) && (keyValue <= 111)) || ((keyValue >= 186) && (keyValue <= 222)) || keyValue==32 ){
 			swal("등록 에러", "숫자만 입력해주세요.", "error");
+			// 잘못입력된 값 substring으로 지워줌
 			$("#item_price").val(iPrice.substring(0,iPrice.length-1));
 		}
 	}
+	
+	// Controller로 이동
 	var regItem = function () {
 		var chkVal = $("#nameChkVal").val();
 		if(chkVal == '1'){

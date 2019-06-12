@@ -160,14 +160,19 @@ public class StoreCtrl {
 		return json.toString();
 	}
 	
-	
+	// 매장 수정
+	// ajax 처리
+	// 수정 시 바로 수정된 매장 정보 바로 볼 수 있도록 
 	@RequestMapping(value="/storeModi.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
 	public String modStore(StoreDto sDto, Model model) {
 		logger.info("modify Store Controller : {}", sDto);
+		// 받은 값들로 매장 정보 수정
 		boolean isc = storeService.storeModify(sDto);
 		System.out.println("매장 수정완료 : " + isc);
+		// 수정된 매장 조회
 		StoreDto dto = storeService.storeDetail(sDto.getStore_code());
+		// JSONObject로 수정된 매장 정보 저장
 		JSONObject json = new JSONObject();
 		json.put("store_name", dto.getStore_name());
 		json.put("store_code", dto.getStore_code());
@@ -181,13 +186,16 @@ public class StoreCtrl {
 	}
 	
 	//delStore.do
+	// 매장 삭제
 	@RequestMapping(value="/delStore.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String deleteStore(String store_code) {
 		logger.info("delete Store Controller : {}", store_code);
+		// 매장 삭제
 		boolean isc = storeService.storeDelete(store_code);
 		System.out.println("매장 삭제 완료 : " + isc);
 		
+		// 매장 삭제 시 매장에 등록된 재고 전체 삭제
 		boolean delStock = stockService.stockDeleteStore(store_code);
 		System.out.println("매장삭제 시 삭제된 매장의 재고 삭제 : " + delStock);
 		
@@ -195,18 +203,21 @@ public class StoreCtrl {
 		return delStock+"";
 	}
 	
+	//매장정보 페이징 처리
 	@RequestMapping(value="/storePaging.do", method=RequestMethod.POST, produces="application/text; charset=UTF-8")
 	@ResponseBody
-	//매장정보 페이징 처리
 	public String pagingStore(Model model, HttpSession session, PagingDto pDto) {
 		JSONObject json = null;
 		AdminDto aDto = (AdminDto) session.getAttribute("loginDto");
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		
+		// 담당자가 담당하는 매장 갯수 조회
+		// 조회한 갯수를 PagingDto에 total로 지정
 		pDto.setTotal(storeService.storeListRow(aDto.getAdmin_id()+""));
 		map.put("admin_id", aDto.getAdmin_id());
 		map.put("start", pDto.getStart());
 		map.put("end", pDto.getEnd());
+		// Json으로 처리하기 위함
 		json = objectJson(storeService.storeListPaging(map), pDto);
 		
 		session.removeAttribute("storeRow");
@@ -221,6 +232,7 @@ public class StoreCtrl {
 		JSONArray jLists = new JSONArray(); // 어레이리스트를 담을때는 여기에
 		JSONObject jList = null; // 그냥 얘는 제이슨 타입으로
 		
+		// 페이징 처리 된 매장의 정보 JSONArray 타입에 담음
 		for (StoreDto dto : lists) {
 			jList = new JSONObject();
 			jList.put("store_code", dto.getStore_code());
@@ -231,6 +243,7 @@ public class StoreCtrl {
 			jLists.add(jList);
 		}
 		
+		// 페이징 부분 JSONObect에 담음
 		jList = new JSONObject();
 		jList.put("pageList",storeRow.getPageList());
 		jList.put("index",storeRow.getIndex());

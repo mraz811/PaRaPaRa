@@ -166,10 +166,13 @@ var pageAjax = function(){
 	});
 	
 }
+
+// 매장 등록 버튼 클릭시 새 창으로 띄워줌
 function insertStore() {
 	window.open("./regiStoreForm.do","_blank","width=600, height=600, left=300");
 }
 
+// 매장 상세 조회시 새 창으로 띄워줌
 function storeDetail(sc){
 	var store_code = sc;
 	window.open("./selStoreDetail.do?store_code="+store_code, "_blank","width=600, height=600, left=300");

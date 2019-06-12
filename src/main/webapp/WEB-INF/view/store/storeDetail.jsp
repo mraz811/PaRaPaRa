@@ -78,6 +78,7 @@
 	</div>
 	<script type="text/javascript">
 		
+		// 매장명 중복 확인
 		function nameChk() {
 			var orginalName = '${dto.store_name}';
 			
@@ -100,7 +101,8 @@
 			}
 		}
 	
-	
+		
+		// 수정 버튼 클릭 시 수정할 수 있는 부분 readonly 제거
 		function modiStoreForm() {
 			$("#store_name").removeAttr("readonly");
 			$("#store_phone").removeAttr("readonly");
@@ -117,11 +119,14 @@
 				$("#nameChkVal").val("1");
 			}
 			var htmlBtn = "";
+			// 상세조회 버튼 부분 수정으로 변경
 			htmlBtn += "<input style='width:97px; margin: 0px 10px;' type='button' class='btn btn-outline-success' id='modi' value='수정완료' onclick='modiStore()'>"
 					+ "<input style='width:97px; margin: 0px 10px;' type='button' class='btn btn-secondary' id='close' value='닫　기' onclick='modiCancel()'>";
 // 		 	alert(htmlBtn);
 			$("#btnDiv").html(htmlBtn);
 		}
+		
+		// 수정 controller로 이동
 		function modiStore(){
 			var nameChkVal = $("#nameChkVal").val();
 //	 		alert("매장명 중복 확인 : " +nameChkVal );
@@ -133,15 +138,13 @@
 					data : $("#frm").serialize(),
 					dataType:"json",
 					success : function(msg){
-	// 					alert("왜안되야");
 						swal({
 							title: "수정 완료", 
 							text: "매장 수정이 완료되었습니다", 
 							type: "success"
 						},
 						function(){ 
-	// 						opener.parent.location.reload();
-	// 						modiCancel();
+							// 수정된 매장 정보를 받아와 바로 확인 가능하게 함
 							var htmlDetail = "<p class='writeform'>매장 상세보기</p>";
 							htmlDetail += 	"<div class='form-group'>"
 												+"<label>매장명</label>"
@@ -194,6 +197,7 @@
 			self.close();
 		}
 		
+		// 삭제 버튼 클릭 시
 		var delStore = function(storeCode){
 			swal({
 				title: "삭제 확인",
