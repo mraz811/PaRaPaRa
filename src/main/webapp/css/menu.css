@@ -53,7 +53,7 @@
 	padding-top: 1px;
 }
 
-.sell{         
+.sell,.notSell{         
 	width: 200px;       
 	height: 130px;      
 	float: left;        
@@ -61,15 +61,6 @@
 	margin-bottom: 30px;
 	text-align: center; 
 }    
-
-.notSell{         
-	width: 200px;       
-	height: 130px;      
-	float: left;        
-	margin-right: 30px; 
-	margin-bottom: 20px;
-	text-align: center; 
-}          
 .notSell > img{
 	opacity: 0.5;
 }             
