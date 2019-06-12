@@ -55,7 +55,7 @@ var fDto = null;
 function regiTempFile(targetObj){ 
 	var form = new FormData(document.getElementById("tempFrm"));
 	form.append("file_seq", document.getElementById("file_seq").value);
-	alert("eeee");
+	
 	//확장자를 확인해 이미지 파일만 업로드 가능하게함
 	var ext = targetObj.value.split(".").pop().toLowerCase();
 	if ($.inArray(ext, ["gif", "jpg", "jpeg", "png"]) == -1) {
@@ -66,7 +66,7 @@ function regiTempFile(targetObj){
 	 	
 		return false;
 	} 
-	alert("dddd");
+	
 	$.ajax({
 		url : "./modifyMenuTempFile.do",
 		type : "post",

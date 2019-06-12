@@ -43,18 +43,22 @@ public class MenuCtrl {
 		if (session.getAttribute("owner_menu") == null) {
 			System.out.println("loginDto 세션에 값 있을때");
 			String owner_menu = dto.getOwner_menu();
-			String[] menu_seq = new String[owner_menu.split(",").length];
-			for (int i = 0; i < owner_menu.split(",").length; i++) {
-				menu_seq[i] = owner_menu.split(",")[i];
-				System.out.print(owner_menu.split(",")[i]);
+			if(owner_menu=="") {
+				model.addAttribute("menuList", "no");
+			}else {
+				String[] menu_seq = new String[owner_menu.split(",").length];
+				for (int i = 0; i < owner_menu.split(",").length; i++) {
+					menu_seq[i] = owner_menu.split(",")[i];
+					System.out.print(owner_menu.split(",")[i]);
+				}
+				System.out.println("길이" + owner_menu.split(",").length);
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("menu_seq_", menu_seq);
+				map.put("menu_category", menu_category);
+				List<MenuDto> lists = menu_IService.ownerMenuList(map);
+				System.out.println("업주가 선택한 메뉴 : " + lists.toString());
+				model.addAttribute("menuList", lists);
 			}
-			System.out.println("길이" + owner_menu.split(",").length);
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("menu_seq_", menu_seq);
-			map.put("menu_category", menu_category);
-			List<MenuDto> lists = menu_IService.ownerMenuList(map);
-			System.out.println("업주가 선택한 메뉴 : " + lists.toString());
-			model.addAttribute("menuList", lists);
 		} else {
 			System.out.println("owner_menu 세션에 값 있을때");
 			String owner_menu = (String) session.getAttribute("owner_menu");
