@@ -52,12 +52,19 @@ INSERT INTO PARA.ORDER_STATUS(OS_CODE, OS_NAME) VALUES(3, '완료');
 
 
 -- 관리자 계정 생성(ADMIN)
+-- 초기 생성 시 메인 화면에서 비밀번호 찾기를 하고 이메일에서 확인한 비밀번호로 로그인하여 마이페이지에서 비밀번호 변경하여 사용
 INSERT INTO PARA.ADMIN
 (ADMIN_ID, ADMIN_PW, ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG)
 VALUES(0000, '0000', '관리자', '010-0000-0000', 'info.happy0612@gmail.com', 'KOREA', 'S', 'N');
 
+-- 담당자 계정 생성(ADMIN)
+-- 초기 생성 시 메인 화면에서 비밀번호 찾기를 하고 이메일에서 확인한 비밀번호로 로그인하여 마이페이지에서 비밀번호 변경하여 사용
+INSERT INTO PARA.ADMIN
+(ADMIN_ID, ADMIN_PW, ADMIN_NAME, ADMIN_PHONE, ADMIN_EMAIL, LOC_CODE, AUTH, ADMIN_DELFLAG)
+VALUES(1111, '1111', '이영재', '010-1111-1111', 'info.happy0612@gmail.com', 'KOREA', 'S', 'N');
 
--- 메뉴 생성(MENU)
+
+-- 메뉴 생성(MENU) --> 메뉴 생성은 담당자 계정으로 로그인하여 수동으로 해줘야 데이터가 화면에 적용 됨(para.dmp를 import하면 사용 가능)
 INSERT INTO PARA.MENU(MENU_SEQ, MENU_NAME, MENU_PRICE, MENU_CATEGORY, MENU_DELFLAG)
 VALUES(MENU_SEQ.NEXTVAL, '후라이드치킨', 18000, '주메뉴', 'N');
 

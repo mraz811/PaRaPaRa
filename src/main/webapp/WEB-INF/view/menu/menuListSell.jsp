@@ -171,15 +171,22 @@ function ownerAllMenuList(){
 					</div>
 					<form id="frm" action="#" method="post" >
 						<div id="menuList">
-							<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
-								<div class="menu">
-								<label>
-									<input id="checkbox" name="cancel_menu_seq" type="checkbox" value="${menu.menu_seq}" />
-									<img class="menuImg" src="${menu.fileDto.file_rurl}" alt="" /><br>
-									${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}
-								</label>
-								</div>
-							</c:forEach>
+							<c:choose>
+								<c:when test="${menuList eq 'no'}">
+									<p>업주 선택메뉴가 없습니다.</p>
+								</c:when>
+								<c:otherwise>
+									<c:forEach begin="0" end="${fn:length(menuList)}" items="${menuList}" var="menu" varStatus="vs">
+										<div class="menu">
+										<label>
+											<input id="checkbox" name="cancel_menu_seq" type="checkbox" value="${menu.menu_seq}" />
+											<img class="menuImg" src="${menu.fileDto.file_rurl}" alt="" /><br>
+											${menu.menu_name}&nbsp;&nbsp;${menu.menu_price}
+										</label>
+										</div>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</form>
 				</div>

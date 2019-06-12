@@ -20,7 +20,7 @@ function mainMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-			alert(obj); 
+			alert("관리자에게 문의해주세요."); 
 		}
 	})
 }
@@ -44,7 +44,7 @@ function sideMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-			alert(obj); 
+			alert("관리자에게 문의해주세요."); 
 		}
 	})
 }
@@ -68,7 +68,7 @@ function drinkMenu(){
 			});
 			menuList.innerHTML = htmlText;
 		},error : function(obj){
-			alert(obj); 
+			alert("관리자에게 문의해주세요."); 
 		}
 	})
 }
@@ -250,7 +250,7 @@ function customRequest() {
 	var nick = $('#nick').val();
 	//주문 메뉴 DB에 저장하는 ajax
 	
-	xhttp.open("POST", "http://192.168.11.38:8091/PaRaPaRa/regiCustomOrder.do", true);
+	xhttp.open("POST", "http://192.168.4.3:8099/PaRaPaRa/regiCustomOrder.do", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send("menu_seq="+menu_seq+"&menu_cnt="+menu_cnt+"&menu_price="+menu_price+"&nick="+nick);
 	
