@@ -68,7 +68,7 @@
 				</div>
 				<div class="form-group">
 					<label>매장주소</label>
-					<input class="form-control" type="text" id="address" name="store_address" placeholder="매장주소" required="required" maxlength="20">
+					<input class="form-control" type="text" id="address" name="store_address" placeholder="매장주소" required="required">
 				</div>
 				<div>
 					<input type="button" style="width: 123px; margin-left: 17px;" class="btn btn-outline-success" value="등록" onclick="regStore()">
