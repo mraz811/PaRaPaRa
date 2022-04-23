@@ -12,7 +12,7 @@
 	<!-- 문서에서 많이 사용하거나 혹은 라이러리의 버전을 동일화 시키기 위해서 선언 변수 -->
 	<properties>
 		<java-version>1.8</java-version>
-		<org.springframework-version>4.3.8.RELEASE</org.springframework-version>
+		<org.springframework-version>5.3.19</org.springframework-version>
 		<!-- AOP 관점지향 프로그램을 위해서 필요한 라이브러리 -->
 		<org.aspectj-version>1.8.3</org.aspectj-version>
 		<!-- 로그처리 log4j 상속받아서 다시 구성함 -->
